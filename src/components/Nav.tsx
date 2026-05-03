@@ -17,6 +17,10 @@ const NAV_LINKS = [
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
+// Pages whose hero uses a dark background — nav should render in dark mode
+// (bone text on transparent) until the user scrolls past the fold.
+const DARK_HERO_PATHS = new Set(["/"]);
+
 export default function Nav() {
   const pathname = usePathname();
   const introState = useIntroState();
@@ -25,6 +29,7 @@ export default function Nav() {
   // When intro loader is showing this session, delay until it exits.
   // Otherwise (returning visitor), animate right away.
   const navDelay = introState === true ? 2.4 : 0.1;
+  const dark = DARK_HERO_PATHS.has(pathname) && !scrolled && !open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -53,8 +58,10 @@ export default function Nav() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[120] transition-colors duration-500",
           scrolled || open
-            ? "bg-bone/85 backdrop-blur-md border-b border-hairline"
-            : "bg-transparent"
+            ? "bg-bone/85 backdrop-blur-md border-b border-hairline text-ink"
+            : dark
+            ? "bg-transparent text-bone"
+            : "bg-transparent text-ink"
         )}
       >
         <div className="container-x flex h-16 md:h-20 items-center justify-between">
@@ -63,7 +70,12 @@ export default function Nav() {
             aria-label="Onyx Creative Asia — home"
             className="flex items-center gap-2 group"
           >
-            <span className="block h-2 w-2 rounded-full bg-ink transition-transform duration-500 group-hover:scale-150" />
+            <span
+              className={cn(
+                "block h-2 w-2 rounded-full transition-[transform,background-color] duration-500 group-hover:scale-150",
+                dark ? "bg-bone" : "bg-ink"
+              )}
+            />
             <span className="text-sm md:text-base font-medium tracking-tight">
               Onyx<span className="font-light italic">.</span>
             </span>
@@ -76,6 +88,7 @@ export default function Nav() {
                 href={link.href}
                 label={link.label}
                 active={pathname === link.href}
+                dark={dark}
               />
             ))}
           </nav>
@@ -83,7 +96,10 @@ export default function Nav() {
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
-              className="hidden md:inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-sm text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
+              className={cn(
+                "hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-[transform,background-color,color] duration-500 ease-out-expo hover:scale-[1.03]",
+                dark ? "bg-bone text-ink" : "bg-ink text-bone"
+              )}
             >
               Start a project
               <span aria-hidden>→</span>
@@ -96,13 +112,15 @@ export default function Nav() {
             >
               <span
                 className={cn(
-                  "block h-px bg-ink transition-all duration-500 ease-out-expo",
+                  "block h-px transition-all duration-500 ease-out-expo",
+                  dark ? "bg-bone" : "bg-ink",
                   open ? "w-6 translate-y-[3px] rotate-45" : "w-6"
                 )}
               />
               <span
                 className={cn(
-                  "block h-px bg-ink transition-all duration-500 ease-out-expo",
+                  "block h-px transition-all duration-500 ease-out-expo",
+                  dark ? "bg-bone" : "bg-ink",
                   open ? "w-6 -translate-y-[3px] -rotate-45" : "w-4"
                 )}
               />
@@ -152,21 +170,29 @@ function NavItem({
   href,
   label,
   active,
+  dark,
 }: {
   href: string;
   label: string;
   active: boolean;
+  dark: boolean;
 }) {
   return (
     <Link
       href={href}
-      className="group relative text-sm tracking-tight text-ink/80 hover:text-ink transition-colors"
+      className={cn(
+        "group relative text-sm tracking-tight transition-colors",
+        dark
+          ? "text-bone/80 hover:text-bone"
+          : "text-ink/80 hover:text-ink"
+      )}
     >
       <span className="relative">
         {label}
         <span
           className={cn(
-            "absolute -bottom-1 left-0 h-px bg-ink transition-all duration-500 ease-out-expo",
+            "absolute -bottom-1 left-0 h-px transition-all duration-500 ease-out-expo",
+            dark ? "bg-bone" : "bg-ink",
             active ? "w-full" : "w-0 group-hover:w-full"
           )}
         />
