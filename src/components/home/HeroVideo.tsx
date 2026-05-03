@@ -4,31 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-motion";
 
 /**
- * Background video for the home hero with a cursor-following "spotlight"
- * mask. Outside the spotlight the video is dimmed; inside, full brightness.
+ * Background video for the home hero with a cursor-following "spotlight":
+ *   • Default state — desaturated (mono) + lightly dimmed
+ *   • Inside the spotlight — full color + full brightness
  *
- * Drop the actual files in `public/videos/`:
- *   - hero.mp4         (H.264, 1920×1080, 24fps, ~3 MB)
- *   - hero.webm        (VP9, optional — Chrome/Firefox fallback)
- *   - hero-poster.jpg  (single frame, WebP/JPG, ~50 KB)
- *
- * On `(hover: none)` devices the spotlight is disabled and the video plays
- * at full brightness. With `prefers-reduced-motion` the video is paused
- * and only the poster is shown.
+ * Drop these files in `public/videos/`:
+ *   - hero.mp4         (H.264, 1920×1080, 24fps)
+ *   - hero-poster.webp (single frame, ~50–80 KB)
  */
 export default function HeroVideo({
   src = "/videos/hero.mp4",
-  webm = "/videos/hero.webm",
-  poster = "/videos/hero-poster.jpg",
+  poster = "/videos/hero-poster.webp",
 }: {
   src?: string;
-  webm?: string;
   poster?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [interactive, setInteractive] = useState(false);
-  const [loaded, setLoaded] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   const x = useMotionValue(50);
@@ -43,9 +36,15 @@ export default function HeroVideo({
     setReducedMotion(reduced);
     setInteractive(supportsHover && !reduced);
 
-    if (reduced && videoRef.current) {
-      videoRef.current.pause();
+    const v = videoRef.current;
+    if (!v) return;
+
+    if (reduced) {
+      v.pause();
+      return;
     }
+    v.muted = true;
+    v.play().catch(() => undefined);
   }, []);
 
   useEffect(() => {
@@ -58,9 +57,7 @@ export default function HeroVideo({
       x.set(((e.clientX - rect.left) / rect.width) * 100);
       y.set(((e.clientY - rect.top) / rect.height) * 100);
     };
-
     const onLeave = () => {
-      // Send the spotlight off-canvas so dimming covers the whole frame.
       x.set(130);
       y.set(130);
     };
@@ -73,47 +70,55 @@ export default function HeroVideo({
     };
   }, [interactive, x, y]);
 
-  // Mask: transparent center → soft 220px hole → black at 420px (overlay shown).
+  // transparent center 0–220px → smooth feather → black at 420px (overlay covers)
   const maskImage = useMotionTemplate`radial-gradient(circle at ${sx}% ${sy}%, transparent 0px, transparent 220px, black 420px)`;
 
   return (
     <div
       ref={containerRef}
       aria-hidden
-      className="absolute inset-0 overflow-hidden bg-ink"
+      className="absolute inset-0 overflow-hidden bg-ink isolate"
     >
       <video
         ref={videoRef}
+        src={src}
         poster={poster}
-        autoPlay={!reducedMotion}
+        autoPlay
         muted
         loop
         playsInline
-        preload="metadata"
-        onLoadedData={() => setLoaded(true)}
-        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-out"
-        style={{ opacity: loaded ? 1 : 0 }}
-      >
-        <source src={webm} type="video/webm" />
-        <source src={src} type="video/mp4" />
-      </video>
+        preload="auto"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
 
-      {/* Base dim — always on; keeps text legible even in the spotlight */}
-      <div className="pointer-events-none absolute inset-0 bg-ink/30" />
+      {/* Desaturation: drains color from the video. Masked on desktop so the
+          cursor hole reveals full color; full-coverage on touch devices. */}
+      {interactive ? (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-ink mix-blend-saturation"
+          style={{ maskImage, WebkitMaskImage: maskImage }}
+        />
+      ) : (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-ink mix-blend-saturation"
+        />
+      )}
 
-      {/* Spotlight overlay: extra dimming with a hole at the cursor */}
+      {/* Dim layer: extra darkness outside the spotlight (desktop only) */}
       {interactive && (
         <motion.div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-ink/55"
-          style={{
-            maskImage,
-            WebkitMaskImage: maskImage,
-          }}
+          style={{ maskImage, WebkitMaskImage: maskImage }}
         />
       )}
 
-      {/* Bottom fade for headline contrast */}
+      {/* Always-on light wash for text legibility everywhere, including spotlight */}
+      <div className="pointer-events-none absolute inset-0 bg-ink/30" />
+
+      {/* Bottom gradient: anchors headline to the bottom edge */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink via-ink/60 to-transparent" />
     </div>
   );
