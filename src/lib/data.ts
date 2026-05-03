@@ -9,6 +9,11 @@ export type Project = {
   tags: string[];
 };
 
+// Photos chosen for high-contrast, monochrome-friendly editorial feel.
+// They render with grayscale + contrast filter; hover removes filter.
+const UNSPLASH = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=90`;
+
 export const PROJECTS: Project[] = [
   {
     slug: "lumen-studios",
@@ -18,8 +23,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "End-to-end digital platform for a contemporary photography studio — visual identity, web build, and CMS.",
-    cover:
-      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1600&q=80",
+    cover: UNSPLASH("photo-1542038784456-1ea8e935640e"),
     tags: ["Web", "Brand", "CMS"],
   },
   {
@@ -30,8 +34,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Multi-channel ads across Meta, Google, and TikTok — driving 4.8x ROAS in the first quarter.",
-    cover:
-      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1600&q=80",
+    cover: UNSPLASH("photo-1495474472287-4d71bcdd2085"),
     tags: ["Meta Ads", "Google Ads", "TikTok"],
   },
   {
@@ -42,8 +45,7 @@ export const PROJECTS: Project[] = [
     year: "2024",
     description:
       "Community-led content engine for a luxury hospitality brand. Grew engaged audience 6× in 8 months.",
-    cover:
-      "https://images.unsplash.com/photo-1503174971373-b1f69850bded?auto=format&fit=crop&w=1600&q=80",
+    cover: UNSPLASH("photo-1503174971373-b1f69850bded"),
     tags: ["Content", "Community", "Strategy"],
   },
   {
@@ -54,8 +56,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Custom AI agent connected to listings, calendar, and CRM — qualifying leads 24/7.",
-    cover:
-      "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1600&q=80",
+    cover: UNSPLASH("photo-1620712943543-bcc4688e7485"),
     tags: ["AI Agent", "Automation", "CRM"],
   },
   {
@@ -66,8 +67,7 @@ export const PROJECTS: Project[] = [
     year: "2024",
     description:
       "Headless commerce build with full-funnel paid acquisition — launched at $0 to $180k MRR in 90 days.",
-    cover:
-      "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=1600&q=80",
+    cover: UNSPLASH("photo-1556228720-195a672e8a03"),
     tags: ["E-commerce", "Funnel", "Ads"],
   },
   {
@@ -78,8 +78,7 @@ export const PROJECTS: Project[] = [
     year: "2024",
     description:
       "Live content workflows for match days — 38M organic impressions across the season.",
-    cover:
-      "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=1600&q=80",
+    cover: UNSPLASH("photo-1551958219-acbc608c6377"),
     tags: ["Sports", "Live Content", "Reels"],
   },
 ];

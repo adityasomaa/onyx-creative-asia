@@ -53,7 +53,8 @@ export default function FeaturedWorks() {
                   alt={`${p.client} — ${p.title}`}
                   fill
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover transition-transform duration-[1200ms] ease-out-expo group-hover:scale-[1.04]"
+                  quality={90}
+                  className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1200ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700" />
               </div>

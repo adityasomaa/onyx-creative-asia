@@ -42,7 +42,7 @@ export default function Hero() {
       </h1>
 
       {/* Sub copy */}
-      <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+      <div className="mt-14 md:mt-16 grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={ready ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}

@@ -30,7 +30,7 @@ export default function WorksPage() {
           <article
             key={p.slug}
             id={p.slug}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-end scroll-mt-32"
+            className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end scroll-mt-32"
           >
             <Reveal
               className={`md:col-span-7 ${i % 2 === 1 ? "md:order-2" : ""}`}
@@ -42,7 +42,8 @@ export default function WorksPage() {
                   alt={`${p.client} — ${p.title}`}
                   fill
                   sizes="(min-width: 768px) 60vw, 100vw"
-                  className="object-cover transition-transform duration-[1400ms] ease-out-expo group-hover:scale-[1.04]"
+                  quality={90}
+                  className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1400ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]"
                 />
               </div>
             </Reveal>

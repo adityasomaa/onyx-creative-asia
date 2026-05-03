@@ -34,7 +34,7 @@ export default function ServicesPage() {
           <article
             key={s.id}
             id={s.id}
-            className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 scroll-mt-32"
+            className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 scroll-mt-32"
           >
             <Reveal className="md:col-span-4">
               <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3 tabular-nums">

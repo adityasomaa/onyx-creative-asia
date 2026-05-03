@@ -264,14 +264,22 @@ function Group({
   number: string;
   children: React.ReactNode;
 }) {
+  const groupId = `group-${number}`;
   return (
-    <fieldset className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-start">
-      <legend className="md:col-span-3 col-span-12 text-xs uppercase tracking-[0.25em] opacity-60 flex items-center gap-3 mb-2 md:mb-0">
+    <div
+      role="group"
+      aria-labelledby={groupId}
+      className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-7 md:gap-y-4 items-start"
+    >
+      <p
+        id={groupId}
+        className="md:col-span-3 col-span-12 text-xs uppercase tracking-[0.25em] opacity-60 flex items-center gap-3"
+      >
         <span className="tabular-nums">{number}</span>
         <span className="h-px w-6 bg-ink/30" />
         <span>{label}</span>
-      </legend>
+      </p>
       <div className="md:col-span-9 col-span-12 space-y-6">{children}</div>
-    </fieldset>
+    </div>
   );
 }

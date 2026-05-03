@@ -46,7 +46,7 @@ export default function AboutPage() {
         </h1>
       </section>
 
-      <section className="container-x pb-24 md:pb-32 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 border-t border-hairline pt-20">
+      <section className="container-x pb-24 md:pb-32 grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 border-t border-hairline pt-20">
         <Reveal className="md:col-span-5">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
             (Story)
@@ -87,7 +87,7 @@ export default function AboutPage() {
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-12">
             (How we work)
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 md:gap-y-16">
             {PRINCIPLES.map((p, i) => (
               <Reveal key={p.n} delay={(i % 2) * 0.1}>
                 <p className="text-xs opacity-60 tabular-nums mb-3">{p.n}</p>
