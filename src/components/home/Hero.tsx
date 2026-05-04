@@ -12,7 +12,7 @@ export default function Hero() {
     <section className="relative min-h-[100svh] overflow-hidden bg-ink text-bone">
       <HeroVideo />
 
-      <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-12 pt-32 md:pb-20 md:pt-40">
+      <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-12 pt-44 md:pb-20 md:pt-40">
         {/* Top meta */}
         <div className="absolute left-0 right-0 top-24 flex flex-col justify-between gap-3 px-6 text-xs uppercase tracking-[0.25em] md:top-28 md:flex-row md:gap-2 md:px-10 lg:px-16">
           <motion.span
