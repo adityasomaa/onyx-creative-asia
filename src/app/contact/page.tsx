@@ -22,7 +22,7 @@ export default function ContactPage() {
             <RevealText text="trying to build." delay={0.15} />
           </span>
         </h1>
-        <p className="mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
+        <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
           The form below goes straight to our inbox. The more you can share —
           goals, timing, what&apos;s already in flight — the sharper our reply.
         </p>

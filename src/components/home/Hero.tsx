@@ -14,7 +14,7 @@ export default function Hero() {
 
       <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-12 pt-32 md:pb-20 md:pt-40">
         {/* Top meta */}
-        <div className="absolute left-0 right-0 top-24 flex flex-col justify-between gap-2 px-6 text-xs uppercase tracking-[0.25em] md:top-28 md:flex-row md:px-10 lg:px-16">
+        <div className="absolute left-0 right-0 top-24 flex flex-col justify-between gap-3 px-6 text-xs uppercase tracking-[0.25em] md:top-28 md:flex-row md:gap-2 md:px-10 lg:px-16">
           <motion.span
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -43,7 +43,7 @@ export default function Hero() {
         </h1>
 
         {/* Sub copy */}
-        <div className="mt-14 grid grid-cols-1 items-end gap-8 md:mt-16 md:grid-cols-12">
+        <div className="mt-20 grid grid-cols-1 items-end gap-8 md:mt-16 md:grid-cols-12">
           <motion.p
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

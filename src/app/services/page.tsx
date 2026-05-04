@@ -22,7 +22,7 @@ export default function ServicesPage() {
             <RevealText text="One studio." delay={0.15} />
           </span>
         </h1>
-        <p className="mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
+        <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
           We don&apos;t hand work between five vendors. The team that builds
           your site is the same team running your ads and shipping the AI
           agent. Less hand-off, sharper execution.
@@ -43,7 +43,7 @@ export default function ServicesPage() {
               <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
                 {s.title}
               </h2>
-              <p className="mt-4 text-lg font-light italic text-ink/70 max-w-sm">
+              <p className="mt-6 md:mt-4 text-lg font-light italic text-ink/70 max-w-sm">
                 {s.short}
               </p>
             </Reveal>

@@ -59,7 +59,7 @@ export default function WorksPage() {
               <h2 className="text-3xl md:text-5xl font-medium tracking-tight leading-[0.95]">
                 {p.client}
               </h2>
-              <p className="mt-3 text-lg md:text-xl font-light italic text-ink/70">
+              <p className="mt-4 md:mt-3 text-lg md:text-xl font-light italic text-ink/70">
                 {p.title}
               </p>
               <p className="mt-6 text-base leading-relaxed text-ink/75 max-w-md">
