@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { PROJECTS } from "@/lib/data";
-import Reveal, { RevealText } from "@/components/Reveal";
+import { RevealText } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Works",
@@ -25,60 +26,74 @@ export default function WorksPage() {
         </h1>
       </section>
 
-      <section className="container-x pb-24 md:pb-32 space-y-24 md:space-y-40">
-        {PROJECTS.map((p, i) => (
-          <article
-            key={p.slug}
-            id={p.slug}
-            className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end scroll-mt-32"
-          >
-            <Reveal
-              className={`md:col-span-7 ${i % 2 === 1 ? "md:order-2" : ""}`}
-              amount={0.2}
-            >
-              <div className="relative aspect-[4/3] md:aspect-[16/11] overflow-hidden bg-ink/5 group">
-                <Image
-                  src={p.cover}
-                  alt={`${p.client} — ${p.title}`}
-                  fill
-                  sizes="(min-width: 768px) 60vw, 100vw"
-                  quality={90}
-                  className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1400ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]"
-                />
-              </div>
-            </Reveal>
-
-            <Reveal className="md:col-span-5" delay={0.1} amount={0.3}>
-              <div className="flex items-center gap-4 text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-                <span className="tabular-nums">
-                  {String(i + 1).padStart(2, "0")} / {String(PROJECTS.length).padStart(2, "0")}
-                </span>
-                <span className="h-px flex-1 bg-ink/20" />
-                <span>{p.year}</span>
-              </div>
-              <h2 className="text-3xl md:text-5xl font-medium tracking-tight leading-[0.95]">
-                {p.client}
-              </h2>
-              <p className="mt-4 md:mt-3 text-lg md:text-xl font-light italic text-ink/70">
-                {p.title}
-              </p>
-              <p className="mt-6 text-base leading-relaxed text-ink/75 max-w-md">
-                {p.description}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {p.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs uppercase tracking-[0.18em] border border-ink/20 rounded-full px-3 py-1"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </Reveal>
-          </article>
-        ))}
-      </section>
+      {PROJECTS.length === 0 ? (
+        <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16">
+          <p className="text-lg text-ink/70 max-w-md">
+            New work shipping soon. In the meantime —{" "}
+            <Link href="/contact" className="border-b border-ink/40 hover:border-ink">
+              start a project
+            </Link>
+            .
+          </p>
+        </section>
+      ) : (
+        <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-12 md:pt-16">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-8 md:gap-y-16">
+            {PROJECTS.map((p, i) => (
+              <ProjectCard key={p.slug} project={p} index={i} />
+            ))}
+          </ul>
+        </section>
+      )}
     </>
+  );
+}
+
+function ProjectCard({
+  project,
+  index,
+}: {
+  project: (typeof PROJECTS)[number];
+  index: number;
+}) {
+  return (
+    <li className={index % 3 === 1 ? "md:mt-16" : ""}>
+      <Link
+        href={`/works/${project.slug}`}
+        className="group block"
+        data-cursor="hover"
+      >
+        <div className="relative aspect-[4/3] overflow-hidden bg-ink/5">
+          <Image
+            src={project.cover}
+            alt={`${project.client} — ${project.title}`}
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            quality={90}
+            className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1200ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]"
+          />
+          <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700" />
+        </div>
+        <div className="flex items-baseline justify-between mt-5 gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.25em] opacity-60">
+              {project.category} — {project.year}
+            </p>
+            <h2 className="mt-2 text-2xl md:text-3xl font-medium tracking-tight">
+              {project.client}
+              <span className="font-light italic text-ink/60">
+                , {project.title.toLowerCase()}
+              </span>
+            </h2>
+          </div>
+          <span
+            aria-hidden
+            className="text-2xl transition-transform duration-700 ease-out-expo group-hover:translate-x-2 group-hover:-translate-y-1"
+          >
+            ↗
+          </span>
+        </div>
+      </Link>
+    </li>
   );
 }

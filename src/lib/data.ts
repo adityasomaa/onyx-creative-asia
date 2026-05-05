@@ -7,6 +7,18 @@ export type Project = {
   description: string;
   cover: string;
   tags: string[];
+  /** Live destination — domain for web projects, social URL for non-web. */
+  url: string;
+  /** Optional override for the CTA label. Defaults from `url` host. */
+  urlLabel?: string;
+  /** Disciplines applied (e.g. "Web Development", "Paid Media"). */
+  services?: string[];
+  /** Optional location label, e.g. "Bali, Indonesia". */
+  location?: string;
+  /** Bullet list of what we built / shipped. Rendered on the detail page. */
+  scope?: string[];
+  /** Optional 1–2 paragraph long-form intro. Rendered on the detail page. */
+  longDescription?: string;
 };
 
 // Photos chosen for high-contrast, monochrome-friendly editorial feel.
@@ -25,63 +37,40 @@ export const PROJECTS: Project[] = [
       "Multilingual marketplace for premium Bali villas and land — interactive map, advanced filters, currency-aware pricing, and WhatsApp-first agent routing. 50+ curated listings across eight locations, built for investors who buy on care, not volume.",
     cover: UNSPLASH("photo-1537996194471-e657df975ab4"),
     tags: ["Web", "Listings", "Multilingual"],
-  },
-  {
-    slug: "northpeak-coffee",
-    title: "Performance Marketing Engine",
-    client: "Northpeak Coffee",
-    category: "Paid Media",
-    year: "2025",
-    description:
-      "Multi-channel ads across Meta, Google, and TikTok — driving 4.8x ROAS in the first quarter.",
-    cover: UNSPLASH("photo-1495474472287-4d71bcdd2085"),
-    tags: ["Meta Ads", "Google Ads", "TikTok"],
-  },
-  {
-    slug: "maison-aurelia",
-    title: "Social-First Brand World",
-    client: "Maison Aurélia",
-    category: "Social Media",
-    year: "2024",
-    description:
-      "Community-led content engine for a luxury hospitality brand. Grew engaged audience 6× in 8 months.",
-    cover: UNSPLASH("photo-1503174971373-b1f69850bded"),
-    tags: ["Content", "Community", "Strategy"],
-  },
-  {
-    slug: "atlas-ai",
-    title: "Conversational AI Concierge",
-    client: "Atlas Realty",
-    category: "AI Systems",
-    year: "2025",
-    description:
-      "Custom AI agent connected to listings, calendar, and CRM — qualifying leads 24/7.",
-    cover: UNSPLASH("photo-1620712943543-bcc4688e7485"),
-    tags: ["AI Agent", "Automation", "CRM"],
-  },
-  {
-    slug: "verde-wellness",
-    title: "DTC Storefront & Funnel",
-    client: "Verde Wellness",
-    category: "Web + Paid Media",
-    year: "2024",
-    description:
-      "Headless commerce build with full-funnel paid acquisition — launched at $0 to $180k MRR in 90 days.",
-    cover: UNSPLASH("photo-1556228720-195a672e8a03"),
-    tags: ["E-commerce", "Funnel", "Ads"],
-  },
-  {
-    slug: "kindred-fc",
-    title: "Match-Day Content System",
-    client: "Kindred FC",
-    category: "Social Media",
-    year: "2024",
-    description:
-      "Live content workflows for match days — 38M organic impressions across the season.",
-    cover: UNSPLASH("photo-1551958219-acbc608c6377"),
-    tags: ["Sports", "Live Content", "Reels"],
+    url: "https://greatbaliproperties.com",
+    urlLabel: "Visit site",
+    services: ["Web Development"],
+    location: "Bali, Indonesia",
+    scope: [
+      "Multilingual storefront (English / Bahasa Indonesia)",
+      "Interactive Leaflet map with eight Bali locations",
+      "Property filters by location, type, ownership",
+      "Currency-aware pricing (IDR / USD)",
+      "Direct-agent WhatsApp routing",
+      "Featured carousel + property detail galleries",
+    ],
+    longDescription:
+      "Great Bali Properties needed a digital surface that felt like an investment partner, not a broker. The previous site treated villas as inventory. This one positions them as curation. The marketplace lives across English and Bahasa, switches currency on demand, and routes serious buyers straight to the agent on WhatsApp — Bali's actual sales channel — instead of forcing a generic contact form.",
   },
 ];
+
+/** Best-effort label for a project's live URL when none is provided. */
+export function defaultUrlLabel(url: string): string {
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "").toLowerCase();
+    if (host.includes("instagram.com")) return "View on Instagram";
+    if (host.includes("tiktok.com")) return "Watch on TikTok";
+    if (host.includes("linkedin.com")) return "View on LinkedIn";
+    if (host.includes("twitter.com") || host.includes("x.com")) return "View on X";
+    if (host.includes("facebook.com")) return "View on Facebook";
+    if (host.includes("youtube.com")) return "Watch on YouTube";
+    if (host.includes("behance.net")) return "View on Behance";
+    if (host.includes("dribbble.com")) return "View on Dribbble";
+    return "Visit site";
+  } catch {
+    return "Visit site";
+  }
+}
 
 export type Service = {
   id: string;
@@ -167,14 +156,5 @@ export const STATS = [
 ];
 
 export const CLIENTS = [
-  "LUMEN STUDIOS",
-  "NORTHPEAK",
-  "MAISON AURÉLIA",
-  "ATLAS REALTY",
-  "VERDE WELLNESS",
-  "KINDRED FC",
-  "ARCHE & CO",
-  "OBSCURA",
-  "FIELD NOTES",
-  "HALCYON",
+  "GREAT BALI PROPERTIES",
 ];

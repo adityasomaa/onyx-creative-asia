@@ -43,7 +43,7 @@ export default function FeaturedWorks() {
             className={i % 3 === 0 ? "md:mt-0" : i % 3 === 1 ? "md:mt-16" : ""}
           >
             <Link
-              href={`/works#${p.slug}`}
+              href={`/works/${p.slug}`}
               className="group block"
               data-cursor="hover"
             >
