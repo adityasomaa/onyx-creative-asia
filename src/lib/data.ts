@@ -16,15 +16,15 @@ const UNSPLASH = (id: string) =>
 
 export const PROJECTS: Project[] = [
   {
-    slug: "lumen-studios",
-    title: "Brand & Digital Platform",
-    client: "Lumen Studios",
+    slug: "great-bali-properties",
+    title: "Real Estate Marketplace",
+    client: "Great Bali Properties",
     category: "Web Development",
     year: "2025",
     description:
-      "End-to-end digital platform for a contemporary photography studio — visual identity, web build, and CMS.",
-    cover: UNSPLASH("photo-1542038784456-1ea8e935640e"),
-    tags: ["Web", "Brand", "CMS"],
+      "Multilingual marketplace for premium Bali villas and land — interactive map, advanced filters, currency-aware pricing, and WhatsApp-first agent routing. 50+ curated listings across eight locations, built for investors who buy on care, not volume.",
+    cover: UNSPLASH("photo-1537996194471-e657df975ab4"),
+    tags: ["Web", "Listings", "Multilingual"],
   },
   {
     slug: "northpeak-coffee",
