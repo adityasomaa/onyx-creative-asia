@@ -52,6 +52,31 @@ export const PROJECTS: Project[] = [
     longDescription:
       "Great Bali Properties needed a digital surface that felt like an investment partner, not a broker. The previous site treated villas as inventory. This one positions them as curation. The marketplace lives across English and Bahasa, switches currency on demand, and routes serious buyers straight to the agent on WhatsApp — Bali's actual sales channel — instead of forcing a generic contact form.",
   },
+  {
+    slug: "radcruiters",
+    title: "Campaign Request Automation",
+    client: "RADcruiters",
+    category: "AI Systems",
+    year: "2026",
+    description:
+      "Self-routing intake for new campaign briefs. WordPress form → Make.com pipeline extracts the domain, matches the client in Airtable, queues a Trello task, and fires team + client emails — end-to-end in seconds. Zero-handoff onboarding for a recruitment-marketing agency.",
+    cover: UNSPLASH("photo-1620712943543-bcc4688e7485"),
+    tags: ["Workflow", "Make.com", "WordPress"],
+    url: "https://radcruiters.com",
+    urlLabel: "Visit site",
+    services: ["AI Systems", "Web Development"],
+    location: "Netherlands · EU",
+    scope: [
+      "WordPress intake form for client campaign briefs",
+      "Make.com pipeline (custom webhook → Trello → Airtable → Gmail)",
+      "Domain extraction + client matching from vacancy URL",
+      "Auto-create Trello task with full brief data",
+      "Team notification + client confirmation email",
+      "Always-on with execution history and error monitoring",
+    ],
+    longDescription:
+      "RADcruiters runs Meta-ads recruitment campaigns for staffing agencies — a high-touch service with high-volume intake. The campaign-request form had become the bottleneck: every brief pinged the team in Slack, someone manually parsed the URL, looked up the client, then created the Trello card. We rebuilt the intake as a self-routing pipeline. Submission → seconds → the right person sees the right card with the right context, and the client gets an instant confirmation that says 'we have it.'",
+  },
 ];
 
 /** Best-effort label for a project's live URL when none is provided. */
@@ -157,4 +182,5 @@ export const STATS = [
 
 export const CLIENTS = [
   "GREAT BALI PROPERTIES",
+  "RADCRUITERS",
 ];
