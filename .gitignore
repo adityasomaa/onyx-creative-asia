@@ -41,3 +41,9 @@ next-env.d.ts
 
 # claude code
 .claude/
+
+# private workspaces — design source + social content live local-only.
+# These contain client briefs, deliverables, and unreleased marketing
+# work. Never push to a public repo.
+/design/
+/social/
