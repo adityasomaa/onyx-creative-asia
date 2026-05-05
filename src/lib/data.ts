@@ -184,3 +184,16 @@ export const CLIENTS = [
   "GREAT BALI PROPERTIES",
   "RADCRUITERS",
 ];
+
+export type Testimonial = {
+  quote: string;
+  author: string;
+  role: string;
+  client: string;
+};
+
+/**
+ * Real client words go here — never invent. Empty-state component renders
+ * a quiet placeholder until at least one testimonial is added.
+ */
+export const TESTIMONIALS: Testimonial[] = [];

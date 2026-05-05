@@ -53,7 +53,7 @@ ONYX CREATIVE ASIA/
 
 **Studio:** Onyx Creative Asia — independent studio building brands, performance marketing, and AI systems for ambitious teams across Asia.
 
-**Locations:** Jakarta · Bali · Singapore.
+**Locations:** Bali, Indonesia.
 
 **4 disciplines, one team:** Web Development · Paid Media · Social Media · AI Systems.
 

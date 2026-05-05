@@ -1,19 +1,18 @@
 import Hero from "@/components/home/Hero";
-import Clients from "@/components/home/Clients";
-import FeaturedWorks from "@/components/home/FeaturedWorks";
+import AboutPreview from "@/components/home/AboutPreview";
 import ServicesPreview from "@/components/home/ServicesPreview";
-import Manifesto from "@/components/home/Manifesto";
-import Stats from "@/components/home/Stats";
+import FeaturedWorks from "@/components/home/FeaturedWorks";
+import Testimonials from "@/components/home/Testimonials";
 
 export default function HomePage() {
   return (
     <>
       <Hero />
-      <Clients />
-      <FeaturedWorks />
+      <AboutPreview />
       <ServicesPreview />
-      <Manifesto />
-      <Stats />
+      <FeaturedWorks />
+      <Testimonials />
+      {/* Section #6 (CTA) is rendered by the global Footer below. */}
     </>
   );
 }

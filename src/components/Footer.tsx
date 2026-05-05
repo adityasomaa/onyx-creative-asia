@@ -5,19 +5,25 @@ import { motion } from "framer-motion";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
-const SOCIAL = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
-  { label: "Behance", href: "https://behance.net" },
-  { label: "Dribbble", href: "https://dribbble.com" },
+const SITEMAP = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Services", href: "/services" },
+  { label: "Works", href: "/works" },
+  { label: "Insights", href: "/insights" },
+  { label: "Contact", href: "/contact" },
 ];
 
-const SITEMAP = [
-  { label: "Index", href: "/" },
-  { label: "Works", href: "/works" },
-  { label: "Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+const SERVICES_LINKS = [
+  { label: "Web Development", href: "/services#web-development" },
+  { label: "Paid Media", href: "/services#paid-media" },
+  { label: "Social Media", href: "/services#social-media" },
+  { label: "AI Systems", href: "/services#ai-systems" },
+];
+
+const LEGAL = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms of Use", href: "/terms" },
 ];
 
 export default function Footer() {
@@ -68,8 +74,8 @@ export default function Footer() {
             Studio
           </p>
           <p className="leading-relaxed opacity-80 max-w-xs">
-            Onyx Creative Asia — an independent studio building brands,
-            performance, and AI systems for ambitious teams across Asia and beyond.
+            Onyx Creative Asia — an independent studio in Bali, building brands,
+            performance, and AI systems for ambitious teams.
           </p>
         </div>
 
@@ -90,20 +96,14 @@ export default function Footer() {
 
         <div className="md:col-span-3">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            Social
+            Services
           </p>
           <ul className="space-y-2">
-            {SOCIAL.map((l) => (
+            {SERVICES_LINKS.map((l) => (
               <li key={l.href}>
-                <a
-                  href={l.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 hover:opacity-60 transition-opacity"
-                >
+                <Link href={l.href} className="hover:opacity-60 transition-opacity">
                   {l.label}
-                  <span aria-hidden className="text-xs">↗</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -111,13 +111,20 @@ export default function Footer() {
 
         <div className="md:col-span-2">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            Locations
+            Legal
           </p>
-          <ul className="space-y-2 opacity-80">
-            <li>Jakarta — ID</li>
-            <li>Bali — ID</li>
-            <li>Singapore</li>
+          <ul className="space-y-2">
+            {LEGAL.map((l) => (
+              <li key={l.href}>
+                <Link href={l.href} className="hover:opacity-60 transition-opacity">
+                  {l.label}
+                </Link>
+              </li>
+            ))}
           </ul>
+          <p className="mt-6 text-xs uppercase tracking-[0.2em] opacity-60">
+            Bali — ID
+          </p>
         </div>
       </section>
 
@@ -128,7 +135,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Onyx Creative Asia. All rights reserved.
           </span>
           <span className="text-[10px] md:text-xs uppercase tracking-[0.25em] opacity-60">
-            Made with intent in Asia
+            Made with intent in Bali
           </span>
         </div>
       </div>

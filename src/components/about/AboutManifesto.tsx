@@ -16,7 +16,7 @@ const WORDS = [
   "actually moves.",
 ];
 
-export default function Manifesto() {
+export default function AboutManifesto() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,

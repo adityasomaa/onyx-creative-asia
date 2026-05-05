@@ -8,10 +8,11 @@ import { cn } from "@/lib/cn";
 import { useIntroState } from "@/lib/intro";
 
 const NAV_LINKS = [
-  { href: "/", label: "Index" },
-  { href: "/works", label: "Works" },
-  { href: "/services", label: "Services" },
+  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/services", label: "Services" },
+  { href: "/works", label: "Works" },
+  { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ];
 

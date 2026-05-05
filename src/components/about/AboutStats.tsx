@@ -5,7 +5,7 @@ import { STATS } from "@/lib/data";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
-export default function Stats() {
+export default function AboutStats() {
   return (
     <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-20 md:pt-28">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 md:gap-x-12">

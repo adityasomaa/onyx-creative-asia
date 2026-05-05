@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Reveal, { RevealText } from "@/components/Reveal";
+import AboutManifesto from "@/components/about/AboutManifesto";
+import AboutStats from "@/components/about/AboutStats";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "We are a small, opinionated studio building brand, growth, and AI systems for ambitious teams in Asia.",
+    "Independent studio in Bali — building brand, growth, and AI systems for ambitious teams.",
 };
 
 const PRINCIPLES = [
@@ -75,8 +77,9 @@ export default function AboutPage() {
               people writing the code or running the ads.
             </p>
             <p>
-              We work across Indonesia and Southeast Asia, with clients in
-              hospitality, commerce, real estate, F&amp;B, and software.
+              Based in Bali, working with founders across Indonesia, Southeast
+              Asia, and Europe — in hospitality, commerce, real estate, and
+              software.
             </p>
           </div>
         </Reveal>
@@ -102,6 +105,9 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <AboutManifesto />
+      <AboutStats />
     </>
   );
 }
