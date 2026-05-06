@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { PROJECTS } from "@/lib/data";
 import { RevealText } from "@/components/Reveal";
+import ProjectCover from "@/components/ProjectCover";
 
 export const metadata: Metadata = {
   title: "Works",
@@ -63,16 +63,14 @@ function ProjectCard({
         className="group block"
         data-cursor="hover"
       >
-        <div className="relative aspect-[4/3] overflow-hidden bg-ink/5">
-          <Image
+        <div className="relative aspect-[4/3] overflow-hidden bg-ink">
+          <ProjectCover
             src={project.cover}
+            loop={project.coverLoop}
             alt={`${project.client} — ${project.title}`}
-            fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            quality={90}
-            className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1200ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]"
           />
-          <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700" />
+          <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
         </div>
         <div className="flex items-baseline justify-between mt-5 gap-4">
           <div>

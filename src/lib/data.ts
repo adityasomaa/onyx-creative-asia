@@ -5,7 +5,10 @@ export type Project = {
   category: string;
   year: string;
   description: string;
+  /** Still poster / image cover (always required, used as video poster too). */
   cover: string;
+  /** Optional looping video cover. Plays muted on top of the poster. */
+  coverLoop?: string;
   tags: string[];
   /** Live destination — domain for web projects, social URL for non-web. */
   url: string;
@@ -36,6 +39,7 @@ export const PROJECTS: Project[] = [
     description:
       "Multilingual marketplace for premium Bali villas and land — interactive map, advanced filters, currency-aware pricing, and WhatsApp-first agent routing. 50+ curated listings across eight locations, built for investors who buy on care, not volume.",
     cover: "/projects/great-bali-properties.webp",
+    coverLoop: "/projects/great-bali-properties.mp4",
     tags: ["Web", "Listings", "Multilingual"],
     url: "https://greatbaliproperties.com",
     urlLabel: "Visit site",
@@ -61,6 +65,7 @@ export const PROJECTS: Project[] = [
     description:
       "Self-routing intake for new campaign briefs. WordPress form → Make.com pipeline extracts the domain, matches the client in Airtable, queues a Trello task, and fires team + client emails — end-to-end in seconds. Zero-handoff onboarding for a recruitment-marketing agency.",
     cover: "/projects/radcruiters.webp",
+    coverLoop: "/projects/radcruiters.mp4",
     tags: ["Workflow", "Make.com", "WordPress"],
     url: "https://radcruiters.com",
     urlLabel: "Visit site",
@@ -86,6 +91,7 @@ export const PROJECTS: Project[] = [
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan — six application methods, an editorial gallery with method filters, and a video hero of the actual color wall. Built for women who travel for the appointment, not the brochure.",
     cover: "/projects/the-hair-extensions-bali.webp",
+    coverLoop: "/projects/the-hair-extensions-bali.mp4",
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { PROJECTS, defaultUrlLabel } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
+import ProjectCover from "@/components/ProjectCover";
 
 type Params = { slug: string };
 
@@ -70,18 +70,16 @@ export default async function ProjectDetailPage({
         </h1>
       </section>
 
-      {/* Hero image */}
+      {/* Hero cover (image + optional looping video) */}
       <section className="container-x pb-12 md:pb-20">
         <Reveal amount={0.1}>
-          <div className="relative aspect-[4/3] md:aspect-[16/8] overflow-hidden bg-ink/5 group">
-            <Image
+          <div className="relative aspect-[4/3] md:aspect-[16/8] overflow-hidden bg-ink group">
+            <ProjectCover
               src={project.cover}
+              loop={project.coverLoop}
               alt={`${project.client} — ${project.title}`}
-              fill
               priority
-              quality={90}
               sizes="(min-width: 768px) 90vw, 100vw"
-              className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1400ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.02]"
             />
           </div>
         </Reveal>

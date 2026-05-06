@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { PROJECTS } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
+import ProjectCover from "@/components/ProjectCover";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
@@ -47,16 +47,14 @@ export default function FeaturedWorks() {
               className="group block"
               data-cursor="hover"
             >
-              <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-ink/5">
-                <Image
+              <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-ink">
+                <ProjectCover
                   src={p.cover}
+                  loop={p.coverLoop}
                   alt={`${p.client} — ${p.title}`}
-                  fill
                   sizes="(min-width: 768px) 50vw, 100vw"
-                  quality={90}
-                  className="object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1200ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700" />
+                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
               </div>
               <div className="flex items-baseline justify-between mt-4 md:mt-5 gap-4">
                 <div>
