@@ -77,6 +77,31 @@ export const PROJECTS: Project[] = [
     longDescription:
       "RADcruiters runs Meta-ads recruitment campaigns for staffing agencies — a high-touch service with high-volume intake. The campaign-request form had become the bottleneck: every brief pinged the team in Slack, someone manually parsed the URL, looked up the client, then created the Trello card. We rebuilt the intake as a self-routing pipeline. Submission → seconds → the right person sees the right card with the right context, and the client gets an instant confirmation that says 'we have it.'",
   },
+  {
+    slug: "the-hair-extensions-bali",
+    title: "Salon Brand & Site",
+    client: "The Hair Extensions Bali",
+    category: "Web Development",
+    year: "2025",
+    description:
+      "Brand and site for a premium hair extensions studio in Kerobokan — six application methods, an editorial gallery with method filters, and a video hero of the actual color wall. Built for women who travel for the appointment, not the brochure.",
+    cover: UNSPLASH("photo-1492106087820-71f1a00d2b11"),
+    tags: ["Web", "Brand", "Beauty"],
+    url: "https://thehairextensionsbali.com",
+    urlLabel: "Visit site",
+    services: ["Web Development", "Brand"],
+    location: "Kerobokan, Bali",
+    scope: [
+      "Wordmark: serif 'HAIR EXTENSIONS' + hand-drawn 'Bali'",
+      "Multi-page site (Home / Products / Tips / Gallery / Book)",
+      "Video hero showcasing the studio color wall",
+      "Gallery with method filters (transformations / products & color / studio)",
+      "Six service methods with detail and IDR pricing",
+      "Direct-to-WhatsApp booking flow — Bali's appointment language",
+    ],
+    longDescription:
+      "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person — quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine, not in the average beauty-salon site. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
+  },
 ];
 
 /** Best-effort label for a project's live URL when none is provided. */
@@ -183,6 +208,7 @@ export const STATS = [
 export const CLIENTS = [
   "GREAT BALI PROPERTIES",
   "RADCRUITERS",
+  "THE HAIR EXTENSIONS BALI",
 ];
 
 export type Testimonial = {
