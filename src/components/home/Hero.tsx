@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import HeroVideo from "./HeroVideo";
+import TextScramble from "@/components/TextScramble";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 // Hold the headline below the mask while the loader covers the page.
@@ -36,9 +37,16 @@ export default function Hero() {
         {/* Main headline */}
         <h1 className="text-balance text-display-lg font-medium leading-[0.88] tracking-tight">
           <Line delay={ENTER + 0.1}>Brand, performance,</Line>
-          <Line delay={ENTER + 0.18} italic>
-            and AI systems
-          </Line>
+          <span className="block">
+            <span className="font-light italic">
+              <TextScramble
+                text="and AI systems"
+                duration={1700}
+                startDelay={(ENTER + 0.18) * 1000}
+                scramblePerSecond={26}
+              />
+            </span>
+          </span>
           <Line delay={ENTER + 0.26}>for ambitious teams.</Line>
         </h1>
 

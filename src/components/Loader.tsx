@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useIntroState, markIntroShown } from "@/lib/intro";
+import TextScramble from "@/components/TextScramble";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
@@ -69,18 +70,30 @@ export default function Loader() {
             <span className="hidden md:inline">EST. 2025 — Asia</span>
           </div>
 
-          {/* Center wordmark */}
+          {/* Center wordmark — cryptographic reveal */}
           <div className="container-x flex items-center justify-center flex-1">
-            <div className="overflow-hidden">
-              <motion.h1
-                initial={{ y: "110%" }}
-                animate={{ y: "0%" }}
-                transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
-                className="text-display-md font-medium leading-none text-balance text-center"
-              >
-                Onyx<span className="font-light italic"> Creative</span>
-              </motion.h1>
-            </div>
+            <motion.h1
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
+              className="text-display-md font-medium leading-none text-balance text-center"
+            >
+              <TextScramble
+                text="Onyx"
+                duration={1600}
+                startDelay={150}
+                scramblePerSecond={26}
+              />
+              <span className="font-light italic">
+                {" "}
+                <TextScramble
+                  text="Creative"
+                  duration={1900}
+                  startDelay={350}
+                  scramblePerSecond={24}
+                />
+              </span>
+            </motion.h1>
           </div>
 
           {/* Bottom row: progress + counter */}
