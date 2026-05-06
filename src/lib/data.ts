@@ -67,7 +67,7 @@ export const PROJECTS: Project[] = [
     cover: "/projects/radcruiters.webp",
     coverLoop: "/projects/radcruiters.mp4",
     tags: ["Workflow", "Make.com", "WordPress"],
-    url: "https://radcruiters.com",
+    url: "https://onlineresults.radcruiters.com/campaign-requests/",
     urlLabel: "Visit site",
     services: ["AI Systems", "Web Development"],
     location: "Netherlands · EU",
