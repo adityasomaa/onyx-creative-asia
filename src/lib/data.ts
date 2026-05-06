@@ -35,7 +35,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Multilingual marketplace for premium Bali villas and land — interactive map, advanced filters, currency-aware pricing, and WhatsApp-first agent routing. 50+ curated listings across eight locations, built for investors who buy on care, not volume.",
-    cover: UNSPLASH("photo-1537996194471-e657df975ab4"),
+    cover: "/projects/great-bali-properties.webp",
     tags: ["Web", "Listings", "Multilingual"],
     url: "https://greatbaliproperties.com",
     urlLabel: "Visit site",
@@ -60,7 +60,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Self-routing intake for new campaign briefs. WordPress form → Make.com pipeline extracts the domain, matches the client in Airtable, queues a Trello task, and fires team + client emails — end-to-end in seconds. Zero-handoff onboarding for a recruitment-marketing agency.",
-    cover: UNSPLASH("photo-1620712943543-bcc4688e7485"),
+    cover: "/projects/radcruiters.webp",
     tags: ["Workflow", "Make.com", "WordPress"],
     url: "https://radcruiters.com",
     urlLabel: "Visit site",
@@ -85,7 +85,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan — six application methods, an editorial gallery with method filters, and a video hero of the actual color wall. Built for women who travel for the appointment, not the brochure.",
-    cover: UNSPLASH("photo-1492106087820-71f1a00d2b11"),
+    cover: "/projects/the-hair-extensions-bali.webp",
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",
