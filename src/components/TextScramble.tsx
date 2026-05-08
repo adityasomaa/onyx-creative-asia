@@ -1,14 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const DEFAULT_CHARS =
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+/**
+ * Pick a same-case scramble pool for a target character, so an uppercase
+ * target only cycles through uppercase, lowercase only through lowercase,
+ * and digits only through digits. Falls back to the full charset if the
+ * target's class isn't present in the supplied charset.
+ */
+function poolFor(targetChar: string, charset: string): string {
+  if (/\d/.test(targetChar)) {
+    const digits = charset.replace(/[^\d]/g, "");
+    return digits.length > 0 ? digits : charset;
+  }
+  if (/[A-Z]/.test(targetChar)) {
+    const upper = charset.replace(/[^A-Z]/g, "");
+    return upper.length > 0 ? upper : charset;
+  }
+  if (/[a-z]/.test(targetChar)) {
+    const lower = charset.replace(/[^a-z]/g, "");
+    return lower.length > 0 ? lower : charset;
+  }
+  return charset;
+}
 
 /**
  * Cryptographic text scramble — each letter cycles through random characters
  * before settling on its target. Letters resolve left-to-right with a small
- * randomness so the reveal feels organic.
+ * randomness so the reveal feels organic. Case-preserving: an uppercase
+ * letter never scrambles to lowercase, and vice versa.
  *
  *   "hsnx" → "ywhe" → "osjf" → "onsh" → "onyt" → "onyx"
  *
@@ -47,6 +70,12 @@ export default function TextScramble({
   // a small random jitter. Stable per render (we re-pick when text changes).
   const revealsRef = useRef<number[]>([]);
 
+  // Memoise per-target-character pools so we don't rebuild them every swap.
+  const poolsRef = useMemo(
+    () => Array.from(text).map((ch) => poolFor(ch, charset)),
+    [text, charset]
+  );
+
   useEffect(() => {
     const N = text.length;
     revealsRef.current = Array.from({ length: N }, (_, i) => {
@@ -76,14 +105,16 @@ export default function TextScramble({
       }
 
       // Only re-randomise letters at the configured rate (don't fight
-      // the GPU; 22Hz of swaps is plenty to feel "decoding").
+      // the GPU; 22Hz of swaps is plenty to feel "decoding"). Per-letter
+      // pool is case-aware: uppercase target → uppercase pool, etc.
       if (now - lastSwap >= stepMs) {
         lastSwap = now;
         const next = Array.from(text)
           .map((target, i) => {
             if (isStatic(target)) return target;
             if (elapsed >= revealsRef.current[i]) return target;
-            return charset[Math.floor(Math.random() * charset.length)];
+            const pool = poolsRef[i];
+            return pool[Math.floor(Math.random() * pool.length)];
           })
           .join("");
         swappedDisplay = next;
