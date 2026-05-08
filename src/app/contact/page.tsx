@@ -6,6 +6,14 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Tell us about your project. We reply within 48 hours — no account managers, no decks-first.",
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: "Contact — Onyx Creative Asia",
+    description:
+      "Brief us. We reply within 48 hours.",
+    url: "/contact",
+    type: "website",
+  },
 };
 
 export default function ContactPage() {

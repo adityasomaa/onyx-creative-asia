@@ -1,12 +1,27 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealText } from "@/components/Reveal";
+import { INSIGHTS } from "@/lib/insights";
 
 export const metadata: Metadata = {
   title: "Insights",
   description:
-    "Field notes from the studio — on brand, performance, and AI systems. Long-form coming soon.",
+    "Field notes from the studio — on brand, performance, AI systems, and the work behind them. Long-form essays from Onyx Creative Asia.",
+  alternates: { canonical: "/insights" },
+  openGraph: {
+    title: "Insights — Onyx Creative Asia",
+    description:
+      "Field notes from the studio — on brand, performance, AI systems, and the work behind them.",
+    url: "/insights",
+    type: "website",
+  },
 };
+
+const DATE_FMT = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
 
 export default function InsightsPage() {
   return (
@@ -25,7 +40,7 @@ export default function InsightsPage() {
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
           Pieces about the work — what we ship, what we learned, what we'd do
           differently. We write when the lesson is sharp enough to hand to
-          someone else. First essays publishing soon.
+          someone else.
         </p>
       </section>
 
@@ -33,29 +48,44 @@ export default function InsightsPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-3">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-              (What's coming)
+              ({INSIGHTS.length.toString().padStart(2, "0")} essays)
             </p>
           </div>
           <ul className="md:col-span-8 md:col-start-5 border-t border-hairline">
-            {UPCOMING.map((piece, i) => (
+            {INSIGHTS.map((piece, i) => (
               <li
-                key={piece.title}
-                className="border-b border-hairline py-6 flex items-baseline gap-6"
+                key={piece.slug}
+                className="border-b border-hairline group"
               >
-                <span className="text-xs opacity-50 tabular-nums w-6 shrink-0">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="flex-1">
-                  <p className="text-xl md:text-2xl font-medium tracking-tight">
-                    {piece.title}
-                  </p>
-                  <p className="mt-2 text-sm opacity-60 uppercase tracking-[0.18em]">
-                    {piece.tag}
-                  </p>
-                </div>
-                <span className="text-xs opacity-50 uppercase tracking-[0.18em]">
-                  Soon
-                </span>
+                <Link
+                  href={`/insights/${piece.slug}`}
+                  className="py-7 md:py-8 flex items-baseline gap-6 transition-opacity duration-300 hover:opacity-80"
+                >
+                  <span className="text-xs opacity-50 tabular-nums w-6 shrink-0">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-xl md:text-2xl font-medium tracking-tight leading-snug">
+                      {piece.title}
+                    </p>
+                    <p className="mt-3 text-sm text-ink/70 leading-relaxed max-w-2xl">
+                      {piece.excerpt}
+                    </p>
+                    <p className="mt-3 text-xs opacity-60 uppercase tracking-[0.18em] flex items-center gap-3 flex-wrap">
+                      <span>{piece.tag}</span>
+                      <span aria-hidden>·</span>
+                      <span>{piece.readingTimeMin} min read</span>
+                      <span aria-hidden>·</span>
+                      <span>{DATE_FMT.format(new Date(piece.publishedAt))}</span>
+                    </p>
+                  </div>
+                  <span
+                    aria-hidden
+                    className="text-xs opacity-50 transition-transform duration-500 group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
@@ -65,7 +95,7 @@ export default function InsightsPage() {
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-12 md:pt-16">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <p className="text-lg max-w-md text-ink/80 leading-relaxed">
-            Want a heads-up when the first piece lands?
+            Want a heads-up when the next piece lands?
           </p>
           <Link
             href="/contact"
@@ -81,22 +111,3 @@ export default function InsightsPage() {
     </>
   );
 }
-
-const UPCOMING = [
-  {
-    title: "Designing for the spotlight, not the brochure",
-    tag: "Web · Motion",
-  },
-  {
-    title: "When AI agents earn their seat at the table",
-    tag: "AI Systems",
-  },
-  {
-    title: "Performance creative isn't a different language. It's the same one, faster.",
-    tag: "Paid Media",
-  },
-  {
-    title: "Why we shipped a hero video instead of a hero image",
-    tag: "Web · Brand",
-  },
-];

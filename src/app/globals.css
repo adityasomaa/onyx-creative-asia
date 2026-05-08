@@ -141,10 +141,17 @@
     border-color: rgba(244, 241, 236, 0.18);
   }
 
-  /* Reveal mask used for scroll-in text */
+  /* Reveal mask used for scroll-in text. Italic glyphs (g, j, p, q, y, f
+     and serif italic capitals) extend below the line-box, so we pad the
+     mask downward and offset margin so layout stays unchanged. Without
+     this, descenders get clipped during the slide-in animation. */
   .reveal-mask {
     overflow: hidden;
     display: inline-block;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+    padding-top: 0.06em;
+    margin-top: -0.06em;
   }
 }
 

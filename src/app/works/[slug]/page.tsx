@@ -20,10 +20,20 @@ export async function generateMetadata({
   const project = PROJECTS.find((p) => p.slug === slug);
   if (!project) return { title: "Not found" };
 
+  const url = `/works/${project.slug}`;
   return {
     title: `${project.client} — ${project.title}`,
     description: project.description,
+    alternates: { canonical: url },
     openGraph: {
+      title: `${project.client} — ${project.title}`,
+      description: project.description,
+      url,
+      type: "article",
+      images: [project.cover],
+    },
+    twitter: {
+      card: "summary_large_image",
       title: `${project.client} — ${project.title}`,
       description: project.description,
       images: [project.cover],

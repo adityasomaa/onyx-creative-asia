@@ -6,7 +6,15 @@ import AboutStats from "@/components/about/AboutStats";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Independent studio in Bali — building brand, growth, and AI systems for ambitious teams.",
+    "Independent studio in Bali — building brand, growth, and AI systems for ambitious teams across Asia.",
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: "About — Onyx Creative Asia",
+    description:
+      "Independent studio in Bali. One team, four disciplines, no hand-offs.",
+    url: "/about",
+    type: "website",
+  },
 };
 
 const PRINCIPLES = [

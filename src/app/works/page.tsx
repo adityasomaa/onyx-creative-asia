@@ -7,7 +7,15 @@ import ProjectCover from "@/components/ProjectCover";
 export const metadata: Metadata = {
   title: "Works",
   description:
-    "Selected projects across web, paid media, social, and AI systems — built by Onyx Creative Asia.",
+    "Selected projects across web, paid media, social, and AI systems — including Great Bali Properties, RADcruiters, and The Hair Extensions Bali.",
+  alternates: { canonical: "/works" },
+  openGraph: {
+    title: "Works — Onyx Creative Asia",
+    description:
+      "Selected projects from the studio — web, performance, social, AI systems.",
+    url: "/works",
+    type: "website",
+  },
 };
 
 export default function WorksPage() {

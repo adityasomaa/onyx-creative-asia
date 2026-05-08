@@ -5,7 +5,15 @@ import Reveal, { RevealText } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Web development, paid media (Google/Meta/TikTok), social media, and AI systems — under one roof.",
+    "Web development, paid media (Google/Meta/TikTok), social media strategy, and AI systems — four disciplines under one roof.",
+  alternates: { canonical: "/services" },
+  openGraph: {
+    title: "Services — Onyx Creative Asia",
+    description:
+      "Web · Paid Media · Social · AI Systems. Four disciplines, one studio.",
+    url: "/services",
+    type: "website",
+  },
 };
 
 export default function ServicesPage() {
