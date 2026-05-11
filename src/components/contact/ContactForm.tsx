@@ -14,7 +14,7 @@ const SERVICES = [
   "Brand & Design",
 ];
 
-const BUDGETS = ["< $5k", "$5k–$15k", "$15k–$50k", "$50k+", "Not sure yet"];
+const BUDGETS = ["< $1k", "$1k–$3k", "$3k–$5k", "$5k–$10k", "$10k+", "Not sure yet"];
 
 type Status = "idle" | "submitting" | "success" | "error";
 
