@@ -13,6 +13,18 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async rewrites() {
+    // Subdomain split:
+    //   agents.onyxcreative.asia/* → /agents/* (internal route)
+    // Main domain users hitting /agents directly are blocked in middleware.
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "agents.onyxcreative.asia" }],
+        destination: "/agents/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
