@@ -1,11 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Loader from "@/components/Loader";
-import Nav from "@/components/Nav";
-import SmoothScroll from "@/components/SmoothScroll";
-import Cursor from "@/components/Cursor";
-import Footer from "@/components/Footer";
-import CookieConsent from "@/components/CookieConsent";
+import MarketingChrome from "@/components/MarketingChrome";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
@@ -128,13 +123,7 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased grain">
-        <Loader />
-        <SmoothScroll />
-        <Cursor />
-        <Nav />
-        <main>{children}</main>
-        <Footer />
-        <CookieConsent />
+        <MarketingChrome>{children}</MarketingChrome>
       </body>
     </html>
   );
