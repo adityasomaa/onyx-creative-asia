@@ -16,7 +16,11 @@ const SERVICES = [
 
 const BUDGETS = ["< $1k", "$1k–$3k", "$3k–$5k", "$5k–$10k", "$10k+", "Not sure yet"];
 
-type Status = "idle" | "submitting" | "success" | "error";
+const EMAIL_TO = "hello@onyxcreative.asia";
+const WA_NUMBER = "62895413372822";
+const EMAIL_SUBJECT = "New project inquiry — Onyx Creative Asia";
+
+type SentVia = "email" | "whatsapp" | null;
 
 export default function ContactForm() {
   const [name, setName] = useState("");
@@ -25,8 +29,8 @@ export default function ContactForm() {
   const [budget, setBudget] = useState<string | null>(null);
   const [services, setServices] = useState<string[]>([]);
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [sentVia, setSentVia] = useState<SentVia>(null);
 
   function toggleService(s: string) {
     setServices((curr) =>
@@ -34,47 +38,60 @@ export default function ContactForm() {
     );
   }
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus("submitting");
-    setError(null);
-
-    try {
-      const res = await fetch("/api/leads", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          company: company || null,
-          budget,
-          services,
-          message,
-        }),
-      });
-
-      const data = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        error?: string;
-      };
-
-      if (!res.ok || !data.ok) {
-        throw new Error(data.error || "Something went wrong.");
-      }
-
-      setStatus("success");
-    } catch (err) {
-      setStatus("error");
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+  function validate(): boolean {
+    if (!name.trim())    { setError("Please add your name."); return false; }
+    if (!email.trim())   { setError("Please add your email."); return false; }
+    if (!message.trim()) { setError("Please add a short brief."); return false; }
+    // Light email shape check — we're not the gatekeeper, email clients are.
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setError("That email doesn't look right.");
+      return false;
     }
+    setError(null);
+    return true;
+  }
+
+  /**
+   * Build the message body the user asked for — pasted verbatim into
+   * the email body or the WhatsApp text. Missing optional fields collapse
+   * to an em-dash so the recipient sees what was skipped.
+   */
+  function buildMessage(): string {
+    const interest = services.length > 0 ? services.join(", ") : "—";
+    return (
+      "Hi, Onyx Creative Asia, I'm interested to know more.\n\n" +
+      `Name: ${name.trim()}\n` +
+      `Company: ${company.trim() || "—"}\n` +
+      `Email: ${email.trim()}\n` +
+      `I'm interested in: ${interest}\n` +
+      `Budget: ${budget ?? "—"}\n` +
+      `Brief: ${message.trim()}`
+    );
+  }
+
+  function sendEmail() {
+    if (!validate()) return;
+    const body = encodeURIComponent(buildMessage());
+    const subject = encodeURIComponent(EMAIL_SUBJECT);
+    // mailto opens the user's default mail client with everything filled in.
+    window.location.href = `mailto:${EMAIL_TO}?subject=${subject}&body=${body}`;
+    setSentVia("email");
+  }
+
+  function sendWhatsApp() {
+    if (!validate()) return;
+    const text = encodeURIComponent(buildMessage());
+    // wa.me opens WhatsApp web/app with the message pre-typed.
+    window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, "_blank", "noopener,noreferrer");
+    setSentVia("whatsapp");
   }
 
   return (
     <div className="relative">
       <AnimatePresence mode="wait">
-        {status === "success" ? (
+        {sentVia ? (
           <motion.div
-            key="success"
+            key="sent"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
@@ -84,11 +101,19 @@ export default function ContactForm() {
             aria-live="polite"
           >
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-              (Received — thank you)
+              (Opened in {sentVia === "email" ? "your email" : "WhatsApp"})
             </p>
             <h3 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl mx-auto text-balance">
-              Got it. We&apos;ll be in touch <span className="font-light italic">within 48 hours.</span>
+              Hit send when you&apos;re ready —{" "}
+              <span className="font-light italic">we&apos;ll reply within 48 hours.</span>
             </h3>
+            <button
+              type="button"
+              onClick={() => setSentVia(null)}
+              className="mt-10 text-xs uppercase tracking-[0.25em] opacity-60 hover:opacity-100 transition-opacity"
+            >
+              ← Edit the brief again
+            </button>
           </motion.div>
         ) : (
           <motion.form
@@ -97,7 +122,11 @@ export default function ContactForm() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            onSubmit={onSubmit}
+            onSubmit={(e) => {
+              e.preventDefault();
+              // Default submit = email (familiar keyboard behaviour for forms).
+              sendEmail();
+            }}
             className="space-y-12 md:space-y-16"
             noValidate
           >
@@ -205,27 +234,44 @@ export default function ContactForm() {
               </p>
             )}
 
-            <div className="flex items-center justify-between gap-6 pt-6 border-t border-hairline">
+            <div className="pt-6 border-t border-hairline space-y-6">
               <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                We reply within 48h
+                Pick how you&apos;d like to send — we reply within 48h
               </p>
-              <button
-                type="submit"
-                disabled={status === "submitting"}
-                className={cn(
-                  "group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo",
-                  status === "submitting"
-                    ? "opacity-60 cursor-wait"
-                    : "hover:scale-[1.03]"
-                )}
-              >
-                <span className="text-sm font-medium">
-                  {status === "submitting" ? "Sending…" : "Send the brief"}
-                </span>
-                <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">
-                  →
-                </span>
-              </button>
+              <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+                <button
+                  type="button"
+                  onClick={sendEmail}
+                  className="group inline-flex items-center justify-between gap-4 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.02] w-full md:w-auto md:flex-1"
+                >
+                  <span className="text-sm font-medium">Send via email</span>
+                  <span className="text-xs opacity-70 tracking-wider">
+                    HELLO@ONYXCREATIVE.ASIA
+                  </span>
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-500 group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </button>
+                <button
+                  type="button"
+                  onClick={sendWhatsApp}
+                  className="group inline-flex items-center justify-between gap-4 rounded-full bg-bone text-ink border border-ink px-7 py-4 transition-transform duration-500 ease-out-expo hover:scale-[1.02] w-full md:w-auto md:flex-1"
+                >
+                  <span className="text-sm font-medium">Send via WhatsApp</span>
+                  <span className="text-xs opacity-70 tracking-wider">
+                    +62 895-4133-72822
+                  </span>
+                  <span
+                    aria-hidden
+                    className="transition-transform duration-500 group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </button>
+              </div>
             </div>
           </motion.form>
         )}
