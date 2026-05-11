@@ -20,7 +20,7 @@ const EMAIL_TO = "hello@onyxcreative.asia";
 const WA_NUMBER = "62895413372822";
 const EMAIL_SUBJECT = "New project inquiry — Onyx Creative Asia";
 
-type SentVia = "email" | "whatsapp" | null;
+type Sent = boolean;
 
 export default function ContactForm() {
   const [name, setName] = useState("");
@@ -30,7 +30,7 @@ export default function ContactForm() {
   const [services, setServices] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [sentVia, setSentVia] = useState<SentVia>(null);
+  const [sent, setSent] = useState<Sent>(false);
 
   function toggleService(s: string) {
     setServices((curr) =>
@@ -69,27 +69,40 @@ export default function ContactForm() {
     );
   }
 
-  function sendEmail() {
+  /**
+   * Single send action — fires both channels from the same user gesture:
+   *   1. Opens WhatsApp in a new tab with the message pre-typed
+   *      (the user's primary conversation channel from here on).
+   *   2. Triggers the OS email handler with the brief pre-filled
+   *      (so the same body lands in hello@onyxcreative.asia as a backup,
+   *      and the user just hits Send in their email client).
+   *
+   * Order matters: WA pop-up first so it inherits the click gesture
+   * before any navigation. Mailto fires last; on modern browsers it
+   * hands off to the email app without leaving the contact page.
+   */
+  function send() {
     if (!validate()) return;
-    const body = encodeURIComponent(buildMessage());
-    const subject = encodeURIComponent(EMAIL_SUBJECT);
-    // mailto opens the user's default mail client with everything filled in.
-    window.location.href = `mailto:${EMAIL_TO}?subject=${subject}&body=${body}`;
-    setSentVia("email");
-  }
+    const body = buildMessage();
+    const encodedBody = encodeURIComponent(body);
+    const encodedSubject = encodeURIComponent(EMAIL_SUBJECT);
 
-  function sendWhatsApp() {
-    if (!validate()) return;
-    const text = encodeURIComponent(buildMessage());
-    // wa.me opens WhatsApp web/app with the message pre-typed.
-    window.open(`https://wa.me/${WA_NUMBER}?text=${text}`, "_blank", "noopener,noreferrer");
-    setSentVia("whatsapp");
+    // 1. WhatsApp — new tab
+    window.open(
+      `https://wa.me/${WA_NUMBER}?text=${encodedBody}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+    // 2. Email — OS handoff (does not navigate the page)
+    window.location.href = `mailto:${EMAIL_TO}?subject=${encodedSubject}&body=${encodedBody}`;
+
+    setSent(true);
   }
 
   return (
     <div className="relative">
       <AnimatePresence mode="wait">
-        {sentVia ? (
+        {sent ? (
           <motion.div
             key="sent"
             initial={{ opacity: 0, y: 20 }}
@@ -101,15 +114,28 @@ export default function ContactForm() {
             aria-live="polite"
           >
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-              (Opened in {sentVia === "email" ? "your email" : "WhatsApp"})
+              (Opened — WhatsApp tab + email draft)
             </p>
             <h3 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl mx-auto text-balance">
-              Hit send when you&apos;re ready —{" "}
-              <span className="font-light italic">we&apos;ll reply within 48 hours.</span>
+              Brief is pre-filled — hit send and{" "}
+              <span className="font-light italic">
+                we&apos;ll reply within 48 hours.
+              </span>
             </h3>
+            <p className="mt-8 text-sm opacity-70 max-w-xl mx-auto leading-relaxed">
+              If your email client didn&apos;t open, copy the brief from the
+              WhatsApp tab — or write us at{" "}
+              <a
+                href="mailto:hello@onyxcreative.asia"
+                className="underline underline-offset-4 hover:opacity-100 opacity-90"
+              >
+                hello@onyxcreative.asia
+              </a>
+              .
+            </p>
             <button
               type="button"
-              onClick={() => setSentVia(null)}
+              onClick={() => setSent(false)}
               className="mt-10 text-xs uppercase tracking-[0.25em] opacity-60 hover:opacity-100 transition-opacity"
             >
               ← Edit the brief again
@@ -124,8 +150,7 @@ export default function ContactForm() {
             transition={{ duration: 0.5 }}
             onSubmit={(e) => {
               e.preventDefault();
-              // Default submit = email (familiar keyboard behaviour for forms).
-              sendEmail();
+              send();
             }}
             className="space-y-12 md:space-y-16"
             noValidate
@@ -234,44 +259,28 @@ export default function ContactForm() {
               </p>
             )}
 
-            <div className="pt-6 border-t border-hairline space-y-6">
-              <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                Pick how you&apos;d like to send — we reply within 48h
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pt-6 border-t border-hairline">
+              <p className="text-xs uppercase tracking-[0.25em] opacity-60 max-w-sm">
+                One send — we get it in inbox &amp; WhatsApp. Reply within 48h.
               </p>
-              <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-                <button
-                  type="button"
-                  onClick={sendEmail}
-                  className="group inline-flex items-center justify-between gap-4 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.02] w-full md:w-auto md:flex-1"
+              <button
+                type="submit"
+                className="group inline-flex items-center gap-4 rounded-full bg-ink px-8 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03] w-fit"
+              >
+                <span className="text-sm font-medium">Send the brief</span>
+                <span
+                  aria-hidden
+                  className="text-xs opacity-70 tracking-wider"
                 >
-                  <span className="text-sm font-medium">Send via email</span>
-                  <span className="text-xs opacity-70 tracking-wider">
-                    HELLO@ONYXCREATIVE.ASIA
-                  </span>
-                  <span
-                    aria-hidden
-                    className="transition-transform duration-500 group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
-                </button>
-                <button
-                  type="button"
-                  onClick={sendWhatsApp}
-                  className="group inline-flex items-center justify-between gap-4 rounded-full bg-bone text-ink border border-ink px-7 py-4 transition-transform duration-500 ease-out-expo hover:scale-[1.02] w-full md:w-auto md:flex-1"
+                  EMAIL + WHATSAPP
+                </span>
+                <span
+                  aria-hidden
+                  className="transition-transform duration-500 group-hover:translate-x-1"
                 >
-                  <span className="text-sm font-medium">Send via WhatsApp</span>
-                  <span className="text-xs opacity-70 tracking-wider">
-                    +62 895-4133-72822
-                  </span>
-                  <span
-                    aria-hidden
-                    className="transition-transform duration-500 group-hover:translate-x-1"
-                  >
-                    →
-                  </span>
-                </button>
-              </div>
+                  →
+                </span>
+              </button>
             </div>
           </motion.form>
         )}
