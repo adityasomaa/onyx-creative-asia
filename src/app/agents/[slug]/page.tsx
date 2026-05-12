@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
-  AGENTS,
-  ACTIVE_PROJECTS,
-  ACTIVITY,
-  findAgent,
-} from "@/lib/agents";
+  listAgents,
+  getAgentBySlug,
+  listActiveProjects,
+  listRecentActivity,
+} from "@/lib/db/agents";
 
 const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
   hour: "2-digit",
@@ -15,9 +15,7 @@ const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
 });
 
-export function generateStaticParams() {
-  return AGENTS.map((a) => ({ slug: a.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export default async function AgentDetail({
   params,
@@ -25,18 +23,24 @@ export default async function AgentDetail({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const agent = findAgent(slug);
+
+  const [agent, allAgents, activeProjects, recentActivity] = await Promise.all([
+    getAgentBySlug(slug),
+    listAgents(),
+    listActiveProjects(),
+    listRecentActivity(40),
+  ]);
+
   if (!agent) notFound();
 
-  const owned = ACTIVE_PROJECTS.filter((p) => p.ownerSlug === slug);
-  const myActivity = ACTIVITY.filter((e) => e.agentSlug === slug);
+  const owned = activeProjects.filter((p) => p.ownerSlug === slug);
+  const myActivity = recentActivity.filter((e) => e.agentSlug === slug);
   const handsOffAgents = agent.handsOffTo
-    .map((h) => findAgent(h))
+    .map((h) => allAgents.find((a) => a.slug === h))
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
 
   return (
     <div className="px-6 md:px-10 py-12 md:py-16 max-w-5xl space-y-16 md:space-y-20">
-      {/* breadcrumb */}
       <p className="text-[11px] tracking-[0.3em] uppercase opacity-55 flex items-center gap-3 flex-wrap">
         <Link href="/agents" className="hover:opacity-100 transition-opacity">
           ← Roster
@@ -45,7 +49,6 @@ export default async function AgentDetail({
         <span>Agent {agent.number}</span>
       </p>
 
-      {/* HERO */}
       <section>
         <div className="flex items-baseline gap-6 mb-6">
           <span className="text-6xl md:text-8xl font-bold tracking-tight">
@@ -72,7 +75,6 @@ export default async function AgentDetail({
         </p>
       </section>
 
-      {/* META */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8 border-y border-bone/15 py-10">
         <div>
           <p className="text-[11px] tracking-[0.25em] uppercase opacity-55 mb-3">
@@ -103,7 +105,6 @@ export default async function AgentDetail({
         </div>
       </section>
 
-      {/* CHARTER */}
       <section>
         <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
           // CHARTER
@@ -120,7 +121,6 @@ export default async function AgentDetail({
         </div>
       </section>
 
-      {/* TOOLS */}
       <section>
         <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
           // TOOLS · {agent.tools.length}
@@ -137,7 +137,6 @@ export default async function AgentDetail({
         </ul>
       </section>
 
-      {/* OWNED PROJECTS */}
       {owned.length > 0 && (
         <section>
           <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
@@ -172,7 +171,6 @@ export default async function AgentDetail({
         </section>
       )}
 
-      {/* ACTIVITY */}
       {myActivity.length > 0 && (
         <section>
           <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">

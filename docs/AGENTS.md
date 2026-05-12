@@ -1,44 +1,75 @@
-# Onyx Agents Dashboard
+# Onyx Agents Platform
 
-Private internal console for the studio's automation roster. Lives at
-`agents.onyxcreative.asia` (subdomain) and is gated by Basic Auth.
+Private internal console for the studio's automation roster + project ops.
+Lives at `agents.onyxcreative.asia` (subdomain), gated by a branded
+sign-in screen with HMAC-signed cookie sessions.
 
-The dashboard is a view onto the agent system defined in
-`src/lib/agents.ts` (in Fase 2 this will read from
-`.claude/agents/<slug>.md` directly). Today it renders:
+The platform replaces the old static dashboard. As of v0.2 it has:
 
-- **Roster** — the four MVP agents (Director, Strategist, Maker, Account
-  Manager) with status, tools, and current task
-- **Flow diagram** — how an inbound brief moves through the system
-- **Active work** — projects currently in flight, with current owner
-- **Recent activity** — latest agent invocations
+| Path | Purpose |
+|---|---|
+| `/` (subdomain root) | **Roster** — 4 agents, flow diagram, active work, recent activity |
+| `/<slug>` | **Agent detail** — manifesto, charter, tools, ownership, activity |
+| `/submissions` | **Inbound log** — every brief from form, email, WhatsApp |
+| `/submissions/:id` | **Submission detail** — body, sender, files, linked project |
+| `/dashboard` | **Studio ops** — project / submission / client counts + bar charts |
+| `/flow` | **Flows registry** — workflow definitions + Phase 1–4 roadmap |
+| `/onboarding/:client` | Per-client portal (Phase 2 — page not yet shipped) |
+| `/results/:client` | Per-client analytics (Phase 2 — page not yet shipped) |
 
-Per-agent detail pages live at `/agents/<slug>`.
+All pages SSR from Supabase via the service-role key (see
+`src/lib/db/*`). When the DB is unreachable, agents queries fall back to
+the hardcoded roster in `src/lib/agents.ts` so the roster page always
+renders.
 
 ---
 
 ## Setup — one-time
 
-### 1. Environment variables (Vercel)
+### 1. Database (Supabase)
 
-In Vercel project settings → Environment Variables, add:
+The platform requires three env vars to talk to Supabase:
+
+| Name | Value |
+|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your project URL (https://xxxxx.supabase.co) |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Anon public key |
+| `SUPABASE_SERVICE_ROLE_KEY` | Service-role secret — **server-only**, never expose |
+
+Add to Vercel → Settings → Environment Variables (Production + Preview).
+
+Then run the migrations in the Supabase SQL editor in order:
+
+1. `supabase/migrations/0001_leads_table.sql` — the contact-form leads
+   table (already in place if your contact form works)
+2. `supabase/migrations/0002_agents_platform.sql` — 8 tables: clients,
+   projects, submissions, files, agents, agent_runs, flows, credentials
+3. `supabase/migrations/0003_seed_agents_platform.sql` — seeds 4 agents,
+   3 real clients + 2 leads, 4 projects, 7 mocked submissions, 3 flow
+   definitions
+
+All migration files are re-runnable (`create table if not exists`,
+`on conflict do nothing`), so it's safe to re-execute after edits.
+
+> **RLS is disabled** in Phase 1 — only the server (service-role key)
+> ever reads/writes. RLS policies come online in Phase 2 when the
+> `/onboarding/:client` and `/results/:client` portals open to clients.
+
+### 2. Auth (session credentials)
+
+In Vercel → Environment Variables, also add:
 
 | Name | Value |
 |---|---|
 | `DASHBOARD_USER` | username (e.g. `onyx`) |
 | `DASHBOARD_PASSWORD` | long random password (40+ chars) |
-| `DASHBOARD_SECRET` | 32+ random bytes — signs session cookies. Generate with `openssl rand -base64 48` |
+| `DASHBOARD_SECRET` | 32+ random bytes — HMAC key for session cookies. Generate with `openssl rand -base64 48` |
 
-Apply each to **Production** and **Preview** (Development env can't take
-sensitive vars — that's fine, dev runs against `.env.local`). After
-saving, trigger a redeploy so the env vars are baked in.
+The platform uses an HMAC-SHA256-signed cookie session, NOT Basic Auth.
+Sessions last 7 days. Rotating `DASHBOARD_SECRET` invalidates every
+active session instantly — exactly what you want if you suspect a leak.
 
-> The dashboard uses a signed cookie session, NOT Basic Auth. The
-> session lasts 7 days. `DASHBOARD_SECRET` is what HMAC-signs the
-> cookie — rotating it invalidates every active session, which is
-> exactly what you want when you suspect a leak.
-
-### 2. DNS — add the subdomain
+### 3. DNS — add the subdomain
 
 In Hostinger DNS panel, add:
 
@@ -46,87 +77,103 @@ In Hostinger DNS panel, add:
 |---|---|---|---|
 | CNAME | `agents` | `cname.vercel-dns.com` | 14400 |
 
-### 3. Vercel — add the domain
+### 4. Vercel — add the domain
 
 In Vercel project → Settings → Domains:
 
 1. Click **Add Domain**
 2. Enter `agents.onyxcreative.asia`
-3. Vercel verifies the CNAME automatically (give it 5–10 min after
-   adding in step 2)
+3. Vercel verifies the CNAME automatically (give it 5–10 min)
 4. SSL certificate provisions automatically
 
-### 4. Verify
+### 5. Verify
 
 Visit `https://agents.onyxcreative.asia` — unauthenticated visitors
-are redirected to a branded `/login` page. Sign in with the credentials
-from step 1. The dashboard sets a 7-day signed cookie; logout button
-sits in the top-right.
+land on the branded `/login` page. Sign in with the credentials from
+step 2. The dashboard sets a 7-day signed cookie; logout button sits
+in the top-right of every page.
 
 ---
 
 ## How the routing works
 
-A request to `agents.onyxcreative.asia/anything` is intercepted by
-two pieces:
+A request to `agents.onyxcreative.asia/anything` is intercepted by two
+pieces:
 
-1. **`next.config.ts`** rewrites — based on the `host` header, every
-   path is rewritten internally to `/agents/<path>`. The visitor never
-   sees `/agents/` in their URL.
+1. **`next.config.ts`** rewrites — based on the `host` header, the
+   visitor-facing paths are rewritten internally to `/agents/<path>`.
+   The visitor never sees `/agents/` in their URL.
+
+   Rewrites are **explicit per route**, not a catch-all — a catch-all
+   would also intercept `/_next/*`, `/fonts/*`, and the rewritten
+   target itself. When you add a new top-level page under
+   `/agents/<page>`, add the matching rewrite in `next.config.ts`.
 
 2. **`src/middleware.ts`** — runs before every request:
-   - If the host is `agents.onyxcreative.asia`, requires Basic Auth
-   - If the host is the main domain and the path starts with `/agents`,
-     returns 404 (so the dashboard can't be reached without the subdomain)
+   - On the subdomain: require a valid signed session cookie or
+     redirect to `/login`
+   - On the main domain: hitting `/agents/*` directly returns 404 so
+     the platform can't be reached without the subdomain
 
-`onyxcreative.asia` stays public. The dashboard is private.
+`onyxcreative.asia` stays public. The platform is private.
 
 ---
 
 ## Editing the roster
 
-For now the roster is hardcoded in `src/lib/agents.ts`. To add an
-agent or change a role:
+The roster is now **DB-driven**. Two ways to edit:
 
-1. Edit `AGENTS` in `src/lib/agents.ts` — each entry follows the
-   `Agent` type at the top of the file
-2. Commit + push — Vercel redeploys automatically
+1. **Live edit in Supabase** — go to the `agents` table in the Supabase
+   editor and change a row. The next page load reflects it.
 
-In Fase 2, this file will be replaced by a build-time loader that
-reads `.claude/agents/*.md` frontmatter so the dashboard auto-syncs
-with what Claude Code actually has available.
+2. **Source-controlled edit** — modify the seed file at
+   `supabase/migrations/0003_seed_agents_platform.sql`. Since it uses
+   `on conflict (slug) do nothing`, re-running it won't update an
+   existing row — you'll need to either drop the row first or run an
+   explicit `update` from the SQL editor.
+
+The hardcoded fallback in `src/lib/agents.ts` is what renders when the
+DB is unreachable (preview deploys without env vars, migrations not yet
+applied). Keep it roughly in sync with the seed file so the fallback
+makes sense.
 
 ---
 
 ## Roadmap
 
-### Fase 1 — Static dashboard (current)
+### Phase 1 — Foundation (✓ current)
 
-- Static roster + mocked active work + mocked activity feed
-- Basic Auth gate
-- Subdomain split
+- Supabase schema with 8 tables
+- DB-driven roster, submissions, dashboard, flows registry
+- Branded login + signed cookie sessions
+- Subdomain split with explicit rewrites
 
-### Fase 2 — Live data
+### Phase 2 — Live ingest + portals
 
-- Read agent definitions from `.claude/agents/*.md`
-- Read active projects from `social/_planner/active.md`
-- Read activity from git log + Drive sync history
-- All still read-only
+- POST `/api/leads` writes to `public.submissions` (not just `leads`)
+- Gmail polling worker reads inbox → `submissions` (`source = 'email'`)
+- WhatsApp Business API webhook → `submissions` (`source = 'whatsapp'`)
+- `/onboarding/:client` page: contract status, file uploads (Supabase
+  Storage), progress timeline
+- `/results/:client` page: analytics from connected platforms
+- Supabase Auth + RLS policies so clients only see their own rows
 
-### Fase 3 — Control panel
+### Phase 3 — Flow graph editor
 
-- Trigger agents from the UI (POST → Claude Agent SDK runner on Vercel
-  function or external worker)
-- Live status updates (server-sent events or polling)
-- Per-agent inbox: pending tasks, drafts to approve
-- Slack/Discord bot mirror
+- React Flow renders the `flows.graph_json` DAG
+- Read-only UI — flows are edited via code commits
+- Each node references an agent + a tool/MCP call
+- Test runs from the UI (dry-run with mocked outputs)
 
-### Fase 4 — Autonomous runtime
+### Phase 4 — Autonomous runtime
 
-- Cron-triggered agent runs (Monday standup, weekly social drop,
-  invoice reminders)
-- Memory store (Postgres or vector DB) for past-decisions context
-- Audit log of every agent action
+- Claude Agent SDK loop executes a flow end-to-end on trigger
+- Cron triggers (`cron.daily`, `cron.weekly`) via Vercel Cron
+- Webhook triggers (`submission.new`, `gmail.received`)
+- Every run lands in `agent_runs` with input/output/status/duration
+- Credentials resolved at runtime from `public.credentials` pointers
+  → Supabase Vault or Vercel env (the table stores `secret_ref`, never
+  the secret itself)
 
 ---
 
@@ -135,26 +182,35 @@ with what Claude Code actually has available.
 ```bash
 npm run dev
 # open http://localhost:3000/agents
-# Basic Auth: onyx / onyx (the dev fallback)
+# sign in with the credentials from your .env.local
 ```
 
 The middleware allows `localhost:3000/agents` so you don't need to
 configure a fake subdomain locally. On any deployed environment, only
-the `agents.onyxcreative.asia` host serves the dashboard.
+the `agents.onyxcreative.asia` host serves the platform.
+
+If `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` aren't set,
+DB queries return empty arrays and the agents page falls back to the
+hardcoded roster.
 
 ---
 
 ## Security notes
 
-- Sessions are HMAC-SHA256 signed cookies (`onyx_agents_session`),
-  HTTP-only + Secure + SameSite=Lax, 7-day TTL. The payload is
+- Sessions are HMAC-SHA256-signed cookies (`onyx_agents_session`),
+  HTTP-only + Secure + SameSite=Lax, 7-day TTL. Payload is
   `username:expiresAt`, so an attacker can't extend their own session
   without re-signing.
 - `DASHBOARD_SECRET` is the HMAC key. Rotate it any time you suspect a
   leak — every active session is invalidated instantly.
 - Credentials check is constant-time so usernames don't leak via timing.
-- `robots: { index: false, follow: false }` is set on the dashboard
-  layout so search engines won't index it even if the auth ever lapses.
+- `robots: { index: false, follow: false }` is set on the platform
+  layout so search engines won't index it even if auth ever lapses.
+- Supabase RLS is **off** in Phase 1 — only the server (service-role
+  key) reads/writes. Treat the platform like an internal admin: no
+  client-side DB calls.
+- `credentials.secret_ref` stores **pointers** (`env:NAME` or
+  `vault:KEY`), never secret material itself.
 - For solo internal use this is sufficient. If the team grows, swap to
-  NextAuth + a real identity provider before sharing the URL widely.
-- Never commit `.env.local` — credentials are env vars in Vercel only.
+  Supabase Auth + a real identity provider before sharing the URL widely.
+- Never commit `.env.local` — credentials live in Vercel env vars only.

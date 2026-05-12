@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { AGENTS, ACTIVE_PROJECTS, ACTIVITY, findAgent } from "@/lib/agents";
+import {
+  listAgents,
+  listActiveProjects,
+  listRecentActivity,
+  type DashboardActivity,
+} from "@/lib/db/agents";
+import type { Agent } from "@/lib/agents";
 
 const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
   hour: "2-digit",
@@ -8,13 +14,21 @@ const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
   month: "short",
 });
 
-export default function AgentsDashboard() {
+export const dynamic = "force-dynamic";
+
+export default async function AgentsDashboard() {
+  const [agents, activeProjects, activity] = await Promise.all([
+    listAgents(),
+    listActiveProjects(),
+    listRecentActivity(8),
+  ]);
+
   return (
     <div className="px-6 md:px-10 py-12 md:py-16 space-y-20 md:space-y-28">
       {/* HERO */}
       <section>
         <p className="text-[11px] tracking-[0.3em] uppercase opacity-55 mb-5">
-          [ ROSTER.SYS · 04 / 04 ]
+          [ ROSTER.SYS · {String(agents.length).padStart(2, "0")} / {String(agents.length).padStart(2, "0")} ]
         </p>
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.9]">
           The automation
@@ -22,7 +36,7 @@ export default function AgentsDashboard() {
           <span className="font-light italic">layer of the studio.</span>
         </h1>
         <p className="mt-8 text-base md:text-lg opacity-75 max-w-xl leading-relaxed">
-          Four agents act as the studio's first line of work — routing
+          Four agents act as the studio&apos;s first line of work — routing
           briefs, scoping projects, making the assets, and keeping the
           client informed. Manually invoked from Claude Code today.
           Autonomous tomorrow.
@@ -31,9 +45,9 @@ export default function AgentsDashboard() {
 
       {/* ROSTER */}
       <section>
-        <SectionHead label="ROSTER" tail={`${AGENTS.length} agents`} />
+        <SectionHead label="ROSTER" tail={`${agents.length} agents`} />
         <ul className="grid grid-cols-1 md:grid-cols-2 gap-px bg-bone/10 border border-bone/15">
-          {AGENTS.map((a) => (
+          {agents.map((a) => (
             <li key={a.slug} className="bg-ink">
               <Link
                 href={`/agents/${a.slug}`}
@@ -94,83 +108,91 @@ export default function AgentsDashboard() {
 
       {/* ACTIVE WORK */}
       <section>
-        <SectionHead label="ACTIVE WORK" tail={`${ACTIVE_PROJECTS.length} in flight`} />
-        <ul className="border-t border-bone/15">
-          {ACTIVE_PROJECTS.map((p, i) => {
-            const owner = findAgent(p.ownerSlug);
-            return (
-              <li
-                key={p.id}
-                className="border-b border-bone/15 py-6 md:py-7 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start"
-              >
-                <span className="md:col-span-1 text-xs tabular-nums opacity-50">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="md:col-span-5">
-                  <p className="text-lg md:text-xl font-medium tracking-tight leading-tight">
-                    {p.title}
-                  </p>
-                  <p className="text-[11px] tracking-[0.18em] uppercase opacity-60 mt-1">
-                    {p.client}
-                  </p>
-                </div>
-                <div className="md:col-span-3 text-sm">
-                  <p className="text-[11px] tracking-[0.18em] uppercase opacity-55 mb-1">
-                    Owner
-                  </p>
-                  <Link
-                    href={`/agents/${p.ownerSlug}`}
-                    className="hover:opacity-70 transition-opacity"
-                  >
-                    {owner?.name ?? p.ownerSlug}
-                  </Link>
-                </div>
-                <div className="md:col-span-3 text-sm">
-                  <p className="text-[11px] tracking-[0.18em] uppercase opacity-55 mb-1">
-                    Status
-                  </p>
-                  <p>{p.status}</p>
-                  {p.nextMilestone && (
-                    <p className="text-[11px] opacity-60 mt-1 italic">
-                      {p.nextMilestone}
+        <SectionHead label="ACTIVE WORK" tail={`${activeProjects.length} in flight`} />
+        {activeProjects.length === 0 ? (
+          <p className="text-sm opacity-60 italic">No active projects.</p>
+        ) : (
+          <ul className="border-t border-bone/15">
+            {activeProjects.map((p, i) => {
+              const owner = agents.find((a) => a.slug === p.ownerSlug);
+              return (
+                <li
+                  key={p.id}
+                  className="border-b border-bone/15 py-6 md:py-7 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-start"
+                >
+                  <span className="md:col-span-1 text-xs tabular-nums opacity-50">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="md:col-span-5">
+                    <p className="text-lg md:text-xl font-medium tracking-tight leading-tight">
+                      {p.title}
                     </p>
-                  )}
-                </div>
-              </li>
-            );
-          })}
-        </ul>
+                    <p className="text-[11px] tracking-[0.18em] uppercase opacity-60 mt-1">
+                      {p.client}
+                    </p>
+                  </div>
+                  <div className="md:col-span-3 text-sm">
+                    <p className="text-[11px] tracking-[0.18em] uppercase opacity-55 mb-1">
+                      Owner
+                    </p>
+                    <Link
+                      href={`/agents/${p.ownerSlug}`}
+                      className="hover:opacity-70 transition-opacity"
+                    >
+                      {owner?.name ?? p.ownerSlug}
+                    </Link>
+                  </div>
+                  <div className="md:col-span-3 text-sm">
+                    <p className="text-[11px] tracking-[0.18em] uppercase opacity-55 mb-1">
+                      Status
+                    </p>
+                    <p>{p.status}</p>
+                    {p.nextMilestone && (
+                      <p className="text-[11px] opacity-60 mt-1 italic">
+                        {p.nextMilestone}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </section>
 
       {/* ACTIVITY */}
       <section>
-        <SectionHead label="RECENT ACTIVITY" tail={`last ${ACTIVITY.length}`} />
-        <ul className="border-t border-bone/15">
-          {ACTIVITY.map((e) => {
-            const agent = findAgent(e.agentSlug);
-            return (
-              <li
-                key={e.id}
-                className="border-b border-bone/15 py-4 grid grid-cols-12 gap-4 items-baseline"
-              >
-                <span className="col-span-3 md:col-span-2 text-[11px] tracking-[0.15em] uppercase opacity-60 tabular-nums">
-                  {TIME_FMT.format(new Date(e.at))}
-                </span>
-                <span className="col-span-3 md:col-span-2 text-[11px] tracking-[0.18em] uppercase">
-                  <Link
-                    href={`/agents/${e.agentSlug}`}
-                    className="hover:opacity-70 transition-opacity"
-                  >
-                    {agent?.name ?? e.agentSlug}
-                  </Link>
-                </span>
-                <span className="col-span-12 md:col-span-8 text-sm md:text-base leading-relaxed">
-                  {e.description}
-                </span>
-              </li>
-            );
-          })}
-        </ul>
+        <SectionHead label="RECENT ACTIVITY" tail={`last ${activity.length}`} />
+        {activity.length === 0 ? (
+          <p className="text-sm opacity-60 italic">No recent runs.</p>
+        ) : (
+          <ul className="border-t border-bone/15">
+            {activity.map((e: DashboardActivity) => {
+              const agent = agents.find((a: Agent) => a.slug === e.agentSlug);
+              return (
+                <li
+                  key={e.id}
+                  className="border-b border-bone/15 py-4 grid grid-cols-12 gap-4 items-baseline"
+                >
+                  <span className="col-span-3 md:col-span-2 text-[11px] tracking-[0.15em] uppercase opacity-60 tabular-nums">
+                    {TIME_FMT.format(new Date(e.at))}
+                  </span>
+                  <span className="col-span-3 md:col-span-2 text-[11px] tracking-[0.18em] uppercase">
+                    <Link
+                      href={`/agents/${e.agentSlug}`}
+                      className="hover:opacity-70 transition-opacity"
+                    >
+                      {agent?.name ?? e.agentSlug}
+                    </Link>
+                  </span>
+                  <span className="col-span-12 md:col-span-8 text-sm md:text-base leading-relaxed">
+                    {e.description}
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </section>
     </div>
   );
@@ -219,7 +241,6 @@ function FlowDiagram() {
         role="img"
         aria-label="Agent flow: inbound → director → strategist + account manager → maker → ship"
       >
-        {/* node helper inline */}
         <defs>
           <marker
             id="arrow"
@@ -234,25 +255,13 @@ function FlowDiagram() {
           </marker>
         </defs>
 
-        {/* INBOUND */}
         <FlowNode x={20} y={195} w={180} h={90} number="00" label="INBOUND" sub="email · wa · form" muted />
-
-        {/* DIRECTOR */}
         <FlowNode x={260} y={195} w={180} h={90} number="01" label="DIRECTOR" sub="route + tag" />
-
-        {/* STRATEGIST (top) */}
         <FlowNode x={500} y={75} w={180} h={90} number="02" label="STRATEGIST" sub="scope + plan" />
-
-        {/* ACCOUNT MANAGER (bottom) */}
         <FlowNode x={500} y={315} w={180} h={90} number="04" label="ACCOUNT MGR" sub="comms + ops" />
-
-        {/* MAKER */}
         <FlowNode x={740} y={195} w={180} h={90} number="03" label="MAKER" sub="design · code · motion" />
-
-        {/* SHIP */}
         <FlowNode x={980} y={195} w={180} h={90} number="✓" label="SHIP" sub="github · drive · live" muted />
 
-        {/* edges */}
         <FlowEdge from={{ x: 200, y: 240 }} to={{ x: 260, y: 240 }} />
         <FlowEdge from={{ x: 440, y: 220 }} to={{ x: 500, y: 130 }} />
         <FlowEdge from={{ x: 440, y: 260 }} to={{ x: 500, y: 360 }} />
@@ -260,7 +269,6 @@ function FlowDiagram() {
         <FlowEdge from={{ x: 680, y: 360 }} to={{ x: 740, y: 260 }} />
         <FlowEdge from={{ x: 920, y: 240 }} to={{ x: 980, y: 240 }} />
 
-        {/* loop-back from Account Mgr to Director */}
         <path
           d="M 590 405 Q 590 460 350 460 Q 290 460 290 320 Q 290 295 290 285"
           fill="none"
