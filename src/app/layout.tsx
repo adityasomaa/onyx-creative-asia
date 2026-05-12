@@ -1,6 +1,12 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import MarketingChrome from "@/components/MarketingChrome";
+
+/**
+ * Root layout — minimal. Holds <html>, <body>, the grain texture, and
+ * shared metadata defaults. All visual chrome (Loader, Nav, Footer, cookie
+ * banner, JSON-LD) lives in the per-route-group layouts so the marketing
+ * site and the /agents dashboard stay completely isolated.
+ */
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
@@ -65,46 +71,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-// JSON-LD structured data for the studio. Renders inline on every page so
-// search engines pick up the organization, location, and disciplines.
-const ORG_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "Onyx Creative Asia",
-  alternateName: "Onyx",
-  url: "https://onyxcreative.asia",
-  logo: "https://onyxcreative.asia/icon",
-  description:
-    "Independent studio in Bali building brands, performance marketing, and AI systems for ambitious teams across Asia.",
-  foundingDate: "2026",
-  address: {
-    "@type": "PostalAddress",
-    addressLocality: "Bali",
-    addressCountry: "ID",
-  },
-  areaServed: ["Asia", "Indonesia", "Australia", "Singapore", "Worldwide"],
-  knowsAbout: [
-    "Web Development",
-    "Performance Marketing",
-    "Social Media Strategy",
-    "AI Systems",
-    "Brand Design",
-  ],
-  sameAs: ["https://www.instagram.com/onyxcreative.asia"],
-};
-
-const SITE_JSON_LD = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: "Onyx Creative Asia",
-  url: "https://onyxcreative.asia",
-  potentialAction: {
-    "@type": "SearchAction",
-    target: "https://onyxcreative.asia/works?q={search_term_string}",
-    "query-input": "required name=search_term_string",
-  },
-};
-
 export default function RootLayout({
   children,
 }: {
@@ -112,19 +78,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSON_LD) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }}
-        />
-      </head>
-      <body className="antialiased grain">
-        <MarketingChrome>{children}</MarketingChrome>
-      </body>
+      <body className="antialiased grain">{children}</body>
     </html>
   );
 }
