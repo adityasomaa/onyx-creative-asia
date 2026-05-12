@@ -25,15 +25,18 @@ In Vercel project settings → Environment Variables, add:
 
 | Name | Value |
 |---|---|
-| `DASHBOARD_USER` | username for Basic Auth (e.g. `onyx`) |
-| `DASHBOARD_PASSWORD` | a long random password (40+ chars) |
+| `DASHBOARD_USER` | username (e.g. `onyx`) |
+| `DASHBOARD_PASSWORD` | long random password (40+ chars) |
+| `DASHBOARD_SECRET` | 32+ random bytes — signs session cookies. Generate with `openssl rand -base64 48` |
 
-Apply to **Production**, **Preview**, and **Development**. After saving,
-trigger a redeploy so the env vars are baked in.
+Apply each to **Production** and **Preview** (Development env can't take
+sensitive vars — that's fine, dev runs against `.env.local`). After
+saving, trigger a redeploy so the env vars are baked in.
 
-> If neither env var is set, the middleware falls back to `onyx / onyx`
-> in development so the local dev server isn't unreachable. Production
-> deploys must set both — don't ship `onyx / onyx` publicly.
+> The dashboard uses a signed cookie session, NOT Basic Auth. The
+> session lasts 7 days. `DASHBOARD_SECRET` is what HMAC-signs the
+> cookie — rotating it invalidates every active session, which is
+> exactly what you want when you suspect a leak.
 
 ### 2. DNS — add the subdomain
 
@@ -55,8 +58,10 @@ In Vercel project → Settings → Domains:
 
 ### 4. Verify
 
-Visit `https://agents.onyxcreative.asia` — browser should pop the
-native Basic Auth dialog. Enter the credentials from step 1.
+Visit `https://agents.onyxcreative.asia` — unauthenticated visitors
+are redirected to a branded `/login` page. Sign in with the credentials
+from step 1. The dashboard sets a 7-day signed cookie; logout button
+sits in the top-right.
 
 ---
 
@@ -141,9 +146,15 @@ the `agents.onyxcreative.asia` host serves the dashboard.
 
 ## Security notes
 
-- Basic Auth is **fine for solo internal use** but doesn't survive
-  shoulder-surfing. If the team grows, swap to NextAuth + a real
-  identity provider before sharing the URL widely.
+- Sessions are HMAC-SHA256 signed cookies (`onyx_agents_session`),
+  HTTP-only + Secure + SameSite=Lax, 7-day TTL. The payload is
+  `username:expiresAt`, so an attacker can't extend their own session
+  without re-signing.
+- `DASHBOARD_SECRET` is the HMAC key. Rotate it any time you suspect a
+  leak — every active session is invalidated instantly.
+- Credentials check is constant-time so usernames don't leak via timing.
 - `robots: { index: false, follow: false }` is set on the dashboard
   layout so search engines won't index it even if the auth ever lapses.
+- For solo internal use this is sufficient. If the team grows, swap to
+  NextAuth + a real identity provider before sharing the URL widely.
 - Never commit `.env.local` — credentials are env vars in Vercel only.
