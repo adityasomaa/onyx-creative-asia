@@ -69,7 +69,46 @@ The platform uses an HMAC-SHA256-signed cookie session, NOT Basic Auth.
 Sessions last 7 days. Rotating `DASHBOARD_SECRET` invalidates every
 active session instantly — exactly what you want if you suspect a leak.
 
-### 3. DNS — add the subdomain
+### 3. Resend (outbound email)
+
+The `/api/leads` route fires two emails per submission: a branded
+auto-reply to the visitor and an internal notification to
+`hello@onyxcreative.asia`. Without `RESEND_API_KEY` set, emails are
+skipped and only the DB write happens — the form still works.
+
+1. Sign up at https://resend.com (free tier: 3k emails/mo, 100/day)
+2. **Domains → Add Domain → `onyxcreative.asia`**
+3. Resend gives you 3 DNS records — a TXT for SPF, a CNAME for DKIM,
+   a TXT for DMARC. Add them in Hostinger DNS:
+
+   | Type | Name | Content |
+   |---|---|---|
+   | TXT | `send` | (Resend gives the SPF value) |
+   | CNAME | `resend._domainkey` | (Resend gives the DKIM target) |
+   | TXT | `_dmarc` | (Resend gives the DMARC value) |
+
+4. Wait for verification (5–30 min). Status goes green in Resend.
+5. **API Keys → Create API Key** → scope: `Sending access`, domain:
+   `onyxcreative.asia` → copy.
+6. Add to Vercel env vars (Production + Preview):
+
+   | Name | Value |
+   |---|---|
+   | `RESEND_API_KEY` | `re_xxxxxxxxxxxxxxxxxxxxxxxx` |
+   | `RESEND_FROM` | `Onyx Creative Asia <hello@onyxcreative.asia>` |
+   | `INTERNAL_NOTIFY_EMAIL` | `hello@onyxcreative.asia` |
+
+   Mark `RESEND_API_KEY` as **Sensitive**.
+
+7. Redeploy. Submit the contact form — you should get the auto-reply
+   in your inbox + the internal notification at `hello@`.
+
+> **Before domain verification**, Resend lets you send from
+> `onboarding@resend.dev`. Useful for local testing (set
+> `RESEND_FROM=onboarding@resend.dev` in `.env.local`) but mail lands
+> in spam — never use this in production.
+
+### 4. DNS — add the subdomain
 
 In Hostinger DNS panel, add:
 
@@ -77,7 +116,7 @@ In Hostinger DNS panel, add:
 |---|---|---|---|
 | CNAME | `agents` | `cname.vercel-dns.com` | 14400 |
 
-### 4. Vercel — add the domain
+### 5. Vercel — add the domain
 
 In Vercel project → Settings → Domains:
 
@@ -86,7 +125,7 @@ In Vercel project → Settings → Domains:
 3. Vercel verifies the CNAME automatically (give it 5–10 min)
 4. SSL certificate provisions automatically
 
-### 5. Verify
+### 6. Verify
 
 Visit `https://agents.onyxcreative.asia` — unauthenticated visitors
 land on the branded `/login` page. Sign in with the credentials from
