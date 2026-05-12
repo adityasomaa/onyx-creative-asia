@@ -4,6 +4,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
+import FloatingContactButton from "@/components/FloatingContactButton";
 
 /**
  * Marketing site layout — chrome (Loader, Nav, Footer, etc.) + JSON-LD
@@ -75,6 +76,7 @@ export default function MarketingLayout({
       <main>{children}</main>
       <Footer />
       <CookieConsent />
+      <FloatingContactButton />
     </>
   );
 }

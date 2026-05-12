@@ -5,8 +5,10 @@ import {
   SUBMISSION_STATUSES,
   SUBMISSION_STATUS_LABEL,
   SUBMISSION_SOURCE_LABEL,
+  INQUIRY_TYPES,
+  INQUIRY_TYPE_LABEL,
 } from "@/lib/db/submissions";
-import type { SubmissionStatus } from "@/lib/db/types";
+import type { InquiryType, SubmissionStatus } from "@/lib/db/types";
 
 export const dynamic = "force-dynamic";
 
@@ -22,18 +24,36 @@ const STATUS_FILTERS: (SubmissionStatus | "all")[] = [
   ...SUBMISSION_STATUSES,
 ];
 
+const TYPE_FILTERS: (InquiryType | "all")[] = ["all", ...INQUIRY_TYPES];
+
 export default async function SubmissionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; type?: string }>;
 }) {
   const sp = await searchParams;
-  const raw = sp.status ?? "all";
-  const status = (STATUS_FILTERS as string[]).includes(raw)
-    ? (raw as SubmissionStatus | "all")
+  const rawStatus = sp.status ?? "all";
+  const rawType = sp.type ?? "all";
+  const status = (STATUS_FILTERS as string[]).includes(rawStatus)
+    ? (rawStatus as SubmissionStatus | "all")
+    : "all";
+  const type = (TYPE_FILTERS as string[]).includes(rawType)
+    ? (rawType as InquiryType | "all")
     : "all";
 
-  const submissions = await listSubmissions({ status, limit: 200 });
+  const submissions = await listSubmissions({ status, type, limit: 200 });
+
+  function buildHref(opts: {
+    nextStatus?: SubmissionStatus | "all";
+    nextType?: InquiryType | "all";
+  }) {
+    const finalStatus = opts.nextStatus ?? status;
+    const finalType = opts.nextType ?? type;
+    const params: string[] = [];
+    if (finalStatus !== "all") params.push(`status=${finalStatus}`);
+    if (finalType !== "all") params.push(`type=${finalType}`);
+    return `/agents/submissions${params.length ? `?${params.join("&")}` : ""}`;
+  }
 
   return (
     <>
@@ -43,24 +63,44 @@ export default async function SubmissionsPage({
         count={`${submissions.length}`}
         actions={
           <span className="text-[10px] tracking-[0.18em] uppercase opacity-50">
-            Filter: {status === "all" ? "All" : SUBMISSION_STATUS_LABEL[status]}
+            {type === "all" ? "All types" : INQUIRY_TYPE_LABEL[type]} ·{" "}
+            {status === "all" ? "All status" : SUBMISSION_STATUS_LABEL[status]}
           </span>
         }
       />
 
-      {/* FILTER BAR */}
-      <div className="border-b border-bone/10 px-6 md:px-10 py-3 flex flex-wrap gap-1 text-[10px] tracking-[0.18em] uppercase">
+      {/* TYPE FILTER */}
+      <div className="border-b border-bone/10 px-6 md:px-10 py-3 flex flex-wrap items-center gap-2 text-[10px] tracking-[0.18em] uppercase">
+        <span className="opacity-50 mr-2">Type</span>
+        {TYPE_FILTERS.map((t) => {
+          const active = t === type;
+          const label = t === "all" ? "All" : INQUIRY_TYPE_LABEL[t];
+          return (
+            <Link
+              key={t}
+              href={buildHref({ nextType: t })}
+              className={`px-2.5 py-1 border transition-colors ${
+                active
+                  ? "border-bone bg-bone text-ink"
+                  : "border-bone/25 hover:border-bone/50 opacity-75"
+              }`}
+            >
+              {label}
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* STATUS FILTER */}
+      <div className="border-b border-bone/10 px-6 md:px-10 py-3 flex flex-wrap items-center gap-2 text-[10px] tracking-[0.18em] uppercase">
+        <span className="opacity-50 mr-2">Status</span>
         {STATUS_FILTERS.map((s) => {
           const active = s === status;
-          const href =
-            s === "all"
-              ? "/agents/submissions"
-              : `/agents/submissions?status=${s}`;
           const label = s === "all" ? "All" : SUBMISSION_STATUS_LABEL[s];
           return (
             <Link
               key={s}
-              href={href}
+              href={buildHref({ nextStatus: s })}
               className={`px-2.5 py-1 border transition-colors ${
                 active
                   ? "border-bone bg-bone text-ink"
@@ -76,7 +116,7 @@ export default async function SubmissionsPage({
       <div className="px-6 md:px-10 py-6">
         {submissions.length === 0 ? (
           <div className="border border-bone/15 px-4 py-8 text-sm italic opacity-55 text-center">
-            No submissions match this filter.
+            No submissions match these filters.
           </div>
         ) : (
           <div className="border border-bone/15 overflow-x-auto">
@@ -85,6 +125,7 @@ export default async function SubmissionsPage({
                 <tr className="border-b border-bone/15 bg-bone/[0.02]">
                   <Th>#</Th>
                   <Th>Received</Th>
+                  <Th>Type</Th>
                   <Th>Source</Th>
                   <Th>From</Th>
                   <Th>Subject</Th>
@@ -103,6 +144,9 @@ export default async function SubmissionsPage({
                     </Td>
                     <Td className="text-[11px] tracking-[0.12em] uppercase opacity-65 tabular-nums whitespace-nowrap">
                       {DATE_FMT.format(new Date(s.received_at))}
+                    </Td>
+                    <Td>
+                      <TypeChip type={s.inquiry_type} />
                     </Td>
                     <Td>
                       <span className="text-[10px] tracking-[0.18em] uppercase border border-bone/25 px-1.5 py-0.5">
@@ -178,6 +222,26 @@ function StatusBadge({ status }: { status: SubmissionStatus }) {
       className={`inline-block border rounded-sm px-1.5 py-0.5 text-[10px] tracking-[0.18em] uppercase ${color}`}
     >
       {SUBMISSION_STATUS_LABEL[status]}
+    </span>
+  );
+}
+
+function TypeChip({ type }: { type: InquiryType }) {
+  const color =
+    type === "project"
+      ? "border-sky-300/70 text-sky-200"
+      : type === "career"
+        ? "border-violet-300/70 text-violet-200"
+        : type === "partnership"
+          ? "border-amber-300/70 text-amber-200"
+          : type === "general"
+            ? "border-emerald-300/60 text-emerald-200"
+            : "border-bone/25 opacity-60";
+  return (
+    <span
+      className={`inline-block border rounded-sm px-1.5 py-0.5 text-[10px] tracking-[0.18em] uppercase ${color}`}
+    >
+      {INQUIRY_TYPE_LABEL[type]}
     </span>
   );
 }

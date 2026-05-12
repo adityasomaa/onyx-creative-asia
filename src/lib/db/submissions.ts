@@ -40,6 +40,7 @@ export const SUBMISSION_SOURCE_LABEL = {
 
 export type ListSubmissionsOptions = {
   status?: SubmissionStatus | "all";
+  type?: import("./types").InquiryType | "all";
   limit?: number;
 };
 
@@ -60,6 +61,9 @@ export async function listSubmissions(
   if (opts.status && opts.status !== "all") {
     q = q.eq("status", opts.status);
   }
+  if (opts.type && opts.type !== "all") {
+    q = q.eq("inquiry_type", opts.type);
+  }
 
   const { data, error } = await q;
   if (error) {
@@ -68,6 +72,25 @@ export async function listSubmissions(
   }
   return (data ?? []) as unknown as SubmissionWithRefs[];
 }
+
+export const INQUIRY_TYPE_LABEL: Record<
+  import("./types").InquiryType,
+  string
+> = {
+  general: "Question",
+  project: "Project",
+  career: "Career",
+  partnership: "Partnership",
+  unknown: "Unknown",
+};
+
+export const INQUIRY_TYPES: import("./types").InquiryType[] = [
+  "general",
+  "project",
+  "career",
+  "partnership",
+  "unknown",
+];
 
 export async function getSubmissionById(
   id: string

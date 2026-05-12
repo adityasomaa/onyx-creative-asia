@@ -445,10 +445,38 @@ on conflict (slug) do nothing;
 
 
 -- ============================================================
+-- 0004 — Inquiry types + career-cv storage bucket
+-- ============================================================
+
+-- 1. inquiry_type column on submissions
+-- 'general' | 'project' | 'career' | 'partnership' | 'unknown'
+alter table public.submissions
+  add column if not exists inquiry_type text not null default 'unknown';
+
+create index if not exists submissions_inquiry_type_idx
+  on public.submissions(inquiry_type);
+
+-- 2. cached career + partnership columns
+alter table public.submissions
+  add column if not exists department text;
+alter table public.submissions
+  add column if not exists portfolio_url text;
+alter table public.submissions
+  add column if not exists company_name text;
+
+-- 3. career-cvs storage bucket (private)
+insert into storage.buckets (id, name, public)
+values ('career-cvs', 'career-cvs', false)
+on conflict (id) do nothing;
+
+
+-- ============================================================
 -- DONE — verify with:
 --   select count(*) from public.agents;       -- expect 4
 --   select count(*) from public.clients;      -- expect 5
 --   select count(*) from public.projects;     -- expect 4
 --   select count(*) from public.submissions;  -- expect 7
 --   select count(*) from public.flows;        -- expect 3
+--   select inquiry_type, count(*) from public.submissions group by 1;
+--   select id from storage.buckets where id = 'career-cvs';
 -- ============================================================

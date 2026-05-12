@@ -6,7 +6,9 @@ import {
   listFilesForSubmission,
   SUBMISSION_SOURCE_LABEL,
   SUBMISSION_STATUS_LABEL,
+  INQUIRY_TYPE_LABEL,
 } from "@/lib/db/submissions";
+import type { InquiryType } from "@/lib/db/types";
 
 export const dynamic = "force-dynamic";
 
@@ -49,6 +51,7 @@ export default async function SubmissionDetail({
         <div className="md:col-span-2 space-y-6">
           {/* META BAR */}
           <div className="flex flex-wrap items-center gap-2 text-[10px] tracking-[0.18em] uppercase opacity-75">
+            <TypeChip type={submission.inquiry_type} />
             <span className="border border-bone/30 px-2 py-1">
               {SUBMISSION_SOURCE_LABEL[submission.source]}
             </span>
@@ -62,7 +65,7 @@ export default async function SubmissionDetail({
 
           {/* BODY */}
           <section>
-            <SectionHead label="Body" />
+            <SectionHead label={bodyLabel(submission.inquiry_type)} />
             <div className="border border-bone/15 px-5 py-4 text-sm leading-relaxed whitespace-pre-wrap opacity-90">
               {submission.body_md ?? "(no body)"}
             </div>
@@ -70,14 +73,10 @@ export default async function SubmissionDetail({
 
           {/* FILES */}
           <section>
-            <SectionHead
-              label="Attachments"
-              tail={`${files.length}`}
-            />
+            <SectionHead label="Attachments" tail={`${files.length}`} />
             {files.length === 0 ? (
               <p className="text-sm opacity-55 italic border border-bone/15 px-4 py-3">
-                No attachments. Email + WhatsApp attachments will land
-                here once Phase 2 ingest workers ship.
+                No attachments.
               </p>
             ) : (
               <ul className="border border-bone/15 divide-y divide-bone/10">
@@ -86,9 +85,17 @@ export default async function SubmissionDetail({
                     key={f.id}
                     className="flex items-center justify-between px-4 py-2.5 text-sm"
                   >
-                    <span>{f.name}</span>
-                    <span className="text-[10px] tracking-[0.15em] uppercase opacity-55">
-                      {f.mime_type ?? "—"} · {f.size_bytes ?? 0}b
+                    <div className="min-w-0">
+                      <span className="font-medium truncate">{f.name}</span>
+                      <p className="text-[10px] tracking-[0.15em] uppercase opacity-55 mt-0.5">
+                        {f.mime_type ?? "—"} ·{" "}
+                        {f.size_bytes
+                          ? `${Math.round(f.size_bytes / 1024)} KB`
+                          : "—"}
+                      </p>
+                    </div>
+                    <span className="text-[10px] tracking-[0.15em] uppercase opacity-55 font-mono shrink-0">
+                      {f.storage_path}
                     </span>
                   </li>
                 ))}
@@ -116,26 +123,82 @@ export default async function SubmissionDetail({
             )}
           </PropertyPanel>
 
-          <PropertyPanel label="Budget">
-            <p className="text-sm">{submission.budget_band ?? "—"}</p>
-          </PropertyPanel>
+          {/* Per-type properties */}
+          {submission.inquiry_type === "project" && (
+            <>
+              <PropertyPanel label="Budget">
+                <p className="text-sm">{submission.budget_band ?? "—"}</p>
+              </PropertyPanel>
+              <PropertyPanel label="Services">
+                {submission.interest.length > 0 ? (
+                  <ul className="flex flex-wrap gap-1">
+                    {submission.interest.map((t) => (
+                      <li
+                        key={t}
+                        className="text-[10px] tracking-wider uppercase border border-bone/25 rounded px-1.5 py-0.5"
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-xs italic opacity-55">—</p>
+                )}
+              </PropertyPanel>
+              {submission.company_name && (
+                <PropertyPanel label="Company">
+                  <p className="text-sm">{submission.company_name}</p>
+                </PropertyPanel>
+              )}
+            </>
+          )}
 
-          <PropertyPanel label="Interest">
-            {submission.interest.length > 0 ? (
-              <ul className="flex flex-wrap gap-1">
-                {submission.interest.map((t) => (
-                  <li
-                    key={t}
-                    className="text-[10px] tracking-wider uppercase border border-bone/25 rounded px-1.5 py-0.5"
+          {submission.inquiry_type === "career" && (
+            <>
+              <PropertyPanel label="Department">
+                <p className="text-sm">{submission.department ?? "—"}</p>
+              </PropertyPanel>
+              {submission.portfolio_url && (
+                <PropertyPanel label="Portfolio">
+                  <a
+                    href={submission.portfolio_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline opacity-90 hover:opacity-100 break-all"
                   >
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs italic opacity-55">—</p>
-            )}
-          </PropertyPanel>
+                    {submission.portfolio_url}
+                  </a>
+                </PropertyPanel>
+              )}
+            </>
+          )}
+
+          {submission.inquiry_type === "partnership" && (
+            <>
+              {submission.company_name && (
+                <PropertyPanel label="Company">
+                  <p className="text-sm">{submission.company_name}</p>
+                </PropertyPanel>
+              )}
+              {submission.interest[0] && (
+                <PropertyPanel label="Partnership type">
+                  <p className="text-sm">{submission.interest[0]}</p>
+                </PropertyPanel>
+              )}
+              {(submission.payload_json?.website as string | undefined) && (
+                <PropertyPanel label="Website">
+                  <a
+                    href={submission.payload_json.website as string}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs underline opacity-90 hover:opacity-100 break-all"
+                  >
+                    {submission.payload_json.website as string}
+                  </a>
+                </PropertyPanel>
+              )}
+            </>
+          )}
 
           <PropertyPanel label="Linked client">
             {submission.client ? (
@@ -181,6 +244,21 @@ export default async function SubmissionDetail({
   );
 }
 
+function bodyLabel(type: InquiryType): string {
+  switch (type) {
+    case "project":
+      return "Brief";
+    case "career":
+      return "Cover letter";
+    case "partnership":
+      return "Proposal";
+    case "general":
+      return "Message";
+    default:
+      return "Body";
+  }
+}
+
 function SectionHead({ label, tail }: { label: string; tail?: string }) {
   return (
     <div className="flex items-baseline justify-between mb-3">
@@ -210,5 +288,25 @@ function PropertyPanel({
       </p>
       {children}
     </div>
+  );
+}
+
+function TypeChip({ type }: { type: InquiryType }) {
+  const color =
+    type === "project"
+      ? "border-sky-300/70 text-sky-200"
+      : type === "career"
+        ? "border-violet-300/70 text-violet-200"
+        : type === "partnership"
+          ? "border-amber-300/70 text-amber-200"
+          : type === "general"
+            ? "border-emerald-300/60 text-emerald-200"
+            : "border-bone/25 opacity-60";
+  return (
+    <span
+      className={`inline-block border rounded-sm px-2 py-1 text-[10px] tracking-[0.18em] uppercase ${color}`}
+    >
+      {INQUIRY_TYPE_LABEL[type]}
+    </span>
   );
 }

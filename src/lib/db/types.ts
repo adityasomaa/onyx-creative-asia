@@ -53,9 +53,17 @@ export type SubmissionStatus =
   | "archived"
   | "spam";
 
+export type InquiryType =
+  | "general"
+  | "project"
+  | "career"
+  | "partnership"
+  | "unknown";
+
 export type SubmissionRow = {
   id: string;
   source: SubmissionSource;
+  inquiry_type: InquiryType;
   from_name: string | null;
   from_email: string | null;
   from_phone: string | null;
@@ -63,6 +71,9 @@ export type SubmissionRow = {
   body_md: string | null;
   interest: string[];
   budget_band: string | null;
+  department: string | null;
+  portfolio_url: string | null;
+  company_name: string | null;
   status: SubmissionStatus;
   client_id: string | null;
   project_id: string | null;
