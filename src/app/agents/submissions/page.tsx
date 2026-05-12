@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PageHeader from "../_components/PageHeader";
 import {
   listSubmissions,
   SUBMISSION_STATUSES,
@@ -35,102 +36,147 @@ export default async function SubmissionsPage({
   const submissions = await listSubmissions({ status, limit: 200 });
 
   return (
-    <div className="px-6 md:px-10 py-12 md:py-16 space-y-12">
-      <section>
-        <p className="text-[11px] tracking-[0.3em] uppercase opacity-55 mb-5">
-          [ INBOUND.LOG · {submissions.length} ]
-        </p>
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.9]">
-          Submissions
-          <br />
-          <span className="font-light italic">— every brief, every channel.</span>
-        </h1>
-        <p className="mt-8 text-base md:text-lg opacity-75 max-w-xl leading-relaxed">
-          Everything that lands in the studio inbox — form, email, WhatsApp —
-          pooled here for the Director to triage. Phase 1 reads from the
-          submissions table; live ingest follows in Phase 2.
-        </p>
-      </section>
+    <>
+      <PageHeader
+        kicker="INBOX"
+        title="Submissions"
+        count={`${submissions.length}`}
+        actions={
+          <span className="text-[10px] tracking-[0.18em] uppercase opacity-50">
+            Filter: {status === "all" ? "All" : SUBMISSION_STATUS_LABEL[status]}
+          </span>
+        }
+      />
 
-      <nav className="border-y border-bone/15 py-4 flex flex-wrap gap-3 text-[11px] tracking-[0.18em] uppercase">
+      {/* FILTER BAR */}
+      <div className="border-b border-bone/10 px-6 md:px-10 py-3 flex flex-wrap gap-1 text-[10px] tracking-[0.18em] uppercase">
         {STATUS_FILTERS.map((s) => {
           const active = s === status;
-          const href = s === "all" ? "/agents/submissions" : `/agents/submissions?status=${s}`;
+          const href =
+            s === "all"
+              ? "/agents/submissions"
+              : `/agents/submissions?status=${s}`;
           const label = s === "all" ? "All" : SUBMISSION_STATUS_LABEL[s];
           return (
             <Link
               key={s}
               href={href}
-              className={`px-3 py-1.5 border transition-colors ${
+              className={`px-2.5 py-1 border transition-colors ${
                 active
                   ? "border-bone bg-bone text-ink"
-                  : "border-bone/30 hover:border-bone/60"
+                  : "border-bone/25 hover:border-bone/50 opacity-75"
               }`}
             >
               {label}
             </Link>
           );
         })}
-      </nav>
+      </div>
 
-      {submissions.length === 0 ? (
-        <p className="text-sm opacity-60 italic">
-          No submissions match this filter.
-        </p>
-      ) : (
-        <ul className="border-t border-bone/15">
-          {submissions.map((s, i) => (
-            <li key={s.id} className="border-b border-bone/15">
-              <Link
-                href={`/agents/submissions/${s.id}`}
-                className="block py-5 md:py-6 grid grid-cols-12 gap-3 md:gap-6 items-baseline hover:bg-bone/5 transition-colors px-2 -mx-2"
-              >
-                <span className="col-span-1 text-[11px] tabular-nums opacity-50">
-                  {String(i + 1).padStart(3, "0")}
-                </span>
-                <span className="col-span-3 md:col-span-2 text-[11px] tracking-[0.18em] uppercase opacity-60 tabular-nums">
-                  {DATE_FMT.format(new Date(s.received_at))}
-                </span>
-                <span className="col-span-2 md:col-span-1 text-[10px] tracking-[0.2em] uppercase opacity-70">
-                  {SUBMISSION_SOURCE_LABEL[s.source]}
-                </span>
-                <div className="col-span-12 md:col-span-5 order-last md:order-none">
-                  <p className="text-base md:text-lg font-medium tracking-tight leading-tight">
-                    {s.subject ?? s.body_md?.slice(0, 80) ?? "(no subject)"}
-                  </p>
-                  <p className="text-[11px] tracking-[0.15em] uppercase opacity-60 mt-1">
-                    {s.from_name ?? "Anonymous"}
-                    {s.from_email && ` · ${s.from_email}`}
-                  </p>
-                </div>
-                <div className="col-span-6 md:col-span-2 text-[11px] tracking-[0.15em] uppercase opacity-70">
-                  {s.budget_band ?? "—"}
-                </div>
-                <div className="col-span-6 md:col-span-1 text-[10px] tracking-[0.2em] uppercase">
-                  <StatusBadge status={s.status} />
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <div className="px-6 md:px-10 py-6">
+        {submissions.length === 0 ? (
+          <div className="border border-bone/15 px-4 py-8 text-sm italic opacity-55 text-center">
+            No submissions match this filter.
+          </div>
+        ) : (
+          <div className="border border-bone/15 overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-bone/15 bg-bone/[0.02]">
+                  <Th>#</Th>
+                  <Th>Received</Th>
+                  <Th>Source</Th>
+                  <Th>From</Th>
+                  <Th>Subject</Th>
+                  <Th>Budget</Th>
+                  <Th>Status</Th>
+                </tr>
+              </thead>
+              <tbody>
+                {submissions.map((s, i) => (
+                  <tr
+                    key={s.id}
+                    className="border-b border-bone/10 last:border-b-0 hover:bg-bone/[0.03] transition-colors group"
+                  >
+                    <Td className="opacity-50 tabular-nums">
+                      {String(i + 1).padStart(3, "0")}
+                    </Td>
+                    <Td className="text-[11px] tracking-[0.12em] uppercase opacity-65 tabular-nums whitespace-nowrap">
+                      {DATE_FMT.format(new Date(s.received_at))}
+                    </Td>
+                    <Td>
+                      <span className="text-[10px] tracking-[0.18em] uppercase border border-bone/25 px-1.5 py-0.5">
+                        {SUBMISSION_SOURCE_LABEL[s.source]}
+                      </span>
+                    </Td>
+                    <Td>
+                      <span className="font-medium">
+                        {s.from_name ?? "Anonymous"}
+                      </span>
+                      {s.from_email && (
+                        <span className="block text-[11px] opacity-55">
+                          {s.from_email}
+                        </span>
+                      )}
+                    </Td>
+                    <Td className="max-w-md">
+                      <Link
+                        href={`/agents/submissions/${s.id}`}
+                        className="hover:opacity-70 transition-opacity line-clamp-1"
+                      >
+                        {s.subject ?? s.body_md?.slice(0, 70) ?? "(no subject)"}
+                      </Link>
+                    </Td>
+                    <Td className="text-[11px] tracking-[0.12em] uppercase opacity-75 whitespace-nowrap">
+                      {s.budget_band ?? "—"}
+                    </Td>
+                    <Td>
+                      <StatusBadge status={s.status} />
+                    </Td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </>
   );
+}
+
+function Th({ children }: { children: React.ReactNode }) {
+  return (
+    <th className="px-4 py-2.5 text-left text-[10px] tracking-[0.18em] uppercase font-normal opacity-60 whitespace-nowrap">
+      {children}
+    </th>
+  );
+}
+
+function Td({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <td className={`px-4 py-3 align-top ${className}`}>{children}</td>;
 }
 
 function StatusBadge({ status }: { status: SubmissionStatus }) {
   const color =
     status === "new"
-      ? "border-emerald-400 text-emerald-300"
+      ? "border-emerald-400/70 text-emerald-300"
       : status === "qualified"
-        ? "border-amber-300 text-amber-200"
+        ? "border-amber-300/70 text-amber-200"
         : status === "replied"
           ? "border-bone/60"
           : status === "archived" || status === "spam"
-            ? "border-bone/20 opacity-50"
+            ? "border-bone/15 opacity-50"
             : "border-bone/40";
   return (
-    <span className={`inline-block border rounded-sm px-2 py-0.5 ${color}`}>
+    <span
+      className={`inline-block border rounded-sm px-1.5 py-0.5 text-[10px] tracking-[0.18em] uppercase ${color}`}
+    >
       {SUBMISSION_STATUS_LABEL[status]}
     </span>
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import PageHeader from "../_components/PageHeader";
 import {
   listAgents,
   getAgentBySlug,
@@ -12,7 +13,6 @@ const TIME_FMT = new Intl.DateTimeFormat("en-GB", {
   minute: "2-digit",
   day: "2-digit",
   month: "short",
-  year: "numeric",
 });
 
 export const dynamic = "force-dynamic";
@@ -40,159 +40,190 @@ export default async function AgentDetail({
     .filter((a): a is NonNullable<typeof a> => Boolean(a));
 
   return (
-    <div className="px-6 md:px-10 py-12 md:py-16 max-w-5xl space-y-16 md:space-y-20">
-      <p className="text-[11px] tracking-[0.3em] uppercase opacity-55 flex items-center gap-3 flex-wrap">
-        <Link href="/agents" className="hover:opacity-100 transition-opacity">
-          ← Roster
-        </Link>
-        <span aria-hidden>·</span>
-        <span>Agent {agent.number}</span>
-      </p>
+    <>
+      <PageHeader
+        kicker={agent.number}
+        title={agent.name}
+        breadcrumb={[
+          { href: "/agents", label: "Roster" },
+          { href: `/agents/${agent.slug}`, label: agent.name },
+        ]}
+        actions={<StatusPill status={agent.status} />}
+      />
 
-      <section>
-        <div className="flex items-baseline gap-6 mb-6">
-          <span className="text-6xl md:text-8xl font-bold tracking-tight">
-            {agent.number}
-          </span>
-          <span className="flex items-center gap-2 text-[10px] tracking-[0.25em] uppercase opacity-75">
-            <span
-              className={`inline-block w-2 h-2 rounded-full ${
-                agent.status === "working"
-                  ? "bg-emerald-400"
-                  : agent.status === "blocked"
-                    ? "bg-red-400"
-                    : "bg-bone/40"
-              }`}
-            />
-            {agent.status}
-          </span>
-        </div>
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.9]">
-          {agent.name}
-        </h1>
-        <p className="mt-6 text-xl md:text-2xl font-light italic opacity-85 leading-snug max-w-3xl">
-          {agent.manifesto}
-        </p>
-      </section>
-
-      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 border-y border-bone/15 py-10">
-        <div>
-          <p className="text-[11px] tracking-[0.25em] uppercase opacity-55 mb-3">
-            Replaces
-          </p>
-          <p className="text-base md:text-lg">{agent.replaces}</p>
-        </div>
-        <div>
-          <p className="text-[11px] tracking-[0.25em] uppercase opacity-55 mb-3">
-            Hands off to
-          </p>
-          <ul className="space-y-1">
-            {handsOffAgents.length > 0 ? (
-              handsOffAgents.map((h) => (
-                <li key={h.slug}>
-                  <Link
-                    href={`/agents/${h.slug}`}
-                    className="hover:opacity-70 transition-opacity"
-                  >
-                    → {h.name}
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <li className="opacity-60 italic">— terminal node</li>
-            )}
-          </ul>
-        </div>
-      </section>
-
-      <section>
-        <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
-          // CHARTER
-        </p>
-        <div className="space-y-5 max-w-3xl">
-          {agent.charter.map((para, i) => (
-            <p
-              key={i}
-              className="text-base md:text-lg leading-[1.7] opacity-90"
-            >
-              {para}
+      <div className="px-6 md:px-10 py-6 md:py-8 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-7xl">
+        {/* MAIN COLUMN */}
+        <div className="md:col-span-2 space-y-8">
+          {/* MANIFESTO */}
+          <section>
+            <SectionHead label="Manifesto" />
+            <p className="text-base md:text-lg font-light italic opacity-90 leading-snug">
+              {agent.manifesto}
             </p>
-          ))}
+          </section>
+
+          {/* CHARTER */}
+          <section>
+            <SectionHead label="Charter" />
+            <div className="border border-bone/15 divide-y divide-bone/10">
+              {agent.charter.map((para, i) => (
+                <p
+                  key={i}
+                  className="px-4 py-3 text-sm leading-relaxed opacity-90"
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
+          </section>
+
+          {/* OWNED PROJECTS */}
+          <section>
+            <SectionHead
+              label="Current ownership"
+              tail={`${owned.length}`}
+            />
+            {owned.length === 0 ? (
+              <EmptyRow label="No projects in flight." />
+            ) : (
+              <ul className="border border-bone/15 divide-y divide-bone/10">
+                {owned.map((p) => (
+                  <li
+                    key={p.id}
+                    className="px-4 py-3 grid grid-cols-12 gap-3 items-center text-sm"
+                  >
+                    <span className="col-span-12 md:col-span-6 font-medium">
+                      {p.title}
+                    </span>
+                    <span className="col-span-6 md:col-span-3 text-[11px] tracking-[0.15em] uppercase opacity-60">
+                      {p.client}
+                    </span>
+                    <span className="col-span-6 md:col-span-3 text-xs opacity-75">
+                      {p.status}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          {/* ACTIVITY */}
+          {myActivity.length > 0 && (
+            <section>
+              <SectionHead label="Activity" tail={`${myActivity.length}`} />
+              <ul className="border border-bone/15 divide-y divide-bone/10">
+                {myActivity.map((e) => (
+                  <li
+                    key={e.id}
+                    className="px-4 py-3 grid grid-cols-12 gap-3 items-center text-sm"
+                  >
+                    <span className="col-span-3 text-[10px] tracking-[0.15em] uppercase opacity-55 tabular-nums">
+                      {TIME_FMT.format(new Date(e.at))}
+                    </span>
+                    <span className="col-span-9 opacity-90 leading-snug">
+                      {e.description}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
-      </section>
 
-      <section>
-        <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
-          // TOOLS · {agent.tools.length}
+        {/* SIDE COLUMN */}
+        <aside className="space-y-6 md:sticky md:top-6 md:self-start">
+          <SidePanel label="Replaces">
+            <p className="text-sm opacity-90">{agent.replaces}</p>
+          </SidePanel>
+
+          <SidePanel label="Hands off to">
+            {handsOffAgents.length > 0 ? (
+              <ul className="space-y-1.5">
+                {handsOffAgents.map((h) => (
+                  <li key={h.slug}>
+                    <Link
+                      href={`/agents/${h.slug}`}
+                      className="text-sm hover:opacity-70 transition-opacity flex items-center gap-2"
+                    >
+                      <span className="opacity-40">→</span> {h.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs italic opacity-55">— terminal node</p>
+            )}
+          </SidePanel>
+
+          <SidePanel label={`Tools · ${agent.tools.length}`}>
+            <ul className="flex flex-wrap gap-1.5">
+              {agent.tools.map((t) => (
+                <li
+                  key={t}
+                  className="text-[10px] tracking-wider border border-bone/25 rounded px-2 py-0.5 opacity-85"
+                >
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </SidePanel>
+        </aside>
+      </div>
+    </>
+  );
+}
+
+function SectionHead({ label, tail }: { label: string; tail?: string }) {
+  return (
+    <div className="flex items-baseline justify-between mb-3">
+      <p className="text-[10px] tracking-[0.22em] uppercase opacity-65">
+        {label}
+      </p>
+      {tail && (
+        <p className="text-[10px] tracking-[0.18em] uppercase opacity-40">
+          {tail}
         </p>
-        <ul className="flex flex-wrap gap-2">
-          {agent.tools.map((t) => (
-            <li
-              key={t}
-              className="text-xs tracking-wider border border-bone/30 rounded px-3 py-1.5 opacity-85"
-            >
-              {t}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {owned.length > 0 && (
-        <section>
-          <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
-            // CURRENT OWNERSHIP · {owned.length}
-          </p>
-          <ul className="border-t border-bone/15">
-            {owned.map((p, i) => (
-              <li
-                key={p.id}
-                className="border-b border-bone/15 py-5 grid grid-cols-12 gap-4 items-baseline"
-              >
-                <span className="col-span-1 text-xs opacity-50 tabular-nums">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div className="col-span-11 md:col-span-7">
-                  <p className="text-lg font-medium leading-tight">{p.title}</p>
-                  <p className="text-[11px] tracking-[0.18em] uppercase opacity-60 mt-1">
-                    {p.client}
-                  </p>
-                </div>
-                <div className="col-span-12 md:col-span-4 text-sm">
-                  <p>{p.status}</p>
-                  {p.nextMilestone && (
-                    <p className="text-[11px] opacity-60 mt-1 italic">
-                      {p.nextMilestone}
-                    </p>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </section>
       )}
+    </div>
+  );
+}
 
-      {myActivity.length > 0 && (
-        <section>
-          <p className="text-[11px] tracking-[0.3em] uppercase opacity-65 mb-6">
-            // ACTIVITY
-          </p>
-          <ul className="border-t border-bone/15">
-            {myActivity.map((e) => (
-              <li
-                key={e.id}
-                className="border-b border-bone/15 py-4 grid grid-cols-12 gap-4 items-baseline"
-              >
-                <span className="col-span-12 md:col-span-3 text-[11px] tracking-[0.18em] uppercase opacity-60 tabular-nums">
-                  {TIME_FMT.format(new Date(e.at))}
-                </span>
-                <span className="col-span-12 md:col-span-9 text-sm md:text-base leading-relaxed">
-                  {e.description}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+function StatusPill({ status }: { status: "idle" | "working" | "blocked" }) {
+  const color =
+    status === "working"
+      ? "bg-emerald-400"
+      : status === "blocked"
+        ? "bg-red-400"
+        : "bg-bone/40";
+  return (
+    <span className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase opacity-75 border border-bone/30 px-2 py-1">
+      <span className={`inline-block w-1.5 h-1.5 rounded-full ${color}`} />
+      {status}
+    </span>
+  );
+}
+
+function SidePanel({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="border border-bone/15 p-4">
+      <p className="text-[10px] tracking-[0.22em] uppercase opacity-55 mb-2.5">
+        {label}
+      </p>
+      {children}
+    </div>
+  );
+}
+
+function EmptyRow({ label }: { label: string }) {
+  return (
+    <div className="border border-bone/15 px-4 py-5 text-sm italic opacity-55">
+      {label}
     </div>
   );
 }
