@@ -10,7 +10,10 @@ export const metadata: Metadata = {
 
 export default function AgentsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-ink text-bone font-sans antialiased">
+    // overflow-x-hidden — prevents the page itself from scrolling sideways
+    // on narrow viewports if any child component overflows by accident.
+    // The sticky header's inner nav is the one that scrolls horizontally.
+    <div className="min-h-screen bg-ink text-bone font-sans antialiased overflow-x-hidden">
       <AgentsChrome>
         {children}
       </AgentsChrome>
