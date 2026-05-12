@@ -7,7 +7,6 @@ import {
   FormStyles,
   Group,
   SubmitRow,
-  SuccessFallback,
   SuccessScreen,
 } from "./shared";
 import { useInquirySubmit } from "./use-submit";
@@ -38,14 +37,26 @@ export default function GeneralForm() {
     return false;
   }
 
+  function buildWhatsAppText(): string {
+    return (
+      "Hi Onyx Creative Asia! I just sent a quick question via the contact form.\n\n" +
+      `Name: ${name.trim()}\n` +
+      `Email: ${email.trim()}\n\n` +
+      `Question:\n${message.trim()}`
+    );
+  }
+
   async function send() {
     if (!validate()) return;
-    await submit({
-      inquiryType: "general",
-      name: name.trim(),
-      email: email.trim(),
-      message: message.trim(),
-    });
+    await submit(
+      {
+        inquiryType: "general",
+        name: name.trim(),
+        email: email.trim(),
+        message: message.trim(),
+      },
+      { whatsappText: buildWhatsAppText() }
+    );
   }
 
   return (
@@ -62,7 +73,24 @@ export default function GeneralForm() {
               </span>
             </>
           }
-          body={<SuccessFallback />}
+          body={
+            <>
+              <p>
+                A copy of your question is in your inbox now — keep an eye
+                on it (and check spam, just in case). We also opened a
+                WhatsApp tab if you&apos;d rather keep the conversation there.
+              </p>
+              <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
+                Or write us anytime at{" "}
+                <a
+                  href="mailto:hello@onyxcreative.asia"
+                  className="underline underline-offset-4 hover:opacity-100 opacity-90"
+                >
+                  hello@onyxcreative.asia
+                </a>
+              </p>
+            </>
+          }
           onReset={() => {
             reset();
             setName("");
@@ -126,9 +154,9 @@ export default function GeneralForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="Email lands automatically. Reply within 48h."
+            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
             ctaLabel="Send question"
-            ctaKicker="EMAIL"
+            ctaKicker="EMAIL + WHATSAPP"
           />
           <FormStyles />
         </motion.form>

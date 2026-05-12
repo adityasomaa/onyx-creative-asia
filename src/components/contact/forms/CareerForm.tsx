@@ -92,6 +92,22 @@ export default function CareerForm() {
     });
   }
 
+  function buildWhatsAppText(): string {
+    const portfolioLine = portfolioUrl.trim()
+      ? `Portfolio: ${portfolioUrl.trim()}\n`
+      : "";
+    const cvLine = cvFile ? `CV attached: ${cvFile.name}\n` : "";
+    return (
+      "Hi Onyx Creative Asia! I just submitted a job application via the contact form.\n\n" +
+      `Name: ${name.trim()}\n` +
+      `Email: ${email.trim()}\n` +
+      `Department: ${department}\n` +
+      portfolioLine +
+      cvLine +
+      `\nCover letter:\n${coverLetter.trim()}`
+    );
+  }
+
   async function send() {
     if (!validate()) return;
 
@@ -118,15 +134,18 @@ export default function CareerForm() {
       }
     }
 
-    await submit({
-      inquiryType: "career",
-      name: name.trim(),
-      email: email.trim(),
-      department,
-      portfolioUrl: portfolioUrl.trim() || null,
-      coverLetter: coverLetter.trim(),
-      cv: cvPayload,
-    });
+    await submit(
+      {
+        inquiryType: "career",
+        name: name.trim(),
+        email: email.trim(),
+        department,
+        portfolioUrl: portfolioUrl.trim() || null,
+        coverLetter: coverLetter.trim(),
+        cv: cvPayload,
+      },
+      { whatsappText: buildWhatsAppText() }
+    );
   }
 
   return (
@@ -146,7 +165,8 @@ export default function CareerForm() {
               <p>
                 We&apos;ll get back within 7 days. If we want to move forward
                 we&apos;ll send a short async exercise — no panel interviews,
-                no whiteboards.
+                no whiteboards. A copy is in your inbox now, and we
+                opened a WhatsApp tab in case you want to nudge us.
               </p>
               <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
                 Or write us anytime at{" "}
@@ -260,9 +280,9 @@ export default function CareerForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="We reply to every application within 7 days."
+            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 7 days."
             ctaLabel="Send application"
-            ctaKicker="EMAIL"
+            ctaKicker="EMAIL + WHATSAPP"
           />
           <FormStyles />
         </motion.form>

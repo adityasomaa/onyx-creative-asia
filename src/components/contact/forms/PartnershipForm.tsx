@@ -55,17 +55,33 @@ export default function PartnershipForm() {
     return false;
   }
 
+  function buildWhatsAppText(): string {
+    const websiteLine = website.trim() ? `Website: ${website.trim()}\n` : "";
+    return (
+      "Hi Onyx Creative Asia! I just sent a partnership proposal via the contact form.\n\n" +
+      `Name: ${name.trim()}\n` +
+      `Email: ${email.trim()}\n` +
+      `Company: ${company.trim()}\n` +
+      websiteLine +
+      `Partnership type: ${partnershipType}\n\n` +
+      `Proposal:\n${proposal.trim()}`
+    );
+  }
+
   async function send() {
     if (!validate()) return;
-    await submit({
-      inquiryType: "partnership",
-      name: name.trim(),
-      email: email.trim(),
-      company: company.trim(),
-      website: website.trim() || null,
-      partnershipType,
-      proposal: proposal.trim(),
-    });
+    await submit(
+      {
+        inquiryType: "partnership",
+        name: name.trim(),
+        email: email.trim(),
+        company: company.trim(),
+        website: website.trim() || null,
+        partnershipType,
+        proposal: proposal.trim(),
+      },
+      { whatsappText: buildWhatsAppText() }
+    );
   }
 
   return (
@@ -86,7 +102,9 @@ export default function PartnershipForm() {
             <>
               <p>
                 Most partnerships start with a short call after the first
-                async exchange. If the fit is clear, we move fast.
+                async exchange. If the fit is clear, we move fast. A copy
+                is in your inbox now, and we opened a WhatsApp tab in case
+                you want to keep the conversation there.
               </p>
               <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
                 Or write us anytime at{" "}
@@ -196,9 +214,9 @@ export default function PartnershipForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="We reply to every proposal within 5 days."
+            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 5 days."
             ctaLabel="Send proposal"
-            ctaKicker="EMAIL"
+            ctaKicker="EMAIL + WHATSAPP"
           />
           <FormStyles />
         </motion.form>
