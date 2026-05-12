@@ -16,23 +16,29 @@ const nextConfig: NextConfig = {
   async rewrites() {
     // Subdomain split:
     //   agents.onyxcreative.asia/* → /agents/* (internal route)
-    // Main domain users hitting /agents directly are blocked in middleware.
     //
-    // Use `beforeFiles` so the rewrite fires BEFORE Next.js tries to match
-    // the filesystem — otherwise visiting agents.onyxcreative.asia/ would
-    // match app/page.tsx (the marketing home) and never get rewritten.
-    // Two patterns: `/` for the root, `/:path+` for everything below.
+    // `beforeFiles` fires BEFORE Next.js touches the filesystem, but that
+    // also includes static assets in public/ and the _next/* bundles. A
+    // bare `/:path*` rewrite would grab `/fonts/Foo.ttf`, `/_next/static/
+    // css/...`, etc. and 404 them — which is exactly the symptom we saw
+    // (Tailwind CSS unstyled, fonts dropped to serif fallback).
+    //
+    // The path regex `(?!...)[^.]+` excludes:
+    //   - paths beginning with `_next`, `fonts`, `projects`, `videos`,
+    //     `api/leads` (the main-site contact API)
+    //   - any path containing a dot (catches .ico, .png, .webp, .mp4,
+    //     .json, etc. that the dashboard would never legitimately serve)
+    // Everything else (clean URLs like /login, /director, /api/auth)
+    // gets rewritten under /agents/.
+    const HAS = [{ type: "host" as const, value: "agents.onyxcreative.asia" }];
     return {
       beforeFiles: [
+        { source: "/", has: HAS, destination: "/agents" },
         {
-          source: "/",
-          has: [{ type: "host", value: "agents.onyxcreative.asia" }],
-          destination: "/agents",
-        },
-        {
-          source: "/:path+",
-          has: [{ type: "host", value: "agents.onyxcreative.asia" }],
-          destination: "/agents/:path+",
+          source:
+            "/:path((?!_next|fonts|projects|videos|api/leads)[^.]+)",
+          has: HAS,
+          destination: "/agents/:path",
         },
       ],
     };
