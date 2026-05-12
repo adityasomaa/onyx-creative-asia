@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 56" width="280" height="56" role="img" aria-label="Onyx Creative Asia">
+  <!--
+    Horizontal lockup — used in email body headers + dashboard chrome.
+    SMIL animation: subtle bullet-dot pulse, ~2.4s cycle, loops forever.
+
+    Compatibility:
+      · Apple Mail (iOS + macOS):  animation plays
+      · Gmail web/app:             SMIL stripped, static final state shown
+      · Outlook desktop:           may not render SVG at all (alt text used)
+      · Yahoo Mail:                animation plays
+    Every static-fallback state is intentionally the FINAL animation
+    state, so when motion is stripped the logo still looks complete.
+  -->
+  <!-- Pulsing bullet — gentle radius + opacity loop -->
+  <circle cx="14" cy="28" r="5" fill="#F4F1EC" fill-opacity="0.95">
+    <animate
+      attributeName="r"
+      values="5;7;5"
+      keyTimes="0;0.5;1"
+      keySplines="0.42 0 0.58 1;0.42 0 0.58 1"
+      calcMode="spline"
+      dur="2.4s"
+      repeatCount="indefinite"
+    />
+    <animate
+      attributeName="fill-opacity"
+      values="0.95;1;0.95"
+      keyTimes="0;0.5;1"
+      dur="2.4s"
+      repeatCount="indefinite"
+    />
+  </circle>
+
+  <!-- Subtle outer ring that pulses out and fades (echo) -->
+  <circle cx="14" cy="28" r="5" fill="none" stroke="#F4F1EC" stroke-width="1" stroke-opacity="0">
+    <animate
+      attributeName="r"
+      values="5;14"
+      keyTimes="0;1"
+      dur="2.4s"
+      repeatCount="indefinite"
+    />
+    <animate
+      attributeName="stroke-opacity"
+      values="0.35;0"
+      keyTimes="0;1"
+      dur="2.4s"
+      repeatCount="indefinite"
+    />
+  </circle>
+
+  <!-- Onyx wordmark -->
+  <text
+    x="32"
+    y="36"
+    font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="26"
+    font-weight="600"
+    letter-spacing="-0.4"
+    fill="#F4F1EC"
+  >Onyx</text>
+
+  <!-- italic period -->
+  <text
+    x="106"
+    y="36"
+    font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="26"
+    font-weight="300"
+    font-style="italic"
+    fill="#F4F1EC"
+  >.</text>
+
+  <!-- Vertical divider -->
+  <rect x="124" y="14" width="1" height="28" fill="#F4F1EC" fill-opacity="0.25"/>
+
+  <!-- Subtitle -->
+  <text
+    x="138"
+    y="33"
+    font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="11"
+    font-weight="500"
+    letter-spacing="3"
+    fill="#F4F1EC"
+    fill-opacity="0.65"
+  >CREATIVE ASIA</text>
+</svg>

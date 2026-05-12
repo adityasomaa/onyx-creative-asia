@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Onyx Creative Asia">
+  <!--
+    Static brand mark — Onyx Creative Asia.
+    Square format (512×512) for use as:
+      · BIMI logo  (rendered in Gmail / Yahoo inbox once DNS + DMARC are set)
+      · Gravatar   (linked to hello@onyxcreative.asia)
+      · Favicon    (fallback to /icon route)
+      · Social og  (referenced from layouts)
+    The wordmark version lives in /logo-wordmark.svg (horizontal lockup).
+  -->
+  <rect width="512" height="512" rx="0" fill="#0E0E0E"/>
+  <!-- Bullet dot — the brand's primary mark, mirrors the nav -->
+  <circle cx="256" cy="216" r="44" fill="#F4F1EC"/>
+  <!-- Wordmark "Onyx" below — kept simple, sans-serif weight 600 -->
+  <text
+    x="256"
+    y="332"
+    text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="72"
+    font-weight="600"
+    letter-spacing="-1.5"
+    fill="#F4F1EC"
+  >Onyx</text>
+  <!-- Italic period — references the "Onyx." lockup in the nav -->
+  <text
+    x="378"
+    y="332"
+    font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="72"
+    font-weight="300"
+    font-style="italic"
+    fill="#F4F1EC"
+  >.</text>
+  <!-- Subtitle (kept very subtle) -->
+  <text
+    x="256"
+    y="378"
+    text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="18"
+    font-weight="500"
+    fill="#F4F1EC"
+    fill-opacity="0.55"
+    letter-spacing="6"
+  >CREATIVE ASIA</text>
+</svg>

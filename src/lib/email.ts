@@ -291,12 +291,13 @@ function buildAutoReplyHtml(p: {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0E0E0E;padding:48px 24px;">
     <tr><td align="center">
       <table role="presentation" width="100%" style="max-width:560px;" cellpadding="0" cellspacing="0" border="0">
-        <tr><td style="padding-bottom:20px;">
-          <span style="display:inline-block;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(244,241,236,0.55);">[ ONYX · RECEIVED ]</span>
+        <tr><td style="padding-bottom:28px;">
+          ${logoSvg()}
         </td></tr>
         <tr><td>
+          <p style="margin:0 0 12px 0;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(244,241,236,0.5);">RECEIVED</p>
           <h1 style="margin:0 0 16px 0;font-size:32px;font-weight:700;letter-spacing:-0.01em;line-height:1.1;color:#F4F1EC;">
-            Received,<br><span style="font-weight:300;font-style:italic;">${escapeHtml(p.firstName)}.</span>
+            Hi,<br><span style="font-weight:300;font-style:italic;">${escapeHtml(p.firstName)}.</span>
           </h1>
           <!-- The single line that matters: confirmation of receipt -->
           <p style="margin:0 0 24px 0;padding:14px 16px;border-left:2px solid #34D399;font-size:15px;line-height:1.6;color:#F4F1EC;background:rgba(52,211,153,0.06);">
@@ -408,10 +409,11 @@ function buildInternalHtml(p: {
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0E0E0E;padding:32px 24px;">
     <tr><td align="center">
       <table role="presentation" width="100%" style="max-width:620px;" cellpadding="0" cellspacing="0" border="0">
-        <tr><td style="padding-bottom:20px;">
-          <span style="display:inline-block;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(244,241,236,0.55);">[ ONYX · INBOX · ${escapeHtml(p.typeLabel.toUpperCase())} ]</span>
+        <tr><td style="padding-bottom:24px;">
+          ${logoSvg()}
         </td></tr>
         <tr><td>
+          <p style="margin:0 0 8px 0;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(244,241,236,0.5);">INBOX · ${escapeHtml(p.typeLabel.toUpperCase())}</p>
           <h1 style="margin:0 0 16px 0;font-size:22px;font-weight:600;letter-spacing:-0.01em;line-height:1.2;color:#F4F1EC;">
             New ${escapeHtml(p.typeLabel.toLowerCase())} from ${escapeHtml(p.fromName)}
           </h1>
@@ -442,6 +444,33 @@ function buildInternalHtml(p: {
     </td></tr>
   </table>
 </body></html>`;
+}
+
+/* ============================================================
+ * Animated logo (inline SVG) used at the top of every email.
+ *
+ * SMIL animation: gentle bullet-pulse + outer echo ring expanding then
+ * fading. Loops forever. Static fallback (when SMIL is stripped by
+ * Gmail / Outlook) is the final visible state — logo still reads
+ * complete. Inline-embedded so no external host or Resend attachment
+ * is needed.
+ * ============================================================ */
+
+function logoSvg(): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 56" width="220" height="44" role="img" aria-label="Onyx Creative Asia" style="display:block;">
+    <circle cx="14" cy="28" r="5" fill="#F4F1EC" fill-opacity="0.95">
+      <animate attributeName="r" values="5;7;5" keyTimes="0;0.5;1" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" calcMode="spline" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="0.95;1;0.95" keyTimes="0;0.5;1" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="14" cy="28" r="5" fill="none" stroke="#F4F1EC" stroke-width="1" stroke-opacity="0">
+      <animate attributeName="r" values="5;14" keyTimes="0;1" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="stroke-opacity" values="0.35;0" keyTimes="0;1" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <text x="32" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="26" font-weight="600" letter-spacing="-0.4" fill="#F4F1EC">Onyx</text>
+    <text x="106" y="36" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="26" font-weight="300" font-style="italic" fill="#F4F1EC">.</text>
+    <rect x="124" y="14" width="1" height="28" fill="#F4F1EC" fill-opacity="0.25"/>
+    <text x="138" y="33" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif" font-size="11" font-weight="500" letter-spacing="3" fill="#F4F1EC" fill-opacity="0.65">CREATIVE ASIA</text>
+  </svg>`;
 }
 
 /* ============================================================

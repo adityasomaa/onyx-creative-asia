@@ -108,7 +108,56 @@ skipped and only the DB write happens — the form still works.
 > `RESEND_FROM=onboarding@resend.dev` in `.env.local`) but mail lands
 > in spam — never use this in production.
 
-### 4. DNS — add the subdomain
+### 4. Email sender avatar (BIMI + Gravatar)
+
+The mini avatar Gmail / Apple Mail shows next to the sender name comes
+from one of two sources:
+
+**Easy path — Gravatar (works in Apple Mail + many clients within hours):**
+1. Sign up at https://gravatar.com using `hello@onyxcreative.asia`
+2. Upload `public/logo.svg` (or a 512×512 PNG export of it)
+3. That's it — Gravatar-aware clients now show the Onyx mark
+   automatically. Gmail does NOT use Gravatar; for Gmail use BIMI below.
+
+**Proper path — BIMI (works in Gmail, Yahoo, AOL):**
+BIMI requires DMARC enforcement (quarantine or reject policy) + a
+hosted SVG logo with very strict constraints (SVG 1.2 Tiny PS profile —
+basically static, no scripts, no external refs, fixed viewBox).
+
+1. **Tighten DMARC** in Hostinger DNS — change `_dmarc.onyxcreative.asia`
+   from `p=none` to:
+   ```
+   v=DMARC1; p=quarantine; rua=mailto:hello@onyxcreative.asia;
+   ```
+   Wait 48 hours, check Resend / Postmark deliverability metrics. If
+   ok, tighten further to `p=reject`.
+
+2. **Host the BIMI-compliant SVG** at `https://onyxcreative.asia/logo.svg`
+   (already in `public/logo.svg`). Note: this file uses standard SVG —
+   for strict BIMI you may need to run it through the BIMI Group's
+   converter at https://bimigroup.org/svg-conversion-tool/
+
+3. **Add the BIMI DNS record** in Hostinger:
+
+   | Type | Name | Value |
+   |---|---|---|
+   | TXT | `default._bimi` | `v=BIMI1; l=https://onyxcreative.asia/logo.svg;` |
+
+4. **Verify** via https://bimigroup.org/bimi-generator/ — it'll fetch
+   the record + the SVG and tell you what's missing.
+
+5. **For the logo to actually display in Gmail** you also need a
+   Verified Mark Certificate (VMC) from DigiCert or Entrust (~$1.5k/yr,
+   requires a registered trademark). Without VMC, BIMI works on Yahoo
+   and AOL but Gmail won't render the logo. Skip VMC until volume
+   justifies it.
+
+> **Note**: email avatars cannot animate. BIMI explicitly requires
+> static SVG. The animated wordmark in the email body (inline SVG with
+> SMIL) is the workaround — it plays in Apple Mail, degrades to static
+> in Gmail / Outlook.
+
+### 5. DNS — add the subdomain
 
 In Hostinger DNS panel, add:
 
@@ -116,7 +165,7 @@ In Hostinger DNS panel, add:
 |---|---|---|---|
 | CNAME | `agents` | `cname.vercel-dns.com` | 14400 |
 
-### 5. Vercel — add the domain
+### 6. Vercel — add the domain
 
 In Vercel project → Settings → Domains:
 
@@ -125,7 +174,7 @@ In Vercel project → Settings → Domains:
 3. Vercel verifies the CNAME automatically (give it 5–10 min)
 4. SSL certificate provisions automatically
 
-### 6. Verify
+### 7. Verify
 
 Visit `https://agents.onyxcreative.asia` — unauthenticated visitors
 land on the branded `/login` page. Sign in with the credentials from
