@@ -2,18 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import LogoutButton from "./LogoutButton";
 import AnimatedLogo from "@/components/AnimatedLogo";
 
 /**
- * Compact top bar — SaaS-style. Brand on the left, primary nav center,
- * session info + logout on the right. Suppressed entirely on /login so
- * the sign-in page reads as a focused single-purpose screen.
+ * Compact top bar — SaaS-style. On md+ the full nav row is shown.
+ * On mobile only a hamburger icon is visible; tapping it opens a
+ * full-screen drawer with the same nav items + a logout footer.
  *
- * Mobile layout: brand + logout stay pinned to the edges; the nav in
- * the middle scrolls horizontally without showing a scrollbar. That
- * way the whole page never overflows the viewport, and every nav item
- * is reachable even on narrow phones.
+ * Suppressed entirely on /login so the sign-in page reads as a focused
+ * single-purpose screen.
  */
 
 const NAV: { label: string; href: string; match: RegExp }[] = [
@@ -41,8 +40,24 @@ export default function AgentsChrome({
   children: React.ReactNode;
 }) {
   const pathname = usePathname() ?? "";
+  const [open, setOpen] = useState(false);
+
   const isLogin =
     pathname === "/login" || pathname === "/agents/login";
+
+  // Close the drawer whenever the route changes.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  // Lock body scroll while the drawer is open.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   if (isLogin) {
     return <>{children}</>;
@@ -68,10 +83,10 @@ export default function AgentsChrome({
           </span>
         </Link>
 
-        {/* Nav — scrolls horizontally on narrow viewports */}
+        {/* Desktop nav — visible md+ */}
         <nav
           aria-label="Primary"
-          className="flex-1 flex items-center gap-0.5 text-[11px] tracking-[0.15em] uppercase overflow-x-auto agents-nav-scroll min-w-0"
+          className="hidden md:flex flex-1 items-center gap-0.5 text-[11px] tracking-[0.15em] uppercase min-w-0"
         >
           {NAV.map((item) => {
             const active = item.match.test(pathname);
@@ -91,15 +106,47 @@ export default function AgentsChrome({
           })}
         </nav>
 
-        {/* Right side — fixed right edge */}
+        {/* Spacer on mobile so the right-edge controls sit flush right */}
+        <div className="md:hidden flex-1" />
+
+        {/* Right side */}
         <div className="flex items-center gap-3 md:gap-4 text-[10px] tracking-[0.18em] uppercase opacity-65 shrink-0 pr-4 md:pr-6 pl-2">
           <span className="hidden md:inline-flex items-center gap-1.5">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
             Live
           </span>
-          <LogoutButton />
+          <div className="hidden md:block">
+            <LogoutButton />
+          </div>
+          {/* Hamburger — mobile only */}
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+            aria-controls="agents-mobile-drawer"
+            className="md:hidden h-8 w-8 flex flex-col items-center justify-center gap-[5px] opacity-90 hover:opacity-100"
+          >
+            <span
+              className={`block h-px w-5 bg-bone transition-transform duration-300 ${
+                open ? "translate-y-[3px] rotate-45" : ""
+              }`}
+            />
+            <span
+              className={`block h-px w-5 bg-bone transition-transform duration-300 ${
+                open ? "-translate-y-[3px] -rotate-45" : ""
+              }`}
+            />
+          </button>
         </div>
       </header>
+
+      {/* Mobile drawer — full-screen overlay below the header */}
+      <MobileDrawer
+        open={open}
+        onClose={() => setOpen(false)}
+        pathname={pathname}
+      />
 
       <main className="min-w-0">{children}</main>
 
@@ -107,18 +154,97 @@ export default function AgentsChrome({
         <span>© MMXXVI · Onyx Creative Asia</span>
         <span>Internal · cookie-gated · no-index</span>
       </footer>
-
-      {/* Hide scrollbar on the nav. global so styled-jsx scoping doesn't fight it. */}
-      <style jsx global>{`
-        .agents-nav-scroll {
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          -webkit-overflow-scrolling: touch;
-        }
-        .agents-nav-scroll::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </>
+  );
+}
+
+/* ============================================================
+ * MobileDrawer — full-screen menu opened from the hamburger
+ * ============================================================ */
+
+function MobileDrawer({
+  open,
+  onClose,
+  pathname,
+}: {
+  open: boolean;
+  onClose: () => void;
+  pathname: string;
+}) {
+  return (
+    <div
+      id="agents-mobile-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-hidden={!open}
+      className={`md:hidden fixed inset-x-0 top-12 bottom-0 z-40 bg-ink transition-opacity duration-300 ${
+        open ? "opacity-100" : "opacity-0 pointer-events-none"
+      }`}
+    >
+      <div
+        className={`h-full flex flex-col transition-transform duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+          open ? "translate-y-0" : "-translate-y-2"
+        }`}
+      >
+        {/* Live pill at top */}
+        <div className="px-6 pt-5 pb-3 flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase opacity-70">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          Session · Live
+        </div>
+
+        {/* Nav items as a big readable list */}
+        <nav
+          aria-label="Primary"
+          className="px-6 mt-2 divide-y divide-bone/10 border-y border-bone/10"
+        >
+          {NAV.map((item, i) => {
+            const active = item.match.test(pathname);
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onClose}
+                className={`flex items-baseline justify-between py-5 group transition-colors ${
+                  active ? "" : "hover:opacity-100"
+                }`}
+              >
+                <span className="flex items-baseline gap-4">
+                  <span className="text-[10px] tabular-nums opacity-40 tracking-[0.2em]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span
+                    className={`text-xl font-medium tracking-tight ${
+                      active ? "text-bone" : "text-bone/80"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </span>
+                {active ? (
+                  <span className="text-[10px] tracking-[0.22em] uppercase text-emerald-300">
+                    Active
+                  </span>
+                ) : (
+                  <span
+                    aria-hidden
+                    className="text-base opacity-40 group-hover:opacity-90 transition-all group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                )}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer area with logout */}
+        <div className="mt-auto px-6 py-6 border-t border-bone/10 flex items-center justify-between">
+          <p className="text-[10px] tracking-[0.22em] uppercase opacity-40">
+            Internal console · v0.2
+          </p>
+          <LogoutButton />
+        </div>
+      </div>
+    </div>
   );
 }

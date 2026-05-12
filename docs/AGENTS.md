@@ -119,38 +119,50 @@ from one of two sources:
 3. That's it — Gravatar-aware clients now show the Onyx mark
    automatically. Gmail does NOT use Gravatar; for Gmail use BIMI below.
 
-**Proper path — BIMI (works in Gmail, Yahoo, AOL):**
+**Proper path — BIMI (works in Yahoo, AOL, Fastmail without VMC):**
 BIMI requires DMARC enforcement (quarantine or reject policy) + a
-hosted SVG logo with very strict constraints (SVG 1.2 Tiny PS profile —
-basically static, no scripts, no external refs, fixed viewBox).
+hosted SVG logo with strict constraints (SVG 1.2 Tiny PS profile —
+no text elements, no scripts, no external refs, fixed square viewBox).
+
+A BIMI-compliant logo is already in the repo: `public/bimi-logo.svg`.
+It serves at `https://onyxcreative.asia/bimi-logo.svg`.
 
 1. **Tighten DMARC** in Hostinger DNS — change `_dmarc.onyxcreative.asia`
    from `p=none` to:
    ```
    v=DMARC1; p=quarantine; rua=mailto:hello@onyxcreative.asia;
    ```
-   Wait 48 hours, check Resend / Postmark deliverability metrics. If
-   ok, tighten further to `p=reject`.
+   Wait 48 hours, check Resend deliverability metrics. If ok, tighten
+   further to `p=reject`.
 
-2. **Host the BIMI-compliant SVG** at `https://onyxcreative.asia/logo.svg`
-   (already in `public/logo.svg`). Note: this file uses standard SVG —
-   for strict BIMI you may need to run it through the BIMI Group's
-   converter at https://bimigroup.org/svg-conversion-tool/
-
-3. **Add the BIMI DNS record** in Hostinger:
+2. **Add the BIMI DNS record** in Hostinger:
 
    | Type | Name | Value |
    |---|---|---|
-   | TXT | `default._bimi` | `v=BIMI1; l=https://onyxcreative.asia/logo.svg;` |
+   | TXT | `default._bimi` | `v=BIMI1; l=https://onyxcreative.asia/bimi-logo.svg;` |
 
-4. **Verify** via https://bimigroup.org/bimi-generator/ — it'll fetch
-   the record + the SVG and tell you what's missing.
+3. **Verify** via https://bimigroup.org/bimi-generator/ — it'll fetch
+   the record + the SVG and tell you what's missing. Should pass green.
 
-5. **For the logo to actually display in Gmail** you also need a
-   Verified Mark Certificate (VMC) from DigiCert or Entrust (~$1.5k/yr,
-   requires a registered trademark). Without VMC, BIMI works on Yahoo
-   and AOL but Gmail won't render the logo. Skip VMC until volume
-   justifies it.
+4. **Reality check — Gmail specifically:**
+   For the logo to display in **Gmail**, you also need a Verified Mark
+   Certificate (VMC) from DigiCert or Entrust (~$1.5k/yr, requires a
+   registered trademark on the logo). Without VMC, BIMI works on
+   Yahoo, AOL, Fastmail — but **Gmail will keep showing the default
+   grey-circle avatar**. There's no workaround for this on Gmail's
+   side; it's a deliberate Google policy.
+
+   Three options for Gmail avatar coverage:
+   - **Buy VMC** — Entrust starting at ~$1.2k/year, DigiCert ~$1.5k.
+     Requires a registered trademark on the logo. Worth it once
+     outbound volume justifies the trust signal.
+   - **Migrate to Google Workspace** — switch `hello@onyxcreative.asia`
+     to Google Workspace (~$6/user/mo), set a profile photo. Gmail
+     then shows that photo for emails sent via the Workspace account.
+   - **Recipient-side workaround** — for high-value clients, ask them
+     to add `hello@onyxcreative.asia` to their Google contacts with
+     the Onyx logo as the contact photo. Avatar shows for that recipient
+     only.
 
 > **Note**: email avatars cannot animate. BIMI explicitly requires
 > static SVG. The animated wordmark in the email body (inline SVG with

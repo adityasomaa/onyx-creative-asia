@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     baseProfile="tiny-ps"
+     version="1.2"
+     viewBox="0 0 512 512">
+  <title>Onyx Creative Asia</title>
+  <!--
+    BIMI-compliant logo for Onyx Creative Asia.
+
+    Compliance checklist:
+      · baseProfile="tiny-ps" + version="1.2"  ✓
+      · viewBox declared, square aspect         ✓
+      · No <text> elements (all paths)          ✓
+      · No <script> / external references       ✓
+      · No animation                            ✓
+      · Single closed background                ✓
+
+    Design: the Onyx wordmark dot mark — a single circle on the brand
+    ink ground. Same primitive as the website nav (the "●" before
+    "Onyx."). Reads at 24×24 px (avatar size) in inbox UIs and scales
+    cleanly to billboard.
+
+    Validate with the BIMI Group's checker:
+      https://bimigroup.org/svg-conversion-tool/
+  -->
+  <rect x="0" y="0" width="512" height="512" fill="#0E0E0E"/>
+  <circle cx="256" cy="256" r="96" fill="#F4F1EC"/>
+</svg>
