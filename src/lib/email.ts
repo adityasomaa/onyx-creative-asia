@@ -35,33 +35,58 @@ function internalRecipient(): string {
  * Per-type copy
  * ============================================================ */
 
+/**
+ * Per-type auto-reply copy.
+ *
+ * Every type's `intro` is structured the same way so the reader gets
+ * one clear signal: their submission landed with the team, and a real
+ * reply is on the way. The `sla` tightens that promise into a concrete
+ * timeframe ("within 48 hours", "within 7 days", etc.).
+ */
 const AUTO_REPLY_COPY: Record<
   InquiryType,
-  { subject: (n: string) => string; intro: string; sla: string }
+  {
+    subject: (n: string) => string;
+    confirmation: string; // single-sentence "received by team" line
+    intro: string;        // longer paragraph — context + tone
+    sla: string;          // explicit response timeframe
+  }
 > = {
   general: {
-    subject: (n) => `Got your message, ${n}.`,
+    subject: (n) =>
+      `Received: your message — Onyx will respond soon, ${n}.`,
+    confirmation:
+      "Your message has just landed with the Onyx team. Consider it received — a real reply is on the way.",
     intro:
-      "Thanks for reaching out. We read every message and we'll come back with a real reply — not an autoresponder.",
-    sla: "We reply to every message personally, usually within 48 hours.",
+      "Thanks for reaching out. We read every message ourselves, and we'll come back to you personally — not with an autoresponder follow-up.",
+    sla: "Expect a reply within 48 hours (often sooner). If something's urgent, the WhatsApp tab we just opened is the fastest path.",
   },
   project: {
-    subject: (n) => `Got your brief, ${n} — we'll be in touch.`,
+    subject: (n) =>
+      `Received: your project brief — Onyx will respond soon, ${n}.`,
+    confirmation:
+      "Your brief has just landed with the Onyx team. Consider it received — we're reading it now.",
     intro:
-      "Thanks for reaching out. We got your brief and we're reading it now.",
-    sla: "We reply to every brief personally, usually within 48 hours. If it's a fit, we'll come back with a quick scope and timeline. If it's not, we'll tell you straight.",
+      "Thanks for sharing it. We treat every brief seriously: same care whether it's $1k or $50k. If it's a fit, we'll come back with a quick scope and timeline. If it's not, we'll tell you straight.",
+    sla: "Expect a reply within 48 hours. We work in Bali but write back from wherever the work is.",
   },
   career: {
-    subject: (n) => `Got your application, ${n}.`,
+    subject: (n) =>
+      `Received: your application — Onyx will respond soon, ${n}.`,
+    confirmation:
+      "Your application has just landed with the Onyx team. Consider it received — every word, including the portfolio, gets a careful read.",
     intro:
-      "Thanks for applying to Onyx Creative Asia. We read every word — including portfolios. No black-box ATS, no algorithmic filter.",
-    sla: "We'll get back within 7 days. If we want to move forward, we'll send a short async exercise — no panel interviews, no whiteboard rituals.",
+      "Thanks for applying to Onyx Creative Asia. No black-box ATS, no algorithmic filter — applications are read by the people you'd actually work with.",
+    sla: "Expect a reply within 7 days. If we want to move forward we'll send a short async exercise — no panel interviews, no whiteboards.",
   },
   partnership: {
-    subject: (n) => `Got your proposal, ${n}.`,
+    subject: (n) =>
+      `Received: your proposal — Onyx will respond soon, ${n}.`,
+    confirmation:
+      "Your proposal has just landed with the Onyx team. Consider it received — we'll give it an honest read.",
     intro:
-      "Thanks for reaching out about a partnership. We're selective about who we work alongside — and we'll give your proposal an honest read.",
-    sla: "We reply to every proposal within 5 days. If there's a fit, we usually move to a short async exchange before a call.",
+      "Thanks for reaching out about a partnership. We're selective about who we work alongside, so the answer is sometimes no — but it'll always be a real reply with the reasoning.",
+    sla: "Expect a reply within 5 days. If there's a fit, we usually move to a short async exchange before a call.",
   },
 };
 
@@ -101,6 +126,7 @@ export async function sendAutoReply(
   const text = buildAutoReplyText({ firstName, copy, metaRows: input.metaRows });
   const html = buildAutoReplyHtml({
     firstName,
+    confirmation: copy.confirmation,
     intro: copy.intro,
     sla: copy.sla,
     metaRows: input.metaRows,
@@ -216,30 +242,33 @@ export async function sendInternalNotification(
 
 function buildAutoReplyText(p: {
   firstName: string;
-  copy: { intro: string; sla: string };
+  copy: { confirmation: string; intro: string; sla: string };
   metaRows: { label: string; value: string }[];
 }): string {
   const rows = p.metaRows.length
-    ? "\n\nHere's what you sent through:\n" +
+    ? "\n\nWhat you sent through:\n" +
       p.metaRows.map((r) => `  · ${r.label}: ${r.value}`).join("\n")
     : "";
   return `Hi ${p.firstName},
+
+${p.copy.confirmation}
 
 ${p.copy.intro}${rows}
 
 ${p.copy.sla}
 
-If it's urgent, you can WhatsApp us:
+If it's urgent, you can WhatsApp us anytime:
 https://wa.me/62895413372822
 
 Talk soon,
-Onyx Creative Asia
+The Onyx Creative Asia team
 Bali · onyxcreative.asia
 `;
 }
 
 function buildAutoReplyHtml(p: {
   firstName: string;
+  confirmation: string;
   intro: string;
   sla: string;
   metaRows: { label: string; value: string }[];
@@ -257,35 +286,44 @@ function buildAutoReplyHtml(p: {
     .join("");
 
   return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><title>Onyx Creative Asia</title></head>
+<html lang="en"><head><meta charset="utf-8"><title>Onyx Creative Asia — received</title></head>
 <body style="margin:0;padding:0;background:#0E0E0E;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#F4F1EC;">
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#0E0E0E;padding:48px 24px;">
     <tr><td align="center">
       <table role="presentation" width="100%" style="max-width:560px;" cellpadding="0" cellspacing="0" border="0">
-        <tr><td style="padding-bottom:32px;">
-          <span style="display:inline-block;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(244,241,236,0.55);">[ ONYX · CONFIRMATION ]</span>
+        <tr><td style="padding-bottom:20px;">
+          <span style="display:inline-block;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:rgba(244,241,236,0.55);">[ ONYX · RECEIVED ]</span>
         </td></tr>
         <tr><td>
-          <h1 style="margin:0 0 24px 0;font-size:32px;font-weight:700;letter-spacing:-0.01em;line-height:1.1;color:#F4F1EC;">
-            Got it,<br><span style="font-weight:300;font-style:italic;">${escapeHtml(p.firstName)}.</span>
+          <h1 style="margin:0 0 16px 0;font-size:32px;font-weight:700;letter-spacing:-0.01em;line-height:1.1;color:#F4F1EC;">
+            Received,<br><span style="font-weight:300;font-style:italic;">${escapeHtml(p.firstName)}.</span>
           </h1>
-          <p style="margin:0 0 24px 0;font-size:16px;line-height:1.6;color:rgba(244,241,236,0.85);">${escapeHtml(p.intro)}</p>
+          <!-- The single line that matters: confirmation of receipt -->
+          <p style="margin:0 0 24px 0;padding:14px 16px;border-left:2px solid #34D399;font-size:15px;line-height:1.6;color:#F4F1EC;background:rgba(52,211,153,0.06);">
+            ${escapeHtml(p.confirmation)}
+          </p>
+          <p style="margin:0 0 24px 0;font-size:15px;line-height:1.65;color:rgba(244,241,236,0.85);">${escapeHtml(p.intro)}</p>
           ${
             p.metaRows.length
-              ? `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid rgba(244,241,236,0.15);margin:32px 0;">${rowsHtml}</table>`
+              ? `<p style="margin:32px 0 8px 0;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(244,241,236,0.5);">What you sent through</p>
+                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid rgba(244,241,236,0.15);margin:0 0 32px 0;">${rowsHtml}</table>`
               : ""
           }
-          <p style="margin:0 0 16px 0;font-size:14px;line-height:1.6;color:rgba(244,241,236,0.75);">${escapeHtml(p.sla)}</p>
-          <p style="margin:0 0 32px 0;font-size:14px;line-height:1.6;color:rgba(244,241,236,0.75);">
-            Urgent? WhatsApp us:
+          <p style="margin:0 0 12px 0;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(244,241,236,0.5);">When to expect a reply</p>
+          <p style="margin:0 0 28px 0;font-size:14px;line-height:1.6;color:rgba(244,241,236,0.85);">${escapeHtml(p.sla)}</p>
+          <p style="margin:0 0 32px 0;font-size:13px;line-height:1.6;color:rgba(244,241,236,0.7);">
+            Urgent? WhatsApp us anytime:
             <a href="https://wa.me/62895413372822" style="color:#F4F1EC;text-decoration:underline;">+62 895-4133-72822</a>
           </p>
           <p style="margin:32px 0 0 0;font-size:14px;color:#F4F1EC;">
-            Talk soon,<br><span style="font-style:italic;font-weight:300;">Onyx Creative Asia</span>
+            Talk soon,<br><span style="font-style:italic;font-weight:300;">The Onyx Creative Asia team</span>
           </p>
         </td></tr>
         <tr><td style="padding-top:48px;border-top:1px solid rgba(244,241,236,0.1);">
           <p style="margin:32px 0 0 0;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(244,241,236,0.4);">Bali · onyxcreative.asia</p>
+          <p style="margin:8px 0 0 0;font-size:10px;line-height:1.5;color:rgba(244,241,236,0.3);">
+            This is an automated confirmation. A real human reply follows separately.
+          </p>
         </td></tr>
       </table>
     </td></tr>
