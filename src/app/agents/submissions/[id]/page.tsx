@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageHeader from "../../_components/PageHeader";
+import ReplyBox from "./_components/ReplyBox";
 import {
   getSubmissionById,
   listFilesForSubmission,
@@ -70,6 +71,15 @@ export default async function SubmissionDetail({
               {submission.body_md ?? "(no body)"}
             </div>
           </section>
+
+          {/* REPLY */}
+          <ReplyBox
+            submissionId={submission.id}
+            fromName={submission.from_name}
+            fromEmail={submission.from_email}
+            fromPhone={submission.from_phone}
+            status={submission.status}
+          />
 
           {/* FILES */}
           <section>

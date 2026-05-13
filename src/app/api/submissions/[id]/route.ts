@@ -21,21 +21,18 @@ export const runtime = "nodejs";
  * discovers the path.
  */
 
-const VALID_STATUS: SubmissionStatus[] = [
-  "new",
-  "replied",
-  "archived",
-  "triaged", // kept for legacy support
-  "qualified",
-  "spam",
-];
+// Only the three active statuses are writable. Legacy values
+// (triaged/qualified/spam) were normalized out by migration 0006
+// and aren't accepted here anymore.
+const VALID_STATUS: SubmissionStatus[] = ["new", "replied", "archived"];
 
+// 'unknown' is intentionally excluded — operators can only move a row
+// into one of the four real types.
 const VALID_TYPES: InquiryType[] = [
   "general",
   "project",
   "career",
   "partnership",
-  "unknown",
 ];
 
 async function assertSession() {

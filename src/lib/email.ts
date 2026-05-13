@@ -447,6 +447,87 @@ function buildInternalHtml(p: {
 }
 
 /* ============================================================
+ * sendReply — operator-to-lead outbound email.
+ *
+ * Used from /api/submissions/[id]/reply when an operator types a
+ * response in the dashboard's submission detail page. Plain-text body
+ * + the operator's email signature (pulled from dashboard_profile).
+ * Subject is "Re: <original subject>" to thread with the lead's email
+ * client.
+ * ============================================================ */
+
+export type ReplyInput = {
+  toName: string;
+  toEmail: string;
+  /** Subject line of the original submission — we prepend "Re:". */
+  originalSubject: string | null;
+  /** What the operator typed. Plain text, possibly multi-paragraph. */
+  body: string;
+  /** Email signature pulled from the operator profile. */
+  signature?: string | null;
+};
+
+export async function sendReply(
+  input: ReplyInput
+): Promise<{ ok: boolean; id?: string; error?: string }> {
+  const client = getClient();
+  if (!client) {
+    console.warn("[email] RESEND_API_KEY not set — skipping reply.");
+    return { ok: true };
+  }
+
+  const subjectBase =
+    input.originalSubject?.trim() || "Your inquiry with Onyx Creative Asia";
+  const subject = subjectBase.toLowerCase().startsWith("re:")
+    ? subjectBase
+    : `Re: ${subjectBase}`;
+
+  const sig = input.signature?.trim() ?? "";
+  const text = sig
+    ? `${input.body.trim()}\n\n${sig}\n`
+    : `${input.body.trim()}\n`;
+
+  // Simple HTML wrap — visitor's email client renders cleanly without
+  // the auto-reply's full branded shell. The reply should look like a
+  // real human-written email, not a transactional blast.
+  const html = `<!DOCTYPE html>
+<html><body style="margin:0;padding:24px;background:#fff;color:#0E0E0E;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;">
+  <div style="max-width:600px;">
+    ${input.body
+      .trim()
+      .split(/\n{2,}/)
+      .map((p) => `<p style="margin:0 0 16px 0;">${escapeHtml(p).replace(/\n/g, "<br>")}</p>`)
+      .join("\n    ")}
+    ${
+      sig
+        ? `<div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(14,14,14,0.08);color:rgba(14,14,14,0.65);white-space:pre-wrap;">${escapeHtml(sig)}</div>`
+        : ""
+    }
+  </div>
+</body></html>`;
+
+  try {
+    const res = await client.emails.send({
+      from: fromAddress(),
+      to: input.toEmail,
+      subject,
+      text,
+      html,
+      replyTo: internalRecipient(),
+    });
+    if (res.error) {
+      console.error("[email] reply failed:", res.error);
+      return { ok: false, error: res.error.message };
+    }
+    return { ok: true, id: res.data?.id };
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("[email] reply threw:", msg);
+    return { ok: false, error: msg };
+  }
+}
+
+/* ============================================================
  * Animated logo (inline SVG) used at the top of every email.
  *
  * SMIL animation: gentle bullet-pulse + outer echo ring expanding then

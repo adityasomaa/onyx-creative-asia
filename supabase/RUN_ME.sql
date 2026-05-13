@@ -501,6 +501,24 @@ on conflict (id) do nothing;
 
 
 -- ============================================================
+-- 0006 — Normalize legacy submission rows
+-- ============================================================
+
+update public.submissions
+   set inquiry_type = 'general'
+ where inquiry_type = 'unknown'
+    or inquiry_type is null;
+
+update public.submissions
+   set status = 'new'
+ where status in ('triaged', 'qualified');
+
+update public.submissions
+   set status = 'archived'
+ where status = 'spam';
+
+
+-- ============================================================
 -- DONE — verify with:
 --   select count(*) from public.agents;       -- expect 4
 --   select count(*) from public.clients;      -- expect 5

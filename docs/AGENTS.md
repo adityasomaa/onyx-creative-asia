@@ -219,6 +219,57 @@ pieces:
 
 ---
 
+## Replying to a submission
+
+The submission detail page at `/agents/submissions/[id]` has a reply
+composer. Type a message, pick a channel, confirm, send.
+
+### Channels
+
+| Channel | Backed by | When it's available |
+|---|---|---|
+| Email | Resend | `submission.from_email` is set |
+| WhatsApp | Fonnte | `submission.from_phone` is set |
+
+The operator's email signature (configured at `/agents/profile`) is
+auto-appended to outgoing emails. WhatsApp sends are pure body — keep
+them human and brief.
+
+After a successful send:
+- `submission.status` → `replied`
+- `triaged_at` + `triaged_by` get stamped with the operator's username
+- A row lands in `agent_runs` under the Account Manager agent so the
+  activity feed reflects the action
+
+### Fonnte setup
+
+1. Sign up at https://md.fonnte.com → register a device for the WA
+   business number (`+62 895-4133-72822`).
+2. Open the device detail → copy **Token** (long random string).
+3. Add `FONNTE_TOKEN` to Vercel env vars (Production + Preview,
+   Sensitive ✅).
+4. Redeploy. Outbound WhatsApp replies now go through Fonnte.
+
+Free tier covers ~100 msg/day. Pro ~$5/mo scales to thousands.
+
+### Built-in Fonnte auto-reply (optional, no code)
+
+If you want to auto-respond to inbound WhatsApp messages without
+involving the dashboard, Fonnte has a dashboard-level auto-responder:
+
+1. Fonnte → **Device → AI** (or **Auto Responder** on the plan).
+2. Set up either keyword-based replies (e.g. "hi" → "Hi! We'll get
+   back within 24h. Want to share a brief? https://onyxcreative.asia/contact")
+   or AI auto-reply with a system prompt.
+3. Toggle **Active**. Done.
+
+The dashboard's manual reply still works on top of this — the
+auto-reply lands first, then the operator can follow up. Phase 2b adds
+inbound webhook ingestion so every WA message also lands in the
+dashboard `submissions` list regardless.
+
+---
+
 ## Editing the roster
 
 The roster is now **DB-driven**. Two ways to edit:
