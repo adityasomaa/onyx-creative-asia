@@ -69,7 +69,11 @@ export default function AgentsChrome({
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-bone/15 bg-ink/95 backdrop-blur h-12 flex items-stretch overflow-hidden">
+      {/* overflow-hidden REMOVED — the UserMenu dropdown needs to extend
+          below the header bottom edge. Mobile horizontal overflow is
+          already handled by the parent layout's overflow-x-hidden and
+          by the hamburger replacing the inline nav on small screens. */}
+      <header className="sticky top-0 z-50 border-b border-bone/15 bg-ink/95 backdrop-blur h-12 flex items-stretch">
         {/* Brand — fixed left edge */}
         <Link
           href="/agents"
