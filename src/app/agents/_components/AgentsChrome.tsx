@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import LogoutButton from "./LogoutButton";
 import AnimatedLogo from "@/components/AnimatedLogo";
+import UserMenu from "./UserMenu";
 
 /**
  * Compact top bar — SaaS-style. On md+ the full nav row is shown.
@@ -36,8 +36,12 @@ const NAV: { label: string; href: string; match: RegExp }[] = [
 
 export default function AgentsChrome({
   children,
+  displayName,
+  avatarUrl,
 }: {
   children: React.ReactNode;
+  displayName: string;
+  avatarUrl: string | null;
 }) {
   const pathname = usePathname() ?? "";
   const [open, setOpen] = useState(false);
@@ -110,13 +114,13 @@ export default function AgentsChrome({
         <div className="md:hidden flex-1" />
 
         {/* Right side */}
-        <div className="flex items-center gap-3 md:gap-4 text-[10px] tracking-[0.18em] uppercase opacity-65 shrink-0 pr-4 md:pr-6 pl-2">
-          <span className="hidden md:inline-flex items-center gap-1.5">
+        <div className="flex items-center gap-3 md:gap-4 text-[10px] tracking-[0.18em] uppercase shrink-0 pr-4 md:pr-6 pl-2">
+          <span className="hidden md:inline-flex items-center gap-1.5 opacity-65">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-400" />
             Live
           </span>
           <div className="hidden md:block">
-            <LogoutButton />
+            <UserMenu displayName={displayName} avatarUrl={avatarUrl} />
           </div>
           {/* Hamburger — mobile only */}
           <button
@@ -146,6 +150,8 @@ export default function AgentsChrome({
         open={open}
         onClose={() => setOpen(false)}
         pathname={pathname}
+        displayName={displayName}
+        avatarUrl={avatarUrl}
       />
 
       <main className="min-w-0">{children}</main>
@@ -166,10 +172,14 @@ function MobileDrawer({
   open,
   onClose,
   pathname,
+  displayName,
+  avatarUrl,
 }: {
   open: boolean;
   onClose: () => void;
   pathname: string;
+  displayName: string;
+  avatarUrl: string | null;
 }) {
   return (
     <div
@@ -237,14 +247,76 @@ function MobileDrawer({
           })}
         </nav>
 
+        {/* Profile link (mobile-only — UserMenu doesn't fit nicely here) */}
+        <div className="px-6 pt-5 border-t border-bone/10 mt-2">
+          <Link
+            href="/agents/profile"
+            onClick={onClose}
+            className="flex items-center justify-between py-3 text-sm tracking-tight"
+          >
+            <span className="flex items-center gap-3">
+              <Avatar url={avatarUrl} initial={(displayName.trim()[0] || "O").toUpperCase()} />
+              <span className="flex flex-col leading-tight">
+                <span className="font-medium">{displayName}</span>
+                <span className="text-[10px] tracking-[0.22em] uppercase opacity-50 mt-0.5">
+                  Profile settings
+                </span>
+              </span>
+            </span>
+            <span aria-hidden className="opacity-50">→</span>
+          </Link>
+        </div>
+
         {/* Footer area with logout */}
         <div className="mt-auto px-6 py-6 border-t border-bone/10 flex items-center justify-between">
           <p className="text-[10px] tracking-[0.22em] uppercase opacity-40">
-            Internal console · v0.2
+            Internal console · v0.3
           </p>
-          <LogoutButton />
+          <MobileSignOut />
         </div>
       </div>
     </div>
+  );
+}
+
+/* ============================================================
+ * Tiny avatar + sign-out helpers used inside the mobile drawer.
+ * ============================================================ */
+
+function Avatar({ url, initial }: { url: string | null; initial: string }) {
+  return (
+    <span className="w-9 h-9 rounded-full overflow-hidden border border-bone/25 bg-bone/5 flex items-center justify-center shrink-0">
+      {url ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={url} alt="" className="w-full h-full object-cover" />
+      ) : (
+        <span className="text-sm font-medium tracking-tight opacity-85">
+          {initial}
+        </span>
+      )}
+    </span>
+  );
+}
+
+function MobileSignOut() {
+  const [pending, setPending] = useState(false);
+  async function logout() {
+    setPending(true);
+    try {
+      await fetch("/api/auth", { method: "DELETE" });
+    } catch {
+      /* still navigate */
+    }
+    window.location.href = "/login";
+  }
+  return (
+    <button
+      type="button"
+      onClick={logout}
+      disabled={pending}
+      className="text-[10px] tracking-[0.22em] uppercase opacity-70 hover:opacity-100 transition-opacity disabled:opacity-40"
+    >
+      {pending ? "Signing out…" : "Sign out →"}
+    </button>
   );
 }

@@ -471,6 +471,36 @@ on conflict (id) do nothing;
 
 
 -- ============================================================
+-- 0005 — Dashboard operator profile
+-- ============================================================
+
+create table if not exists public.dashboard_profile (
+  id              text primary key default 'primary',
+  display_name    text,
+  avatar_url      text,
+  email_signature text,
+  reply_tone      text default 'restrained',
+  created_at      timestamptz not null default now(),
+  updated_at      timestamptz not null default now()
+);
+
+insert into public.dashboard_profile (id, display_name, email_signature)
+values (
+  'primary',
+  'Onyx',
+  'Talk soon,
+The Onyx Creative Asia team
+Bali · onyxcreative.asia'
+)
+on conflict (id) do nothing;
+
+-- dashboard-avatars storage bucket (public)
+insert into storage.buckets (id, name, public)
+values ('dashboard-avatars', 'dashboard-avatars', true)
+on conflict (id) do nothing;
+
+
+-- ============================================================
 -- DONE — verify with:
 --   select count(*) from public.agents;       -- expect 4
 --   select count(*) from public.clients;      -- expect 5
@@ -479,4 +509,6 @@ on conflict (id) do nothing;
 --   select count(*) from public.flows;        -- expect 3
 --   select inquiry_type, count(*) from public.submissions group by 1;
 --   select id from storage.buckets where id = 'career-cvs';
+--   select * from public.dashboard_profile;
+--   select id, public from storage.buckets where id = 'dashboard-avatars';
 -- ============================================================
