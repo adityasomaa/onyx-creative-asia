@@ -1,42 +1,63 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState } from "react";
 
 /**
  * Global navigation loader.
  *
- * Why: Next.js App Router transitions can feel like the page froze on
- * slow networks. This component shows a centered Onyx-branded spinner
- * the moment a navigation starts, then hides it as soon as the new
- * route's pathname is reflected by usePathname.
+ * Shows a centered Onyx-branded spinner the moment a navigation starts,
+ * then hides it as soon as the new URL (pathname OR search params) is
+ * reflected. A short safety timeout caps how long the spinner can stick
+ * around even if something goes wrong.
  *
- * How:
- *   1. Capture-phase click listener on document, looking for <a href>
- *      targets that point at another internal page.
- *   2. Show the overlay.
- *   3. When pathname changes, hide it. If something goes wrong and
- *      pathname never changes, a 10s safety timeout hides it anyway.
+ * Why we wrap in Suspense: useSearchParams() requires a Suspense
+ * boundary above it. Without one, the entire page tree opts into
+ * dynamic rendering. Local Suspense lets the rest of the layout stay
+ * static.
  *
  * Mounted once in the root layout, applies to BOTH the marketing site
  * and the /agents dashboard.
  */
-
 export default function RouteLoader() {
+  return (
+    <Suspense fallback={null}>
+      <RouteLoaderInner />
+    </Suspense>
+  );
+}
+
+const SAFETY_TIMEOUT_MS = 1500;
+
+function RouteLoaderInner() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
+  // Track the URL the loader started from so we can ignore the initial
+  // pathname/search effect on mount.
+  const startUrlRef = useRef<string | null>(null);
 
-  // Hide when route actually changes
+  // Hide whenever the URL changes (pathname OR search). usePathname +
+  // useSearchParams both return new values once Next.js commits the
+  // navigation, so this fires the moment the new page is ready.
   useEffect(() => {
-    setLoading(false);
-  }, [pathname]);
+    if (!loading) return;
+    // If the URL has actually moved since we started showing the spinner,
+    // hide it. Otherwise the click was something that didn't navigate
+    // (modal trigger, etc.) — the safety timeout below cleans up.
+    const currentUrl = `${pathname}?${searchParams?.toString() ?? ""}`;
+    if (startUrlRef.current !== null && startUrlRef.current !== currentUrl) {
+      setLoading(false);
+      startUrlRef.current = null;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, searchParams]);
 
-  // Listen for navigation starts
+  // Click intercept — show the spinner the instant the user starts a nav.
   useEffect(() => {
     function handler(e: MouseEvent) {
-      // Skip if any modifier — user wants new tab / save / etc.
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-      if (e.button !== 0) return; // primary click only
+      if (e.button !== 0) return;
 
       const target = e.target;
       if (!(target instanceof Element)) return;
@@ -47,7 +68,6 @@ export default function RouteLoader() {
       const href = anchor.getAttribute("href");
       if (!href) return;
 
-      // Skip non-navigations
       if (
         href.startsWith("#") ||
         href.startsWith("mailto:") ||
@@ -59,17 +79,21 @@ export default function RouteLoader() {
       if (anchor.target === "_blank") return;
       if (anchor.hasAttribute("download")) return;
 
-      // Skip external links
       try {
         const url = new URL(anchor.href);
         if (url.origin !== window.location.origin) return;
-        // Same exact URL — no nav, no spinner
-        if (
+
+        const sameUrl =
           url.pathname === window.location.pathname &&
-          url.search === window.location.search
-        ) {
-          return;
-        }
+          url.search === window.location.search &&
+          url.hash === window.location.hash;
+        if (sameUrl) return;
+
+        // Capture the starting URL so the pathname effect can tell when
+        // navigation actually completes (vs a click on a link to the
+        // same path with the search bar changed, which still updates
+        // searchParams).
+        startUrlRef.current = `${window.location.pathname}?${window.location.search.slice(1)}`;
       } catch {
         return;
       }
@@ -81,12 +105,39 @@ export default function RouteLoader() {
     return () => document.removeEventListener("click", handler, true);
   }, []);
 
-  // Safety net — never let the overlay stick around forever
+  // Browser back/forward — hide instantly when the URL changes via popstate.
+  useEffect(() => {
+    function onPop() {
+      setLoading(false);
+      startUrlRef.current = null;
+    }
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  // Safety net — even if the click matched something that didn't
+  // navigate, never let the overlay stick around longer than this.
   useEffect(() => {
     if (!loading) return;
-    const t = setTimeout(() => setLoading(false), 10000);
+    const t = setTimeout(() => {
+      setLoading(false);
+      startUrlRef.current = null;
+    }, SAFETY_TIMEOUT_MS);
     return () => clearTimeout(t);
   }, [loading]);
+
+  // Hide when tab regains focus — a stuck spinner from an aborted nav
+  // is one of the worst feels; this clears it on any return-to-page.
+  useEffect(() => {
+    function onVis() {
+      if (document.visibilityState === "visible") {
+        setLoading(false);
+        startUrlRef.current = null;
+      }
+    }
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   if (!loading) return null;
 
@@ -133,16 +184,9 @@ export default function RouteLoader() {
   );
 }
 
-/* ============================================================
- * OnyxSpinner — circular Onyx mark.
- *
- * Outer dashed ring rotates, inner bullet pulses. Pure CSS so it
- * works during SSR-hydration without flicker.
- * ============================================================ */
 function OnyxSpinner() {
   return (
     <div className="relative w-14 h-14 route-loader-fade-in">
-      {/* Outer rotating ring */}
       <svg
         viewBox="0 0 56 56"
         className="absolute inset-0 w-full h-full"
@@ -172,8 +216,6 @@ function OnyxSpinner() {
           strokeDasharray="40 120"
         />
       </svg>
-
-      {/* Pulsing bullet mark in the centre */}
       <div
         className="absolute inset-0 flex items-center justify-center"
         aria-hidden
