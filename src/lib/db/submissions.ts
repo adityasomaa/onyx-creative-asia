@@ -13,21 +13,28 @@ import type {
   SubmissionWithRefs,
 } from "./types";
 
+/**
+ * Visible status flow:
+ *   new → replied → archived
+ *
+ * The DB schema still allows older values ('triaged', 'qualified', 'spam')
+ * so legacy seed rows render correctly, but the UI filters + status
+ * dropdowns only surface the three active states.
+ */
 export const SUBMISSION_STATUSES: SubmissionStatus[] = [
   "new",
-  "triaged",
-  "qualified",
   "replied",
   "archived",
-  "spam",
 ];
 
 export const SUBMISSION_STATUS_LABEL: Record<SubmissionStatus, string> = {
   new: "New",
-  triaged: "Triaged",
-  qualified: "Qualified",
   replied: "Replied",
   archived: "Archived",
+  // Legacy labels — still mapped so old rows aren't blank, but not
+  // listed in SUBMISSION_STATUSES above so they don't show as filters.
+  triaged: "Triaged",
+  qualified: "Qualified",
   spam: "Spam",
 };
 
@@ -73,6 +80,12 @@ export async function listSubmissions(
   return (data ?? []) as unknown as SubmissionWithRefs[];
 }
 
+/**
+ * Inquiry types surfaced in filters. 'unknown' (legacy default for rows
+ * inserted before migration 0004) is intentionally NOT in this list —
+ * those rows still render with the "Unknown" label below but can't be
+ * filtered for.
+ */
 export const INQUIRY_TYPE_LABEL: Record<
   import("./types").InquiryType,
   string
@@ -89,7 +102,6 @@ export const INQUIRY_TYPES: import("./types").InquiryType[] = [
   "project",
   "career",
   "partnership",
-  "unknown",
 ];
 
 export async function getSubmissionById(

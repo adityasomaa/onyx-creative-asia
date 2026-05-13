@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import RouteLoader from "@/components/RouteLoader";
 
 /**
  * Root layout — minimal. Holds <html>, <body>, the grain texture, and
@@ -78,7 +79,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased grain">{children}</body>
+      <body className="antialiased grain">
+        <RouteLoader />
+        {children}
+      </body>
     </html>
   );
 }

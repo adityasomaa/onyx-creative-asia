@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PageHeader from "../_components/PageHeader";
+import SubmissionActions from "./_components/SubmissionActions";
 import {
   listSubmissions,
   SUBMISSION_STATUSES,
@@ -131,6 +132,7 @@ export default async function SubmissionsPage({
                   <Th>Subject</Th>
                   <Th>Budget</Th>
                   <Th>Status</Th>
+                  <Th>Action</Th>
                 </tr>
               </thead>
               <tbody>
@@ -176,6 +178,13 @@ export default async function SubmissionsPage({
                     </Td>
                     <Td>
                       <StatusBadge status={s.status} />
+                    </Td>
+                    <Td className="overflow-visible relative">
+                      <SubmissionActions
+                        id={s.id}
+                        currentType={s.inquiry_type}
+                        currentStatus={s.status}
+                      />
                     </Td>
                   </tr>
                 ))}
