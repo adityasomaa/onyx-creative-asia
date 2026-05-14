@@ -141,36 +141,58 @@ export async function POST(req: Request) {
 
   const submissionId = inserted.id as string;
 
-  // Fire-and-forget: auto-reply to the lead + internal notification.
+  // Fire-and-forget downstream actions:
+  //   - Internal notification email (always — operator awareness)
+  //   - WhatsApp auto-reply (gated by WA_AUTO_REPLY_ENABLED env flag,
+  //     default OFF. Flip to "true" in Vercel env when you want the
+  //     'we got your message' reply to fire automatically.)
+  //
   // We don't await — Fonnte should get its 200 back fast.
-  void Promise.allSettled([
-    sendWhatsApp({
-      target: sender,
-      message: buildAutoReply(name),
-    }),
-    sendInternalNotification({
-      fromName: name,
-      fromEmail: `${sender}@whatsapp`, // synthetic — Resend won't reply to it
-      inquiryType: "general",
-      highlight: "WhatsApp",
-      metaRows: [
-        { label: "Channel", value: "WhatsApp" },
-        { label: "Phone", value: sender },
-      ],
-      body: message,
-      submissionId,
-    }),
-  ]).then((results) => {
+  const autoReplyOn = process.env.WA_AUTO_REPLY_ENABLED === "true";
+
+  type DownstreamLabel = "email" | "auto-reply";
+  const tasks: Array<{ label: DownstreamLabel; promise: Promise<unknown> }> = [
+    {
+      label: "email",
+      promise: sendInternalNotification({
+        fromName: name,
+        fromEmail: `${sender}@whatsapp`, // synthetic — Resend won't reply to it
+        inquiryType: "general",
+        highlight: "WhatsApp",
+        metaRows: [
+          { label: "Channel", value: "WhatsApp" },
+          { label: "Phone", value: sender },
+        ],
+        body: message,
+        submissionId,
+      }),
+    },
+  ];
+
+  if (autoReplyOn) {
+    tasks.push({
+      label: "auto-reply",
+      promise: sendWhatsApp({
+        target: sender,
+        message: buildAutoReply(name),
+      }),
+    });
+  }
+
+  void Promise.allSettled(tasks.map((t) => t.promise)).then((results) => {
     results.forEach((r, i) => {
+      const label = tasks[i].label;
       if (r.status === "rejected") {
+        console.error(`[wa-inbound] downstream ${label} rejected:`, r.reason);
+      } else if (
+        typeof r.value === "object" &&
+        r.value !== null &&
+        "ok" in r.value &&
+        (r.value as { ok: boolean }).ok === false
+      ) {
         console.error(
-          `[wa-inbound] downstream ${i === 0 ? "auto-reply" : "email"} rejected:`,
-          r.reason
-        );
-      } else if (r.value.ok === false) {
-        console.error(
-          `[wa-inbound] downstream ${i === 0 ? "auto-reply" : "email"} failed:`,
-          r.value.error
+          `[wa-inbound] downstream ${label} failed:`,
+          (r.value as { error?: string }).error
         );
       }
     });

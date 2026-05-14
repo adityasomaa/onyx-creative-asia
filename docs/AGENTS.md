@@ -291,10 +291,12 @@ Setup steps:
    Within ~5 seconds:
    - A new row should appear in `/agents/submissions` with
      `Source = WhatsApp`, `Type = QUESTION`, status = NEW.
-   - The sender gets an auto-reply WA: *"Halo [name], thanks for the
-     message — udah masuk ke tim Onyx..."*.
    - `hello@onyxcreative.asia` gets an internal notification email
      with a deep link to the new submission.
+   - The sender gets an auto-reply WA ONLY IF
+     `WA_AUTO_REPLY_ENABLED=true` is set in Vercel env. Default OFF
+     to keep early testing quiet (and to avoid burning Fonnte free-
+     tier quota on every inbound).
 
 Vercel logs are the first place to look if the webhook isn't firing —
 filter for `/api/inbound/whatsapp` and check for 401s (wrong secret)
