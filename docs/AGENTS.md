@@ -252,6 +252,58 @@ After a successful send:
 
 Free tier covers ~100 msg/day. Pro ~$5/mo scales to thousands.
 
+### Inbound WhatsApp — Fonnte webhook → submissions table
+
+Every WA message someone sends to the studio's number becomes a row
+in `public.submissions` (source = whatsapp). The flow:
+
+```
+WA message → Fonnte → POST /api/inbound/whatsapp → submissions row
+                                              ↓
+                                              ├→ Auto-reply WA back
+                                              └→ Internal email notif
+```
+
+Setup steps:
+
+1. **Generate a webhook secret**. Anything random + long works:
+   ```
+   openssl rand -hex 24
+   ```
+   Add to Vercel env vars as `FONNTE_WEBHOOK_SECRET` (Sensitive ✅).
+   Redeploy.
+
+2. **Configure Fonnte** → Login at https://md.fonnte.com → **Device** →
+   click your device → **Webhook** tab.
+   - **URL**:
+     ```
+     https://onyxcreative.asia/api/inbound/whatsapp?secret=<YOUR_FONNTE_WEBHOOK_SECRET>
+     ```
+   - **Method**: POST
+   - **Events**: enable "Incoming message" (or "Pesan masuk"). Skip
+     status updates / ack / delete events — our endpoint ignores
+     them anyway, but turning them off saves invocations.
+   - **Group messages**: skip. The endpoint short-circuits on
+     `isgroup=true` to avoid clogging the inbox with chat-group noise.
+   - Save.
+
+3. **Test**: send a WA message to the studio number from any phone.
+   Within ~5 seconds:
+   - A new row should appear in `/agents/submissions` with
+     `Source = WhatsApp`, `Type = QUESTION`, status = NEW.
+   - The sender gets an auto-reply WA: *"Halo [name], thanks for the
+     message — udah masuk ke tim Onyx..."*.
+   - `hello@onyxcreative.asia` gets an internal notification email
+     with a deep link to the new submission.
+
+Vercel logs are the first place to look if the webhook isn't firing —
+filter for `/api/inbound/whatsapp` and check for 401s (wrong secret)
+or 503s (env var missing).
+
+The endpoint always returns 200 on valid auth so Fonnte doesn't retry
+on transient errors. If the DB insert fails, the row's lost but the
+Fonnte webhook log on their side still has it.
+
 ### Built-in Fonnte auto-reply (optional, no code)
 
 If you want to auto-respond to inbound WhatsApp messages without
