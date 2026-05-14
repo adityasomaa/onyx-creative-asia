@@ -81,17 +81,45 @@ export async function POST(req: Request) {
 
   // ----- Skip events we don't want as submissions ------------------
   // Fonnte may post status/ack/delete events too. Real incoming
-  // messages have non-empty `message` + non-empty `sender`.
+  // personal messages have non-empty `message` + a numeric phone in
+  // `sender`. Group messages either carry a `member` field (the
+  // actual sender inside the group) or a non-numeric group ID in
+  // `sender` (e.g. `120363...@g.us` or `123-456`).
   const message = pickString(payload, "message", "text");
   const senderRaw = pickString(payload, "sender", "from", "phone");
-  const isGroup =
-    pickString(payload, "isgroup", "is_group", "groupid", "group").length > 0;
 
   if (!message || !senderRaw) {
-    // Fonnte still expects 200 — telling it "rejected" makes it retry.
     return NextResponse.json({ ok: true, skipped: "no-message-or-sender" });
   }
-  if (isGroup) {
+
+  // Group-message detection — any of these signals means "skip".
+  const hasMemberField = pickString(payload, "member").length > 0;
+  const groupFlag = pickString(
+    payload,
+    "isgroup",
+    "is_group",
+    "groupid",
+    "group"
+  ).toLowerCase();
+  const groupFlagSet =
+    groupFlag === "true" ||
+    groupFlag === "1" ||
+    groupFlag === "yes" ||
+    groupFlag.length > 4; // a non-empty group id string
+
+  // Group IDs from WhatsApp Web have characters that personal phone
+  // numbers never do: '@', '-', non-leading letters. A real personal
+  // number is just digits (possibly with a leading +).
+  const senderDigits = senderRaw.replace(/^\+/, "");
+  const senderLooksLikeGroup = /[^0-9]/.test(senderDigits);
+
+  if (hasMemberField || groupFlagSet || senderLooksLikeGroup) {
+    console.info("[wa-inbound] skipped group message", {
+      sender: senderRaw.slice(0, 24),
+      hasMemberField,
+      groupFlagSet,
+      senderLooksLikeGroup,
+    });
     return NextResponse.json({ ok: true, skipped: "group-message" });
   }
 
