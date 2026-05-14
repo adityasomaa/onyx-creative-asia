@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSupabase } from "@/lib/supabase";
 import { sendInternalNotification } from "@/lib/email";
 import { sendWhatsApp, normaliseTarget } from "@/lib/fonnte";
+import { canSendWhatsApp, logWhatsAppSend } from "@/lib/wa-safety";
 
 export const runtime = "nodejs";
 
@@ -198,12 +199,34 @@ export async function POST(req: Request) {
   ];
 
   if (autoReplyOn) {
+    // The auto-reply also has to pass the safety guard. Wrap the
+    // whole send in a task that checks first, logs the outcome, and
+    // never throws.
     tasks.push({
       label: "auto-reply",
-      promise: sendWhatsApp({
-        target: sender,
-        message: buildAutoReply(name),
-      }),
+      promise: (async () => {
+        const replyMsg = buildAutoReply(name);
+        const allow = await canSendWhatsApp(sender);
+        if (!allow.ok) {
+          await logWhatsAppSend({
+            target: sender,
+            message: replyMsg,
+            ok: false,
+            error: `BLOCKED auto-reply: ${allow.code} — ${allow.reason}`,
+            submissionId,
+          });
+          return { ok: false, error: allow.reason };
+        }
+        const res = await sendWhatsApp({ target: sender, message: replyMsg });
+        await logWhatsAppSend({
+          target: sender,
+          message: replyMsg,
+          ok: res.ok,
+          error: res.ok ? undefined : res.error,
+          submissionId,
+        });
+        return res;
+      })(),
     });
   }
 

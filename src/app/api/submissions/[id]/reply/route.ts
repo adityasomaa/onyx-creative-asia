@@ -5,6 +5,7 @@ import { getServerSupabase } from "@/lib/supabase";
 import { getProfile } from "@/lib/db/profile";
 import { sendReply } from "@/lib/email";
 import { sendWhatsApp } from "@/lib/fonnte";
+import { canSendWhatsApp, logWhatsAppSend } from "@/lib/wa-safety";
 
 export const runtime = "nodejs";
 
@@ -132,10 +133,43 @@ export async function POST(
         { status: 400 }
       );
     }
+
+    // Safety gate — working hours / daily quota / cooldown / interval.
+    // Any deny here returns 429 (Too Many Requests) so the dashboard
+    // can show the reason inline without conflating it with a 500.
+    const allow = await canSendWhatsApp(submission.from_phone);
+    if (!allow.ok) {
+      // Log the blocked attempt for auditability.
+      void logWhatsAppSend({
+        target: submission.from_phone,
+        message: replyText,
+        ok: false,
+        error: `BLOCKED: ${allow.code} — ${allow.reason}`,
+        sender: session.username,
+        submissionId: id,
+      });
+      return NextResponse.json(
+        { ok: false, error: allow.reason, code: allow.code },
+        { status: 429 }
+      );
+    }
+
     const res = await sendWhatsApp({
       target: submission.from_phone,
       message: replyText,
     });
+
+    // Always log — success or fail — so the rolling counters stay
+    // honest and we can audit anything Meta might flag.
+    void logWhatsAppSend({
+      target: submission.from_phone,
+      message: replyText,
+      ok: res.ok,
+      error: res.ok ? undefined : res.error,
+      sender: session.username,
+      submissionId: id,
+    });
+
     if (!res.ok) {
       return NextResponse.json(
         { ok: false, error: res.error },

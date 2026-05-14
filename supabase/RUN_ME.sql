@@ -369,6 +369,28 @@ delete from public.clients;
 
 
 -- ============================================================
+-- 0008 — WhatsApp outbound audit log (rate-limit + ban-prevention)
+-- ============================================================
+
+create table if not exists public.wa_send_log (
+  id            uuid primary key default gen_random_uuid(),
+  target_phone  text not null,
+  message       text,
+  ok            boolean not null default false,
+  error         text,
+  sender        text,
+  submission_id uuid references public.submissions(id) on delete set null,
+  sent_at       timestamptz not null default now()
+);
+
+create index if not exists wa_send_log_sent_at_idx
+  on public.wa_send_log(sent_at desc);
+
+create index if not exists wa_send_log_target_sent_at_idx
+  on public.wa_send_log(target_phone, sent_at desc);
+
+
+-- ============================================================
 -- DONE — verify with:
 --   select count(*) from public.agents;            -- expect 4
 --   select count(*) from public.flows;             -- expect 3
@@ -378,4 +400,5 @@ delete from public.clients;
 --   select count(*) from public.agent_runs;        -- expect 0
 --   select count(*) from public.files;             -- expect 0
 --   select count(*) from public.dashboard_profile; -- expect 1
+--   select count(*) from public.wa_send_log;       -- expect 0
 -- ============================================================

@@ -306,6 +306,56 @@ The endpoint always returns 200 on valid auth so Fonnte doesn't retry
 on transient errors. If the DB insert fails, the row's lost but the
 Fonnte webhook log on their side still has it.
 
+### WhatsApp ban-prevention (safety guards)
+
+Until we move the WA number to the official Meta Cloud API, Fonnte
+operates against an unofficial WhatsApp Web session. Meta's spam-
+detection will ban the number if it sees bot-like patterns. The
+platform enforces four guards on every outbound WA send so this
+can't happen by accident:
+
+| Guard | Default | Env var |
+|---|---|---|
+| Working hours | 08:00–22:00 WITA | `WA_WORKING_HOURS_START` / `_END` / `_TZ` |
+| Rolling 24h quota | 50 sends | `WA_DAILY_LIMIT` |
+| Per-recipient cooldown | 30 s | `WA_PER_RECIPIENT_COOLDOWN_S` |
+| Global min interval | 5 s | `WA_MIN_INTERVAL_S` |
+
+Every send (operator reply OR auto-reply) calls `canSendWhatsApp()`
+first. If any guard denies, the API returns 429 with a clear reason
+(*"Daily quota reached (50/50 sends in last 24h)..."* etc.) and the
+ReplyBox UI shows it inline.
+
+Every send — success, failure, or blocked attempt — gets a row in
+`public.wa_send_log`. The dashboard widget on `/agents/dashboard`
+under **WhatsApp · safety** shows live counts:
+- Sent (24h) vs daily limit
+- Remaining in this rolling window
+- Failed (24h) — blocks + transport errors
+- Sending OPEN/CLOSED state based on working hours
+
+What this **can't** prevent — the operator still has to follow these
+rules manually:
+- Don't first-touch cold numbers (only reply to people who chatted
+  us first). The ReplyBox is scoped to a submission's `from_phone`,
+  so this is enforced for the dashboard flow — but if you copy-paste
+  the number into your own WA app and message manually, no guard.
+- Don't broadcast the same template to many recipients.
+- Don't put promo/marketing in the first message.
+- Vary phrasing across replies — don't paste the exact same text.
+
+Volume is the biggest variable. Defaults assume a low-traffic studio
+operating from one device:
+
+- **Week 1** (warm-up): keep daily quota at 30 or less, prefer email
+  for any first-touch.
+- **Month 1**: 50 is the safe ceiling. Watch the **Failed (24h)**
+  card — if it climbs without an obvious cause, the number is
+  getting flagged. Pause outbound and reduce limit.
+- **Sustained**: only raise `WA_DAILY_LIMIT` above 100 if the device
+  has been clean for 60+ days. Above 200/day, plan the migration to
+  Meta Cloud API — the unofficial path won't survive long.
+
 ### Built-in Fonnte auto-reply (optional, no code)
 
 If you want to auto-respond to inbound WhatsApp messages without

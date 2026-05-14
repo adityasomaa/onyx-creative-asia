@@ -7,12 +7,16 @@ import {
 } from "@/lib/db/projects";
 import { CLIENT_STATUS_LABEL } from "@/lib/db/clients";
 import { SUBMISSION_STATUSES } from "@/lib/db/submissions";
+import { getWaUsage } from "@/lib/wa-safety";
 import type { ClientStatus } from "@/lib/db/types";
 
 export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
-  const data = await getDashboardSummary();
+  const [data, wa] = await Promise.all([
+    getDashboardSummary(),
+    getWaUsage(),
+  ]);
 
   const totalProjects =
     data.projects.incoming +
@@ -115,6 +119,52 @@ export default async function DashboardPage() {
           </div>
         </section>
 
+        {/* WHATSAPP SAFETY — rolling 24h usage + working-hours status */}
+        <section>
+          <SectionHead
+            label="WhatsApp · safety"
+            tail={
+              <span className="opacity-50">
+                last 24h · ban-prevention guard
+              </span>
+            }
+          />
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-bone/10 border border-bone/15">
+            <Card
+              kicker="Sent (24h)"
+              value={wa.sentLast24h}
+              footnote={`limit ${wa.dailyLimit}`}
+              accent={wa.sentLast24h < wa.dailyLimit * 0.7}
+              muted={wa.sentLast24h >= wa.dailyLimit}
+            />
+            <Card
+              kicker="Remaining"
+              value={wa.remaining}
+              footnote="this rolling window"
+              accent={wa.remaining > 10}
+              muted={wa.remaining === 0}
+            />
+            <Card
+              kicker="Failed (24h)"
+              value={wa.failedLast24h}
+              footnote="blocks + errors"
+              muted={wa.failedLast24h === 0}
+            />
+            <Card
+              kicker="Sending"
+              value={wa.withinWorkingHours ? "OPEN" : "CLOSED"}
+              footnote={`${pad2(wa.workingStart)}:00–${pad2(wa.workingEnd)}:00 · ${wa.timezone}`}
+              accent={wa.withinWorkingHours}
+              muted={!wa.withinWorkingHours}
+            />
+          </div>
+          <p className="text-[10px] tracking-[0.18em] uppercase opacity-50 mt-3 italic">
+            Working hours auto-block outbound. Adjust limits via{" "}
+            <code className="font-mono opacity-80">WA_*</code> env vars
+            (see docs/AGENTS.md).
+          </p>
+        </section>
+
         <p className="text-[10px] tracking-[0.18em] uppercase opacity-40 pt-2">
           Generated · {new Date(data.generatedAt).toUTCString()}
         </p>
@@ -144,6 +194,10 @@ function SectionHead({
   );
 }
 
+function pad2(n: number): string {
+  return n.toString().padStart(2, "0");
+}
+
 function Card({
   kicker,
   value,
@@ -153,7 +207,7 @@ function Card({
   href,
 }: {
   kicker: string;
-  value: number;
+  value: number | string;
   footnote?: string;
   accent?: boolean;
   muted?: boolean;
