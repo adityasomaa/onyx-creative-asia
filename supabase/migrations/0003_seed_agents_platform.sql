@@ -2,6 +2,12 @@
 -- Onyx Agents Platform — seed data
 -- Re-runnable: each insert uses `on conflict do nothing` against the
 -- unique key, so running this twice doesn't duplicate rows.
+--
+-- Slimmed to seed ONLY the design-time records (agents + flow
+-- templates). Transactional data (clients, projects, submissions,
+-- agent_runs) is left empty so the dashboard reflects real
+-- platform activity going forward. See migration 0007 for the
+-- cleanup that removed the original dummy seed rows.
 -- ============================================================
 
 -- ---------- AGENTS (4 MVP roster) ----------
@@ -46,7 +52,7 @@ insert into public.agents (slug, name, role, number, manifesto, replaces, tools,
      'Ships in the same Black Box visual language across surfaces — web, social, motion. The discipline boundary between design and dev is internal; the client never feels the seam.',
      'Auto-pushes commits to the production repo on completion. No staging environment that goes stale.'
    ],
-   'working'),
+   'idle'),
 
   ('account-manager', 'Account Manager',
    'Client comms · status updates · invoicing · follow-ups',
@@ -63,177 +69,6 @@ insert into public.agents (slug, name, role, number, manifesto, replaces, tools,
    'idle')
 on conflict (slug) do nothing;
 
--- ---------- CLIENTS (the 3 real ones + a few leads) ----------
-insert into public.clients (slug, name, contact_email, status, notes_md) values
-  ('great-bali-properties', 'Great Bali Properties',
-   'agent@greatbaliproperties.com', 'active',
-   'Premium villa marketplace. Phase 2 in progress — listing detail revamp.'),
-
-  ('radcruiters', 'RADcruiters',
-   'team@onlineresults.radcruiters.com', 'active',
-   'Recruitment-marketing agency in NL. AI intake automation live; expansion scoping.'),
-
-  ('the-hair-extensions-bali', 'The Hair Extensions Bali',
-   'studio@thehairextensionsbali.com', 'active',
-   'Premium salon in Kerobokan. Brand + site shipped, social retainer ongoing.'),
-
-  ('northpeak-coffee', 'Northpeak Coffee',
-   'hello@northpeak.example', 'lead',
-   'NL-based specialty coffee. Inquired about paid media. Awaiting reply.'),
-
-  ('atlas-realty', 'Atlas Realty',
-   'sales@atlasrealty.example', 'lead',
-   'Indonesian realty group. Looking at AI agent for lead qualification.')
-on conflict (slug) do nothing;
-
--- ---------- PROJECTS ----------
-insert into public.projects (client_id, title, brief_md, stage, disciplines, due_date, started_at)
-select c.id,
-       'Phase 2 — listing detail revamp',
-       'New listing-detail page with embedded WhatsApp routing, gallery refresh, and IDR/USD switch.',
-       'in_progress',
-       array['web'],
-       date '2026-05-25',
-       now() - interval '4 days'
-from public.clients c where c.slug = 'great-bali-properties'
-on conflict do nothing;
-
-insert into public.projects (client_id, title, brief_md, stage, disciplines, due_date, started_at)
-select c.id,
-       'AI intake — pipeline expansion',
-       'Extend Make.com pipeline with Slack notification, vacancy auto-tagging, and Airtable enrichment.',
-       'scoping',
-       array['ai_systems'],
-       date '2026-05-22',
-       now() - interval '2 days'
-from public.clients c where c.slug = 'radcruiters'
-on conflict do nothing;
-
-insert into public.projects (client_id, title, brief_md, stage, disciplines, due_date, started_at)
-select c.id,
-       'May social cycle — 4 carousels',
-       'Editorial cycle: 4 posts (process, transformations, color science, BTS).',
-       'in_progress',
-       array['social'],
-       date '2026-05-30',
-       now() - interval '7 days'
-from public.clients c where c.slug = 'the-hair-extensions-bali'
-on conflict do nothing;
-
-insert into public.projects (client_id, title, brief_md, stage, disciplines, due_date)
-select c.id,
-       'Brand identity — logo + wordmark',
-       'Full identity system. Wordmark, color, type, motion principles.',
-       'done',
-       array['brand'],
-       date '2026-03-15'
-from public.clients c where c.slug = 'the-hair-extensions-bali'
-on conflict do nothing;
-
--- ---------- SUBMISSIONS (mock inbound over past week) ----------
-insert into public.submissions (source, from_name, from_email, subject, body_md, interest, budget_band, status, received_at)
-values
-  ('form', 'Maya Suryadi', 'maya@suryadigroup.com',
-   'Web project for ecommerce launch',
-   'Hi Onyx, we are launching a Bali-based ecommerce for handmade ceramics. Looking for the full web build + brand + first paid run. Budget around $5-10k. Timeline before September. Can we talk?',
-   array['Web Development', 'Brand & Design', 'Paid Media'],
-   '$5k–$10k',
-   'new',
-   now() - interval '2 hours'),
-
-  ('email', 'David Tan', 'david@northpeak.example',
-   'Paid media retainer — coffee brand',
-   'Northpeak Coffee here. We''re running our own ads but want to bring in a partner for quarterly creative refresh + media buying. Standing budget about $3k/mo. References attached.',
-   array['Paid Media'],
-   '$3k–$5k',
-   'triaged',
-   now() - interval '1 day'),
-
-  ('whatsapp', 'Pratiwi Wibowo', null,
-   null,
-   'Halo, saya tertarik untuk bangun website portofolio fotografi. Kira-kira budget berapa ya untuk web yang simple tapi premium? Thanks.',
-   array['Web Development'],
-   '$1k–$3k',
-   'new',
-   now() - interval '5 hours'),
-
-  ('email', 'Atlas Realty Team', 'sales@atlasrealty.example',
-   'AI agent for incoming leads',
-   'We get 100+ inquiries a week. Want to qualify them automatically — schedule visits, answer FAQs, hand the warm ones to humans. Have you done this kind of thing?',
-   array['AI Systems'],
-   '$10k+',
-   'qualified',
-   now() - interval '2 days'),
-
-  ('form', 'Anonymous', 'careers@gigantor.example',
-   '(missing subject)',
-   'Hello, we are a recruitment agency in Singapore looking for someone to do our social media. Please send rate card.',
-   array['Social Media'],
-   'Not sure yet',
-   'archived',
-   now() - interval '4 days'),
-
-  ('whatsapp', 'Bayu Saputra', null,
-   null,
-   'Bro, lagi cari yang bisa handle ads buat warung kopi gw di Canggu. Budget kecil sih, sekitar 1 juta per bulan. Bisa?',
-   array['Paid Media'],
-   '< $1k',
-   'replied',
-   now() - interval '3 days'),
-
-  ('form', 'Chiara Rosso', 'c.rosso@studio.example',
-   'Co-production for a brand book',
-   'I run a small studio in Milan. We have a client that wants a brand book printed and the design budget got blown out. Looking for a partner to absorb the design work. ~$4k.',
-   array['Brand & Design'],
-   '$3k–$5k',
-   'triaged',
-   now() - interval '6 days')
-on conflict do nothing;
-
--- ---------- AGENT RUNS (mocked activity) ----------
-insert into public.agent_runs (agent_id, project_id, input_md, output_md, status, started_at, completed_at, duration_ms)
-select a.id, p.id,
-       'New brief routed from Director.',
-       'Drafted scope.md + timeline.md + quote.md. Estimated 6-week build, $6k band.',
-       'success',
-       now() - interval '2 hours' - interval '2 minutes',
-       now() - interval '2 hours' - interval '20 seconds',
-       100000
-from public.agents a, public.projects p
-where a.slug = 'strategist'
-  and p.title like 'AI intake%'
-on conflict do nothing;
-
-insert into public.agent_runs (agent_id, project_id, input_md, output_md, status, started_at, completed_at, duration_ms)
-select a.id, p.id,
-       'Listing detail revamp — phase 2 build.',
-       'Rendered new listing template. WhatsApp routing wired. Currency switch live in staging.',
-       'success',
-       now() - interval '4 hours',
-       now() - interval '3 hours' - interval '15 minutes',
-       2700000
-from public.agents a, public.projects p
-where a.slug = 'maker'
-  and p.title like 'Phase 2%'
-on conflict do nothing;
-
-insert into public.agent_runs (agent_id, project_id, input_md, output_md, status, started_at, completed_at, duration_ms)
-select a.id, p.id,
-       'Weekly status email to client.',
-       'Sent. Client confirmed Friday review session.',
-       'success',
-       now() - interval '1 day',
-       now() - interval '1 day' + interval '40 seconds',
-       40000
-from public.agents a, public.projects p
-where a.slug = 'account-manager'
-  and p.title like 'May social%'
-on conflict do nothing;
-
-insert into public.agent_runs (agent_id, input_md, status, started_at)
-select a.id, 'Triaging Maya Suryadi inbound', 'running', now() - interval '15 minutes'
-from public.agents a where a.slug = 'director'
-on conflict do nothing;
 
 -- ---------- FLOWS (defined in code, mirrored here for runtime) ----------
 insert into public.flows (slug, name, description, trigger_kind, enabled, graph_json) values

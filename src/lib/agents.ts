@@ -89,6 +89,9 @@ export const AGENTS: Agent[] = [
     ],
     status: "idle",
   },
+  // Note: removed the previous "working" status + currentTask demo on the
+  // Maker. All four agents start idle; real status will come from the
+  // runtime once Phase 4 (autonomous runs) ships.
   {
     slug: "account-manager",
     name: "Account Manager",
@@ -112,7 +115,17 @@ export function findAgent(slug: string): Agent | undefined {
   return AGENTS.find((a) => a.slug === slug);
 }
 
-/* ---------- mocked state — replace with real reads in fase 2 ---------- */
+/* ---------- transactional fallbacks — empty by default ----------
+ *
+ * These constants only fire when src/lib/db/agents.ts can't talk to
+ * Supabase (preview deploys without env vars, dev without .env.local).
+ * Once the DB is reachable, the real `projects` + `agent_runs` tables
+ * are the source of truth and these are never read.
+ *
+ * Kept as empty arrays so the dashboard renders consistent
+ * "No active projects" / "No recent runs" empty states either way —
+ * no more demo rows showing up in production.
+ */
 
 export type ActiveProject = {
   id: string;
@@ -124,35 +137,7 @@ export type ActiveProject = {
   nextMilestone?: string;
 };
 
-export const ACTIVE_PROJECTS: ActiveProject[] = [
-  {
-    id: "p-001",
-    title: "Phase 2 — listing detail revamp",
-    client: "Great Bali Properties",
-    ownerSlug: "maker",
-    status: "In progress",
-    startedAt: "2026-05-08",
-    nextMilestone: "Internal review · 2026-05-13",
-  },
-  {
-    id: "p-002",
-    title: "AI intake — pipeline expansion",
-    client: "RADcruiters",
-    ownerSlug: "strategist",
-    status: "Drafting scope",
-    startedAt: "2026-05-10",
-    nextMilestone: "Quote to client · 2026-05-12",
-  },
-  {
-    id: "p-003",
-    title: "Launch week social cycle",
-    client: "Onyx (internal)",
-    ownerSlug: "maker",
-    status: "Rendering",
-    startedAt: "2026-05-06",
-    nextMilestone: "Schedule + post · 2026-05-13",
-  },
-];
+export const ACTIVE_PROJECTS: ActiveProject[] = [];
 
 export type ActivityEvent = {
   id: string;
@@ -161,11 +146,4 @@ export type ActivityEvent = {
   description: string;
 };
 
-export const ACTIVITY: ActivityEvent[] = [
-  { id: "e-010", at: "2026-05-11T11:42:00+08:00", agentSlug: "director",        description: "Routed inbound brief from hello@ → Strategist · client: RADcruiters" },
-  { id: "e-009", at: "2026-05-11T11:38:00+08:00", agentSlug: "strategist",      description: "Drafted scope.md for RADcruiters Phase 2 (~$6k band)" },
-  { id: "e-008", at: "2026-05-11T10:15:00+08:00", agentSlug: "maker",           description: "Rendered 19 launch-week static + scramble assets · synced to Drive" },
-  { id: "e-007", at: "2026-05-10T18:02:00+08:00", agentSlug: "account-manager", description: "Sent weekly status to Great Bali Properties · invoiced 50%" },
-  { id: "e-006", at: "2026-05-10T09:30:00+08:00", agentSlug: "director",        description: "Closed 2 stale inbounds (>30d no reply) · refunded retainer" },
-  { id: "e-005", at: "2026-05-09T16:11:00+08:00", agentSlug: "maker",           description: "Pushed contact-form WA + mail redirect · live on onyxcreative.asia" },
-];
+export const ACTIVITY: ActivityEvent[] = [];
