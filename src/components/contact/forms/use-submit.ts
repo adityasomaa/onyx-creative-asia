@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { InquiryType } from "../inquiry-types";
+import { getWaLinkWithText } from "@/lib/wa-number";
 
 export type SubmitStatus = "idle" | "submitting" | "sent";
 
@@ -34,9 +35,8 @@ export function useInquirySubmit() {
     setError(null);
 
     if (opts?.whatsappText && typeof window !== "undefined") {
-      const waNumber = "62895413372822";
       window.open(
-        `https://wa.me/${waNumber}?text=${encodeURIComponent(opts.whatsappText)}`,
+        getWaLinkWithText(opts.whatsappText),
         "_blank",
         "noopener,noreferrer"
       );

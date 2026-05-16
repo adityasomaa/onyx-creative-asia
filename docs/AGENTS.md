@@ -356,6 +356,55 @@ operating from one device:
   has been clean for 60+ days. Above 200/day, plan the migration to
   Meta Cloud API — the unofficial path won't survive long.
 
+### Switching the WhatsApp number
+
+The platform is currently linked to a personal WA number. Once a
+dedicated business number is provisioned, the swap is a 3-env-var
+change with a single redeploy. No code changes needed — every
+hardcoded reference to the old number was centralized into
+`src/lib/wa-number.ts`.
+
+**Checklist:**
+
+1. **Get the new number into Fonnte**
+   - Login https://md.fonnte.com → **Device → Add Device**
+   - Enter the new number (e.g. `6281xxxxxxxxx`), connect, scan QR
+     from the new phone's WhatsApp → Linked Devices
+   - Once device shows green / connect, copy its **Token**
+   - On the new device, configure **Webhook URL** with the same
+     `?secret=<FONNTE_WEBHOOK_SECRET>` we already use
+
+2. **Update Vercel env vars** (Production + Preview)
+
+   | Env var | New value |
+   |---|---|
+   | `NEXT_PUBLIC_WA_NUMBER` | new number, digits only (e.g. `6281234567890`) |
+   | `NEXT_PUBLIC_WA_DISPLAY` | human-formatted (e.g. `+62 812-3456-7890`) |
+   | `FONNTE_TOKEN` | the new device's token |
+   | `WA_AUTO_REPLY_ENABLED` | flip to `true` if you want the auto-reply on with the business number |
+
+3. **Redeploy** — `NEXT_PUBLIC_*` env vars are baked at build time.
+   Either push an empty commit or hit **Redeploy** on the latest
+   deployment in Vercel. After ~1 minute:
+   - All `wa.me/<number>` links on the website point at the new
+     number (footer, contact form, email auto-reply)
+   - Every outbound reply sent from the dashboard goes through the
+     new Fonnte device
+   - Inbound webhook flows from the new device into the same
+     `submissions` table
+
+4. **(Optional) Decommission the old device** — at Fonnte, **Delete**
+   the old device entry. Or keep it for a transition week so any
+   stragglers still reach you.
+
+5. **(Optional) Block the noisy contact** — if you still want to
+   ignore messages from a specific number on the new line, see the
+   `WA_INBOUND_BLOCKLIST` env var (TBD — ask if you want it built).
+
+Everything else (Resend, Supabase, dashboard auth, the entire
+`/agents/*` pipeline) is number-agnostic. They just shuttle whatever
+arrives in the webhook to wherever the operator points it.
+
 ### Built-in Fonnte auto-reply (optional, no code)
 
 If you want to auto-respond to inbound WhatsApp messages without

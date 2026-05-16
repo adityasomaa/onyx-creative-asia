@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
+import { getWaNumber } from "@/lib/wa-number";
 
 /**
  * Shared bits across every sub-form: numbered field group, success
@@ -10,9 +11,13 @@ import { cn } from "@/lib/cn";
  */
 
 const EASE = [0.25, 1, 0.5, 1] as const;
-const WA_NUMBER = "62895413372822";
 
-export const WHATSAPP_NUMBER = WA_NUMBER;
+/**
+ * Re-exported for any external caller that imports
+ * `{ WHATSAPP_NUMBER }` from this file. New code should import
+ * `getWaNumber()` from `@/lib/wa-number` directly.
+ */
+export const WHATSAPP_NUMBER = getWaNumber();
 
 /* ============================================================
  * Group — numbered field row (kicker · label · inputs)

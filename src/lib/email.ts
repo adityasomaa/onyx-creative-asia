@@ -11,6 +11,7 @@
  */
 
 import { Resend } from "resend";
+import { getWaDisplay, getWaLink } from "@/lib/wa-number";
 
 const FROM_DEFAULT = "Onyx Creative Asia <hello@onyxcreative.asia>";
 const INTERNAL_TO_DEFAULT = "hello@onyxcreative.asia";
@@ -258,7 +259,7 @@ ${p.copy.intro}${rows}
 ${p.copy.sla}
 
 If it's urgent, you can WhatsApp us anytime:
-https://wa.me/62895413372822
+${getWaLink()}
 
 Talk soon,
 The Onyx Creative Asia team
@@ -314,7 +315,7 @@ function buildAutoReplyHtml(p: {
           <p style="margin:0 0 28px 0;font-size:14px;line-height:1.6;color:rgba(244,241,236,0.85);">${escapeHtml(p.sla)}</p>
           <p style="margin:0 0 32px 0;font-size:13px;line-height:1.6;color:rgba(244,241,236,0.7);">
             Urgent? WhatsApp us anytime:
-            <a href="https://wa.me/62895413372822" style="color:#F4F1EC;text-decoration:underline;">+62 895-4133-72822</a>
+            <a href="${escapeHtml(getWaLink())}" style="color:#F4F1EC;text-decoration:underline;">${escapeHtml(getWaDisplay())}</a>
           </p>
           <p style="margin:32px 0 0 0;font-size:14px;color:#F4F1EC;">
             Talk soon,<br><span style="font-style:italic;font-weight:300;">The Onyx Creative Asia team</span>
