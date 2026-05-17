@@ -254,6 +254,22 @@ Free tier covers ~100 msg/day. Pro ~$5/mo scales to thousands.
 
 ### Inbound WhatsApp — Fonnte webhook → submissions table
 
+> **Currently DISABLED.** `WA_INBOUND_ENABLED` defaults to `false`
+> while the platform is linked to a personal WA number. The webhook
+> endpoint still accepts POSTs (so Fonnte doesn't error or retry)
+> but skips the insert entirely. To turn the pipeline back on:
+>
+> 1. In Vercel env vars, set `WA_INBOUND_ENABLED=true`.
+> 2. Redeploy.
+> 3. Confirm Fonnte device → Webhook URL is still pointing at our
+>    endpoint with the correct `?secret=` query.
+>
+> Recommended sequence: only flip the switch after the dedicated
+> business WA number is connected to Fonnte (see "Switching the
+> WhatsApp number" below). Don't turn it on with a personal number
+> linked — every personal chat becomes a submission row, including
+> conversations that have nothing to do with the studio.
+
 Every WA message someone sends to the studio's number becomes a row
 in `public.submissions` (source = whatsapp). The flow:
 

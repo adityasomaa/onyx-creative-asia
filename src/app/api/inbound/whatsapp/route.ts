@@ -60,6 +60,19 @@ async function parsePayload(req: Request): Promise<Payload> {
 }
 
 export async function POST(req: Request) {
+  // ---------- Master kill switch ----------
+  // WA_INBOUND_ENABLED gates the whole pipeline. Default OFF — the
+  // platform is currently linked to a personal WA number and the
+  // operator doesn't want chats becoming submissions yet. Flip to
+  // "true" in Vercel env vars (then redeploy) once the dedicated
+  // business number is connected.
+  //
+  // We still return 200 so Fonnte doesn't retry; just log + skip.
+  const inboundOn = process.env.WA_INBOUND_ENABLED === "true";
+  if (!inboundOn) {
+    return NextResponse.json({ ok: true, skipped: "inbound-disabled" });
+  }
+
   const url = new URL(req.url);
   const secretParam = url.searchParams.get("secret") ?? "";
   const expected = process.env.FONNTE_WEBHOOK_SECRET ?? "";
