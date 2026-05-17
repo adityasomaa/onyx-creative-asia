@@ -60,6 +60,8 @@ export type InquiryType =
   | "partnership"
   | "unknown";
 
+export type Priority = "urgent" | "normal" | "low";
+
 export type SubmissionRow = {
   id: string;
   source: SubmissionSource;
@@ -82,6 +84,11 @@ export type SubmissionRow = {
   received_at: string;
   triaged_at: string | null;
   triaged_by: string | null;
+  /** LLM-derived columns (added by migration 0009). All nullable —
+   *  present once the triage worker has run. */
+  priority: Priority | null;
+  triage_summary: string | null;
+  triage_model: string | null;
 };
 
 export type FileKind = "asset" | "deliverable" | "attachment" | "contract";

@@ -391,6 +391,23 @@ create index if not exists wa_send_log_target_sent_at_idx
 
 
 -- ============================================================
+-- 0009 — LLM triage columns on submissions
+-- ============================================================
+
+alter table public.submissions
+  add column if not exists priority text;
+
+alter table public.submissions
+  add column if not exists triage_summary text;
+
+alter table public.submissions
+  add column if not exists triage_model text;
+
+create index if not exists submissions_priority_idx
+  on public.submissions(priority);
+
+
+-- ============================================================
 -- DONE — verify with:
 --   select count(*) from public.agents;            -- expect 4
 --   select count(*) from public.flows;             -- expect 3
@@ -401,4 +418,5 @@ create index if not exists wa_send_log_target_sent_at_idx
 --   select count(*) from public.files;             -- expect 0
 --   select count(*) from public.dashboard_profile; -- expect 1
 --   select count(*) from public.wa_send_log;       -- expect 0
+--   \d public.submissions  -- should include priority + triage_summary + triage_model
 -- ============================================================

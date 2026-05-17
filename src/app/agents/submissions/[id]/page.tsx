@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageHeader from "../../_components/PageHeader";
 import ReplyBox from "./_components/ReplyBox";
+import TriageCard from "./_components/TriageCard";
 import {
   getSubmissionById,
   listFilesForSubmission,
@@ -63,6 +64,27 @@ export default async function SubmissionDetail({
               {DATE_FMT.format(new Date(submission.received_at))}
             </span>
           </div>
+
+          {/* TRIAGE */}
+          <TriageCard
+            submissionId={submission.id}
+            initialSummary={submission.triage_summary}
+            initialPriority={submission.priority}
+            initialModel={submission.triage_model}
+            initialPayload={
+              (submission.payload_json?.triage as
+                | {
+                    summary?: string;
+                    priority?: string;
+                    disciplines?: string[];
+                    budget_hint?: string | null;
+                    urgency_signals?: string | null;
+                    model?: string;
+                    ranAt?: string;
+                  }
+                | undefined) ?? null
+            }
+          />
 
           {/* BODY */}
           <section>

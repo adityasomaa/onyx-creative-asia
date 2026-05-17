@@ -8,17 +8,18 @@ type Channel = "email" | "whatsapp";
 /**
  * ReplyBox — operator-side reply composer on the submission detail page.
  *
- * Mode: type plain reply, pick channel (email / whatsapp), confirm,
- * send. On success the submission status flips to "replied" and the
- * page refreshes so the operator sees the updated state.
+ * Flow:
+ *   1. Type a quick draft
+ *   2. Pick channel (email / whatsapp)
+ *   3. (Optional) Click "Enhance with Gemini" → LLM polishes per the
+ *      operator's saved reply_tone. A diff panel shows before/after;
+ *      operator can Accept, Edit again, or Discard.
+ *   4. Click "Review & send" → inline confirm panel
+ *   5. Click "Send now" → POST to /api/submissions/[id]/reply
  *
- * Available channels are determined by what the submission has:
- *   - email  → enabled if from_email is set
- *   - whatsapp → enabled if from_phone is set
- *
- * Confirmation step is a small inline panel (not a modal) — the
- * operator sees exactly what they're about to send + where, can
- * cancel or commit.
+ * On send success the submission status flips to "replied" and the
+ * page refreshes so the operator sees the updated state. Enhancement
+ * never sends — pure copy-polishing layer.
  */
 export default function ReplyBox({
   submissionId,
@@ -38,21 +39,77 @@ export default function ReplyBox({
   const [channel, setChannel] = useState<Channel | null>(
     fromEmail ? "email" : fromPhone ? "whatsapp" : null
   );
-  const [phase, setPhase] = useState<"compose" | "confirm" | "sending">(
-    "compose"
-  );
+  const [phase, setPhase] = useState<
+    "compose" | "enhancing" | "review-enhanced" | "confirm" | "sending"
+  >("compose");
   const [error, setError] = useState<string | null>(null);
   const [sentAt, setSentAt] = useState<number | null>(null);
+
+  // Enhancement state
+  const [enhanced, setEnhanced] = useState<string | null>(null);
+  const [enhancementModel, setEnhancementModel] = useState<string | null>(null);
+  const [originalDraft, setOriginalDraft] = useState<string | null>(null);
 
   const canEmail = !!fromEmail;
   const canWhatsApp = !!fromPhone;
   const canSend = !!channel && body.trim().length > 0;
+  const canEnhance =
+    !!channel && body.trim().length > 0 && phase === "compose";
 
   function startConfirm() {
     setError(null);
     if (!channel) return setError("Pick a channel.");
     if (!body.trim()) return setError("Type a reply.");
     setPhase("confirm");
+  }
+
+  async function enhance() {
+    if (!channel || !body.trim()) return;
+    setPhase("enhancing");
+    setError(null);
+    try {
+      const res = await fetch(
+        `/api/submissions/${submissionId}/enhance-reply`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ draft: body.trim(), channel }),
+        }
+      );
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+        enhanced?: string;
+        original?: string;
+        model?: string;
+      };
+      if (!res.ok || data.ok === false || !data.enhanced) {
+        setError(data.error ?? "Enhancement failed.");
+        setPhase("compose");
+        return;
+      }
+      setOriginalDraft(data.original ?? body.trim());
+      setEnhanced(data.enhanced);
+      setEnhancementModel(data.model ?? null);
+      setPhase("review-enhanced");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Network error.");
+      setPhase("compose");
+    }
+  }
+
+  function acceptEnhancement() {
+    if (enhanced) setBody(enhanced);
+    setEnhanced(null);
+    setOriginalDraft(null);
+    setPhase("compose");
+  }
+
+  function discardEnhancement() {
+    if (originalDraft) setBody(originalDraft);
+    setEnhanced(null);
+    setOriginalDraft(null);
+    setPhase("compose");
   }
 
   async function send() {
@@ -84,7 +141,6 @@ export default function ReplyBox({
     }
   }
 
-  // Already replied — show condensed compose for follow-up
   const alreadyReplied = status === "replied";
 
   return (
@@ -98,7 +154,11 @@ export default function ReplyBox({
 
       {sentAt && (
         <p className="text-[11px] tracking-[0.18em] uppercase text-emerald-300 mb-3">
-          Sent · {new Date(sentAt).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" })}
+          Sent ·{" "}
+          {new Date(sentAt).toLocaleTimeString("en-GB", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
         </p>
       )}
 
@@ -106,19 +166,16 @@ export default function ReplyBox({
       <textarea
         value={body}
         onChange={(e) => setBody(e.target.value)}
-        disabled={phase !== "compose"}
+        disabled={phase === "sending" || phase === "review-enhanced"}
         rows={6}
         placeholder={`Hi ${fromName?.split(" ")[0] ?? "there"},\n\nThanks for reaching out. …`}
         className="block w-full bg-bone/[0.02] border border-bone/15 focus:border-bone/40 outline-none px-4 py-3 text-sm leading-relaxed text-bone placeholder:text-bone/30 transition-colors resize-y disabled:opacity-60"
         maxLength={5000}
       />
       <div className="mt-1 text-[10px] tracking-[0.18em] uppercase opacity-40 flex justify-between">
-        <span>
-          {body.length} / 5000
-        </span>
+        <span>{body.length} / 5000</span>
         <span className="italic opacity-70 normal-case tracking-normal">
-          Your email signature gets appended automatically (Profile →
-          Email signature)
+          Email signature auto-appended (Profile → Email signature)
         </span>
       </div>
 
@@ -141,7 +198,70 @@ export default function ReplyBox({
         />
       </div>
 
-      {/* CONFIRM PANEL */}
+      {/* REVIEW ENHANCEMENT PANEL */}
+      {phase === "review-enhanced" && enhanced && originalDraft && (
+        <div className="mt-4 border border-bone/30 bg-bone/[0.03]">
+          <div className="px-4 py-2 border-b border-bone/15 flex items-baseline justify-between">
+            <p className="text-[10px] tracking-[0.22em] uppercase opacity-65">
+              Enhanced draft
+            </p>
+            {enhancementModel && (
+              <p className="text-[9px] tracking-[0.18em] uppercase opacity-45 italic normal-case">
+                via {enhancementModel}
+              </p>
+            )}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-bone/10">
+            <div className="px-4 py-3">
+              <p className="text-[9px] tracking-[0.22em] uppercase opacity-45 mb-2">
+                Your draft
+              </p>
+              <p className="text-xs leading-relaxed whitespace-pre-wrap opacity-65">
+                {originalDraft}
+              </p>
+            </div>
+            <div className="px-4 py-3 bg-bone/[0.02]">
+              <p className="text-[9px] tracking-[0.22em] uppercase text-emerald-300 mb-2">
+                Polished
+              </p>
+              <p className="text-xs leading-relaxed whitespace-pre-wrap opacity-95">
+                {enhanced}
+              </p>
+            </div>
+          </div>
+          <div className="px-4 py-3 border-t border-bone/15 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={acceptEnhancement}
+              className="bg-bone text-ink px-4 py-2 text-[11px] tracking-[0.22em] uppercase hover:opacity-90"
+            >
+              Use polished
+            </button>
+            <button
+              type="button"
+              onClick={discardEnhancement}
+              className="px-3 py-2 text-[11px] tracking-[0.22em] uppercase opacity-70 hover:opacity-100"
+            >
+              Keep my draft
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                if (enhanced) setBody(enhanced);
+                setEnhanced(null);
+                setOriginalDraft(null);
+                setPhase("compose");
+                void enhance();
+              }}
+              className="ml-auto text-[10px] tracking-[0.22em] uppercase opacity-55 hover:opacity-100"
+            >
+              ↻ Try again
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* CONFIRM PANEL (send) */}
       {phase === "confirm" && (
         <div className="mt-4 border border-bone/30 px-4 py-3 bg-bone/[0.03]">
           <p className="text-[10px] tracking-[0.22em] uppercase opacity-65 mb-2">
@@ -183,6 +303,14 @@ export default function ReplyBox({
         </p>
       )}
 
+      {/* ENHANCING STATE */}
+      {phase === "enhancing" && (
+        <p className="mt-4 text-[11px] tracking-[0.18em] uppercase opacity-70 flex items-center gap-2">
+          <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          Polishing draft via Gemini…
+        </p>
+      )}
+
       {/* ERROR */}
       {error && (
         <p className="mt-3 text-xs text-red-300 border-l-2 border-red-400 pl-3">
@@ -190,9 +318,9 @@ export default function ReplyBox({
         </p>
       )}
 
-      {/* COMPOSE-PHASE SUBMIT */}
+      {/* COMPOSE-PHASE SUBMIT + ENHANCE */}
       {phase === "compose" && (
-        <div className="mt-4 flex items-center gap-2">
+        <div className="mt-4 flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={startConfirm}
@@ -201,9 +329,18 @@ export default function ReplyBox({
           >
             Review &amp; send →
           </button>
+          <button
+            type="button"
+            onClick={() => void enhance()}
+            disabled={!canEnhance}
+            className="border border-bone/40 px-4 py-2 text-[11px] tracking-[0.22em] uppercase hover:bg-bone/5 disabled:opacity-40 disabled:hover:bg-transparent transition-colors"
+            title="Polish your draft with Gemini using your saved reply tone"
+          >
+            ✨ Enhance with Gemini
+          </button>
           {!canSend && (
             <span className="text-[10px] tracking-[0.18em] uppercase opacity-45">
-              {channel ? "Type a reply to send" : "Pick a channel"}
+              {channel ? "Type a reply first" : "Pick a channel"}
             </span>
           )}
         </div>

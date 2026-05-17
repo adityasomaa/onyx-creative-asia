@@ -127,6 +127,7 @@ export default async function SubmissionsPage({
                   <Th>#</Th>
                   <Th>Received</Th>
                   <Th>Type</Th>
+                  <Th>Priority</Th>
                   <Th>Source</Th>
                   <Th>From</Th>
                   <Th>Subject</Th>
@@ -151,6 +152,9 @@ export default async function SubmissionsPage({
                       <TypeChip type={s.inquiry_type} />
                     </Td>
                     <Td>
+                      <PriorityChip priority={s.priority} />
+                    </Td>
+                    <Td>
                       <span className="text-[10px] tracking-[0.18em] uppercase border border-bone/25 px-1.5 py-0.5">
                         {SUBMISSION_SOURCE_LABEL[s.source]}
                       </span>
@@ -172,6 +176,11 @@ export default async function SubmissionsPage({
                       >
                         {s.subject ?? s.body_md?.slice(0, 70) ?? "(no subject)"}
                       </Link>
+                      {s.triage_summary && (
+                        <span className="block text-[11px] opacity-55 italic line-clamp-1 mt-0.5">
+                          {s.triage_summary}
+                        </span>
+                      )}
                     </Td>
                     <Td className="text-[11px] tracking-[0.12em] uppercase opacity-75 whitespace-nowrap">
                       {s.budget_band ?? "—"}
@@ -231,6 +240,29 @@ function StatusBadge({ status }: { status: SubmissionStatus }) {
       className={`inline-block border rounded-sm px-1.5 py-0.5 text-[10px] tracking-[0.18em] uppercase ${color}`}
     >
       {SUBMISSION_STATUS_LABEL[status]}
+    </span>
+  );
+}
+
+function PriorityChip({ priority }: { priority: string | null }) {
+  if (!priority) {
+    return (
+      <span className="text-[10px] tracking-[0.18em] uppercase opacity-30 italic">
+        —
+      </span>
+    );
+  }
+  const color =
+    priority === "urgent"
+      ? "border-red-400/70 text-red-300"
+      : priority === "low"
+        ? "border-bone/25 opacity-55"
+        : "border-bone/45";
+  return (
+    <span
+      className={`inline-block border rounded-sm px-1.5 py-0.5 text-[10px] tracking-[0.18em] uppercase ${color}`}
+    >
+      {priority}
     </span>
   );
 }

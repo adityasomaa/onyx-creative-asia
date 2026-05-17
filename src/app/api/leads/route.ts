@@ -5,6 +5,7 @@ import {
   sendInternalNotification,
   type InquiryType,
 } from "@/lib/email";
+import { triageSubmission } from "@/lib/triage";
 
 export const runtime = "nodejs";
 
@@ -377,9 +378,12 @@ export async function POST(req: Request) {
     }
   }
 
-  // 4 + 5 — fire emails in parallel. Fire-and-forget so the response
-  // is fast (caller sees the success state quickly even if SMTP is
-  // slow). Errors are logged.
+  // 4 + 5 + 6 — fire emails + LLM triage in parallel.
+  // Fire-and-forget so the response is fast (caller sees success
+  // quickly even if SMTP / LLM are slow). Errors are logged.
+  // Triage runs LAST conceptually — it mutates the submission row's
+  // inquiry_type / priority / triage_summary, may auto-create a
+  // project, and updates the owning agent's current_task.
   void Promise.allSettled([
     sendAutoReply({
       toName: norm.fromName,
@@ -398,17 +402,32 @@ export async function POST(req: Request) {
       externalLink: norm.externalLink,
       submissionId,
     }),
+    triageSubmission({
+      id: submissionId,
+      source: "form",
+      inquiry_type: norm.inquiryType,
+      from_name: norm.fromName,
+      from_email: norm.fromEmail,
+      subject: norm.subject,
+      body_md: norm.body,
+      budget_band: norm.budgetBand,
+      interest: norm.interest,
+    }),
   ]).then((results) => {
+    const labels = ["auto-reply", "internal-email", "triage"] as const;
     results.forEach((r, i) => {
+      const label = labels[i] ?? String(i);
       if (r.status === "rejected") {
+        console.error(`[leads] ${label} rejected:`, r.reason);
+      } else if (
+        typeof r.value === "object" &&
+        r.value !== null &&
+        "ok" in r.value &&
+        (r.value as { ok: boolean }).ok === false
+      ) {
         console.error(
-          `[leads] email ${i === 0 ? "auto-reply" : "internal"} rejected:`,
-          r.reason
-        );
-      } else if (r.value.ok === false) {
-        console.error(
-          `[leads] email ${i === 0 ? "auto-reply" : "internal"} failed:`,
-          r.value.error
+          `[leads] ${label} failed:`,
+          (r.value as { error?: string }).error
         );
       }
     });
