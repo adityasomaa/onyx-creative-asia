@@ -372,6 +372,76 @@ operating from one device:
   has been clean for 60+ days. Above 200/day, plan the migration to
   Meta Cloud API — the unofficial path won't survive long.
 
+### LLM provider — Google Gemini (free tier)
+
+The agents platform uses Google's **Gemini API** (via AI Studio) as
+the LLM backbone for auto-triage, classification, draft replies, and
+summarisation. We chose Gemini over Anthropic for the bootstrap phase
+because:
+
+1. **Free tier** with reasonable rate limits — no upfront cost.
+2. **Gemini 2.5 Flash** is competitive with Claude Sonnet for our
+   tasks (summarise, classify, polish copy) and faster than Sonnet.
+3. Easy migration path to Claude later — every LLM call is wrapped
+   in a single helper (`src/lib/llm.ts`, when built), swap providers
+   in one place.
+
+#### Setup
+
+1. Sign up at https://aistudio.google.com (any Google account)
+2. Accept the Welcome ToS (one-time)
+3. **API Keys → Create API key**
+   - Name: `onyx-vercel-prod`
+   - Project: `Default Gemini Project` (or create dedicated)
+4. Copy the key (starts with `AIza...`) and add to Vercel env vars
+   (Production + Preview, Sensitive ✅):
+
+   | Name | Value |
+   |---|---|
+   | `GEMINI_API_KEY` | `AIza...` (the key) |
+   | `GEMINI_MODEL`   | `gemini-2.5-flash` (default; change to `gemini-2.5-pro` for harder tasks) |
+
+5. Redeploy.
+
+#### ⚠️ Free tier data-use caveat
+
+> *"Prompts and responses may be reviewed and used to train Google AI,
+> so don't submit sensitive or personal information."*
+
+The platform's auto-triage / draft-reply pipelines send submission
+content to Gemini. On free tier this content may end up in Google's
+training data. Operational guidance:
+
+- ✅ Safe to send: business inquiry text, project briefs, public
+  contact info already given by the lead.
+- ❌ Don't send: contract drafts, financial figures, PII beyond
+  what the lead voluntarily shared, internal credentials, anything
+  the lead would expect to stay private.
+
+To switch off training-data use: upgrade the Default Gemini Project
+to **paid tier** (add billing account at console.cloud.google.com).
+Paid tier costs ~$0.10 per million input tokens for Flash — at Onyx
+volume (~50 LLM calls/month), that's <$0.10/month.
+
+#### Cost reality
+
+| Model | Free tier | Paid tier |
+|---|---|---|
+| Gemini 2.5 Flash | 15 RPM, 1500 RPD, 1M TPM | $0.10 in / $0.40 out per 1M tokens |
+| Gemini 2.5 Pro   | 2 RPM, 50 RPD, 32k TPM   | $1.25 in / $5 out per 1M tokens |
+
+Onyx volume (~50 submissions/month, each ~1000 token in/out):
+- Free: well within limits, $0
+- Paid: ~$0.025/month for Flash, ~$0.30/month for Pro
+
+#### When to migrate to Claude / something else
+
+- If Onyx voice / brand consistency matters more than cost: Claude
+  Haiku/Sonnet is better tuned for editorial tone.
+- If volume jumps 100x and free tier hits ceiling: paid Gemini or
+  swap to Claude/OpenAI/Mistral (all wrapped behind `src/lib/llm.ts`).
+- For now, free Gemini is the right default.
+
 ### Switching the WhatsApp number
 
 The platform is currently linked to a personal WA number. Once a
