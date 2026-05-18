@@ -56,7 +56,9 @@ export async function enhanceReply(
   const tone = TONE_GUIDANCE[input.tone] ?? TONE_GUIDANCE.restrained;
   const channelGuidance =
     input.channel === "whatsapp"
-      ? "This goes to WhatsApp. Keep it under 90 words. No subject line, no formal sign-off — chat register."
+      ? `This goes to WhatsApp. Keep it under 90 words. No subject line, no formal sign-off — chat register.
+
+CRITICAL WhatsApp casing rule: write the ENTIRE message in lowercase. No capital letters anywhere — not at sentence starts, not for names ("maya" not "Maya"), not for brand names ("onyx" not "Onyx"), not for places ("jakarta" not "Jakarta"). This matches the operator's personal typing style on WhatsApp. The only exception is acronyms the operator already typed in caps in their draft (AI, KPI, etc) — preserve those as-is. Standard punctuation stays (commas, periods, question marks).`
       : "This goes to email. Two to four short paragraphs. No subject line (the API sets that). Don't add a signature — the operator's profile signature is appended automatically.";
 
   const recipientLine = input.recipientFirstName
