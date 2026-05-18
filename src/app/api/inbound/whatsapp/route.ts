@@ -3,6 +3,7 @@ import { getServerSupabase } from "@/lib/supabase";
 import { sendInternalNotification } from "@/lib/email";
 import { sendWhatsApp, normaliseTarget } from "@/lib/fonnte";
 import { canSendWhatsApp, logWhatsAppSend } from "@/lib/wa-safety";
+import { triageSubmission } from "@/lib/triage";
 
 export const runtime = "nodejs";
 
@@ -192,7 +193,7 @@ export async function POST(req: Request) {
   // We don't await — Fonnte should get its 200 back fast.
   const autoReplyOn = process.env.WA_AUTO_REPLY_ENABLED === "true";
 
-  type DownstreamLabel = "email" | "auto-reply";
+  type DownstreamLabel = "email" | "auto-reply" | "triage";
   const tasks: Array<{ label: DownstreamLabel; promise: Promise<unknown> }> = [
     {
       label: "email",
@@ -207,6 +208,25 @@ export async function POST(req: Request) {
         ],
         body: message,
         submissionId,
+      }),
+    },
+    {
+      // Same Gemini triage as form submissions — classifies the message
+      // (project / question / career / partnership), extracts priority,
+      // disciplines, budget hint, urgency. For inbound WA this matters
+      // even more than for forms because WA is just free-text — there's
+      // no pre-structured budget band or service tags from the sender.
+      label: "triage",
+      promise: triageSubmission({
+        id: submissionId,
+        source: "whatsapp",
+        inquiry_type: "general",
+        from_name: name,
+        from_email: null,
+        subject,
+        body_md: message,
+        budget_band: null,
+        interest: [],
       }),
     },
   ];
