@@ -95,11 +95,9 @@ export async function POST(req: Request) {
   const payload = await parsePayload(req);
 
   // ----- Skip events we don't want as submissions ------------------
-  // Fonnte may post status/ack/delete events too. Real incoming
-  // personal messages have non-empty `message` + a numeric phone in
-  // `sender`. Group messages either carry a `member` field (the
-  // actual sender inside the group) or a non-numeric group ID in
-  // `sender` (e.g. `120363...@g.us` or `123-456`).
+  // Fonnte posts status / ack / delete events too. A real inbound
+  // message has non-empty `message` AND something we can use as
+  // sender (either a phone in `sender`, or `member` if it's a group).
   const message = pickString(payload, "message", "text");
   const senderRaw = pickString(payload, "sender", "from", "phone");
 
@@ -107,8 +105,12 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, skipped: "no-message-or-sender" });
   }
 
-  // Group-message detection — any of these signals means "skip".
-  const hasMemberField = pickString(payload, "member").length > 0;
+  // ----- Group-message detection -----------------------------------
+  // Groups are NOW processed (operator opted in). We still detect them
+  // because the actual sender lives in `member` (group payload) rather
+  // than `sender` (which is the group id itself). We also stash the
+  // group context in payload_json so the operator can see "from group X".
+  const memberField = pickString(payload, "member");
   const groupFlag = pickString(
     payload,
     "isgroup",
@@ -121,76 +123,178 @@ export async function POST(req: Request) {
     groupFlag === "1" ||
     groupFlag === "yes" ||
     groupFlag.length > 4; // a non-empty group id string
-
-  // Group IDs from WhatsApp Web have characters that personal phone
-  // numbers never do: '@', '-', non-leading letters. A real personal
-  // number is just digits (possibly with a leading +).
   const senderDigits = senderRaw.replace(/^\+/, "");
   const senderLooksLikeGroup = /[^0-9]/.test(senderDigits);
+  const isGroup =
+    memberField.length > 0 || groupFlagSet || senderLooksLikeGroup;
 
-  if (hasMemberField || groupFlagSet || senderLooksLikeGroup) {
-    console.info("[wa-inbound] skipped group message", {
-      sender: senderRaw.slice(0, 24),
-      hasMemberField,
-      groupFlagSet,
-      senderLooksLikeGroup,
+  // For groups, use `member` as the actual sender phone (the person
+  // who typed). Fall back to senderRaw if the payload didn't include
+  // member (some Fonnte tiers/payload variants).
+  const actualSenderRaw = isGroup && memberField ? memberField : senderRaw;
+  const sender =
+    normaliseTarget(actualSenderRaw) ?? actualSenderRaw.replace(/\D/g, "");
+
+  // Skip if after group-resolution we still don't have a numeric
+  // phone — happens for system/broadcast events.
+  if (!sender || sender.length < 6) {
+    console.info("[wa-inbound] skipped — couldn't resolve sender phone", {
+      isGroup,
+      senderRaw: senderRaw.slice(0, 24),
+      memberField: memberField.slice(0, 24),
     });
-    return NextResponse.json({ ok: true, skipped: "group-message" });
+    return NextResponse.json({ ok: true, skipped: "unresolvable-sender" });
   }
 
-  const sender = normaliseTarget(senderRaw) ?? senderRaw.replace(/\D/g, "");
   const name =
     pickString(payload, "name", "pushname", "sender_name") || sender;
+  const groupName = isGroup
+    ? pickString(payload, "groupname", "group_name", "chatname") ||
+      senderRaw // fallback: the group id is at least something
+    : null;
 
-  // Make a short subject so the list view reads cleanly without
-  // expanding the body.
-  const subjectFromBody = message.split(/\r?\n/)[0].slice(0, 80) || "(no subject)";
-  const subject = `${name} — ${subjectFromBody}`;
+  // ----- Subject -----
+  const subjectFromBody =
+    message.split(/\r?\n/)[0].slice(0, 80) || "(no subject)";
+  const subject = isGroup
+    ? `${name} (in ${groupName ?? "group"}) — ${subjectFromBody}`
+    : `${name} — ${subjectFromBody}`;
 
   const supabase = getServerSupabase();
   if (!supabase) {
     console.error("[wa-inbound] Supabase env not configured.");
-    // Still 200 — we don't want Fonnte to retry, the message is in
-    // the webhook log on Fonnte's side anyway.
     return NextResponse.json({ ok: true, mock: true });
   }
 
-  const { data: inserted, error: insertErr } = await supabase
+  // ============================================================
+  // One-thread-per-contact rule.
+  //
+  // Operator wants: same person chatting again = same submission row
+  // (not a new one). So before inserting, look back at THIS phone's
+  // recent non-archived submissions in the last 14 days. If found,
+  // append the new message to body_md, refresh status to "new", and
+  // re-run triage on the merged thread.
+  //
+  // This keeps the inbox clean (one row per contact) and gives Gemini
+  // the full conversation context to refine priority / urgency.
+  // ============================================================
+  const FOLLOWUP_WINDOW_DAYS = 14;
+  const cutoffIso = new Date(
+    Date.now() - FOLLOWUP_WINDOW_DAYS * 86_400_000
+  ).toISOString();
+  const { data: existingThread } = await supabase
     .from("submissions")
-    .insert({
-      source: "whatsapp",
-      inquiry_type: "general", // operator re-classifies via Action column
-      from_name: name,
-      from_phone: sender,
-      subject,
-      body_md: message,
-      interest: [],
-      status: "new",
-      payload_json: payload,
-    })
-    .select("id")
-    .single();
+    .select("id, body_md, payload_json")
+    .eq("source", "whatsapp")
+    .eq("from_phone", sender)
+    .neq("status", "archived")
+    .gte("received_at", cutoffIso)
+    .order("received_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
 
-  if (insertErr || !inserted) {
-    console.error("[wa-inbound] insert failed:", insertErr);
-    // 200 to avoid retry; the operator can read the Fonnte side and
-    // we'll see this in Vercel logs.
-    return NextResponse.json({
-      ok: false,
-      handled: true,
-      error: insertErr?.message ?? "insert failed",
+  const stampedMessage =
+    `\n\n— ${new Date().toLocaleString("en-GB", {
+      timeZone: "Asia/Makassar",
+      hour12: false,
+      day: "2-digit",
+      month: "short",
+      hour: "2-digit",
+      minute: "2-digit",
+    })} —\n${message}`;
+
+  let submissionId: string;
+  let isFreshThread = false;
+
+  if (existingThread?.id) {
+    // ----- Append path -----
+    const prevBody = (existingThread.body_md ?? "").trim();
+    const newBody = prevBody ? prevBody + stampedMessage : message;
+    const prevPayload =
+      (existingThread.payload_json as Record<string, unknown> | null) ?? {};
+    const prevEvents = Array.isArray(prevPayload.wa_events)
+      ? (prevPayload.wa_events as unknown[])
+      : [];
+    const nextEvents = [
+      ...prevEvents,
+      { at: new Date().toISOString(), payload },
+    ];
+
+    const { error: updErr } = await supabase
+      .from("submissions")
+      .update({
+        body_md: newBody,
+        status: "new", // bump back to NEW so operator sees the follow-up
+        payload_json: { ...prevPayload, wa_events: nextEvents },
+      })
+      .eq("id", existingThread.id);
+
+    if (updErr) {
+      console.error("[wa-inbound] append failed:", updErr);
+      return NextResponse.json({
+        ok: false,
+        handled: true,
+        error: updErr.message,
+      });
+    }
+    submissionId = existingThread.id as string;
+    console.info("[wa-inbound] appended to existing thread", {
+      submissionId,
+      sender,
+      isGroup,
     });
+  } else {
+    // ----- Fresh insert path -----
+    isFreshThread = true;
+    const { data: inserted, error: insertErr } = await supabase
+      .from("submissions")
+      .insert({
+        source: "whatsapp",
+        inquiry_type: "general",
+        from_name: name,
+        from_phone: sender,
+        subject,
+        body_md: message,
+        interest: [],
+        status: "new",
+        payload_json: isGroup
+          ? {
+              ...payload,
+              wa_group: { id: senderRaw, name: groupName },
+              wa_events: [{ at: new Date().toISOString(), payload }],
+            }
+          : {
+              ...payload,
+              wa_events: [{ at: new Date().toISOString(), payload }],
+            },
+      })
+      .select("id")
+      .single();
+
+    if (insertErr || !inserted) {
+      console.error("[wa-inbound] insert failed:", insertErr);
+      return NextResponse.json({
+        ok: false,
+        handled: true,
+        error: insertErr?.message ?? "insert failed",
+      });
+    }
+    submissionId = inserted.id as string;
   }
 
-  const submissionId = inserted.id as string;
+  // For triage we want the FULL conversation context so Gemini can
+  // re-prioritize based on accumulated signal — not just the latest
+  // line. On append-path that means body_md = previous body + new
+  // message; on fresh-path it's just the new message.
+  const triageBody = existingThread?.body_md
+    ? (existingThread.body_md.trim() + stampedMessage).trim()
+    : message;
 
   // Fire-and-forget downstream actions:
   //   - Internal notification email (always — operator awareness)
-  //   - WhatsApp auto-reply (gated by WA_AUTO_REPLY_ENABLED env flag,
-  //     default OFF. Flip to "true" in Vercel env when you want the
-  //     'we got your message' reply to fire automatically.)
-  //
-  // We don't await — Fonnte should get its 200 back fast.
+  //   - Triage (always — refreshes priority / disciplines on every new msg)
+  //   - WhatsApp auto-reply (only on FRESH threads, gated by env flag —
+  //     we don't want to send "we got it" every follow-up message)
   const autoReplyOn = process.env.WA_AUTO_REPLY_ENABLED === "true";
 
   type DownstreamLabel = "email" | "auto-reply" | "triage";
@@ -201,21 +305,22 @@ export async function POST(req: Request) {
         fromName: name,
         fromEmail: `${sender}@whatsapp`, // synthetic — Resend won't reply to it
         inquiryType: "general",
-        highlight: "WhatsApp",
+        highlight: isGroup ? `WhatsApp · ${groupName ?? "group"}` : "WhatsApp",
         metaRows: [
-          { label: "Channel", value: "WhatsApp" },
+          { label: "Channel", value: isGroup ? "WhatsApp (group)" : "WhatsApp" },
           { label: "Phone", value: sender },
+          ...(isGroup && groupName ? [{ label: "Group", value: groupName }] : []),
+          ...(isFreshThread
+            ? []
+            : [{ label: "Thread", value: "follow-up (appended)" }]),
         ],
         body: message,
         submissionId,
       }),
     },
     {
-      // Same Gemini triage as form submissions — classifies the message
-      // (project / question / career / partnership), extracts priority,
-      // disciplines, budget hint, urgency. For inbound WA this matters
-      // even more than for forms because WA is just free-text — there's
-      // no pre-structured budget band or service tags from the sender.
+      // Same Gemini triage as form submissions, but we feed the FULL
+      // merged conversation so priority reflects the cumulative signal.
       label: "triage",
       promise: triageSubmission({
         id: submissionId,
@@ -224,14 +329,16 @@ export async function POST(req: Request) {
         from_name: name,
         from_email: null,
         subject,
-        body_md: message,
+        body_md: triageBody,
         budget_band: null,
         interest: [],
       }),
     },
   ];
 
-  if (autoReplyOn) {
+  // Only fire auto-reply on the FRESH first message of a thread —
+  // follow-ups shouldn't get "halo, thanks" every time.
+  if (autoReplyOn && isFreshThread) {
     // The auto-reply also has to pass the safety guard. Wrap the
     // whole send in a task that checks first, logs the outcome, and
     // never throws.
@@ -293,11 +400,15 @@ export async function POST(req: Request) {
  * ============================================================ */
 
 function buildAutoReply(name: string): string {
-  const firstName = name.split(/\s+/)[0] || "there";
+  const firstName = (name.split(/\s+/)[0] || "there").toLowerCase();
+  // All lowercase to match the operator's WhatsApp typing style.
+  // Same casing rule as enhanceReply — keeps the studio voice
+  // consistent whether the operator types it themselves or it's
+  // auto-sent on first contact.
   return (
-    `Halo ${firstName}, thanks for the message — udah masuk ke tim Onyx.\n\n` +
-    `Kita read every message ourselves and we'll get back to you within 24h. ` +
-    `Kalau urgent, langsung balas thread ini aja.\n\n` +
-    `— Onyx Creative Asia`
+    `halo ${firstName}, terima kasih udah message kita di sini.\n\n` +
+    `kita baca semua message langsung, dan akan balas dalam 24 jam. ` +
+    `kalau urgent, langsung balas thread ini aja.\n\n` +
+    `— onyx creative asia`
   );
 }
