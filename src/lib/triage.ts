@@ -196,10 +196,12 @@ export async function triageSubmission(
     return { ok: false, error: "DB unavailable." };
   }
 
-  // Merge into payload_json.triage without clobbering existing keys
+  // Merge into payload_json.triage without clobbering existing keys.
+  // Also pull from_phone / from_email — the dedup window below needs
+  // them to find the sender's other recent submissions.
   const { data: existing } = await supabase
     .from("submissions")
-    .select("payload_json, project_id")
+    .select("payload_json, project_id, from_phone, from_email")
     .eq("id", s.id)
     .maybeSingle();
   const existingPayload =
@@ -228,8 +230,51 @@ export async function triageSubmission(
     return { ok: false, error: updErr.message };
   }
 
-  // For project inquiries, auto-create a project row + assign agent.
+  // ============================================================
+  // Sender-window dedup (14 days).
+  //
+  // Before spawning a new project, look back at the sender's other
+  // submissions in the last 14 days. If any of them already has a
+  // project linked, link THIS submission to that same project — don't
+  // create a duplicate ledger entry every time a lead follows up.
+  //
+  // Match logic: same from_phone OR same from_email. Cross-channel
+  // dedup (e.g. emailed first, WA'd later) isn't covered yet — that
+  // needs a contacts table. Window = 14 days because beyond that
+  // it's reasonable to treat it as a fresh project.
+  //
+  // We do this BEFORE the inquiry_type=='project' check, so a
+  // follow-up "general" question from someone who already has a
+  // project still gets linked to that project for context — the
+  // operator sees the thread coherently.
+  // ============================================================
   let projectId: string | null = existing?.project_id ?? null;
+
+  if (!projectId) {
+    projectId = await findRecentProjectForSender({
+      fromPhone: existing?.from_phone ?? null,
+      fromEmail: existing?.from_email ?? null,
+      excludeSubmissionId: s.id,
+    });
+    if (projectId) {
+      const { error: linkErr } = await supabase
+        .from("submissions")
+        .update({ project_id: projectId })
+        .eq("id", s.id);
+      if (linkErr) {
+        console.error("[triage] dedup link failed:", linkErr);
+      } else {
+        console.info("[triage] linked to existing project via 14d dedup", {
+          submissionId: s.id,
+          projectId,
+        });
+      }
+    }
+  }
+
+  // Only spawn a NEW project if (a) still no link from dedup and (b)
+  // LLM classified this as a project. Other inquiry types never create
+  // projects on their own — operator can manually convert later.
   if (triage.inquiry_type === "project" && !projectId) {
     projectId = await autoCreateProject({
       submissionId: s.id,
@@ -242,6 +287,57 @@ export async function triageSubmission(
   }
 
   return { ok: true, triage, model: llmRes.model, projectId };
+}
+
+/* ============================================================
+ * Sender-window dedup helper
+ * ============================================================ */
+
+const DEDUP_WINDOW_DAYS = 14;
+
+/**
+ * Find the most recent project_id linked to ANY submission from the
+ * same sender (by phone or email) within the dedup window. Returns
+ * null if nothing matches — caller falls back to autoCreateProject.
+ *
+ * Doesn't check project status (intake/in-progress/done) — even a
+ * "done" project from 10 days ago is a better link than spawning
+ * duplicate. Operator can re-route via the detail page if needed.
+ */
+async function findRecentProjectForSender(opts: {
+  fromPhone: string | null;
+  fromEmail: string | null;
+  excludeSubmissionId: string;
+}): Promise<string | null> {
+  const supabase = getServerSupabase();
+  if (!supabase) return null;
+
+  // Need at least one identifier — anonymous submissions can't dedup.
+  const orClauses: string[] = [];
+  if (opts.fromPhone) orClauses.push(`from_phone.eq.${opts.fromPhone}`);
+  if (opts.fromEmail) orClauses.push(`from_email.eq.${opts.fromEmail}`);
+  if (orClauses.length === 0) return null;
+
+  const cutoffIso = new Date(
+    Date.now() - DEDUP_WINDOW_DAYS * 24 * 60 * 60 * 1000
+  ).toISOString();
+
+  const { data, error } = await supabase
+    .from("submissions")
+    .select("project_id, received_at")
+    .neq("id", opts.excludeSubmissionId)
+    .not("project_id", "is", null)
+    .gte("received_at", cutoffIso)
+    .or(orClauses.join(","))
+    .order("received_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    console.error("[triage] dedup lookup failed:", error);
+    return null;
+  }
+  return (data?.project_id as string | null) ?? null;
 }
 
 /* ============================================================
