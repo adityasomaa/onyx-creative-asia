@@ -96,7 +96,11 @@ Constraints:
   const res = await generateText({
     prompt,
     temperature: 0.4,
-    maxOutputTokens: 600,
+    // Gemini 2.5 Flash uses internal "thinking" tokens before the visible
+    // output, so the cap has to cover both. 600 was getting truncated mid-
+    // sentence on normal replies; 1200 leaves headroom while still bounded
+    // (channel guidance keeps the actual reply under 90 words / few paras).
+    maxOutputTokens: 1200,
   });
   if (!res.ok) {
     return { ok: false, error: res.error };
