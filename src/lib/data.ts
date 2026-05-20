@@ -128,6 +128,11 @@ export function defaultUrlLabel(url: string): string {
   }
 }
 
+export type ServiceProcessStep = {
+  title: string;
+  detail: string;
+};
+
 export type Service = {
   id: string;
   number: string;
@@ -135,6 +140,13 @@ export type Service = {
   short: string;
   description: string;
   capabilities: string[];
+  // Fields used on the dedicated /services/[slug] detail page.
+  // Keep the brand voice: editorial, first-person plural, restrained.
+  intro: string;
+  narrative: string[];
+  outcomes: string[];
+  process: ServiceProcessStep[];
+  fitFor: string;
 };
 
 export const SERVICES: Service[] = [
@@ -153,6 +165,43 @@ export const SERVICES: Service[] = [
       "Motion & interaction",
       "SEO & Core Web Vitals",
     ],
+    intro:
+      "Sites that load fast, scale cleanly, and don't fall apart in six months.",
+    narrative: [
+      "Most agency websites peak at launch. Ours are built to peak later. Performance budgets, accessibility, and a design system the next engineer can extend — these aren't extras, they're the contract.",
+      "We work in one team. The person designing the hero is the person who knows what the loader does on slow networks. No handoff means tighter craft and weeks shaved off the timeline.",
+      "Best fit for founders launching their flagship, brands migrating off a WordPress that aged into a maintenance tax, or product teams who need a marketing site that doesn't lag behind the product.",
+    ],
+    outcomes: [
+      "A site that scores 95+ on Lighthouse and stays there",
+      "A design system the next engineer can extend",
+      "Editor experience that survives Friday afternoon",
+      "Motion that earns its frame budget",
+    ],
+    process: [
+      {
+        title: "Scope + spec sketch",
+        detail:
+          "One week. We map the pages, content sources, and the one motion idea worth investing in.",
+      },
+      {
+        title: "Design + content collab",
+        detail:
+          "Two to three weeks. Weekly working sessions, no big reveal moments.",
+      },
+      {
+        title: "Build sprint",
+        detail:
+          "Three to five weeks. Live preview link from week one, weekly demos.",
+      },
+      {
+        title: "Launch + tune",
+        detail:
+          "One week post-launch we monitor and tighten. Then we hand over.",
+      },
+    ],
+    fitFor:
+      "Studios who want craft and ship speed, without choosing between them.",
   },
   {
     id: "paid-media",
@@ -169,6 +218,41 @@ export const SERVICES: Service[] = [
       "Conversion tracking",
       "Reporting & optimisation",
     ],
+    intro: "Performance marketing run like a system, not a monthly creative.",
+    narrative: [
+      "We treat paid media as one system with multiple surfaces. Creative variants get tested against each other, not against vibes. Audiences get architected, not just retargeted. Attribution stays sane in the post-iOS world because we build for blended signal from day one.",
+      "Creative is where most ad accounts quietly leak budget. We produce in-house, iterate weekly, and kill what isn't moving instead of leaving it to drag a quarter.",
+      "Best fit for D2C brands hitting a ceiling on a single channel, SaaS teams growing past their organic plateau, or services with strong LTV who need predictable inbound.",
+    ],
+    outcomes: [
+      "Blended CAC trending the right direction within 30 days",
+      "Creative variants that don't read like generic templates",
+      "Weekly tightening loop, not monthly slide decks",
+      "Honest reporting — what worked, what didn't, why",
+    ],
+    process: [
+      {
+        title: "Account + funnel audit",
+        detail:
+          "One week. Where the money currently goes, and where it should.",
+      },
+      {
+        title: "Creative + landing alignment",
+        detail: "Two weeks. Variants written and shot, landing pages polished.",
+      },
+      {
+        title: "Launch + learning sprint",
+        detail:
+          "Two to four weeks. Fast feedback loop, daily check-ins, weekly cuts.",
+      },
+      {
+        title: "Steady-state optimisation",
+        detail:
+          "Monthly cadence with the team. Always one new test in flight.",
+      },
+    ],
+    fitFor:
+      "Brands tired of agency-shaped reports that hide what's actually working.",
   },
   {
     id: "social-media",
@@ -185,6 +269,42 @@ export const SERVICES: Service[] = [
       "Analytics & growth",
       "Always-on planning",
     ],
+    intro:
+      "Strategy, content, and community for brands that want to be remembered.",
+    narrative: [
+      "Most brand feeds feel like nobody lives there. Ours feel like a place. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy — so it actually adds up.",
+      "We don't separate the strategist from the creator. The person planning the month is the person shooting the week. Less drift between intention and what ships.",
+      "Best fit for lifestyle brands, hospitality, restaurants, and F&B, plus creators ready to build past “we should post more this month.”",
+    ],
+    outcomes: [
+      "Visual system that survives 12 months without looking tired",
+      "Community that engages, not just followers that count",
+      "Production pipeline you can take in-house when ready",
+      "Calendar your team can run on Monday morning",
+    ],
+    process: [
+      {
+        title: "Brand + feed audit",
+        detail:
+          "One week. What's working, what's flat, what's worth keeping.",
+      },
+      {
+        title: "Strategy + pillars",
+        detail: "One week. Three to five content pillars, one core posture.",
+      },
+      {
+        title: "Production sprint",
+        detail:
+          "Rolling. Photo, video, and motion shot together in batches.",
+      },
+      {
+        title: "Always-on plan + post",
+        detail:
+          "Weekly cadence. Community managed. Analytics tightened monthly.",
+      },
+    ],
+    fitFor:
+      "Brands that want their feed to feel like a place, not a checklist.",
   },
   {
     id: "ai-systems",
@@ -201,6 +321,43 @@ export const SERVICES: Service[] = [
       "RAG & knowledge bases",
       "Integrations (CRM, calendar, ops)",
     ],
+    intro:
+      "AI that operates inside your workflow — not a chatbot bolted to the homepage.",
+    narrative: [
+      "Most “AI launches” are a chat widget on a marketing site. We build the other kind: agents that classify inbound, triage leads, draft replies in your voice, route work to the right person, and stay out of the way until they're needed.",
+      "Tooling-first means we plug into your real stack — Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that ships externally.",
+      "Best fit for small teams drowning in repetitive coordination, ops managers tired of being a copy-paste machine, or founders who want one workflow back before they hire for it.",
+    ],
+    outcomes: [
+      "One workflow that ate your week — now runs in the background",
+      "Decisions you can audit (priority, classification, routing) — not a black box",
+      "Kill switches + rate guards baked in for safety",
+      "An automation your team owns, not a vendor you rent",
+    ],
+    process: [
+      {
+        title: "Workflow shadowing",
+        detail:
+          "One week. Sit with the person doing the work. Find the tax.",
+      },
+      {
+        title: "Pilot scoping",
+        detail:
+          "Three days. Pick the highest-pain workflow with the lowest-stakes failure.",
+      },
+      {
+        title: "Build sprint",
+        detail:
+          "Two weeks. Working version, not a demo. Operator approves every output for the first week.",
+      },
+      {
+        title: "Handover + refine",
+        detail:
+          "We don't disappear. Iterating on real signal beats designing in a vacuum.",
+      },
+    ],
+    fitFor:
+      "Teams who'd rather amplify their best operator than replace them.",
   },
 ];
 

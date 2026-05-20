@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SERVICES } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 
@@ -72,6 +73,19 @@ export default function ServicesPage() {
                   </li>
                 ))}
               </ul>
+
+              <Link
+                href={`/services/${s.id}`}
+                className="mt-8 inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] opacity-75 hover:opacity-100 transition-opacity group"
+              >
+                Read the full discipline
+                <span
+                  aria-hidden
+                  className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </Link>
             </Reveal>
           </article>
         ))}

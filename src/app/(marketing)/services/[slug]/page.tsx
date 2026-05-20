@@ -1,0 +1,252 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { SERVICES } from "@/lib/data";
+import Reveal, { RevealText } from "@/components/Reveal";
+
+type Params = { slug: string };
+
+// Pre-render one static page per service at build time.
+export function generateStaticParams(): Params[] {
+  return SERVICES.map((s) => ({ slug: s.id }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<Params>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const service = SERVICES.find((s) => s.id === slug);
+  if (!service) return { title: "Service not found" };
+
+  return {
+    title: `${service.title} — Services`,
+    description: service.intro,
+    alternates: { canonical: `/services/${service.id}` },
+    openGraph: {
+      title: `${service.title} — Onyx Creative Asia`,
+      description: service.intro,
+      url: `/services/${service.id}`,
+      type: "article",
+    },
+  };
+}
+
+export default async function ServiceDetailPage({
+  params,
+}: {
+  params: Promise<Params>;
+}) {
+  const { slug } = await params;
+  const service = SERVICES.find((s) => s.id === slug);
+  if (!service) notFound();
+
+  const others = SERVICES.filter((s) => s.id !== service.id);
+
+  return (
+    <>
+      {/* ───────────────────── HERO ───────────────────── */}
+      <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
+        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 tabular-nums">
+          ({service.number} / 04) · Capability
+        </p>
+        <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
+          <RevealText text={service.title} />
+        </h1>
+        <p className="mt-10 max-w-2xl text-xl md:text-2xl font-light italic text-ink/75 leading-snug text-balance">
+          {service.intro}
+        </p>
+      </section>
+
+      {/* ───────────────────── NARRATIVE ───────────────────── */}
+      <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+          <Reveal className="md:col-span-4">
+            <p className="text-xs uppercase tracking-[0.25em] opacity-60">
+              What we do
+            </p>
+          </Reveal>
+          <Reveal
+            className="md:col-span-8 md:col-start-6 space-y-6 max-w-2xl"
+            delay={0.1}
+          >
+            {service.narrative.map((para, i) => (
+              <p
+                key={i}
+                className="text-lg md:text-xl leading-relaxed text-ink/85"
+              >
+                {para}
+              </p>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ───────────────────── OUTCOMES ───────────────────── */}
+      <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+          <Reveal className="md:col-span-4">
+            <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
+              Outcomes
+            </p>
+            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
+              What you walk
+              <br />
+              <span className="font-light italic">away with.</span>
+            </h2>
+          </Reveal>
+          <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
+            <ul className="border-t border-hairline">
+              {service.outcomes.map((o, i) => (
+                <li
+                  key={i}
+                  className="border-b border-hairline py-5 flex items-baseline gap-4"
+                >
+                  <span className="text-xs opacity-50 tabular-nums shrink-0 mt-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-lg md:text-xl leading-snug">{o}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ───────────────────── CAPABILITIES ───────────────────── */}
+      <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+          <Reveal className="md:col-span-4">
+            <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
+              Inside the scope
+            </p>
+            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
+              Capabilities.
+            </h2>
+            <p className="mt-6 text-sm opacity-65 max-w-xs italic">
+              Mix and match. Most engagements pull from three or four; a few
+              pull all of them.
+            </p>
+          </Reveal>
+          <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 border-t border-hairline">
+              {service.capabilities.map((c) => (
+                <li
+                  key={c}
+                  className="border-b border-hairline py-4 flex items-baseline gap-3 text-base"
+                >
+                  <span className="text-xs opacity-50 tabular-nums">→</span>
+                  <span>{c}</span>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ───────────────────── PROCESS ───────────────────── */}
+      <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
+          <Reveal className="md:col-span-4">
+            <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
+              How it goes
+            </p>
+            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
+              The shape of an
+              <br />
+              <span className="font-light italic">engagement.</span>
+            </h2>
+          </Reveal>
+          <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
+            <ol className="border-t border-hairline">
+              {service.process.map((step, i) => (
+                <li
+                  key={step.title}
+                  className="border-b border-hairline py-6 grid grid-cols-12 gap-4 md:gap-6"
+                >
+                  <span className="col-span-2 md:col-span-1 text-xs opacity-50 tabular-nums pt-1">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="col-span-10 md:col-span-11">
+                    <p className="text-lg md:text-xl font-medium tracking-tight">
+                      {step.title}
+                    </p>
+                    <p className="mt-2 text-base text-ink/65 leading-relaxed max-w-xl">
+                      {step.detail}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ───────────────────── FIT FOR + CTA ───────────────────── */}
+      <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
+        <Reveal className="max-w-3xl">
+          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
+            Who this is for
+          </p>
+          <p className="text-display-sm font-light italic leading-[1.05] tracking-tight text-balance">
+            “{service.fitFor}”
+          </p>
+        </Reveal>
+
+        <Reveal className="mt-14 md:mt-16 flex flex-wrap items-center gap-5" delay={0.1}>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 rounded-full bg-ink text-bone px-6 py-3 text-sm transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
+          >
+            Start a project
+            <span aria-hidden>→</span>
+          </Link>
+          <Link
+            href="/works"
+            className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-ink transition-colors"
+          >
+            See related work
+            <span aria-hidden>→</span>
+          </Link>
+        </Reveal>
+      </section>
+
+      {/* ───────────────────── OTHER SERVICES ───────────────────── */}
+      <section className="container-x pb-32 md:pb-40 border-t border-hairline pt-16 md:pt-20">
+        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-8">
+          Other capabilities
+        </p>
+        <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {others.map((o) => (
+            <li key={o.id}>
+              <Link
+                href={`/services/${o.id}`}
+                className="group block border border-hairline p-6 md:p-8 transition-colors hover:bg-ink/[0.03]"
+              >
+                <p className="text-xs uppercase tracking-[0.25em] opacity-60 tabular-nums mb-4">
+                  {o.number} / 04
+                </p>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
+                  {o.title}
+                </h3>
+                <p className="mt-3 text-sm italic text-ink/65 leading-relaxed">
+                  {o.short}
+                </p>
+                <p className="mt-6 text-xs uppercase tracking-[0.22em] opacity-70 inline-flex items-center gap-2">
+                  Read more
+                  <span
+                    aria-hidden
+                    className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </>
+  );
+}
