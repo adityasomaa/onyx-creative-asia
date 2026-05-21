@@ -248,13 +248,21 @@ export default function Nav() {
                 </div>
 
                 {/* Service cards — 4 columns on lg, 2 on md, 1 on sm */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6 pt-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-6 pt-8">
                   {SERVICES.map((s) => (
                     <Link
                       key={s.id}
                       href={`/services/${s.id}`}
-                      className="group relative block py-2"
+                      className="group relative block py-2 pl-5"
                     >
+                      {/* Hairline left-edge accent on hover.
+                          Sits in the 20px gutter created by pl-5 above, so
+                          it never overlaps the text — even on the leftmost
+                          column where there's no preceding card gap. */}
+                      <span
+                        aria-hidden
+                        className="absolute left-0 top-2 bottom-2 w-px bg-ink/70 scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out-expo"
+                      />
                       <p className="text-[10px] uppercase tracking-[0.25em] opacity-50 tabular-nums">
                         {s.number} / 04
                       </p>
@@ -284,11 +292,6 @@ export default function Nav() {
                           →
                         </span>
                       </span>
-                      {/* Hairline left-edge accent on hover */}
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-2 bottom-2 w-px bg-ink scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out-expo"
-                      />
                     </Link>
                   ))}
                 </div>
