@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import Loader from "@/components/Loader";
 import Nav from "@/components/Nav";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -5,6 +6,12 @@ import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import FloatingContactButton from "@/components/FloatingContactButton";
+
+// GA4 Measurement ID for the public-facing marketing site only. The
+// internal /agents dashboard lives outside this route group (its own
+// app/agents/layout.tsx) so it never gets tagged — operator activity
+// stays out of the funnel.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 /**
  * Marketing site layout — chrome (Loader, Nav, Footer, etc.) + JSON-LD
@@ -77,6 +84,10 @@ export default function MarketingLayout({
       <Footer />
       <CookieConsent />
       <FloatingContactButton />
+      {/* Loaded with strategy="afterInteractive" by the wrapper, so it
+          doesn't block render or fight the intro loader animation. Skipped
+          entirely when NEXT_PUBLIC_GA_ID is unset (local dev without env). */}
+      {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </>
   );
 }
