@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useIntroState } from "@/lib/intro";
+import { SERVICES } from "@/lib/data";
 
 type NavLink = {
   href: string;
@@ -19,8 +20,13 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
   {
     href: "/services",
     label: "Services",
-    // Each child links to its own /services/<slug> detail page.
-    // The parent /services route stays as the four-disciplines overview.
+    // children[] is consumed by:
+    //   - the mobile menu (rendered inline indented under Services)
+    //   - the active-state detector (parent "Services" stays underlined
+    //     when current route is a detail page)
+    // The desktop mega panel reads from SERVICES directly so each card
+    // has the full payload (number, short tagline, capabilities preview)
+    // without us having to duplicate it here.
     children: [
       { href: "/services/web-development", label: "Web Development" },
       { href: "/services/paid-media", label: "Paid Media" },
@@ -44,10 +50,41 @@ export default function Nav() {
   const introState = useIntroState();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Desktop mega-menu open state, lifted to Nav so the panel can render
+  // outside any single NavItem and span the full header width.
+  const [megaOpen, setMegaOpen] = useState(false);
+
   // When intro loader is showing this session, delay until it exits.
   // Otherwise (returning visitor), animate right away.
   const navDelay = introState === true ? 2.4 : 0.1;
-  const dark = DARK_HERO_PATHS.has(pathname) && !scrolled && !open;
+  // Header is treated as "on a light surface" whenever it's scrolled, the
+  // mobile menu is open, OR the mega menu is open — in all three cases we
+  // paint it bone with ink text so the panel reads cleanly.
+  const onLightSurface = scrolled || open || megaOpen;
+  const dark = DARK_HERO_PATHS.has(pathname) && !onLightSurface;
+
+  // Hover-coordination for the mega menu.
+  // We open immediately on mouseenter of the Services trigger, and close on
+  // a tiny delay so the cursor can travel from the trigger to the panel
+  // (which lives below the header) without the menu collapsing mid-motion.
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const openMega = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setMegaOpen(true);
+  };
+  const closeMegaWithDelay = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setMegaOpen(false), 140);
+  };
+  const cancelCloseMega = () => {
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -58,6 +95,7 @@ export default function Nav() {
 
   useEffect(() => {
     setOpen(false);
+    setMegaOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -71,15 +109,18 @@ export default function Nav() {
     <>
       <motion.header
         initial={{ y: -40, opacity: 0 }}
-        animate={introState === null ? { y: -40, opacity: 0 } : { y: 0, opacity: 1 }}
+        animate={
+          introState === null ? { y: -40, opacity: 0 } : { y: 0, opacity: 1 }
+        }
         transition={{ duration: 1, ease: EASE, delay: navDelay }}
+        onMouseLeave={closeMegaWithDelay}
         className={cn(
           "fixed top-0 left-0 right-0 z-[120] transition-colors duration-500",
-          scrolled || open
-            ? "bg-bone/85 backdrop-blur-md border-b border-hairline text-ink"
+          onLightSurface
+            ? "bg-bone/95 backdrop-blur-md border-b border-hairline text-ink"
             : dark
-            ? "bg-transparent text-bone"
-            : "bg-transparent text-ink"
+              ? "bg-transparent text-bone"
+              : "bg-transparent text-ink"
         )}
       >
         <div className="container-x flex h-16 md:h-20 items-center justify-between">
@@ -100,27 +141,37 @@ export default function Nav() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.slice(1, -1).map((link) => (
-              <NavItem
-                key={link.href}
-                href={link.href}
-                label={link.label}
-                active={
-                  pathname === link.href ||
-                  link.children?.some(
-                    (c) =>
-                      pathname === c.href || pathname.startsWith(c.href + "/")
-                  ) === true
-                }
-                dark={dark}
-                items={link.children}
-              />
-            ))}
+            {NAV_LINKS.slice(1, -1).map((link) => {
+              const hasMega = !!link.children && link.children.length > 0;
+              const active =
+                pathname === link.href ||
+                link.children?.some(
+                  (c) =>
+                    pathname === c.href || pathname.startsWith(c.href + "/")
+                ) === true;
+              return (
+                <div
+                  key={link.href}
+                  onMouseEnter={hasMega ? openMega : closeMegaWithDelay}
+                  onFocus={hasMega ? openMega : undefined}
+                >
+                  <NavItem
+                    href={link.href}
+                    label={link.label}
+                    active={active}
+                    dark={dark}
+                    hasMega={hasMega}
+                    megaOpen={hasMega && megaOpen}
+                  />
+                </div>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-4">
             <Link
               href="/contact"
+              onMouseEnter={closeMegaWithDelay}
               className={cn(
                 "hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-[transform,background-color,color] duration-500 ease-out-expo hover:scale-[1.03]",
                 dark ? "bg-bone text-ink" : "bg-ink text-bone"
@@ -152,8 +203,102 @@ export default function Nav() {
             </button>
           </div>
         </div>
+
+        {/* ─────────────────── DESKTOP MEGA MENU ───────────────────
+            Lives inside the header, absolute-positioned to span full width
+            below the inner container. Hovering it keeps the panel open;
+            leaving the header (or hovering a non-Services nav item) closes
+            it with a small delay. */}
+        <AnimatePresence>
+          {megaOpen && (
+            <motion.div
+              key="mega-services"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.28, ease: EASE }}
+              onMouseEnter={cancelCloseMega}
+              onMouseLeave={closeMegaWithDelay}
+              className="hidden md:block absolute top-full left-0 right-0 bg-bone text-ink border-b border-hairline shadow-[0_24px_60px_-20px_rgba(14,14,14,0.18)]"
+            >
+              <div className="container-x py-10 lg:py-12">
+                {/* Heading row */}
+                <div className="flex items-end justify-between flex-wrap gap-y-4 pb-8 border-b border-hairline">
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.28em] opacity-55 mb-2">
+                      Capabilities
+                    </p>
+                    <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
+                      Four disciplines,
+                      <span className="font-light italic"> one studio.</span>
+                    </h2>
+                  </div>
+                  <Link
+                    href="/services"
+                    className="text-xs uppercase tracking-[0.22em] opacity-70 hover:opacity-100 inline-flex items-center gap-2 group transition-opacity"
+                  >
+                    All on one page
+                    <span
+                      aria-hidden
+                      className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
+                  </Link>
+                </div>
+
+                {/* Service cards — 4 columns on lg, 2 on md, 1 on sm */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-6 pt-8">
+                  {SERVICES.map((s) => (
+                    <Link
+                      key={s.id}
+                      href={`/services/${s.id}`}
+                      className="group relative block py-2"
+                    >
+                      <p className="text-[10px] uppercase tracking-[0.25em] opacity-50 tabular-nums">
+                        {s.number} / 04
+                      </p>
+                      <h3 className="mt-2 text-xl font-medium tracking-tight leading-tight">
+                        {s.title}
+                      </h3>
+                      <p className="mt-2 text-sm italic text-ink/65 leading-relaxed">
+                        {s.short}
+                      </p>
+                      <ul className="mt-4 space-y-1.5">
+                        {s.capabilities.slice(0, 4).map((c) => (
+                          <li
+                            key={c}
+                            className="text-xs text-ink/55 leading-snug flex items-baseline gap-2"
+                          >
+                            <span className="opacity-50">·</span>
+                            <span>{c}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <span className="mt-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] opacity-70 group-hover:opacity-100 transition-opacity">
+                        Read
+                        <span
+                          aria-hidden
+                          className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                        >
+                          →
+                        </span>
+                      </span>
+                      {/* Hairline left-edge accent on hover */}
+                      <span
+                        aria-hidden
+                        className="absolute left-0 top-2 bottom-2 w-px bg-ink scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out-expo"
+                      />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
+      {/* ─────────────────── MOBILE OVERLAY ─────────────────── */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -164,7 +309,7 @@ export default function Nav() {
             transition={{ duration: 0.7, ease: EASE }}
             className="fixed inset-0 z-[110] bg-ink text-bone flex flex-col pt-20 md:hidden"
           >
-            <nav className="container-x flex flex-col gap-2 pt-12">
+            <nav className="container-x flex flex-col gap-2 pt-12 overflow-y-auto pb-8">
               {NAV_LINKS.map((link, i) => (
                 <motion.div
                   key={link.href}
@@ -217,33 +362,21 @@ function NavItem({
   label,
   active,
   dark,
-  items,
+  hasMega,
+  megaOpen,
 }: {
   href: string;
   label: string;
   active: boolean;
   dark: boolean;
-  items?: ReadonlyArray<{ href: string; label: string }>;
+  hasMega: boolean;
+  megaOpen: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-
-  // Small delay before closing so the mouse can travel from the trigger to
-  // the panel without the dropdown collapsing mid-motion.
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const handleEnter = () => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-    setOpen(true);
-  };
-  const handleLeave = () => {
-    closeTimer.current = setTimeout(() => setOpen(false), 120);
-  };
-
-  const trigger = (
+  return (
     <Link
       href={href}
+      aria-haspopup={hasMega ? "true" : undefined}
+      aria-expanded={hasMega ? megaOpen : undefined}
       className={cn(
         "group relative text-sm tracking-tight transition-colors",
         dark ? "text-bone/80 hover:text-bone" : "text-ink/80 hover:text-ink"
@@ -251,12 +384,12 @@ function NavItem({
     >
       <span className="relative inline-flex items-center gap-1">
         {label}
-        {items && items.length > 0 && (
+        {hasMega && (
           <span
             aria-hidden
             className={cn(
               "text-[8px] leading-none transition-transform duration-300 ease-out-expo",
-              open ? "rotate-180" : "rotate-0"
+              megaOpen ? "rotate-180" : "rotate-0"
             )}
           >
             ▾
@@ -266,54 +399,10 @@ function NavItem({
           className={cn(
             "absolute -bottom-1 left-0 h-px transition-all duration-500 ease-out-expo",
             dark ? "bg-bone" : "bg-ink",
-            active ? "w-full" : "w-0 group-hover:w-full"
+            active || megaOpen ? "w-full" : "w-0 group-hover:w-full"
           )}
         />
       </span>
     </Link>
-  );
-
-  if (!items || items.length === 0) return trigger;
-
-  return (
-    <div
-      className="relative"
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
-      onFocus={handleEnter}
-      onBlur={handleLeave}
-    >
-      {trigger}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 4 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 4 }}
-            transition={{ duration: 0.22, ease: EASE }}
-            className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
-            // Keep the panel inside the hover-bridge so the gap between the
-            // trigger and the panel doesn't fire onMouseLeave.
-          >
-            <div
-              className={cn(
-                "min-w-[220px] border bg-bone text-ink shadow-[0_8px_30px_rgba(14,14,14,0.08)]",
-                "border-hairline rounded-sm overflow-hidden"
-              )}
-            >
-              {items.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block px-5 py-3 text-sm tracking-tight border-b border-hairline last:border-b-0 hover:bg-ink/[0.04] transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
   );
 }
