@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import SmoothScroll from "@/components/SmoothScroll";
 
 /**
  * Sigap — Onyx Creative Asia's budget-tier sub-brand for UMKM in
- * Indonesia. Lives at sigap.onyxcreative.asia. Deliberately stripped
- * of the main Onyx chrome (Loader, smooth scroll, custom cursor,
- * heavy animations) because the target audience is on mobile + slower
- * connections and won't tolerate a 3MB first paint.
+ * Indonesia. Lives at sigap.onyxcreative.asia.
  *
- * Brand voice: warm, direct, Bahasa Indonesia, no English mix-in
- * except technical terms (UMKM, IG, logo). No exclamation marks
- * either — we keep the parent studio's restraint, just rendered in
- * a friendlier register.
+ * Visual identity tracks the main Onyx editorial monochrome (bone/ink,
+ * Neue Montreal type, hairline grid, restrained motion) so the brand
+ * reads as "Onyx's accessible-tier offer," not a fully separate studio.
+ * Content register stays warmer than Onyx — first-person plural, no
+ * exclamations, but with light Bahasa gaul ("yuk", "udah") because
+ * the audience is UMKM owners, not enterprise marketers.
+ *
+ * Lenis smooth scroll mounted for the same feel as onyxcreative.asia.
+ * Loader + Cursor skipped — Sigap is conversion-first and most traffic
+ * arrives on mobile via WhatsApp share links.
  */
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -54,7 +58,8 @@ export default function SigapLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-sigap-cream text-sigap-ink antialiased">
+    <div className="min-h-screen bg-bone text-ink antialiased">
+      <SmoothScroll />
       {children}
       {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
     </div>
