@@ -28,6 +28,20 @@ const WA_DISPLAY =
   process.env.NEXT_PUBLIC_SIGAP_WA_DISPLAY ??
   process.env.NEXT_PUBLIC_WA_DISPLAY ??
   "+62 895-4133-72822";
+// Launch cohort cap. Operator wants the first batch of 10 clients at
+// loss-leader pricing to bootstrap portfolio + case studies; after 10
+// slots fill, pricing resets to market rate.
+//
+// Falls back to the legacy NEXT_PUBLIC_SIGAP_EARLYBIRD_LEFT env var so
+// the existing Vercel value (10) keeps working without re-adding it.
+// Decrement manually as you close clients; set to 0 to flip the page
+// into "fully booked / waitlist" mode.
+const SLOTS_LEFT = Number(
+  process.env.NEXT_PUBLIC_SIGAP_SLOTS_LEFT ??
+    process.env.NEXT_PUBLIC_SIGAP_EARLYBIRD_LEFT ??
+    "10"
+);
+const SLOTS_TOTAL = 10;
 
 function waLink(prefill: string): string {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(prefill)}`;
@@ -126,8 +140,12 @@ const PROCESS_STEPS = [
 
 const FAQ = [
   {
+    q: "Kenapa cuma 10 klien?",
+    a: "Sigap baru launching. 10 slot pertama kita kasih harga loss-leader supaya kita bisa bangun portfolio case study yang real, cepat, dan diversified. Setelah 10 slot habis, pricing reset ke market rate (kira-kira 2 sampai 3 kali lipat dari yang sekarang) — karena scope-nya emang segitu kerjanya. Kalau kamu masuk batch pertama, harga yang kamu bayar sekarang locked untuk proyek kamu, termasuk komitmen tahunan di paket Lengkap.",
+  },
+  {
     q: "Kenapa harganya jauh lebih murah dari agensi lain?",
-    a: "Karena scope-nya kita tetapkan dari awal. Paket fixed, nggak ada negosiasi tambahan di tengah jalan. Kita pakai AI tools untuk mempercepat proses produksi, tapi setiap output tetap di-review tangan manusia (Onyx Creative Asia). Yang kita potong itu waktu, bukan kualitas.",
+    a: "Karena scope-nya kita tetapkan dari awal. Paket fixed, nggak ada negosiasi tambahan di tengah jalan. Kita pakai AI tools untuk mempercepat proses produksi, tapi setiap output tetap di-review tangan manusia (Onyx Creative Asia). Yang kita potong itu waktu, bukan kualitas. Plus seperti yang di atas — ini harga launching untuk 10 klien pertama saja, bukan harga jangka panjang.",
   },
   {
     q: "Termasuk apa aja yang aku dapet?",
@@ -223,8 +241,24 @@ export default function SigapLanding() {
 
       {/* ─────────────────── HERO ─────────────────── */}
       <section className="container-x pt-20 sm:pt-28 md:pt-32 pb-20 md:pb-28">
+        {SLOTS_LEFT > 0 ? (
+          <Reveal>
+            <p className="inline-flex items-center gap-2.5 text-[10px] sm:text-xs uppercase tracking-[0.22em] opacity-70 mb-8 border-b border-hairline pb-3">
+              <span className="block h-1.5 w-1.5 rounded-full bg-ink animate-pulse" />
+              {SLOTS_LEFT} dari {SLOTS_TOTAL} slot tersisa · harga
+              launching
+            </p>
+          </Reveal>
+        ) : (
+          <Reveal>
+            <p className="inline-flex items-center gap-2.5 text-[10px] sm:text-xs uppercase tracking-[0.22em] opacity-70 mb-8 border-b border-hairline pb-3">
+              <span className="block h-1.5 w-1.5 rounded-full bg-ink/40" />
+              Batch pertama sudah penuh · gabung waitlist
+            </p>
+          </Reveal>
+        )}
         <h1 className="text-display-md font-medium leading-[1.0] tracking-tight max-w-4xl text-balance">
-          <RevealText text="Branding dan web buat UMKM," />
+          <RevealText text="Web dan sosmed buat UMKM," />
           <br />
           <span className="block font-light italic leading-[1.1] pb-[0.12em]">
             <RevealText text="mulai dari Rp 500rb." delay={0.15} />
@@ -232,8 +266,15 @@ export default function SigapLanding() {
         </h1>
         <Reveal delay={0.35}>
           <p className="mt-12 max-w-xl text-lg md:text-xl text-ink/70 leading-relaxed">
-            Logo, IG, sampai landing page. Paket jadi, harga jujur, selesai
-            dalam 3 sampai 7 hari. Nggak ribet.
+            Landing page, paket sosmed siap opening, sampai web 5 halaman
+            plus konten setahun. Paket jadi, harga jujur, semua selesai
+            dalam 3 sampai 7 hari.
+          </p>
+        </Reveal>
+        <Reveal delay={0.4}>
+          <p className="mt-4 max-w-xl text-sm text-ink/55 italic leading-relaxed">
+            Harga di halaman ini berlaku untuk {SLOTS_TOTAL} klien pertama
+            saja. Setelah batch ini penuh, pricing reset ke market rate.
           </p>
         </Reveal>
         <Reveal delay={0.45}>
@@ -415,6 +456,11 @@ export default function SigapLanding() {
                 tengah, nggak ada tambah-tambah biaya. Kalau butuh lebih,
                 tinggal pindah paket.
               </p>
+              <p className="mt-4 text-xs uppercase tracking-[0.22em] text-bone/55">
+                {SLOTS_LEFT > 0
+                  ? `Harga launching · berlaku untuk ${SLOTS_TOTAL} klien pertama (${SLOTS_LEFT} tersisa)`
+                  : `Batch launching sudah penuh · waitlist dibuka`}
+              </p>
             </Reveal>
           </div>
 
@@ -462,11 +508,15 @@ export default function SigapLanding() {
                   </ul>
                   <Link
                     href={waLink(
-                      `Halo Sigap, saya tertarik paket ${pkg.name} (Rp ${pkg.price.toLocaleString("id-ID")}). Bisa konsultasi dulu?`
+                      SLOTS_LEFT > 0
+                        ? `Halo Sigap, saya tertarik paket ${pkg.name} (Rp ${pkg.price.toLocaleString("id-ID")}). Bisa konsultasi dulu?`
+                        : `Halo Sigap, saya mau gabung waitlist untuk paket ${pkg.name}. Bisa di-info kalau batch berikutnya buka?`
                     )}
                     className="block text-center rounded-full bg-bone text-ink px-5 py-3 text-sm transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
                   >
-                    Pilih paket {pkg.name}
+                    {SLOTS_LEFT > 0
+                      ? `Pilih paket ${pkg.name}`
+                      : `Waitlist paket ${pkg.name}`}
                   </Link>
                 </article>
               </Reveal>
