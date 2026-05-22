@@ -27,6 +27,19 @@ const config: Config = {
           300: "#D8D2C6",
           400: "#BDB5A4",
         },
+        // Sigap (sub-brand for budget-tier UMKM packages) — warm cream
+        // + rust accent. Lives under local.onyxcreative.asia. Deliberately
+        // distinct from the Onyx monochrome so a premium-tier visitor
+        // doesn't perceive the studio as "the 500rb place".
+        sigap: {
+          cream: "#FAF6EE",
+          "cream-deep": "#F3ECDD",
+          ink: "#2A1F18",
+          rust: "#C45A2E",
+          "rust-soft": "#E8C9B0",
+          muted: "#7A6A5A",
+          line: "#E0D7C8",
+        },
       },
       fontFamily: {
         sans: ["var(--font-neue)", "system-ui", "sans-serif"],

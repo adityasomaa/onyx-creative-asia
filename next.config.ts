@@ -14,8 +14,9 @@ const nextConfig: NextConfig = {
     ],
   },
   async rewrites() {
-    // Subdomain split:
+    // Subdomain splits:
     //   agents.onyxcreative.asia/* → /agents/* (internal route)
+    //   local.onyxcreative.asia/*  → /sigap/*  (Sigap sub-brand landing)
     //
     // Use EXPLICIT rewrites per known route rather than a catch-all. Two
     // reasons:
@@ -26,46 +27,48 @@ const nextConfig: NextConfig = {
     //      (`/agents` → looks up against the catch-all again → rewrites
     //      to `/agents/agents` → 404).
     //
-    // Add new agents-platform pages by extending the list below.
-    const HAS = [{ type: "host" as const, value: "agents.onyxcreative.asia" }];
+    // Add new pages on either subdomain by extending the lists below.
+    const HAS_AGENTS = [
+      { type: "host" as const, value: "agents.onyxcreative.asia" },
+    ];
+    const HAS_LOCAL = [
+      { type: "host" as const, value: "local.onyxcreative.asia" },
+    ];
     return {
       beforeFiles: [
-        // root → roster
-        { source: "/", has: HAS, destination: "/agents" },
-
-        // auth pages
-        { source: "/login", has: HAS, destination: "/agents/login" },
-        { source: "/api/auth", has: HAS, destination: "/agents/api/auth" },
-
-        // platform top-level sections
-        { source: "/dashboard", has: HAS, destination: "/agents/dashboard" },
-        { source: "/submissions", has: HAS, destination: "/agents/submissions" },
+        // ─── agents.* (internal dashboard) ──────────────────────
+        { source: "/", has: HAS_AGENTS, destination: "/agents" },
+        { source: "/login", has: HAS_AGENTS, destination: "/agents/login" },
+        { source: "/api/auth", has: HAS_AGENTS, destination: "/agents/api/auth" },
+        { source: "/dashboard", has: HAS_AGENTS, destination: "/agents/dashboard" },
+        { source: "/submissions", has: HAS_AGENTS, destination: "/agents/submissions" },
         {
           source: "/submissions/:id",
-          has: HAS,
+          has: HAS_AGENTS,
           destination: "/agents/submissions/:id",
         },
-        { source: "/flow", has: HAS, destination: "/agents/flow" },
-
-        // per-client portals (Phase 2 — page files land later, but the
-        // rewrite is here so we don't forget when they ship)
+        { source: "/flow", has: HAS_AGENTS, destination: "/agents/flow" },
         {
           source: "/onboarding/:slug",
-          has: HAS,
+          has: HAS_AGENTS,
           destination: "/agents/onboarding/:slug",
         },
         {
           source: "/results/:slug",
-          has: HAS,
+          has: HAS_AGENTS,
           destination: "/agents/results/:slug",
         },
-
-        // agent detail — slug allow-list keeps it from re-rewriting itself
         {
           source: "/:slug(director|strategist|maker|account-manager)",
-          has: HAS,
+          has: HAS_AGENTS,
           destination: "/agents/:slug",
         },
+
+        // ─── local.* (Sigap sub-brand) ──────────────────────────
+        // Single-page landing today. Add more routes here as the
+        // funnel grows (success page after WA click, FAQ deep-dive,
+        // case studies, etc.).
+        { source: "/", has: HAS_LOCAL, destination: "/sigap" },
       ],
     };
   },
