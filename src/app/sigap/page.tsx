@@ -48,12 +48,12 @@ const PACKAGES: Package[] = [
     id: "mulai",
     name: "Mulai",
     price: 500_000,
-    delivery: "3 hari",
-    tagline: "Buat usaha yang baru mulai cari identitas.",
+    delivery: "Selesai 3 hari",
+    tagline: "Buat usaha yang butuh halaman online cepat.",
     includes: [
-      "1 logo + 3 file format (PNG, JPG, PDF)",
-      "Pilihan warna dan font brand",
-      "Mini brand guide 1 halaman",
+      "Landing page 1 halaman",
+      "Domain & hosting gratis 1 bulan pertama",
+      "Setelah itu: perpanjang sendiri di Hostinger (~Rp 200rb/thn)",
       "1 kali revisi",
     ],
   },
@@ -61,13 +61,13 @@ const PACKAGES: Package[] = [
     id: "tumbuh",
     name: "Tumbuh",
     price: 750_000,
-    delivery: "5 hari",
-    tagline: "Paling banyak dipilih. Untuk yang serius bangun IG.",
+    delivery: "Selesai 5 hari",
+    tagline: "Landing page + amunisi sosmed buat opening.",
     includes: [
-      "Semua isi paket Mulai",
-      "9 template IG feed (editable di Canva)",
-      "Bio IG dan highlight cover set",
-      "Caption pattern untuk 4 minggu",
+      "Landing page 1 halaman",
+      "5 feed IG siap posting (untuk opening)",
+      "5 story IG (untuk opening)",
+      "Source file editable di Canva",
       "1 kali revisi per item",
     ],
     featured: true,
@@ -76,13 +76,13 @@ const PACKAGES: Package[] = [
     id: "lengkap",
     name: "Lengkap",
     price: 1_000_000,
-    delivery: "7 hari",
-    tagline: "Sekali jadi: brand, sosmed, web.",
+    delivery: "Web 7 hari · Konten 52 minggu",
+    tagline: "Web lengkap + sosmed jalan setahun penuh.",
     includes: [
-      "Semua isi paket Tumbuh",
-      "Landing page 1 halaman (Hostinger setup)",
-      "1 video Reels intro (15 detik)",
-      "Domain dan hosting setup dibantu",
+      "Web 5 halaman",
+      "1 feed IG + 1 story IG tiap minggu",
+      "Total 52 feed + 52 story (1 tahun penuh)",
+      "Source file editable di Canva",
       "1 kali revisi per item",
     ],
   },
@@ -131,11 +131,19 @@ const FAQ = [
   },
   {
     q: "Termasuk apa aja yang aku dapet?",
-    a: "Semua file final (logo, template, web) jadi milik kamu sepenuhnya. Source file editable di Canva untuk paket Tumbuh ke atas. Untuk landing page, kita kasih kamu akses Hostinger jadi kamu bisa edit sendiri ke depannya.",
+    a: "Semua file final (web, template feed, story) jadi milik kamu sepenuhnya. Source file editable di Canva untuk paket Tumbuh ke atas, jadi kamu bisa lanjut bikin variasi sendiri tanpa balik ke kita.",
+  },
+  {
+    q: "Domain dan hosting setelah 1 bulan gimana?",
+    a: "Untuk paket Mulai, kita pakaikan domain & hosting Hostinger gratis 1 bulan pertama, dan kasih kamu akses penuh ke akun-nya. Setelah itu, perpanjangan jadi tanggung jawab kamu langsung di Hostinger (sekitar Rp 200rb per tahun untuk domain .com + hosting basic). Untuk paket Tumbuh & Lengkap, biaya domain & hosting di luar paket — kamu sediakan, kita yang setup.",
+  },
+  {
+    q: "Untuk paket Lengkap, sosmen mingguan itu jalan dari kapan?",
+    a: "Mulai jalan begitu web kamu selesai (sekitar 7 hari setelah brief), lalu kita posting 1 feed + 1 story tiap minggu selama 52 minggu (1 tahun penuh). Setiap awal bulan kamu approve plan 4 minggu ke depan, abis itu kita produksi dan posting sesuai jadwal.",
   },
   {
     q: "Kalo hasilnya nggak cocok gimana?",
-    a: "Setiap paket sudah include 1 kali revisi per item. Kalo masih kurang sreg, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai logo yang kamu sendiri ragu.",
+    a: "Setiap paket sudah include 1 kali revisi per item. Kalo masih kurang sreg, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai aset yang kamu sendiri ragu.",
   },
   {
     q: "Bisa pakai bahasa daerah atau bahasa asing?",
@@ -143,7 +151,7 @@ const FAQ = [
   },
   {
     q: "Setelah selesai, bisa nambah lagi nanti?",
-    a: "Bisa. Banyak klien mulai dari paket Mulai, terus naik ke Tumbuh setelah 2 sampai 3 bulan pas IG-nya udah jalan. Kita kasih harga upgrade yang fair (selisih paket, bukan harga full).",
+    a: "Bisa. Banyak klien mulai dari paket Mulai, terus naik ke Tumbuh setelah lihat trafik mulai jalan. Kita kasih harga upgrade yang fair (selisih paket, bukan harga full).",
   },
 ];
 
@@ -437,7 +445,7 @@ export default function SigapLanding() {
                       Rp {pkg.price.toLocaleString("id-ID")}
                     </p>
                     <p className="text-xs uppercase tracking-[0.22em] opacity-55 mt-3">
-                      Selesai {pkg.delivery}
+                      {pkg.delivery}
                     </p>
                   </div>
                   <ul className="space-y-3 text-sm flex-1 mb-8">
