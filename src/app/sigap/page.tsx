@@ -129,7 +129,7 @@ const PROCESS_STEPS = [
   {
     n: "02",
     title: "Bayar lunas dan isi brief",
-    body: "Transfer manual ke BCA, Mandiri, atau BRI. Isi brief singkat 5 menit, kita mulai kerja.",
+    body: "Transfer lunas sesuai instruksi yang kita kasih waktu konsultasi. Isi brief singkat 5 menit, kita mulai kerja.",
   },
   {
     n: "03",
@@ -157,7 +157,7 @@ const FAQ = [
   },
   {
     q: "Pembayaran aman? Kalau hasilnya nggak cocok gimana?",
-    a: "Transfer langsung ke rekening BCA, Mandiri, atau BRI atas nama pemilik Onyx Creative Asia. Bukti transfer kamu jadi pegangan resmi proyek. Setiap paket sudah include 1 kali revisi per item. Kalau masih kurang sreg setelah revisi, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai aset yang kamu sendiri ragu.",
+    a: "Pembayaran lunas di muka via transfer. Detail kita kasih saat konfirmasi paket. Bukti transfer kamu jadi pegangan resmi proyek. Setiap paket sudah include 1 kali revisi per item. Kalau masih kurang sreg setelah revisi, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai aset yang kamu sendiri ragu.",
   },
   {
     q: "Aku di luar Bali, bisa kerja sama?",
@@ -521,8 +521,7 @@ export default function SigapLanding() {
 
           <Reveal>
             <p className="mt-10 text-xs uppercase tracking-[0.22em] opacity-55 text-center">
-              Pembayaran lunas di muka · Transfer manual BCA, Mandiri,
-              atau BRI
+              Pembayaran lunas di muka via transfer manual
             </p>
           </Reveal>
         </div>
