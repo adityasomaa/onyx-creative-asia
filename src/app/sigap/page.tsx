@@ -141,35 +141,31 @@ const PROCESS_STEPS = [
 const FAQ = [
   {
     q: "Kenapa cuma 10 klien?",
-    a: "Sigap baru launching. 10 slot pertama kita kasih harga loss-leader supaya kita bisa bangun portfolio case study yang real, cepat, dan diversified. Setelah 10 slot habis, pricing reset ke market rate (kira-kira 2 sampai 3 kali lipat dari yang sekarang) — karena scope-nya emang segitu kerjanya. Kalau kamu masuk batch pertama, harga yang kamu bayar sekarang locked untuk proyek kamu, termasuk komitmen tahunan di paket Lengkap.",
+    a: "Sigap baru launching. 10 slot pertama kita kasih harga loss-leader supaya bisa bangun portfolio case study yang real, cepat, dan diversified. Setelah 10 slot habis, pricing reset ke market rate, kira-kira 2 sampai 3 kali lipat dari sekarang. Kalau kamu masuk batch pertama, harga yang kamu bayar sekarang locked untuk proyek kamu, termasuk komitmen tahunan di paket Lengkap.",
   },
   {
     q: "Kenapa harganya jauh lebih murah dari agensi lain?",
-    a: "Karena scope-nya kita tetapkan dari awal. Paket fixed, nggak ada negosiasi tambahan di tengah jalan. Kita pakai AI tools untuk mempercepat proses produksi, tapi setiap output tetap di-review tangan manusia (Onyx Creative Asia). Yang kita potong itu waktu, bukan kualitas. Plus seperti yang di atas — ini harga launching untuk 10 klien pertama saja, bukan harga jangka panjang.",
+    a: "Tiga alasan. Pertama, scope kita tetapkan dari awal jadi nggak ada negosiasi tambahan di tengah jalan. Kedua, kita pakai AI tools untuk mempercepat proses produksi tapi setiap output tetap di-review tangan manusia (Onyx Creative Asia, studio induk Sigap). Ketiga, harga sekarang harga launching untuk 10 klien pertama saja, bukan harga jangka panjang.",
   },
   {
-    q: "Termasuk apa aja yang aku dapet?",
-    a: "Semua file final (web, template feed, story) jadi milik kamu sepenuhnya. Source file editable di Canva untuk paket Tumbuh ke atas, jadi kamu bisa lanjut bikin variasi sendiri tanpa balik ke kita.",
+    q: "Aku belum punya konten atau foto. Bantu?",
+    a: "Bantu. Kita bisa pakai stock photo premium gratis untuk template feed, atau guide kamu cara foto produk pakai HP yang udah jadi standar di IG sekarang. Kalau butuh foto produk profesional, kita arahin ke fotografer lokal yang harganya masih masuk.",
   },
   {
-    q: "Domain dan hosting setelah 1 bulan gimana?",
-    a: "Untuk paket Mulai, kita pakaikan domain & hosting Hostinger gratis 1 bulan pertama, dan kasih kamu akses penuh ke akun-nya. Setelah itu, perpanjangan jadi tanggung jawab kamu langsung di Hostinger (sekitar Rp 200rb per tahun untuk domain .com + hosting basic). Untuk paket Tumbuh & Lengkap, biaya domain & hosting di luar paket — kamu sediakan, kita yang setup.",
+    q: "Aku nggak ngerti teknis sama sekali. Gimana?",
+    a: "Nggak masalah, kamu nggak perlu ngerti teknis apapun. Semua proses kita pegang. Kamu cukup cerita usaha kamu via WA, kasih brief singkat, terima hasil. Untuk web, kita kasih panduan video singkat kalau nanti kamu mau update konten sendiri.",
   },
   {
-    q: "Untuk paket Lengkap, sosmen mingguan itu jalan dari kapan?",
-    a: "Mulai jalan begitu web kamu selesai (sekitar 7 hari setelah brief), lalu kita posting 1 feed + 1 story tiap minggu selama 52 minggu (1 tahun penuh). Setiap awal bulan kamu approve plan 4 minggu ke depan, abis itu kita produksi dan posting sesuai jadwal.",
+    q: "Pembayaran aman? Kalau hasilnya nggak cocok gimana?",
+    a: "Transfer langsung ke rekening BCA, Mandiri, atau BRI atas nama pemilik Onyx Creative Asia. Bukti transfer kamu jadi pegangan resmi proyek. Setiap paket sudah include 1 kali revisi per item. Kalau masih kurang sreg setelah revisi, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai aset yang kamu sendiri ragu.",
   },
   {
-    q: "Kalo hasilnya nggak cocok gimana?",
-    a: "Setiap paket sudah include 1 kali revisi per item. Kalo masih kurang sreg, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai aset yang kamu sendiri ragu.",
+    q: "Aku di luar Bali, bisa kerja sama?",
+    a: "Bisa. Semua via WhatsApp dan transfer, lokasi nggak ngaruh. Studio induk Sigap, Onyx Creative Asia, udah pernah ngerjain klien dari Bali sampai Belanda.",
   },
   {
-    q: "Bisa pakai bahasa daerah atau bahasa asing?",
-    a: "Bisa. Copy yang kita siapkan default Bahasa Indonesia, tapi kalo kamu punya tagline atau caption dalam bahasa lain (Bali, Sunda, Inggris), kirim aja saat brief.",
-  },
-  {
-    q: "Setelah selesai, bisa nambah lagi nanti?",
-    a: "Bisa. Banyak klien mulai dari paket Mulai, terus naik ke Tumbuh setelah lihat trafik mulai jalan. Kita kasih harga upgrade yang fair (selisih paket, bukan harga full).",
+    q: "Setelah selesai, bisa lanjutan apa lagi?",
+    a: "Bisa. Banyak klien naik tier setelah lihat trafik mulai jalan, dan kita kasih harga upgrade yang fair (selisih paket, bukan harga full). Untuk klien Lengkap yang udah selesai 52 minggu, kita biasanya tawarin retainer bulanan untuk lanjut konten dan maintenance web. Harga retainer kita info terpisah, fair berdasarkan scope yang dibutuhkan.",
   },
 ];
 
@@ -378,7 +374,7 @@ export default function SigapLanding() {
                     <div className="relative aspect-[4/5] overflow-hidden bg-ink/[0.04] border border-hairline">
                       <Image
                         src={project.cover}
-                        alt={`${project.client} — ${project.title}`}
+                        alt={`${project.client}, ${project.title}`}
                         fill
                         sizes="(min-width: 768px) 33vw, 100vw"
                         className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
