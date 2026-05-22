@@ -9,13 +9,13 @@ import SmoothScroll from "@/components/SmoothScroll";
  * Visual identity tracks the main Onyx editorial monochrome (bone/ink,
  * Neue Montreal type, hairline grid, restrained motion) so the brand
  * reads as "Onyx's accessible-tier offer," not a fully separate studio.
- * Content register stays warmer than Onyx — first-person plural, no
- * exclamations, but with light Bahasa gaul ("yuk", "udah") because
- * the audience is UMKM owners, not enterprise marketers.
+ * Content register stays warmer than Onyx (first-person plural, no
+ * exclamations, light Bahasa gaul like "yuk", "udah") because the
+ * audience is UMKM owners, not enterprise marketers.
  *
  * Lenis smooth scroll mounted for the same feel as onyxcreative.asia.
- * Loader + Cursor skipped — Sigap is conversion-first and most traffic
- * arrives on mobile via WhatsApp share links.
+ * Loader + Cursor skipped because Sigap is conversion-first and most
+ * traffic arrives on mobile via WhatsApp share links.
  */
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
@@ -23,16 +23,16 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 export const metadata: Metadata = {
   metadataBase: new URL("https://sigap.onyxcreative.asia"),
   title: {
-    default: "Sigap — Branding & Web untuk UMKM, mulai Rp 500rb",
-    template: "%s — Sigap",
+    default: "Sigap · Branding & Web untuk UMKM, mulai Rp 500rb",
+    template: "%s · Sigap",
   },
   description:
-    "Paket logo, IG, dan landing page siap pakai untuk UMKM Indonesia. Harga jujur, hasil cepat 3-7 hari, semua via WhatsApp. Didukung Onyx Creative Asia.",
+    "Paket logo, IG, dan landing page siap pakai untuk UMKM Indonesia. Harga jujur, hasil cepat 3 sampai 7 hari. Didukung Onyx Creative Asia.",
   applicationName: "Sigap",
   authors: [{ name: "Onyx Creative Asia", url: "https://onyxcreative.asia" }],
   alternates: { canonical: "/" },
   openGraph: {
-    title: "Sigap — Branding & Web untuk UMKM",
+    title: "Sigap · Branding & Web untuk UMKM",
     description:
       "Paket logo, IG, dan landing page untuk UMKM. Mulai Rp 500rb, selesai 3-7 hari.",
     url: "/",

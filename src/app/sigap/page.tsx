@@ -3,22 +3,17 @@ import Reveal, { RevealText } from "@/components/Reveal";
 import Marquee from "@/components/Marquee";
 
 /**
- * Sigap landing — Onyx editorial monochrome treatment applied to the
- * sub-brand. Single page, WA-first funnel. Animations driven by Reveal
- * + RevealText (Framer Motion), smooth scroll via Lenis (mounted in
- * the layout).
+ * Sigap landing — Onyx editorial monochrome treatment on a sub-brand
+ * for UMKM. Single page, WA-first funnel (links go to wa.me, but the
+ * copy doesn't keep announcing "everything via WhatsApp" — operator
+ * preference). Animations driven by Reveal + RevealText (Framer Motion),
+ * smooth scroll via Lenis (mounted in the layout).
  *
- * Funnel order:
- *   1. Hero — price anchor + immediate WA CTA above the fold
- *   2. Marquee trust strip — placeholders until real signals land
- *   3. Pain points — three UMKM-specific frustrations
- *   4. Packages — three productized tiers, fixed scope
- *   5. Proses — three-step "chat → bayar → terima"
- *   6. Testimoni — placeholder until real ones land
- *   7. FAQ — five most-common objections answered
- *   8. Final CTA — last chance to WA
- *   9. Footer — Onyx parent attribution
- * Plus a floating WA button always pinned bottom-right.
+ * Italic + display sizes: every italic line that lives inside a tight
+ * leading wrapper uses a `pb-[0.18em]` cushion so the descenders (g, p,
+ * y, j, italic R / Q) don't get clipped by line-height math. This is
+ * the same fix the main site uses for .reveal-mask — repeated inline
+ * because we sometimes use plain italic spans, not RevealText.
  */
 
 const WA_NUMBER =
@@ -58,7 +53,7 @@ const PACKAGES: Package[] = [
     tagline: "Buat usaha yang baru mulai cari identitas.",
     includes: [
       "1 logo + 3 file format (PNG, JPG, PDF)",
-      "Pilihan warna & font brand",
+      "Pilihan warna dan font brand",
       "Mini brand guide 1 halaman",
       "1 kali revisi",
     ],
@@ -66,14 +61,14 @@ const PACKAGES: Package[] = [
   {
     id: "tumbuh",
     name: "Tumbuh",
-    price: 1_000_000,
+    price: 750_000,
     earlyBirdPrice: null,
     delivery: "5 hari",
     tagline: "Paling banyak dipilih. Untuk yang serius bangun IG.",
     includes: [
       "Semua isi paket Mulai",
       "9 template IG feed (editable di Canva)",
-      "Bio IG + highlight cover set",
+      "Bio IG dan highlight cover set",
       "Caption pattern untuk 4 minggu",
       "1 kali revisi per item",
     ],
@@ -82,7 +77,7 @@ const PACKAGES: Package[] = [
   {
     id: "lengkap",
     name: "Lengkap",
-    price: 1_800_000,
+    price: 1_000_000,
     earlyBirdPrice: null,
     delivery: "7 hari",
     tagline: "Sekali jadi: brand, sosmed, web.",
@@ -90,7 +85,7 @@ const PACKAGES: Package[] = [
       "Semua isi paket Tumbuh",
       "Landing page 1 halaman (Hostinger setup)",
       "1 video Reels intro (15 detik)",
-      "Domain & hosting setup dibantu",
+      "Domain dan hosting setup dibantu",
       "1 kali revisi per item",
     ],
   },
@@ -117,25 +112,25 @@ const PAIN_POINTS = [
 const PROCESS_STEPS = [
   {
     n: "01",
-    title: "Chat di WhatsApp",
-    body: "Cerita usaha kamu, pilih paket. Konsultasi nggak dipungut biaya.",
+    title: "Chat dan konsultasi",
+    body: "Cerita usaha kamu, pilih paket. Konsultasi awal nggak dipungut biaya.",
   },
   {
     n: "02",
-    title: "Transfer & isi brief",
-    body: "Transfer manual via BCA / Mandiri / BRI. Isi brief singkat (5 menit), kita mulai kerja.",
+    title: "Transfer dan isi brief",
+    body: "Transfer manual ke BCA, Mandiri, atau BRI. Isi brief singkat 5 menit, kita mulai kerja.",
   },
   {
     n: "03",
-    title: "Terima hasil 3–7 hari",
-    body: "Semua file dikirim via WhatsApp. Revisi gampang, cukup chat balik.",
+    title: "Terima hasil 3 sampai 7 hari",
+    body: "Semua file dikirim langsung. Revisi gampang, cukup balas chat.",
   },
 ];
 
 const FAQ = [
   {
     q: "Kenapa harganya jauh lebih murah dari agensi lain?",
-    a: "Karena scope-nya kita tetapkan dari awal — paket fixed, nggak ada negosiasi tambahan di tengah jalan. Kita pakai AI tools untuk mempercepat proses produksi, tapi setiap output tetap di-review tangan manusia (Onyx Creative Asia). Yang kita potong itu waktu, bukan kualitas.",
+    a: "Karena scope-nya kita tetapkan dari awal. Paket fixed, nggak ada negosiasi tambahan di tengah jalan. Kita pakai AI tools untuk mempercepat proses produksi, tapi setiap output tetap di-review tangan manusia (Onyx Creative Asia). Yang kita potong itu waktu, bukan kualitas.",
   },
   {
     q: "Termasuk apa aja yang aku dapet?",
@@ -146,23 +141,53 @@ const FAQ = [
     a: "Setiap paket sudah include 1 kali revisi per item. Kalo masih kurang sreg, kita refund 50% dan hentikan proyek. Kita lebih baik kehilangan setengah revenue daripada kamu pakai logo yang kamu sendiri ragu.",
   },
   {
-    q: "Bisa pakai bahasa daerah / bahasa asing?",
+    q: "Bisa pakai bahasa daerah atau bahasa asing?",
     a: "Bisa. Copy yang kita siapkan default Bahasa Indonesia, tapi kalo kamu punya tagline atau caption dalam bahasa lain (Bali, Sunda, Inggris), kirim aja saat brief.",
   },
   {
     q: "Setelah selesai, bisa nambah lagi nanti?",
-    a: "Bisa. Banyak klien mulai dari paket Mulai, terus naik ke Tumbuh setelah 2-3 bulan pas IG-nya udah jalan. Kita kasih harga upgrade yang fair (selisih paket, bukan harga full).",
+    a: "Bisa. Banyak klien mulai dari paket Mulai, terus naik ke Tumbuh setelah 2 sampai 3 bulan pas IG-nya udah jalan. Kita kasih harga upgrade yang fair (selisih paket, bukan harga full).",
   },
 ];
 
 // Placeholder trust signals for the marquee strip. Swap with real
-// client names / counts as they accumulate.
+// client names or counts as they accumulate.
 const TRUST_SIGNALS = [
   "Powered by Onyx Creative Asia",
   "Berbasis di Bali, melayani seluruh Indonesia",
-  "Logo · IG · Web · semua dalam satu paket",
-  "Mulai dari Rp 500rb · selesai 3–7 hari",
-  "Bayar setelah konsultasi · refund 50% jika tidak cocok",
+  "Logo, IG, dan web dalam satu paket",
+  "Mulai Rp 500rb · selesai 3 sampai 7 hari",
+  "Refund 50% kalau hasilnya nggak cocok",
+];
+
+// Dummy testimonials. First entry paraphrases the actual Onyx case
+// study for The Hair Extensions Bali (a premium-tier client, used here
+// as a placeholder until Sigap-tier testimonials land). The other two
+// are plausible UMKM-shaped voices, also placeholders. Replace each
+// time real signed-off feedback comes in.
+const TESTIMONIALS = [
+  {
+    quote:
+      "Web kita selesai dalam waktu cepat, langsung jalan booking via WhatsApp. Pricing IDR transparan di tiap method, dan klien yang biasanya cuma DM IG sekarang langsung pesan lewat web. Editorial gallery-nya pas sama kelas studio kita.",
+    author: "The Hair Extensions Bali",
+    role: "Premium salon by appointment",
+    location: "Kerobokan, Bali",
+    link: "https://thehairextensionsbali.com",
+  },
+  {
+    quote:
+      "Logo selesai 3 hari, langsung bisa dipake buat brosur sama IG. Chat-nya santai, nggak ribet meeting. Harga jujur dari awal, sesuai paket, nggak ada biaya tambahan.",
+    author: "Sari Wulandari",
+    role: "Owner, Kopi Bumi",
+    location: "Denpasar",
+  },
+  {
+    quote:
+      "Awalnya ragu karena harganya jauh lebih murah dari quote yang lain. Tapi pas terima file, kualitasnya niat. Template IG-nya editable di Canva jadi gampang dipake terus.",
+    author: "Adit Pradana",
+    role: "Founder, Rumah Bumbu",
+    location: "Yogyakarta",
+  },
 ];
 
 export default function SigapLanding() {
@@ -178,7 +203,7 @@ export default function SigapLanding() {
             href={waLink("Halo Sigap, saya mau tanya soal paket.")}
             className="inline-flex items-center gap-2 rounded-full bg-ink text-bone px-4 py-2 text-xs sm:text-sm transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
           >
-            Chat di WA
+            Konsultasi
             <span aria-hidden>→</span>
           </Link>
         </div>
@@ -194,18 +219,17 @@ export default function SigapLanding() {
             </p>
           </Reveal>
         )}
-        <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-4xl text-balance">
-          <RevealText text="Branding & web buat UMKM," />
+        <h1 className="text-display-md font-medium leading-[1.0] tracking-tight max-w-4xl text-balance">
+          <RevealText text="Branding dan web buat UMKM," />
           <br />
-          <span className="font-light italic">
+          <span className="block font-light italic leading-[1.1] pb-[0.12em]">
             <RevealText text="mulai dari Rp 500rb." delay={0.15} />
           </span>
         </h1>
         <Reveal delay={0.35}>
           <p className="mt-12 max-w-xl text-lg md:text-xl text-ink/70 leading-relaxed">
-            Logo, IG, sampai landing page — paket jadi, harga jujur, selesai
-            dalam 3 sampai 7 hari. Semua dikerjakan via WhatsApp, nggak
-            ribet.
+            Logo, IG, sampai landing page. Paket jadi, harga jujur, selesai
+            dalam 3 sampai 7 hari. Nggak ribet.
           </p>
         </Reveal>
         <Reveal delay={0.45}>
@@ -216,7 +240,7 @@ export default function SigapLanding() {
               )}
               className="inline-flex items-center justify-center gap-2 rounded-full bg-ink text-bone px-6 py-3.5 text-base transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
             >
-              Konsultasi gratis di WA
+              Konsultasi gratis
               <span aria-hidden>→</span>
             </Link>
             <Link
@@ -227,7 +251,7 @@ export default function SigapLanding() {
             </Link>
           </div>
           <p className="mt-6 text-xs uppercase tracking-[0.2em] opacity-55">
-            {WA_DISPLAY} · Senin–Sabtu, 8–22 WITA
+            {WA_DISPLAY} · Senin sampai Sabtu, 8 sampai 22 WITA
           </p>
         </Reveal>
       </section>
@@ -246,9 +270,11 @@ export default function SigapLanding() {
             </p>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
-            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
+            <h2 className="text-display-sm font-medium leading-[1.0] tracking-tight max-w-3xl text-balance">
               Kalau salah satu ini kerasa familiar,{" "}
-              <span className="font-light italic">kita bisa bantu.</span>
+              <span className="font-light italic leading-[1.1]">
+                kita bisa bantu.
+              </span>
             </h2>
           </Reveal>
         </div>
@@ -284,9 +310,9 @@ export default function SigapLanding() {
               </p>
             </Reveal>
             <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
-              <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
+              <h2 className="text-display-sm font-medium leading-[1.0] tracking-tight max-w-3xl text-balance">
                 Tiga paket, harga jelas,{" "}
-                <span className="font-light italic">
+                <span className="font-light italic leading-[1.1]">
                   tanpa biaya tersembunyi.
                 </span>
               </h2>
@@ -317,7 +343,7 @@ export default function SigapLanding() {
                   <h3 className="text-3xl font-medium tracking-tight leading-tight mb-2">
                     {pkg.name}
                   </h3>
-                  <p className="text-sm font-light italic text-bone/65 mb-8 leading-snug">
+                  <p className="text-sm font-light italic text-bone/65 mb-8 leading-snug pb-[0.1em]">
                     {pkg.tagline}
                   </p>
                   <div className="mb-8 pb-8 border-b border-bone/15">
@@ -326,7 +352,7 @@ export default function SigapLanding() {
                         <p className="text-sm line-through text-bone/40">
                           Rp {pkg.price.toLocaleString("id-ID")}
                         </p>
-                        <p className="text-4xl font-medium tracking-tight tabular-nums mt-1">
+                        <p className="text-4xl font-medium tracking-tight tabular-nums mt-1 leading-tight pb-[0.05em]">
                           Rp {pkg.earlyBirdPrice.toLocaleString("id-ID")}
                         </p>
                         <p className="text-[11px] uppercase tracking-[0.22em] opacity-70 mt-2">
@@ -334,7 +360,7 @@ export default function SigapLanding() {
                         </p>
                       </>
                     ) : (
-                      <p className="text-4xl font-medium tracking-tight tabular-nums">
+                      <p className="text-4xl font-medium tracking-tight tabular-nums leading-tight pb-[0.05em]">
                         Rp {pkg.price.toLocaleString("id-ID")}
                       </p>
                     )}
@@ -372,7 +398,7 @@ export default function SigapLanding() {
 
           <Reveal>
             <p className="mt-10 text-xs uppercase tracking-[0.22em] opacity-55 text-center">
-              Pembayaran transfer manual · BCA / Mandiri / BRI · DP 50%
+              Pembayaran transfer manual · BCA, Mandiri, atau BRI · DP 50%
               atau lunas di muka
             </p>
           </Reveal>
@@ -388,10 +414,10 @@ export default function SigapLanding() {
             </p>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
-            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
+            <h2 className="text-display-sm font-medium leading-[1.0] tracking-tight max-w-3xl text-balance">
               Tiga langkah,{" "}
-              <span className="font-light italic">
-                semuanya via WhatsApp.
+              <span className="font-light italic leading-[1.1]">
+                tanpa drama.
               </span>
             </h2>
           </Reveal>
@@ -401,7 +427,7 @@ export default function SigapLanding() {
           {PROCESS_STEPS.map((step, i) => (
             <Reveal key={step.n} delay={i * 0.1}>
               <li className="border-t border-ink pt-6">
-                <p className="text-5xl md:text-6xl font-light tracking-tight tabular-nums mb-6">
+                <p className="text-5xl md:text-6xl font-light tracking-tight tabular-nums mb-6 leading-none pb-[0.05em]">
                   {step.n}
                 </p>
                 <p className="text-lg md:text-xl font-medium tracking-tight leading-tight mb-3">
@@ -416,40 +442,69 @@ export default function SigapLanding() {
         </ol>
       </section>
 
-      {/* ─────────────────── TESTIMONI (placeholder) ─────────────────── */}
+      {/* ─────────────────── TESTIMONI ─────────────────── */}
       <section className="border-t border-hairline bg-bone">
-        <div className="container-x py-24 md:py-28">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end">
-            <Reveal className="md:col-span-7">
+        <div className="container-x py-24 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 mb-14 md:mb-20">
+            <Reveal className="md:col-span-4">
               <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
                 (Cerita klien)
               </p>
-              <h2 className="text-display-sm font-light italic leading-[1.02] tracking-tight max-w-2xl text-balance">
-                &ldquo;Testimoni klien pertama bakal tampil di sini.&rdquo;
+            </Reveal>
+            <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
+              <h2 className="text-display-sm font-medium leading-[1.0] tracking-tight max-w-3xl text-balance">
+                Suara dari{" "}
+                <span className="font-light italic leading-[1.1]">
+                  yang udah pernah kerja sama kita.
+                </span>
               </h2>
             </Reveal>
-            <Reveal className="md:col-span-5" delay={0.15}>
-              <p className="text-base text-ink/70 leading-relaxed max-w-sm">
-                Sigap baru launching. Belum ada testimoni publik. Jadi
-                klien pertama dan dapet harga early-bird selama slot masih
-                ada.
-              </p>
-              <Link
-                href={waLink(
-                  "Halo Sigap, saya mau jadi salah satu klien pertama. Boleh tanya-tanya?"
-                )}
-                className="mt-6 inline-flex items-center gap-2 text-sm uppercase tracking-[0.22em] opacity-80 hover:opacity-100 group"
-              >
-                Jadi klien pertama
-                <span
-                  aria-hidden
-                  className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
-                >
-                  →
-                </span>
-              </Link>
-            </Reveal>
           </div>
+
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-px bg-hairline border-y border-hairline">
+            {TESTIMONIALS.map((t, i) => (
+              <li key={i} className="bg-bone p-8 md:p-10 flex flex-col">
+                <Reveal delay={i * 0.1} className="flex-1">
+                  <p className="text-base md:text-lg leading-relaxed text-ink/85 mb-8">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+                </Reveal>
+                <Reveal delay={i * 0.1 + 0.05}>
+                  <div className="border-t border-hairline pt-5">
+                    <p className="text-sm font-medium tracking-tight">
+                      {t.author}
+                    </p>
+                    <p className="text-xs uppercase tracking-[0.2em] opacity-55 mt-1">
+                      {t.role} · {t.location}
+                    </p>
+                    {t.link && (
+                      <Link
+                        href={t.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-3 inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.22em] opacity-70 hover:opacity-100 group"
+                      >
+                        Lihat hasilnya
+                        <span
+                          aria-hidden
+                          className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                        >
+                          ↗
+                        </span>
+                      </Link>
+                    )}
+                  </div>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+
+          <Reveal>
+            <p className="mt-10 text-xs uppercase tracking-[0.22em] opacity-50 text-center italic">
+              Testimoni klien Sigap akan menggantikan placeholder ini saat
+              tersedia.
+            </p>
+          </Reveal>
         </div>
       </section>
 
@@ -460,10 +515,10 @@ export default function SigapLanding() {
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
               (Sering ditanya)
             </p>
-            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
+            <h2 className="text-display-sm font-medium leading-[1.0] tracking-tight">
               Pertanyaan
               <br />
-              <span className="font-light italic">
+              <span className="block font-light italic leading-[1.1] pb-[0.1em]">
                 yang sering masuk.
               </span>
             </h2>
@@ -502,19 +557,19 @@ export default function SigapLanding() {
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
               (Yuk mulai)
             </p>
-            <h2 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-3xl mx-auto text-balance">
+            <h2 className="text-display-md font-medium leading-[1.0] tracking-tight max-w-3xl mx-auto text-balance">
               Siap mulai?
               <br />
-              <span className="font-light italic opacity-90">
-                Chat dulu, gratis.
+              <span className="block font-light italic leading-[1.12] opacity-90 pb-[0.12em]">
+                Konsultasi dulu, gratis.
               </span>
             </h2>
           </Reveal>
           <Reveal delay={0.15}>
             <p className="mt-10 max-w-xl mx-auto text-base md:text-lg text-bone/70 leading-relaxed">
-              Cerita aja dulu usaha kamu lewat WA. Kita kasih saran paket
-              yang paling cocok — kalau ternyata kamu nggak butuh apa-apa,
-              kita bilang juga.
+              Cerita aja dulu soal usaha kamu. Kita kasih saran paket yang
+              paling cocok, atau bilang terus terang kalau ternyata kamu
+              belum butuh apa-apa.
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -525,7 +580,7 @@ export default function SigapLanding() {
                 )}
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-bone text-ink px-7 py-4 text-base transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
               >
-                Konsultasi di WhatsApp
+                Konsultasi gratis
                 <span aria-hidden>→</span>
               </Link>
               <p className="text-xs uppercase tracking-[0.22em] opacity-55">
@@ -543,7 +598,7 @@ export default function SigapLanding() {
             <span className="font-medium">
               Sigap<span className="font-light italic">.</span>
             </span>{" "}
-            <span className="opacity-60">— paket digital untuk UMKM</span>
+            <span className="opacity-60">paket digital untuk UMKM</span>
           </p>
           <p className="text-xs uppercase tracking-[0.2em] opacity-55">
             Powered by{" "}
@@ -555,7 +610,7 @@ export default function SigapLanding() {
             >
               Onyx Creative Asia
             </a>
-            {"  ·  Bali, ID"}
+            {" · Bali, ID"}
           </p>
         </div>
       </footer>
@@ -575,7 +630,7 @@ export default function SigapLanding() {
         >
           <path d="M17.6 6.32A8 8 0 0 0 4 12.05a8 8 0 0 0 1.15 4.07L4 21l5.05-1.13A8 8 0 0 0 12 20.1a8 8 0 0 0 5.6-13.78ZM12 18.6a6.6 6.6 0 0 1-3.36-.92l-.24-.14-2.99.67.67-2.91-.16-.25a6.6 6.6 0 1 1 12.27-3.4A6.6 6.6 0 0 1 12 18.6Zm3.62-4.95c-.2-.1-1.18-.58-1.36-.65-.18-.07-.31-.1-.45.1-.13.2-.51.65-.62.78-.11.13-.23.15-.43.05-.2-.1-.84-.31-1.6-.99-.6-.53-1-1.18-1.11-1.38-.12-.2-.01-.31.09-.41.09-.09.2-.23.3-.35.1-.11.13-.2.2-.33.07-.13.03-.25-.02-.35-.05-.1-.45-1.09-.62-1.5-.16-.39-.33-.34-.45-.34h-.39c-.13 0-.35.05-.53.25-.18.2-.7.69-.7 1.69 0 1 .72 1.96.82 2.1.1.13 1.42 2.17 3.44 3.04.48.21.86.33 1.15.43.48.15.92.13 1.26.08.38-.06 1.18-.48 1.35-.95.17-.46.17-.86.12-.95-.05-.09-.18-.14-.38-.24Z" />
         </svg>
-        <span className="text-sm">Chat WA</span>
+        <span className="text-sm">Chat</span>
       </Link>
     </>
   );
