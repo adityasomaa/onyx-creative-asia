@@ -1,19 +1,23 @@
 import Link from "next/link";
+import Image from "next/image";
 import Reveal, { RevealText } from "@/components/Reveal";
 import Marquee from "@/components/Marquee";
+import FaqItem from "./_components/FaqItem";
+import { PROJECTS } from "@/lib/data";
 
 /**
- * Sigap landing — Onyx editorial monochrome treatment on a sub-brand
- * for UMKM. Single page, WA-first funnel (links go to wa.me, but the
- * copy doesn't keep announcing "everything via WhatsApp" — operator
- * preference). Animations driven by Reveal + RevealText (Framer Motion),
- * smooth scroll via Lenis (mounted in the layout).
+ * Sigap landing — Onyx editorial monochrome on a sub-brand for UMKM.
+ * Single page, WA-first funnel (links go to wa.me, but the copy doesn't
+ * keep announcing "everything via WhatsApp"). Smooth scroll via Lenis
+ * (mounted in the layout), animations via Reveal + RevealText, FAQ
+ * accordion is its own client component for height animation.
  *
- * Italic + display sizes: every italic line that lives inside a tight
- * leading wrapper uses a `pb-[0.18em]` cushion so the descenders (g, p,
- * y, j, italic R / Q) don't get clipped by line-height math. This is
- * the same fix the main site uses for .reveal-mask — repeated inline
- * because we sometimes use plain italic spans, not RevealText.
+ * Funnel order: hero → trust strip → pain → works (proof) → paket →
+ * proses → testimoni → faq → final CTA → footer. Plus floating WA.
+ *
+ * Italic display copy: every italic block nested inside a tight-leading
+ * headline uses `block leading-[1.1] pb-[0.12em]` so the descenders
+ * don't get clipped.
  */
 
 const WA_NUMBER =
@@ -24,9 +28,6 @@ const WA_DISPLAY =
   process.env.NEXT_PUBLIC_SIGAP_WA_DISPLAY ??
   process.env.NEXT_PUBLIC_WA_DISPLAY ??
   "+62 895-4133-72822";
-const EARLYBIRD_LEFT = Number(
-  process.env.NEXT_PUBLIC_SIGAP_EARLYBIRD_LEFT ?? "10"
-);
 
 function waLink(prefill: string): string {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(prefill)}`;
@@ -36,7 +37,6 @@ type Package = {
   id: string;
   name: string;
   price: number;
-  earlyBirdPrice: number | null;
   delivery: string;
   tagline: string;
   includes: string[];
@@ -48,7 +48,6 @@ const PACKAGES: Package[] = [
     id: "mulai",
     name: "Mulai",
     price: 500_000,
-    earlyBirdPrice: 350_000,
     delivery: "3 hari",
     tagline: "Buat usaha yang baru mulai cari identitas.",
     includes: [
@@ -62,7 +61,6 @@ const PACKAGES: Package[] = [
     id: "tumbuh",
     name: "Tumbuh",
     price: 750_000,
-    earlyBirdPrice: null,
     delivery: "5 hari",
     tagline: "Paling banyak dipilih. Untuk yang serius bangun IG.",
     includes: [
@@ -78,7 +76,6 @@ const PACKAGES: Package[] = [
     id: "lengkap",
     name: "Lengkap",
     price: 1_000_000,
-    earlyBirdPrice: null,
     delivery: "7 hari",
     tagline: "Sekali jadi: brand, sosmed, web.",
     includes: [
@@ -117,7 +114,7 @@ const PROCESS_STEPS = [
   },
   {
     n: "02",
-    title: "Transfer dan isi brief",
+    title: "Bayar lunas dan isi brief",
     body: "Transfer manual ke BCA, Mandiri, atau BRI. Isi brief singkat 5 menit, kita mulai kerja.",
   },
   {
@@ -150,8 +147,6 @@ const FAQ = [
   },
 ];
 
-// Placeholder trust signals for the marquee strip. Swap with real
-// client names or counts as they accumulate.
 const TRUST_SIGNALS = [
   "Powered by Onyx Creative Asia",
   "Berbasis di Bali, melayani seluruh Indonesia",
@@ -190,6 +185,15 @@ const TESTIMONIALS = [
   },
 ];
 
+// Localized labels for project categories shown on Sigap (Bahasa).
+const CATEGORY_LABEL_ID: Record<string, string> = {
+  "Web Development": "Web",
+  "AI Systems": "Automation",
+  "Paid Media": "Iklan",
+  "Social Media": "Sosmed",
+  Brand: "Brand",
+};
+
 export default function SigapLanding() {
   return (
     <>
@@ -211,14 +215,6 @@ export default function SigapLanding() {
 
       {/* ─────────────────── HERO ─────────────────── */}
       <section className="container-x pt-20 sm:pt-28 md:pt-32 pb-20 md:pb-28">
-        {EARLYBIRD_LEFT > 0 && (
-          <Reveal>
-            <p className="inline-flex items-center gap-2.5 text-[10px] sm:text-xs uppercase tracking-[0.22em] opacity-70 mb-8 border-b border-hairline pb-3">
-              <span className="block h-1.5 w-1.5 rounded-full bg-ink animate-pulse" />
-              {EARLYBIRD_LEFT} slot tersisa · harga early-bird Rp 350rb
-            </p>
-          </Reveal>
-        )}
         <h1 className="text-display-md font-medium leading-[1.0] tracking-tight max-w-4xl text-balance">
           <RevealText text="Branding dan web buat UMKM," />
           <br />
@@ -297,6 +293,96 @@ export default function SigapLanding() {
         </ul>
       </section>
 
+      {/* ─────────────────── WORKS (proof) ─────────────────── */}
+      <section className="border-t border-hairline">
+        <div className="container-x py-24 md:py-32">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 mb-14 md:mb-20">
+            <Reveal className="md:col-span-4">
+              <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
+                (Contoh kerjaan)
+              </p>
+            </Reveal>
+            <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
+              <h2 className="text-display-sm font-medium leading-[1.0] tracking-tight max-w-3xl text-balance">
+                Sigap didukung studio yang udah{" "}
+                <span className="font-light italic leading-[1.1]">
+                  ngirim produk beneran.
+                </span>
+              </h2>
+              <p className="mt-6 text-base md:text-lg text-ink/70 leading-relaxed max-w-xl">
+                Tim yang sama yang ngerjain Sigap juga yang ngerjain
+                proyek-proyek ini. Beda tier, sama standar craft.
+              </p>
+            </Reveal>
+          </div>
+
+          <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {PROJECTS.map((project, i) => (
+              <li key={project.slug}>
+                <Reveal delay={i * 0.1}>
+                  <Link
+                    href={project.url ?? "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group block"
+                  >
+                    <div className="relative aspect-[4/5] overflow-hidden bg-ink/[0.04] border border-hairline">
+                      <Image
+                        src={project.cover}
+                        alt={`${project.client} — ${project.title}`}
+                        fill
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        className="object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.04]"
+                      />
+                      <span className="absolute top-3 left-3 inline-block bg-bone/90 backdrop-blur-sm px-2 py-1 text-[10px] uppercase tracking-[0.2em]">
+                        {CATEGORY_LABEL_ID[project.category] ??
+                          project.category}
+                      </span>
+                    </div>
+                    <div className="pt-5 flex items-baseline justify-between gap-4">
+                      <div className="min-w-0">
+                        <p className="text-base md:text-lg font-medium tracking-tight truncate">
+                          {project.client}
+                        </p>
+                        <p className="text-sm text-ink/65 italic mt-1 truncate">
+                          {project.title}
+                        </p>
+                      </div>
+                      <p className="text-xs uppercase tracking-[0.18em] opacity-50 tabular-nums shrink-0">
+                        {project.year}
+                      </p>
+                    </div>
+                    <p className="mt-3 text-xs uppercase tracking-[0.22em] opacity-70 inline-flex items-center gap-1.5">
+                      Lihat
+                      <span
+                        aria-hidden
+                        className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                      >
+                        ↗
+                      </span>
+                    </p>
+                  </Link>
+                </Reveal>
+              </li>
+            ))}
+          </ul>
+
+          <Reveal>
+            <p className="mt-10 text-xs uppercase tracking-[0.22em] opacity-55 text-center">
+              Lihat semua proyek di{" "}
+              <a
+                href="https://onyxcreative.asia/works"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-b border-hairline hover:border-ink transition-colors"
+              >
+                onyxcreative.asia/works
+              </a>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* ─────────────────── PAKET ─────────────────── */}
       <section
         id="paket"
@@ -347,23 +433,9 @@ export default function SigapLanding() {
                     {pkg.tagline}
                   </p>
                   <div className="mb-8 pb-8 border-b border-bone/15">
-                    {pkg.earlyBirdPrice && EARLYBIRD_LEFT > 0 ? (
-                      <>
-                        <p className="text-sm line-through text-bone/40">
-                          Rp {pkg.price.toLocaleString("id-ID")}
-                        </p>
-                        <p className="text-4xl font-medium tracking-tight tabular-nums mt-1 leading-tight pb-[0.05em]">
-                          Rp {pkg.earlyBirdPrice.toLocaleString("id-ID")}
-                        </p>
-                        <p className="text-[11px] uppercase tracking-[0.22em] opacity-70 mt-2">
-                          Early-bird · {EARLYBIRD_LEFT} slot tersisa
-                        </p>
-                      </>
-                    ) : (
-                      <p className="text-4xl font-medium tracking-tight tabular-nums leading-tight pb-[0.05em]">
-                        Rp {pkg.price.toLocaleString("id-ID")}
-                      </p>
-                    )}
+                    <p className="text-4xl font-medium tracking-tight tabular-nums leading-tight pb-[0.05em]">
+                      Rp {pkg.price.toLocaleString("id-ID")}
+                    </p>
                     <p className="text-xs uppercase tracking-[0.22em] opacity-55 mt-3">
                       Selesai {pkg.delivery}
                     </p>
@@ -382,10 +454,7 @@ export default function SigapLanding() {
                   </ul>
                   <Link
                     href={waLink(
-                      `Halo Sigap, saya tertarik paket ${pkg.name} (Rp ${(pkg.earlyBirdPrice && EARLYBIRD_LEFT > 0
-                        ? pkg.earlyBirdPrice
-                        : pkg.price
-                      ).toLocaleString("id-ID")}). Bisa konsultasi dulu?`
+                      `Halo Sigap, saya tertarik paket ${pkg.name} (Rp ${pkg.price.toLocaleString("id-ID")}). Bisa konsultasi dulu?`
                     )}
                     className="block text-center rounded-full bg-bone text-ink px-5 py-3 text-sm transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
                   >
@@ -398,8 +467,8 @@ export default function SigapLanding() {
 
           <Reveal>
             <p className="mt-10 text-xs uppercase tracking-[0.22em] opacity-55 text-center">
-              Pembayaran transfer manual · BCA, Mandiri, atau BRI · DP 50%
-              atau lunas di muka
+              Pembayaran lunas di muka · Transfer manual BCA, Mandiri,
+              atau BRI
             </p>
           </Reveal>
         </div>
@@ -526,24 +595,7 @@ export default function SigapLanding() {
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
             <ul className="border-t border-hairline">
               {FAQ.map((item, i) => (
-                <li key={i} className="border-b border-hairline">
-                  <details className="group">
-                    <summary className="cursor-pointer list-none py-5 md:py-6 flex items-start justify-between gap-6">
-                      <span className="text-base md:text-lg font-medium leading-snug tracking-tight">
-                        {item.q}
-                      </span>
-                      <span
-                        aria-hidden
-                        className="text-xl leading-none mt-0.5 transition-transform duration-500 ease-out-expo group-open:rotate-45 shrink-0 opacity-70"
-                      >
-                        +
-                      </span>
-                    </summary>
-                    <p className="pb-6 md:pb-7 pr-10 text-sm md:text-base text-ink/70 leading-relaxed">
-                      {item.a}
-                    </p>
-                  </details>
-                </li>
+                <FaqItem key={i} q={item.q} a={item.a} />
               ))}
             </ul>
           </Reveal>
