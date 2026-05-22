@@ -3,7 +3,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 
 /**
  * Sigap — Onyx Creative Asia's budget-tier sub-brand for UMKM in
- * Indonesia. Lives at local.onyxcreative.asia. Deliberately stripped
+ * Indonesia. Lives at sigap.onyxcreative.asia. Deliberately stripped
  * of the main Onyx chrome (Loader, smooth scroll, custom cursor,
  * heavy animations) because the target audience is on mobile + slower
  * connections and won't tolerate a 3MB first paint.
@@ -17,7 +17,7 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://local.onyxcreative.asia"),
+  metadataBase: new URL("https://sigap.onyxcreative.asia"),
   title: {
     default: "Sigap — Branding & Web untuk UMKM, mulai Rp 500rb",
     template: "%s — Sigap",

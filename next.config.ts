@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
   async rewrites() {
     // Subdomain splits:
     //   agents.onyxcreative.asia/* → /agents/* (internal route)
-    //   local.onyxcreative.asia/*  → /sigap/*  (Sigap sub-brand landing)
+    //   sigap.onyxcreative.asia/*  → /sigap/*  (Sigap sub-brand landing)
     //
     // Use EXPLICIT rewrites per known route rather than a catch-all. Two
     // reasons:
@@ -31,8 +31,8 @@ const nextConfig: NextConfig = {
     const HAS_AGENTS = [
       { type: "host" as const, value: "agents.onyxcreative.asia" },
     ];
-    const HAS_LOCAL = [
-      { type: "host" as const, value: "local.onyxcreative.asia" },
+    const HAS_SIGAP = [
+      { type: "host" as const, value: "sigap.onyxcreative.asia" },
     ];
     return {
       beforeFiles: [
@@ -64,11 +64,11 @@ const nextConfig: NextConfig = {
           destination: "/agents/:slug",
         },
 
-        // ─── local.* (Sigap sub-brand) ──────────────────────────
+        // ─── sigap.* (Sigap sub-brand) ──────────────────────────
         // Single-page landing today. Add more routes here as the
         // funnel grows (success page after WA click, FAQ deep-dive,
         // case studies, etc.).
-        { source: "/", has: HAS_LOCAL, destination: "/sigap" },
+        { source: "/", has: HAS_SIGAP, destination: "/sigap" },
       ],
     };
   },
