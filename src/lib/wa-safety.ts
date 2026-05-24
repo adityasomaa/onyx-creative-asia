@@ -181,7 +181,12 @@ export async function logWhatsAppSend(opts: {
   ok: boolean;
   error?: string;
   sender?: string;
+  /** Legacy — only set for sends originating from the old submissions UI. */
   submissionId?: string | null;
+  /** New — chats UI sends include this. */
+  chatId?: string | null;
+  /** New — set when the outbound was mirrored into wa_messages. */
+  messageId?: string | null;
 }): Promise<void> {
   const supabase = getServerSupabase();
   if (!supabase) return;
@@ -194,6 +199,8 @@ export async function logWhatsAppSend(opts: {
       error: opts.error?.slice(0, 500) ?? null,
       sender: opts.sender ?? null,
       submission_id: opts.submissionId ?? null,
+      chat_id: opts.chatId ?? null,
+      message_id: opts.messageId ?? null,
     });
   } catch (err) {
     console.error("[wa-safety] log insert threw:", err);

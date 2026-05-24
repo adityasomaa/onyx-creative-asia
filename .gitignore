@@ -42,8 +42,10 @@ next-env.d.ts
 # claude code
 .claude/
 
-# private workspaces — design source + social content live local-only.
-# These contain client briefs, deliverables, and unreleased marketing
-# work. Never push to a public repo.
+# private workspaces — design source + social content + reel production
+# all live local-only. These contain client briefs, deliverables, and
+# unreleased marketing work. Outputs are uploaded to the operator's
+# Drive folder. Never push to a public repo.
 /design/
 /social/
+/sigap-reels/

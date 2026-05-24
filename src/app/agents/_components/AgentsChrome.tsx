@@ -22,6 +22,11 @@ const NAV: { label: string; href: string; match: RegExp }[] = [
     match: /^\/agents(\/(director|strategist|maker|account-manager))?$/,
   },
   {
+    label: "Chats",
+    href: "/agents/chats",
+    match: /^\/agents\/chats/,
+  },
+  {
     label: "Submissions",
     href: "/agents/submissions",
     match: /^\/agents\/submissions/,
