@@ -223,25 +223,31 @@ export async function POST(req: Request) {
 
   const autoReplyOn = process.env.WA_AUTO_REPLY_ENABLED === "true";
 
-  type DownstreamLabel = "email" | "auto-reply" | "subject-refresh";
-  const tasks: Array<{ label: DownstreamLabel; promise: Promise<unknown> }> = [];
+  // ---------- Subject auto-refresh (SYNCHRONOUS) ----------
+  // Has to run before we return — the inbox list scans `subject` as the
+  // primary column. If we leave it as fire-and-forget, Vercel's
+  // serverless runtime may terminate the function before the Gemini
+  // call completes and the row stays with subject=NULL forever.
+  // Worth the ~1s extra latency on the webhook response.
+  try {
+    const recent = await getRecentInboundBodies(chat.id, 6);
+    const verdict = await refreshChatSubject({
+      latestMessage: message,
+      recentMessages: recent.slice(0, -1), // exclude latest (already in latestMessage)
+      previousSubject: chat.subject,
+    });
+    await setChatSubject(chat.id, verdict.subject);
+    console.info("[wa-inbound] subject refreshed", {
+      chatId: chat.id,
+      subject: verdict.subject.slice(0, 80),
+    });
+  } catch (err) {
+    console.error("[wa-inbound] subject refresh failed:", err);
+  }
 
-  // Subject auto-refresh — runs on every inbound (fresh + follow-up).
-  // The inbox list scans subjects, not raw previews; we want them to
-  // describe the work being asked for, not the sender.
-  tasks.push({
-    label: "subject-refresh",
-    promise: (async () => {
-      const recent = await getRecentInboundBodies(chat.id, 6);
-      const verdict = await refreshChatSubject({
-        latestMessage: message,
-        recentMessages: recent.slice(0, -1), // exclude the latest (already in latestMessage)
-        previousSubject: chat.subject,
-      });
-      await setChatSubject(chat.id, verdict.subject);
-      return verdict;
-    })(),
-  });
+  // ---------- Fire-and-forget tasks (less critical) ----------
+  type DownstreamLabel = "email" | "auto-reply";
+  const tasks: Array<{ label: DownstreamLabel; promise: Promise<unknown> }> = [];
 
   // Email notification — always on (operator awareness).
   tasks.push({
