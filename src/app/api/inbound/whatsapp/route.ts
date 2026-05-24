@@ -6,33 +6,36 @@ import { classifyWhatsAppChat } from "@/lib/wa/classify";
 import { refreshChatSubject } from "@/lib/wa/subject";
 import {
   getRecentInboundBodies,
-  insertWaMessage,
-  setChatClassification,
-  setChatSubject,
-  upsertWaChat,
-  type WaChatRow,
-} from "@/lib/db/wa-chats";
+  insertSubmissionMessage,
+  setAutoSubject,
+  setSubmissionClassification,
+  upsertWaSubmission,
+  type SubmissionFullRow,
+} from "@/lib/db/submissions";
 
 export const runtime = "nodejs";
 
 /**
  * POST /api/inbound/whatsapp
  *
- * Fonnte webhook receiver — projects-style inbox.
+ * Fonnte webhook receiver — unified submissions inbox.
  *
  * Flow:
  *   1. Validate secret + parse payload (form-encoded or JSON).
  *   2. Detect kind: group vs 1:1 contact.
- *   3. upsertWaChat() — find or create the wa_chat row.
- *   4. insertWaMessage() — append the inbound message (trigger handles
- *      last_message_*, is_read=false, message_count++).
- *   5. On FRESH chat only: run Gemini classifier (business vs personal)
- *      and persist the verdict.
- *   6. If business (or pending → treated as business): fire downstream
- *      email + optional auto-reply. Personal chats stay silent.
+ *   3. upsertWaSubmission() — find the active (non-archived) submission
+ *      for this contact/group, or create a fresh one.
+ *   4. insertSubmissionMessage() — append the inbound message. The
+ *      fn_bump_submission_on_message trigger updates last_*, message_count,
+ *      and bumps status back to 'new' if previously read/replied/archived.
+ *   5. On FRESH submission only: run Gemini classifier (business vs
+ *      personal) and persist the verdict.
+ *   6. Subject auto-refresh (synchronous — Vercel terminates fire-and-forget).
+ *   7. If business: fire downstream email + optional auto-reply.
+ *      Personal: stays silent.
  *
- * Fonnte expects a fast 200 OK or it retries. Always return 200 once
- * the message is persisted; downstream tasks run fire-and-forget.
+ * Fonnte expects a fast 200 OK or it retries. We persist + classify +
+ * subject-refresh synchronously, then return.
  */
 
 type Payload = Record<string, unknown>;
@@ -122,7 +125,6 @@ export async function POST(req: Request) {
   const isGroup =
     memberField.length > 0 || groupFlagSet || senderLooksLikeGroup;
 
-  // Actual sender phone (member field for groups; sender field otherwise).
   const actualSenderRaw = isGroup && memberField ? memberField : senderRaw;
   const senderPhone =
     normaliseTarget(actualSenderRaw) ?? actualSenderRaw.replace(/\D/g, "");
@@ -136,36 +138,33 @@ export async function POST(req: Request) {
   }
 
   // ---------- Names ----------
-  const pushname = pickString(payload, "name", "pushname", "sender_name") || null;
+  const pushname =
+    pickString(payload, "name", "pushname", "sender_name") || null;
   const groupName = isGroup
     ? pickString(payload, "groupname", "group_name", "chatname") || null
     : null;
 
-  // ---------- Upsert chat row ----------
-  // Chat identifier:
-  //   group   → use the group id (senderRaw — the raw group id from Fonnte)
-  //   contact → use the normalised sender phone
-  const chatIdentifier = isGroup ? senderRaw : senderPhone;
-  const upserted = await upsertWaChat({
-    kind: isGroup ? "group" : "contact",
-    waIdentifier: chatIdentifier,
+  // ---------- Upsert submission ----------
+  const submissionIdentifier = isGroup ? senderRaw : senderPhone;
+  const upserted = await upsertWaSubmission({
+    waKind: isGroup ? "group" : "contact",
+    waIdentifier: submissionIdentifier,
     pushname,
     groupName,
   });
   if (!upserted) {
-    console.error("[wa-inbound] failed to upsert chat");
+    console.error("[wa-inbound] failed to upsert submission");
     return NextResponse.json({ ok: false, error: "upsert-failed" });
   }
-  const { chat, isFresh } = upserted;
+  const { submission, isFresh } = upserted;
 
   // ---------- Insert message ----------
-  // The DB trigger updates wa_chats.last_message_*, message_count, and
-  // sets is_read=false — we don't need to do any of that manually.
-  const inserted = await insertWaMessage({
-    chatId: chat.id,
+  const inserted = await insertSubmissionMessage({
+    submissionId: submission.id,
     direction: "in",
     fromPhone: senderPhone,
     fromPushname: pushname,
+    fromName: pushname,
     body: message,
     payload,
   });
@@ -174,11 +173,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "insert-failed" });
   }
 
-  // ---------- Classify on fresh chats ----------
-  // Run the LLM classifier ONLY on the first inbound event from a chat.
-  // Subsequent events keep the existing classification. Operator can
-  // override anytime from the chat detail page.
-  let effectiveClassification = chat.classification;
+  // ---------- Classify on fresh submissions ----------
+  let effectiveClassification = submission.classification;
   if (isFresh) {
     const verdict = await classifyWhatsAppChat({
       message,
@@ -186,79 +182,77 @@ export async function POST(req: Request) {
       fromPhone: senderPhone,
       isGroup,
     });
-    await setChatClassification(
-      chat.id,
+    await setSubmissionClassification(
+      submission.id,
       verdict.classification,
       verdict.reason,
       verdict.model
     );
     effectiveClassification = verdict.classification;
-    console.info("[wa-inbound] classified fresh chat", {
-      chatId: chat.id,
+    console.info("[wa-inbound] classified fresh submission", {
+      submissionId: submission.id,
       classification: verdict.classification,
       reason: verdict.reason.slice(0, 80),
     });
   }
 
-  // ---------- Downstream: notification + auto-reply ----------
-  // Personal chats stay silent — no email, no auto-reply, no triage.
-  // Pending/business/manual_business all fire downstream actions.
+  // ---------- Silent path for personal classifications ----------
   const isInboxSilent =
     effectiveClassification === "personal" ||
     effectiveClassification === "manual_ignored";
 
   if (isInboxSilent) {
-    console.info("[wa-inbound] silent chat — no downstream", {
-      chatId: chat.id,
+    console.info("[wa-inbound] silent submission — no downstream", {
+      submissionId: submission.id,
       classification: effectiveClassification,
     });
     return NextResponse.json({
       ok: true,
-      chatId: chat.id,
+      submissionId: submission.id,
       messageId: inserted.id,
       classification: effectiveClassification,
       silent: true,
     });
   }
 
-  const autoReplyOn = process.env.WA_AUTO_REPLY_ENABLED === "true";
-
   // ---------- Subject auto-refresh (SYNCHRONOUS) ----------
-  // Has to run before we return — the inbox list scans `subject` as the
-  // primary column. If we leave it as fire-and-forget, Vercel's
-  // serverless runtime may terminate the function before the Gemini
-  // call completes and the row stays with subject=NULL forever.
-  // Worth the ~1s extra latency on the webhook response.
+  // Vercel serverless terminates fire-and-forget tasks after the
+  // response is sent. The inbox primary column is `subject` so we
+  // pay the ~1s LLM round-trip up front.
   try {
-    const recent = await getRecentInboundBodies(chat.id, 6);
+    const recent = await getRecentInboundBodies(submission.id, 6);
     const verdict = await refreshChatSubject({
       latestMessage: message,
-      recentMessages: recent.slice(0, -1), // exclude latest (already in latestMessage)
-      previousSubject: chat.subject,
+      recentMessages: recent.slice(0, -1),
+      previousSubject: submission.subject,
     });
-    await setChatSubject(chat.id, verdict.subject);
+    // setAutoSubject is a no-op if the operator has manually pinned
+    // the subject (subject_source='operator') — protects manual edits.
+    await setAutoSubject(submission.id, verdict.subject);
     console.info("[wa-inbound] subject refreshed", {
-      chatId: chat.id,
+      submissionId: submission.id,
       subject: verdict.subject.slice(0, 80),
     });
   } catch (err) {
     console.error("[wa-inbound] subject refresh failed:", err);
   }
 
-  // ---------- Fire-and-forget tasks (less critical) ----------
-  type DownstreamLabel = "email" | "auto-reply";
-  const tasks: Array<{ label: DownstreamLabel; promise: Promise<unknown> }> = [];
+  // ---------- Fire-and-forget downstream tasks ----------
+  const autoReplyOn = process.env.WA_AUTO_REPLY_ENABLED === "true";
 
-  // Email notification — always on (operator awareness).
+  type DownstreamLabel = "email" | "auto-reply";
+  const tasks: Array<{ label: DownstreamLabel; promise: Promise<unknown> }> =
+    [];
+
   tasks.push({
     label: "email",
     promise: sendInternalNotification({
-      fromName: chat.display_name ?? senderPhone,
-      fromEmail: `${senderPhone}@whatsapp`, // synthetic
+      fromName: submission.display_name ?? senderPhone,
+      fromEmail: `${senderPhone}@whatsapp`,
       inquiryType: "general",
-      highlight: buildEmailHighlight(chat, isGroup, groupName),
+      highlight: buildEmailHighlight(submission, isGroup, groupName),
       metaRows: buildEmailMetaRows({
-        chat,
+        submission,
         senderPhone,
         pushname,
         isGroup,
@@ -267,16 +261,17 @@ export async function POST(req: Request) {
         classification: effectiveClassification,
       }),
       body: message,
-      // submissionId omitted — internal email template tolerates null
+      submissionId: submission.id,
     }),
   });
 
-  // Auto-reply — fresh chats only, gated by env, gated by safety.
   if (autoReplyOn && isFresh) {
     tasks.push({
       label: "auto-reply",
       promise: (async () => {
-        const replyMsg = buildAutoReply(chat.display_name ?? senderPhone);
+        const replyMsg = buildAutoReply(
+          submission.display_name ?? senderPhone
+        );
         const allow = await canSendWhatsApp(senderPhone);
         if (!allow.ok) {
           await logWhatsAppSend({
@@ -284,7 +279,7 @@ export async function POST(req: Request) {
             message: replyMsg,
             ok: false,
             error: `BLOCKED auto-reply: ${allow.code} — ${allow.reason}`,
-            chatId: chat.id,
+            submissionId: submission.id,
           });
           return { ok: false, error: allow.reason };
         }
@@ -293,12 +288,12 @@ export async function POST(req: Request) {
           message: replyMsg,
         });
         if (res.ok) {
-          // Mirror our outbound into wa_messages so the thread shows it.
-          await insertWaMessage({
-            chatId: chat.id,
+          await insertSubmissionMessage({
+            submissionId: submission.id,
             direction: "out",
-            fromPhone: senderPhone, // recipient at our end
+            fromPhone: senderPhone,
             fromPushname: "Onyx (auto)",
+            fromName: "Onyx (auto)",
             body: replyMsg,
             payload: { auto_reply: true, fonnte_result: res },
           });
@@ -308,7 +303,7 @@ export async function POST(req: Request) {
           message: replyMsg,
           ok: res.ok,
           error: res.ok ? undefined : res.error,
-          chatId: chat.id,
+          submissionId: submission.id,
         });
         return res;
       })(),
@@ -336,7 +331,7 @@ export async function POST(req: Request) {
 
   return NextResponse.json({
     ok: true,
-    chatId: chat.id,
+    submissionId: submission.id,
     messageId: inserted.id,
     classification: effectiveClassification,
     isFresh,
@@ -348,7 +343,7 @@ export async function POST(req: Request) {
  * ============================================================ */
 
 function buildEmailHighlight(
-  chat: WaChatRow,
+  _submission: SubmissionFullRow,
   isGroup: boolean,
   groupName: string | null
 ): string {
@@ -357,7 +352,7 @@ function buildEmailHighlight(
 }
 
 function buildEmailMetaRows(opts: {
-  chat: WaChatRow;
+  submission: SubmissionFullRow;
   senderPhone: string;
   pushname: string | null;
   isGroup: boolean;
@@ -386,9 +381,6 @@ function buildEmailMetaRows(opts: {
 }
 
 function buildAutoReply(name: string): string {
-  // Take the first token only and lowercase. If the name is a phone
-  // number ("+62 895..."), use "there" instead — feels weird to greet
-  // someone with their digits.
   const looksLikePhone = /\+?\d{6,}/.test(name);
   const firstName = looksLikePhone
     ? "there"

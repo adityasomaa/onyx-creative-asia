@@ -3,34 +3,31 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
-  setChatArchivedAction,
-  setChatClassificationAction,
+  archiveSubmissionAction,
+  setSubmissionClassificationAction,
 } from "../../actions";
-import type { WaChatClassification } from "@/lib/db/wa-chats";
+import type { Classification } from "@/lib/db/submissions";
 
 /**
- * Top-right action cluster on a chat detail page.
+ * Top-right cluster on a submission detail.
  *
- * - "Ignore future" — for chats currently in the active inbox.
- *   Sets classification='manual_ignored' so subsequent inbound
- *   messages stay silent (no email, no auto-reply, doesn't show
- *   in active inbox). Operator can undo.
- *
- * - "Bring back to inbox" — for chats currently in personal/ignored.
- *   Sets classification='manual_business' so future messages re-enter
- *   the inbox.
- *
+ * - "Ignore future" — for submissions in the active inbox.
+ *   Flips classification to 'manual_ignored' so subsequent inbound
+ *   from this contact stays silent.
+ * - "Bring back to inbox" — for personal/ignored.
+ *   Flips classification to 'manual_business' so future messages
+ *   re-enter the inbox.
  * - Archive / Unarchive — operator-toggleable. Doesn't affect
- *   classification — purely a tidy-up for chats that are resolved.
+ *   classification — visibility-only.
  */
-export default function ChatActions({
-  chatId,
+export default function SubmissionActions({
+  submissionId,
   classification,
-  archived,
+  status,
 }: {
-  chatId: string;
-  classification: WaChatClassification;
-  archived: boolean;
+  submissionId: string;
+  classification: Classification;
+  status: string;
 }) {
   const [pending, startTransition] = useTransition();
   const [err, setErr] = useState<string | null>(null);
@@ -40,15 +37,13 @@ export default function ChatActions({
     classification === "business" ||
     classification === "pending" ||
     classification === "manual_business";
+  const archived = status === "archived";
 
-  function classify(next: WaChatClassification) {
+  function classify(next: Classification) {
     setErr(null);
     startTransition(async () => {
-      const res = await setChatClassificationAction(chatId, next);
-      if (!res.ok) {
-        setErr(res.error ?? "Failed");
-        return;
-      }
+      const res = await setSubmissionClassificationAction(submissionId, next);
+      if (!res.ok) return setErr(res.error ?? "Failed");
       router.refresh();
     });
   }
@@ -56,11 +51,8 @@ export default function ChatActions({
   function toggleArchive() {
     setErr(null);
     startTransition(async () => {
-      const res = await setChatArchivedAction(chatId, !archived);
-      if (!res.ok) {
-        setErr(res.error ?? "Failed");
-        return;
-      }
+      const res = await archiveSubmissionAction(submissionId, !archived);
+      if (!res.ok) return setErr(res.error ?? "Failed");
       router.refresh();
     });
   }
@@ -73,7 +65,7 @@ export default function ChatActions({
           onClick={() => classify("manual_ignored")}
           disabled={pending}
           className="text-[10px] tracking-[0.18em] uppercase border border-bone/30 px-2.5 py-1 hover:bg-bone hover:text-ink disabled:opacity-50"
-          title="Hide this chat from the inbox; future messages won't notify"
+          title="Hide from inbox; future messages won't notify"
         >
           {pending ? "…" : "Ignore future"}
         </button>

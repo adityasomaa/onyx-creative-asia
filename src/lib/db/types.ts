@@ -47,10 +47,13 @@ export type SubmissionSource = "form" | "email" | "whatsapp" | "manual";
 
 export type SubmissionStatus =
   | "new"
-  | "triaged"
-  | "qualified"
+  | "read"
   | "replied"
   | "archived"
+  // Legacy values still renderable on old rows but not in the active
+  // status filter list. See SUBMISSION_STATUSES in lib/db/submissions.ts.
+  | "triaged"
+  | "qualified"
   | "spam";
 
 export type InquiryType =

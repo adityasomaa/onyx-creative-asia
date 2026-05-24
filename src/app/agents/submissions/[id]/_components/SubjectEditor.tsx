@@ -2,31 +2,27 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { renameChatAction } from "../../actions";
+import { setOperatorSubjectAction } from "../../actions";
 
 /**
- * Inline display-name editor.
+ * Manual subject override. When the operator types a subject and saves,
+ * subject_source flips to 'operator' — the LLM subject-refresh that
+ * runs on every new inbound message will skip this row.
  *
- * When the operator types a name and saves, the server action sets
- * display_name_source='operator' so the webhook stops overwriting on
- * each new inbound event.
- *
- * "Reset to auto" sends an empty string — server action flips the
- * source back to 'auto' (next webhook re-derives the name from the phone).
+ * Reset (empty save) flips subject_source back to 'auto'; the next
+ * inbound message will trigger an LLM refresh and replace the subject.
  */
-export default function ChatRename({
-  chatId,
-  currentName,
+export default function SubjectEditor({
+  submissionId,
+  currentSubject,
   isOperatorSet,
-  phoneFallback,
 }: {
-  chatId: string;
-  currentName: string;
+  submissionId: string;
+  currentSubject: string | null;
   isOperatorSet: boolean;
-  phoneFallback: string;
 }) {
   const [editing, setEditing] = useState(false);
-  const [draft, setDraft] = useState(currentName);
+  const [draft, setDraft] = useState(currentSubject ?? "");
   const [pending, startTransition] = useTransition();
   const [err, setErr] = useState<string | null>(null);
   const router = useRouter();
@@ -34,11 +30,8 @@ export default function ChatRename({
   function save() {
     setErr(null);
     startTransition(async () => {
-      const res = await renameChatAction(chatId, draft);
-      if (!res.ok) {
-        setErr(res.error ?? "Save failed");
-        return;
-      }
+      const res = await setOperatorSubjectAction(submissionId, draft);
+      if (!res.ok) return setErr(res.error ?? "Save failed");
       setEditing(false);
       router.refresh();
     });
@@ -48,20 +41,17 @@ export default function ChatRename({
     setErr(null);
     setDraft("");
     startTransition(async () => {
-      const res = await renameChatAction(chatId, "");
-      if (!res.ok) {
-        setErr(res.error ?? "Reset failed");
-        return;
-      }
+      const res = await setOperatorSubjectAction(submissionId, "");
+      if (!res.ok) return setErr(res.error ?? "Reset failed");
       setEditing(false);
       router.refresh();
     });
   }
 
   return (
-    <div className="border border-bone/15 px-4 py-3 flex items-center gap-3 flex-wrap">
-      <span className="text-[10px] tracking-[0.22em] uppercase opacity-50 shrink-0">
-        Display name
+    <div className="border border-bone/15 px-4 py-3 flex items-start gap-3 flex-wrap">
+      <span className="text-[10px] tracking-[0.22em] uppercase opacity-50 shrink-0 mt-1.5">
+        Subject
       </span>
       {editing ? (
         <>
@@ -69,10 +59,10 @@ export default function ChatRename({
             type="text"
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder={phoneFallback}
+            placeholder="Describe what's being asked..."
             disabled={pending}
-            className="flex-1 min-w-[200px] bg-bone/[0.04] border border-bone/20 px-2.5 py-1.5 text-sm focus:outline-none focus:border-bone/50 disabled:opacity-50"
-            maxLength={120}
+            className="flex-1 min-w-[260px] bg-bone/[0.04] border border-bone/20 px-2.5 py-1.5 text-sm focus:outline-none focus:border-bone/50 disabled:opacity-50"
+            maxLength={200}
             autoFocus
           />
           <button
@@ -87,7 +77,7 @@ export default function ChatRename({
             type="button"
             onClick={() => {
               setEditing(false);
-              setDraft(currentName);
+              setDraft(currentSubject ?? "");
               setErr(null);
             }}
             disabled={pending}
@@ -98,9 +88,11 @@ export default function ChatRename({
         </>
       ) : (
         <>
-          <span className="flex-1 text-sm">
-            {currentName || (
-              <span className="italic opacity-55">{phoneFallback}</span>
+          <span className="flex-1 text-sm italic">
+            {currentSubject || (
+              <span className="opacity-45 not-italic">
+                (no subject yet — LLM hasn&apos;t generated one)
+              </span>
             )}
           </span>
           {isOperatorSet ? (
@@ -125,7 +117,7 @@ export default function ChatRename({
               onClick={reset}
               disabled={pending}
               className="text-[10px] tracking-[0.18em] uppercase opacity-65 hover:opacity-100"
-              title="Reset to auto (will use phone number on next message)"
+              title="Reset to auto — LLM will refresh on next message"
             >
               Reset
             </button>

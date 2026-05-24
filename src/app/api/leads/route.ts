@@ -295,6 +295,18 @@ export async function POST(req: Request) {
   }
 
   // 1. Insert into submissions — system of record
+  //
+  // After migration 0011 the table holds chat-style metadata too. For
+  // form submissions we set:
+  //   - classification = 'business' (form intent is always business)
+  //   - display_name   = from_name (no rename yet)
+  //   - subject_source = 'auto' (LLM hasn't refreshed yet)
+  //   - status         = 'new'
+  // The thread will live in submission_messages — we insert one row
+  // for the form body right after, which fires the bump trigger to
+  // populate last_event_at + last_message_*.
+  //
+  // To avoid the trigger bumping message_count from 1→2, we start at 0.
   const { data: submission, error: submissionErr } = await supabase
     .from("submissions")
     .insert({
@@ -310,6 +322,11 @@ export async function POST(req: Request) {
       portfolio_url: norm.portfolioUrl,
       company_name: norm.companyName,
       status: "new",
+      classification: "business",
+      display_name: norm.fromName,
+      display_name_source: "auto",
+      subject_source: "auto",
+      message_count: 0,
       payload_json: norm.payloadJson,
     })
     .select("id")
@@ -324,6 +341,26 @@ export async function POST(req: Request) {
   }
 
   const submissionId = submission.id as string;
+
+  // 1b. Insert into submission_messages — thread record of the form
+  //     body. The trigger bumps last_event_at + last_message_preview +
+  //     last_message_from_name + message_count on the parent.
+  const { error: messageErr } = await supabase
+    .from("submission_messages")
+    .insert({
+      submission_id: submissionId,
+      direction: "in",
+      from_name: norm.fromName,
+      from_phone: null,
+      from_pushname: null,
+      body_md: norm.body,
+      payload_json: norm.payloadJson,
+    });
+  if (messageErr) {
+    // Non-fatal — the body is still on submissions.body_md as a
+    // fallback. Log and continue.
+    console.error("[leads] thread message insert error", messageErr);
+  }
 
   // 2. Legacy leads mirror — only for 'project' (the only type that
   //    existed in the old flow). Log-only on failure.

@@ -2,33 +2,25 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { upsertChatContextAction } from "../../actions";
+import { upsertContextAction } from "../../actions";
 import type {
   ChatCredential,
   ChatDeliverable,
   ChatLink,
   ChatReportingItem,
   ChatSocialAccount,
-  WaChatContextRow,
-} from "@/lib/db/wa-chats";
+  SubmissionContextRow,
+} from "@/lib/db/submissions";
 
 /**
  * Project-context vault editor.
  *
- * Sections:
- *   1. Brief        — free-form markdown describing the project
- *   2. Links        — list of {label, url, notes}
- *   3. Social       — list of {platform, handle, business_id, access_level, notes}
- *   4. Deliverables — list of {name, status, deadline, file_url, notes}
- *   5. Reporting    — list of {kpi, frequency, recipient, last_sent_at, notes}
- *   6. Credentials  — list of {service, login, password, mfa_notes, scope, notes}
- *                     Passwords masked by default, click-to-reveal per-row.
- *                     All credentials saved as a single AES-256-GCM blob
- *                     via the server action.
+ * Sections: Brief / Links / Social / Deliverables / Reporting / Credentials.
  *
- * All edits are local until "Save context" — one round-trip writes the
- * whole row. Keeps the UX predictable (no per-field save spinners) and
- * keeps the encryption boundary atomic.
+ * Credentials are AES-256-GCM-encrypted server-side before storage.
+ * The list is held locally as plaintext until "Save context" — one
+ * round-trip writes the whole row. Atomic encryption boundary; no
+ * per-field auto-save spinners.
  */
 
 type FormState = {
@@ -41,11 +33,11 @@ type FormState = {
 };
 
 export default function ContextEditor({
-  chatId,
+  submissionId,
   initial,
 }: {
-  chatId: string;
-  initial: WaChatContextRow;
+  submissionId: string;
+  initial: SubmissionContextRow;
 }) {
   const [form, setForm] = useState<FormState>({
     brief_md: initial.brief_md ?? "",
@@ -64,11 +56,8 @@ export default function ContextEditor({
   function save() {
     setMsg(null);
     startTransition(async () => {
-      const res = await upsertChatContextAction(chatId, form);
-      if (!res.ok) {
-        setMsg({ kind: "err", text: res.error ?? "Save failed" });
-        return;
-      }
+      const res = await upsertContextAction(submissionId, form);
+      if (!res.ok) return setMsg({ kind: "err", text: res.error ?? "Save failed" });
       setMsg({ kind: "ok", text: "Saved" });
       router.refresh();
     });
@@ -76,24 +65,24 @@ export default function ContextEditor({
 
   return (
     <div className="border border-bone/15">
-      {/* BRIEF */}
       <Section title="Brief">
         <textarea
           value={form.brief_md}
-          onChange={(e) => setForm((f) => ({ ...f, brief_md: e.target.value }))}
+          onChange={(e) =>
+            setForm((f) => ({ ...f, brief_md: e.target.value }))
+          }
           rows={5}
           placeholder="Project description, goals, deadlines, brand-voice notes, anything an agent should know..."
           className="w-full bg-bone/[0.04] border border-bone/15 px-3 py-2 text-sm leading-relaxed focus:outline-none focus:border-bone/40 resize-y"
         />
       </Section>
 
-      {/* LINKS */}
       <Section title="Links">
         <List
           items={form.links}
           onChange={(items) => setForm((f) => ({ ...f, links: items }))}
           emptyHint="No links yet. Add the website, GA dashboard, Drive folder, FB page, IG, etc."
-          newItem={() => ({ label: "", url: "", notes: "" })}
+          newItem={(): ChatLink => ({ label: "", url: "", notes: "" })}
           render={(item, update) => (
             <>
               <Input
@@ -118,7 +107,6 @@ export default function ContextEditor({
         />
       </Section>
 
-      {/* SOCIAL */}
       <Section title="Social accounts">
         <List
           items={form.social_accounts}
@@ -126,7 +114,7 @@ export default function ContextEditor({
             setForm((f) => ({ ...f, social_accounts: items }))
           }
           emptyHint="Instagram, Facebook, TikTok, LinkedIn, YouTube..."
-          newItem={() => ({
+          newItem={(): ChatSocialAccount => ({
             platform: "",
             handle: "",
             business_id: "",
@@ -172,11 +160,12 @@ export default function ContextEditor({
         />
       </Section>
 
-      {/* DELIVERABLES */}
       <Section title="Deliverables">
         <List
           items={form.deliverables}
-          onChange={(items) => setForm((f) => ({ ...f, deliverables: items }))}
+          onChange={(items) =>
+            setForm((f) => ({ ...f, deliverables: items }))
+          }
           emptyHint="What needs to ship? Logo files, website launch, content calendar..."
           newItem={(): ChatDeliverable => ({ name: "", status: "todo" })}
           render={(item, update) => (
@@ -228,7 +217,6 @@ export default function ContextEditor({
         />
       </Section>
 
-      {/* REPORTING */}
       <Section title="Reporting setup">
         <List
           items={form.reporting_setup}
@@ -236,7 +224,10 @@ export default function ContextEditor({
             setForm((f) => ({ ...f, reporting_setup: items }))
           }
           emptyHint="Recurring reports — KPI, frequency, recipient."
-          newItem={(): ChatReportingItem => ({ kpi: "", frequency: "monthly" })}
+          newItem={(): ChatReportingItem => ({
+            kpi: "",
+            frequency: "monthly",
+          })}
           render={(item, update) => (
             <>
               <Input
@@ -279,23 +270,27 @@ export default function ContextEditor({
         />
       </Section>
 
-      {/* CREDENTIALS — encrypted at rest */}
       <Section
         title="Credentials"
-        subtitle="Encrypted with AES-256-GCM before storage. Passwords masked until you click reveal."
+        subtitle="Encrypted with AES-256-GCM before storage. Passwords masked until you click Show."
       >
         <List
           items={form.credentials}
-          onChange={(items) => setForm((f) => ({ ...f, credentials: items }))}
+          onChange={(items) =>
+            setForm((f) => ({ ...f, credentials: items }))
+          }
           emptyHint="WordPress admin, Gmail, IG Business, Meta Ads Manager, hosting..."
-          newItem={() => ({ service: "", login: "", password: "" })}
+          newItem={(): ChatCredential => ({
+            service: "",
+            login: "",
+            password: "",
+          })}
           render={(item, update) => (
             <CredentialRow item={item} update={update} />
           )}
         />
       </Section>
 
-      {/* SAVE BAR */}
       <div className="flex items-center justify-between gap-3 px-4 py-3 border-t border-bone/15 bg-bone/[0.02]">
         <span className="text-[10px] tracking-[0.18em] uppercase opacity-50">
           {initial.updated_by
@@ -327,7 +322,7 @@ export default function ContextEditor({
 }
 
 /* ============================================================
- * Helpers
+ * Helpers (Section / Input / List / CredentialRow)
  * ============================================================ */
 
 function Section({
@@ -346,7 +341,9 @@ function Section({
           {title}
         </h3>
         {subtitle && (
-          <p className="text-[10px] opacity-50 mt-1 leading-snug">{subtitle}</p>
+          <p className="text-[10px] opacity-50 mt-1 leading-snug">
+            {subtitle}
+          </p>
         )}
       </header>
       <div className="px-4 pb-4">{children}</div>
@@ -404,7 +401,6 @@ function List<T>({
   function updateRow(i: number, next: T) {
     onChange(items.map((it, idx) => (idx === i ? next : it)));
   }
-
   return (
     <div className="space-y-2">
       {items.length === 0 && (
@@ -470,7 +466,6 @@ function CredentialRow({
           type="button"
           onClick={() => setReveal((r) => !r)}
           className="text-[10px] tracking-[0.18em] uppercase border border-bone/30 px-2 py-1.5 hover:bg-bone hover:text-ink"
-          title={reveal ? "Hide password" : "Reveal password"}
         >
           {reveal ? "Hide" : "Show"}
         </button>
