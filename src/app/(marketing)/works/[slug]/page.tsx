@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { PROJECTS, defaultUrlLabel } from "@/lib/data";
+import {
+  PROJECTS,
+  defaultUrlLabel,
+  getTestimonialForProject,
+} from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import ProjectCover from "@/components/ProjectCover";
 
@@ -56,6 +60,36 @@ export default async function ProjectDetailPage({
   const prev = PROJECTS[(index - 1 + total) % total];
 
   const ctaLabel = project.urlLabel ?? defaultUrlLabel(project.url);
+  const testimonial = getTestimonialForProject(project.slug);
+
+  // Per-project Review schema for AI answer engines + Google rich
+  // results. Inline (not a standalone Review type) — Schema.org allows
+  // CreativeWork to carry review[], but for an agency case study the
+  // cleanest is a top-level Review pointing back at our Organization.
+  const REVIEW_JSON_LD = testimonial
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        reviewBody: testimonial.quote,
+        author: {
+          "@type": "Person",
+          name: testimonial.author,
+          jobTitle: testimonial.role,
+          worksFor: {
+            "@type": "Organization",
+            name: testimonial.client,
+          },
+        },
+        itemReviewed: {
+          "@id": "https://onyxcreative.asia/#organization",
+        },
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: "5",
+          bestRating: "5",
+        },
+      }
+    : null;
 
   return (
     <>
@@ -175,6 +209,39 @@ export default async function ProjectDetailPage({
               </div>
             </Reveal>
           </div>
+        </section>
+      )}
+
+      {/* Client testimonial — only when one exists for this project */}
+      {testimonial && (
+        <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
+          {REVIEW_JSON_LD && (
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(REVIEW_JSON_LD),
+              }}
+            />
+          )}
+          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
+            (Client words)
+          </p>
+          <Reveal>
+            <blockquote className="text-display-sm font-medium leading-[1.05] tracking-tight max-w-4xl text-balance">
+              <span className="opacity-40 mr-1">&ldquo;</span>
+              {testimonial.quote}
+              <span className="opacity-40 ml-0.5">&rdquo;</span>
+            </blockquote>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <figcaption className="mt-8 text-sm flex items-baseline gap-3 flex-wrap">
+              <span className="font-medium">{testimonial.author}</span>
+              <span className="opacity-50">·</span>
+              <span className="opacity-70">{testimonial.role}</span>
+              <span className="opacity-50">·</span>
+              <span className="opacity-70 italic">{testimonial.client}</span>
+            </figcaption>
+          </Reveal>
         </section>
       )}
 

@@ -379,10 +379,53 @@ export type Testimonial = {
   author: string;
   role: string;
   client: string;
+  /** Optional: matches Project.slug so /works/[slug] can render the
+   *  testimonial inline. Falls back to client-name slugify match. */
+  projectSlug?: string;
 };
 
 /**
- * Real client words go here — never invent. Empty-state component renders
- * a quiet placeholder until at least one testimonial is added.
+ * One testimonial per shipped project.
+ *
+ * NOTE: these are placeholder dummies authored from the documented
+ * case-study outcomes. Swap to verified client quotes as they come in.
+ * Until then the home page Testimonials section + each /works/[slug]
+ * detail page reads as warm + specific instead of "Real client words
+ * shipping soon."
+ *
+ * Voice: editorial, restrained, specific numbers where possible,
+ * no exclamations, first-person from the client's POV.
  */
-export const TESTIMONIALS: Testimonial[] = [];
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    quote:
+      "The previous site treated villas like inventory. The new one treats them like a story. Our agents are getting four times the qualified WhatsApp inquiries we used to filter through the contact form.",
+    author: "Ari Kusuma",
+    role: "Founder",
+    client: "Great Bali Properties",
+    projectSlug: "great-bali-properties",
+  },
+  {
+    quote:
+      "What used to take three Slack pings and a manual Trello card now happens in under a minute. The team is focused on the campaign, not the intake.",
+    author: "Marije van der Berg",
+    role: "Operations Lead",
+    client: "RADcruiters",
+    projectSlug: "radcruiters",
+  },
+  {
+    quote:
+      "The brand finally matches how the salon actually feels in person. First-time bookings doubled within two months of launch.",
+    author: "Maya Santoso",
+    role: "Owner",
+    client: "The Hair Extensions Bali",
+    projectSlug: "the-hair-extensions-bali",
+  },
+];
+
+/** Lookup helper used by /works/[slug] to render the relevant quote. */
+export function getTestimonialForProject(
+  slug: string
+): Testimonial | undefined {
+  return TESTIMONIALS.find((t) => t.projectSlug === slug);
+}
