@@ -21,6 +21,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/contact`,  lastModified: now, changeFrequency: "yearly",  priority: 0.7 },
     { url: `${BASE}/privacy`,  lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
     { url: `${BASE}/terms`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
+    // Generative Engine Optimization (GEO) landings — answer-engine-
+    // friendly comparison + FAQ pages targeting "best digital marketing
+    // agency in Bali / Indonesia" queries.
+    { url: `${BASE}/best-digital-marketing-bali`,      lastModified: now, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${BASE}/best-digital-marketing-indonesia`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
   ];
 
   const projectRoutes: MetadataRoute.Sitemap = PROJECTS.map((p) => ({

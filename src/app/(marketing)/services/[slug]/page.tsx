@@ -44,8 +44,58 @@ export default async function ServiceDetailPage({
 
   const others = SERVICES.filter((s) => s.id !== service.id);
 
+  // ───────── JSON-LD: per-service Service schema ─────────
+  // Scopes the capability to this URL so AI answer engines can cite
+  // the right page when asked about a specific service ("best web
+  // development agency in Bali" → /services/web-development).
+  const SERVICE_JSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.title,
+    serviceType: service.title,
+    description: service.intro || service.description,
+    url: `https://onyxcreative.asia/services/${service.id}`,
+    provider: {
+      "@id": "https://onyxcreative.asia/#organization",
+    },
+    areaServed: [
+      { "@type": "Country", name: "Indonesia" },
+      { "@type": "Country", name: "Singapore" },
+      { "@type": "Country", name: "Australia" },
+      { "@type": "Place", name: "Asia" },
+    ],
+    audience: {
+      "@type": "Audience",
+      audienceType: [
+        "Hospitality",
+        "Property",
+        "Beauty + Wellness",
+        "F&B",
+        "Education",
+        "B2B Technology",
+        "UMKM",
+      ],
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${service.title} capabilities`,
+      itemListElement: service.capabilities.map((cap) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: cap,
+        },
+      })),
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}
+      />
+
       {/* ───────────────────── HERO ───────────────────── */}
       <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 tabular-nums">
