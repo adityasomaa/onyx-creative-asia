@@ -11,6 +11,7 @@ import {
   YEARLY_SAVINGS_RANGE,
   type Tier,
 } from "@/lib/pricing";
+import { useT } from "@/lib/i18n";
 
 type Cadence = "monthly" | "yearly";
 
@@ -22,6 +23,7 @@ function CadenceToggle({
   value: Cadence;
   onChange: (v: Cadence) => void;
 }) {
+  const t = useT();
   return (
     <div
       role="tablist"
@@ -57,14 +59,14 @@ function CadenceToggle({
                 active ? "text-bone" : "text-ink/70"
               }`}
             >
-              {c === "monthly" ? "Monthly" : "Yearly"}
+              {c === "monthly" ? t("Monthly") : t("Yearly")}
               {c === "yearly" && (
                 <span
                   className={`ml-2 text-[10px] uppercase tracking-[0.18em] ${
                     active ? "text-bone/70" : "text-ink/50"
                   }`}
                 >
-                  hemat {YEARLY_SAVINGS_RANGE}
+                  {t(`save ${YEARLY_SAVINGS_RANGE}`)}
                 </span>
               )}
             </span>
@@ -87,8 +89,10 @@ function ServiceBlock({
   cadence: Cadence;
   index: number;
 }) {
+  const t = useT();
   const tiers = cadence === "monthly" ? row.monthly : row.yearly;
-  const cadenceSuffix = cadence === "monthly" ? "/bln" : "/thn";
+  // Default suffix is English (/mo, /yr). t() swaps to /bln, /thn in ID.
+  const cadenceSuffix = cadence === "monthly" ? t("/mo") : t("/yr");
 
   return (
     <article
@@ -142,7 +146,7 @@ function ServiceBlock({
                   isFeatured ? "text-bone/60" : "text-ink/55"
                 }`}
               >
-                {TIER_LABELS[tier]}
+                {t(TIER_LABELS[tier])}
               </p>
 
               <AnimatePresence mode="wait" initial={false}>
@@ -196,6 +200,7 @@ function ServiceBlock({
 }
 
 export default function PricingGrid() {
+  const t = useT();
   const [cadence, setCadence] = useState<Cadence>("monthly");
 
   return (
@@ -203,11 +208,12 @@ export default function PricingGrid() {
       <div className="container-x pb-10 md:pb-14 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div className="max-w-xl">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-            (Billing cadence)
+            {t("(Billing cadence)")}
           </p>
           <p className="text-lg md:text-xl text-ink/75 leading-snug">
-            Pilih monthly untuk fleksibilitas, atau yearly untuk hemat 30–46%
-            dengan komitmen di muka.
+            {t(
+              "Pick monthly for flexibility, or yearly to save 30–46% with an upfront commitment.",
+            )}
           </p>
         </div>
         <CadenceToggle value={cadence} onChange={setCadence} />
@@ -223,19 +229,19 @@ export default function PricingGrid() {
       <section className="container-x pb-20 md:pb-28">
         <div className="border-t border-hairline pt-10 md:pt-14 grid grid-cols-1 md:grid-cols-12 gap-y-6 gap-x-10">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 md:col-span-4">
-            (Bundle savings)
+            {t("(Bundle savings)")}
           </p>
           <div className="md:col-span-8 md:col-start-5 grid grid-cols-3 gap-4 md:gap-6">
             {(Object.keys(BUNDLE_SAVINGS) as Tier[]).map((tier) => (
               <div key={tier} className="border-t border-ink/20 pt-4">
                 <p className="text-xs uppercase tracking-[0.22em] opacity-55">
-                  {TIER_LABELS[tier]}
+                  {t(TIER_LABELS[tier])}
                 </p>
                 <p className="mt-1 text-2xl md:text-3xl font-medium tracking-tight">
                   {BUNDLE_SAVINGS[tier]}
                 </p>
                 <p className="text-xs uppercase tracking-[0.18em] opacity-50 mt-1">
-                  off vs à la carte
+                  {t("off vs à la carte")}
                 </p>
               </div>
             ))}
@@ -247,7 +253,7 @@ export default function PricingGrid() {
       <section className="container-x pb-24 md:pb-32">
         <div className="border-t border-hairline pt-10 md:pt-14 grid grid-cols-1 md:grid-cols-12 gap-y-6 gap-x-10">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 md:col-span-4">
-            (The fine print)
+            {t("(The fine print)")}
           </p>
           <dl className="md:col-span-8 md:col-start-5 divide-y divide-hairline">
             {PRICING_NOTES.map((n) => (

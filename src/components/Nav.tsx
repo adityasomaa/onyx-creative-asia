@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useIntroState } from "@/lib/intro";
 import { SERVICES } from "@/lib/data";
+import { useT } from "@/lib/i18n";
+import LangToggle from "@/components/LangToggle";
 
 type NavLink = {
   href: string;
@@ -49,6 +51,7 @@ const DARK_HERO_PATHS = new Set(["/"]);
 export default function Nav() {
   const pathname = usePathname();
   const introState = useIntroState();
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   // Desktop mega-menu open state, lifted to Nav so the panel can render
@@ -163,7 +166,7 @@ export default function Nav() {
                 >
                   <NavItem
                     href={link.href}
-                    label={link.label}
+                    label={t(link.label)}
                     active={active}
                     dark={dark}
                     hasMega={hasMega}
@@ -174,7 +177,12 @@ export default function Nav() {
             })}
           </nav>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 md:gap-4">
+            {/* Language toggle — sits between the inline nav and the
+                Start a project CTA on desktop, and stays visible on
+                mobile (compact) so the preference is always one tap
+                away. Variant matches the surrounding chrome. */}
+            <LangToggle variant={dark ? "dark" : "light"} />
             <Link
               href="/contact"
               onMouseEnter={closeMegaWithDelay}
@@ -183,7 +191,7 @@ export default function Nav() {
                 dark ? "bg-bone text-ink" : "bg-ink text-bone"
               )}
             >
-              Start a project
+              {t("Start a project")}
               <span aria-hidden>→</span>
             </Link>
             <button
@@ -334,7 +342,7 @@ export default function Nav() {
                     href={link.href}
                     className="block py-3 text-4xl font-medium tracking-tight"
                   >
-                    {link.label}
+                    {t(link.label)}
                   </Link>
                   {/* Sub-items rendered inline under the parent — no
                       accordion toggle, just a tighter indented list so the

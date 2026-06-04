@@ -104,8 +104,8 @@ const socialMonthly: Record<Tier, TierContent> = {
   startup: {
     price: "Rp 650k",
     bullets: [
-      "1 platform (IG atau LinkedIn)",
-      "4 static posts/bln",
+      "1 platform (IG or LinkedIn)",
+      "4 static posts/mo",
       "Caption writing",
       "Scheduling",
       "Monthly report",
@@ -115,7 +115,7 @@ const socialMonthly: Record<Tier, TierContent> = {
     price: "Rp 1,1jt",
     bullets: [
       "2 platforms",
-      "10 static + 2 reels/bln",
+      "10 static + 2 reels/mo",
       "3× stories/week",
       "Community management",
       "Hashtag refresh",
@@ -126,7 +126,7 @@ const socialMonthly: Record<Tier, TierContent> = {
     price: "Rp 1,5jt",
     bullets: [
       "3+ platforms",
-      "20 static + 4 reels/bln",
+      "20 static + 4 reels/mo",
       "Daily stories",
       "Paid amplification setup",
       "Influencer outreach",
@@ -141,10 +141,10 @@ const aiMonthly: Record<Tier, TierContent> = {
     price: "Rp 750k",
     bullets: [
       "1 automation",
-      "WA auto-reply atau FAQ bot",
+      "WhatsApp auto-reply or FAQ bot",
       "Basic monitoring",
-      "1 LLM (Gemini Flash) termasuk",
-      "1 jam tweaks/bln",
+      "1 LLM (Gemini Flash) included",
+      "1 hr tweaks/mo",
     ],
   },
   growth: {
@@ -155,7 +155,7 @@ const aiMonthly: Record<Tier, TierContent> = {
       "Content draft AI",
       "Dashboard",
       "Claude Haiku / GPT-4o-mini tier",
-      "4 jam tweaks/bln",
+      "4 hrs tweaks/mo",
     ],
   },
   enterprise: {
@@ -176,18 +176,18 @@ const adsMonthly: Record<Tier, TierContent> = {
   startup: {
     price: "Rp 700k",
     bullets: [
-      "1 platform (Meta atau Google)",
-      "Ad spend ≤ Rp 3jt/bln",
+      "1 platform (Meta or Google)",
+      "Ad spend ≤ Rp 3M/mo",
       "2 creative variants",
       "Pixel + conversion setup",
-      "Weekly WA check-in",
+      "Weekly WhatsApp check-in",
     ],
   },
   growth: {
     price: "Rp 1,1jt",
     bullets: [
       "2 platforms",
-      "Ad spend ≤ Rp 15jt/bln",
+      "Ad spend ≤ Rp 15M/mo",
       "6 creatives + 1 video",
       "Landing-page optimization",
       "Audience research",
@@ -198,7 +198,7 @@ const adsMonthly: Record<Tier, TierContent> = {
     price: "Rp 1,6jt",
     bullets: [
       "3+ platforms",
-      "Ad spend ≤ Rp 40jt/bln",
+      "Ad spend ≤ Rp 40M/mo",
       "15+ creatives + weekly iteration",
       "Dedicated media buyer",
       "Attribution modeling",
@@ -303,7 +303,7 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
       growth: "Rp 8jt",
       enterprise: "Rp 10,5jt",
     }),
-    footnote: "Ad spend dibayar langsung ke platform. Mgmt fee terpisah.",
+    footnote: "Ad spend is billed by the platform directly. Mgmt fee separate.",
   },
   {
     id: "full",
@@ -325,23 +325,23 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
 export const PRICING_NOTES: ReadonlyArray<{ label: string; body: string }> = [
   {
     label: "Commitment",
-    body: "Monthly — 1 bulan, no lock-in. Yearly — bayar di muka, refund pro-rata kalau cancel di tengah.",
+    body: "Monthly — 1 month, no lock-in. Yearly — paid upfront, pro-rata refund if cancelled mid-term.",
   },
   {
     label: "Onboarding",
-    body: "Startup tier — FREE. Growth Rp 1jt. Enterprise Rp 3jt. One-time, covers brand/asset audit + system setup.",
+    body: "Startup tier — FREE. Growth Rp 1M. Enterprise Rp 3M. One-time, covers brand/asset audit + system setup.",
   },
   {
     label: "Tax",
-    body: "PPN 11% belum termasuk dalam semua harga.",
+    body: "Indonesian VAT (PPN 11%) not included in any of the prices above.",
   },
   {
     label: "Payment",
-    body: "Monthly upfront via transfer bank. Invoice NET 7.",
+    body: "Monthly upfront via bank transfer. NET 7 invoice.",
   },
   {
     label: "Currency",
-    body: "USD pricing tersedia untuk client luar negeri (≈ ÷16.000).",
+    body: "USD pricing available for international clients (≈ ÷16,000).",
   },
 ];
 

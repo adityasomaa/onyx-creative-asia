@@ -6,6 +6,7 @@ import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import FloatingContactButton from "@/components/FloatingContactButton";
+import { LanguageProvider } from "@/lib/i18n";
 
 // GA4 Measurement ID for the public-facing marketing site only. The
 // internal /agents dashboard lives outside this route group (its own
@@ -235,14 +236,16 @@ export default function MarketingLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }}
       />
-      <Loader />
-      <SmoothScroll />
-      <Cursor />
-      <Nav />
-      <main>{children}</main>
-      <Footer />
-      <CookieConsent />
-      <FloatingContactButton />
+      <LanguageProvider>
+        <Loader />
+        <SmoothScroll />
+        <Cursor />
+        <Nav />
+        <main>{children}</main>
+        <Footer />
+        <CookieConsent />
+        <FloatingContactButton />
+      </LanguageProvider>
       {/* Loaded with strategy="afterInteractive" by the wrapper, so it
           doesn't block render or fight the intro loader animation. Skipped
           entirely when NEXT_PUBLIC_GA_ID is unset (local dev without env). */}
