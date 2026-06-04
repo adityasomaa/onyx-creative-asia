@@ -28,10 +28,10 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
     // has the full payload (number, short tagline, capabilities preview)
     // without us having to duplicate it here.
     children: [
-      { href: "/services/web-development", label: "Web Development" },
-      { href: "/services/paid-media", label: "Paid Media" },
-      { href: "/services/social-media", label: "Social Media" },
-      { href: "/services/ai-systems", label: "AI Systems" },
+      { href: "/services/web-development", label: "Web & Software Development" },
+      { href: "/services/paid-media", label: "Ads Management" },
+      { href: "/services/social-media", label: "Social Media Management" },
+      { href: "/services/ai-systems", label: "AI Automation" },
     ],
   },
   { href: "/works", label: "Works" },
@@ -142,7 +142,12 @@ export default function Nav() {
           </Link>
 
           <nav className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.slice(1, -1).map((link) => {
+            {/* Slice off the trailing Contact entry (it renders as the
+                "Start a project" pill on the right). Home now sits in
+                the inline nav as the first item — restored per request
+                so the active-state underline can rest on / when the
+                user is on the homepage. */}
+            {NAV_LINKS.slice(0, -1).map((link) => {
               const hasMega = !!link.children && link.children.length > 0;
               const active =
                 pathname === link.href ||

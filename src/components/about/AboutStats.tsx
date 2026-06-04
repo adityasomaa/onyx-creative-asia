@@ -7,8 +7,8 @@ const EASE = [0.25, 1, 0.5, 1] as const;
 
 export default function AboutStats() {
   return (
-    <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-20 md:pt-28">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-y-12 md:gap-x-12">
+    <section className="container-x pb-16 md:pb-20 border-t border-hairline pt-12 md:pt-14">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-y-10 md:gap-x-12">
         {STATS.map((stat, i) => (
           <motion.div
             key={stat.label}

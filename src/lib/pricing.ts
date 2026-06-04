@@ -249,7 +249,7 @@ const fullMonthly: Record<Tier, TierContent> = {
 export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
   {
     id: "web",
-    name: "Web Development",
+    name: "Web & Software Development",
     italic: "Built once,",
     bold: "ships forever.",
     blurb:
@@ -264,7 +264,7 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
   },
   {
     id: "social",
-    name: "Social Media",
+    name: "Social Media Management",
     italic: "Show up.",
     bold: "Show why.",
     blurb:

@@ -103,10 +103,17 @@ function ServiceBlock({
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3 tabular-nums">
           {String(index + 1).padStart(2, "0")} / 05
         </p>
-        <h2 className="text-display-sm md:text-display-md font-medium leading-[0.95] tracking-tight">
-          <span className="font-light italic block">{row.italic}</span>
-          <span className="block">{row.bold}</span>
+        {/* Service NAME is the headline now (was a poetic italic+bold
+            tagline before — replaced so a first-time visitor reads
+            "Web & Software Development" instead of having to parse
+            "Built once, ships forever." for meaning). The tagline
+            survives as a small italic kicker beneath. */}
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium leading-[0.98] tracking-tight">
+          {row.name}
         </h2>
+        <p className="mt-3 text-base md:text-lg italic font-light text-ink/55 leading-snug">
+          {row.italic} {row.bold}
+        </p>
         <p className="mt-5 max-w-sm text-base md:text-lg text-ink/70 leading-relaxed">
           {row.blurb}
         </p>

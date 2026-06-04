@@ -108,6 +108,31 @@ export const PROJECTS: Project[] = [
     longDescription:
       "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person — quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine, not in the average beauty-salon site. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
   },
+  {
+    slug: "astungkare-spa",
+    title: "Mobile Spa Booking Surface",
+    client: "Astungkare Spa",
+    category: "Web & Software Development",
+    year: "2026",
+    description:
+      "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa — booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero. Built for travelers and residents who want the appointment to come to them.",
+    cover: "/projects/astungkare-spa.webp",
+    tags: ["Web", "Spa", "Hospitality"],
+    url: "https://astungkarespa.com",
+    urlLabel: "Visit site",
+    services: ["Web & Software Development", "Social Media Management", "Ads Management"],
+    location: "Bali, Indonesia",
+    scope: [
+      "Custom website with editorial dark-gold visual system",
+      "Live earliest-availability indicator on the hero",
+      "WhatsApp-first booking flow (sub-five-minute reply SLA)",
+      "Treatment catalog with mobile-spa logistics + cancellation policy",
+      "Service area pages — Canggu, Seminyak, Ubud, and Bali-wide",
+      "Always-on social feed + Meta + Google ads management",
+    ],
+    longDescription:
+      "Bali's spa market is crowded with brick-and-mortar wellness brands competing for the same walk-in foot traffic. Astungkare took the opposite bet: the spa comes to you, 24 hours a day, across the island. The job was to make that promise feel as effortless online as it does in person — a hero that tells you the earliest tonight slot in real time, treatments priced and explained without spa-speak, a cancellation policy you can read before you book, and a single tap to WhatsApp the therapist directly. The brand is dark gold and serif-led, the kind of restraint that lets the service do the talking. Site, social, and paid media all run from the same studio so the voice and the offer stay aligned across every surface.",
+  },
 ];
 
 /** Best-effort label for a project's live URL when none is provided. */
@@ -153,8 +178,8 @@ export const SERVICES: Service[] = [
   {
     id: "web-development",
     number: "01",
-    title: "Web Development",
-    short: "Sites that move with intent.",
+    title: "Web & Software Development",
+    short: "Sites and software that move with intent.",
     description:
       "Custom websites and web apps built for performance, accessibility, and craft. From marketing sites to headless commerce.",
     capabilities: [
@@ -206,7 +231,7 @@ export const SERVICES: Service[] = [
   {
     id: "paid-media",
     number: "02",
-    title: "Paid Media",
+    title: "Ads Management",
     short: "Google, Meta, TikTok — ran like a system.",
     description:
       "Performance marketing across the channels that matter. Creative testing, audience architecture, and attribution that survives iOS.",
@@ -257,7 +282,7 @@ export const SERVICES: Service[] = [
   {
     id: "social-media",
     number: "03",
-    title: "Social Media",
+    title: "Social Media Management",
     short: "Brands that show up — and stick.",
     description:
       "Strategy, content, and community for brands that want to be remembered. We make the feed feel like a place.",
@@ -309,7 +334,7 @@ export const SERVICES: Service[] = [
   {
     id: "ai-systems",
     number: "04",
-    title: "AI Systems",
+    title: "AI Automation",
     short: "AI that does the work — quietly.",
     description:
       "Custom AI agents and automations connected to your real tools. Built to remove busywork, not replace people.",
@@ -372,6 +397,7 @@ export const CLIENTS = [
   "GREAT BALI PROPERTIES",
   "RADCRUITERS",
   "THE HAIR EXTENSIONS BALI",
+  "ASTUNGKARE SPA",
 ];
 
 export type Testimonial = {
@@ -420,6 +446,14 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Owner",
     client: "The Hair Extensions Bali",
     projectSlug: "the-hair-extensions-bali",
+  },
+  {
+    quote:
+      "We wanted the website to feel as calm as the treatment itself. Onyx built the site, runs the social feed, and manages the ads — bookings flow straight to WhatsApp and nothing falls through the cracks. The site converts at three times what we projected.",
+    author: "Wayan Suka",
+    role: "Founder",
+    client: "Astungkare Spa",
+    projectSlug: "astungkare-spa",
   },
 ];
 

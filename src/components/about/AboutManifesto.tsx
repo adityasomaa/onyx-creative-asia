@@ -26,7 +26,7 @@ export default function AboutManifesto() {
   return (
     <section
       ref={ref}
-      className="container-x py-32 md:py-48 relative"
+      className="container-x py-20 md:py-28 relative"
     >
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-12">
         (Our position)
@@ -49,7 +49,7 @@ export default function AboutManifesto() {
         viewport={{ once: true, amount: 0.5 }}
         transition={{ duration: 1.4, ease: EASE }}
         style={{ originX: 0 }}
-        className="mt-16 h-px w-full bg-ink/30"
+        className="mt-10 md:mt-12 h-px w-full bg-ink/30"
       />
     </section>
   );
