@@ -72,7 +72,6 @@ const webMonthly: Record<Tier, TierContent> = {
   startup: {
     price: "Rp 500k",
     bullets: [
-      "1 jam dev/bln",
       "Hosting + SSL",
       "Security patches",
       "Monthly backup",
@@ -82,7 +81,6 @@ const webMonthly: Record<Tier, TierContent> = {
   growth: {
     price: "Rp 900k",
     bullets: [
-      "3 jam dev/bln",
       "Everything in Startup",
       "New section/page",
       "Basic analytics",
@@ -92,7 +90,6 @@ const webMonthly: Record<Tier, TierContent> = {
   enterprise: {
     price: "Rp 1,4jt",
     bullets: [
-      "6 jam dev/bln",
       "Everything in Growth",
       "A/B test setup",
       "Conversion optimization",
