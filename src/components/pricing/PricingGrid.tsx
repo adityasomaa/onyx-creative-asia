@@ -93,7 +93,7 @@ function ServiceBlock({
   return (
     <article
       id={row.id}
-      className={`grid grid-cols-1 md:grid-cols-12 gap-y-10 gap-x-10 md:gap-x-12 scroll-mt-32 border-t pt-16 md:pt-20 ${
+      className={`grid grid-cols-1 md:grid-cols-12 gap-y-10 gap-x-10 md:gap-x-12 scroll-mt-32 border-t pt-16 md:pt-20 pb-16 md:pb-20 ${
         row.featured
           ? "border-ink/60"
           : "border-hairline"
