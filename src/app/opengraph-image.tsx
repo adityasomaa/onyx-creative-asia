@@ -4,7 +4,7 @@ export const runtime = "edge";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt =
-  "Onyx Creative Asia — Brand, Performance & AI Systems for ambitious teams";
+  "Onyx Creative Asia · Brand, Performance & AI Systems for ambitious teams";
 
 /**
  * Default OpenGraph image — Black Box monochrome editorial. Used for
