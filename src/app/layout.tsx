@@ -12,8 +12,8 @@ import RouteLoader from "@/components/RouteLoader";
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
   title: {
-    default: "Onyx Creative Asia — Brand, Performance & AI Systems",
-    template: "%s — Onyx Creative Asia",
+    default: "Onyx Creative Asia · Brand, Performance & AI Systems",
+    template: "%s · Onyx Creative Asia",
   },
   description:
     "Onyx Creative Asia is an independent studio building brands, performance marketing, and AI systems for ambitious teams across Asia and beyond.",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     "Onyx Creative Asia",
   ],
   openGraph: {
-    title: "Onyx Creative Asia — Brand, Performance & AI Systems",
+    title: "Onyx Creative Asia · Brand, Performance & AI Systems",
     description:
       "Independent studio in Bali building brands, performance marketing, and AI systems for ambitious teams.",
     url: "/",
