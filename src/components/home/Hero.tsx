@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import HeroVideo from "./HeroVideo";
 import TextScramble from "@/components/TextScramble";
+import { useT } from "@/lib/i18n";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 // Hold the headline below the mask while the loader covers the page.
 const ENTER = 0.4;
 
 export default function Hero() {
+  const t = useT();
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-ink text-bone">
       <HeroVideo />
@@ -22,7 +24,7 @@ export default function Hero() {
             transition={{ duration: 1, ease: EASE, delay: ENTER }}
             className="opacity-80"
           >
-            (Independent studio — Asia)
+            {t("(Independent studio, Asia)")}
           </motion.span>
           <motion.span
             initial={{ y: 20, opacity: 0 }}
@@ -30,7 +32,7 @@ export default function Hero() {
             transition={{ duration: 1, ease: EASE, delay: ENTER + 0.05 }}
             className="opacity-80"
           >
-            {`(${new Date().getFullYear()} — Always shipping)`}
+            {`(${new Date().getFullYear()}, Always shipping)`}
           </motion.span>
         </div>
 
@@ -58,9 +60,9 @@ export default function Hero() {
             transition={{ duration: 1, ease: EASE, delay: ENTER + 0.55 }}
             className="max-w-md text-base leading-relaxed text-bone/80 md:col-span-5 md:col-start-7 md:text-lg"
           >
-            Onyx Creative Asia builds the digital surface, the growth engine,
-            and the automation layer — under one roof, with one team that
-            actually ships.
+            {t(
+              "Onyx Creative Asia builds the digital surface, the growth engine, and the automation layer, under one roof, with one team that actually ships.",
+            )}
           </motion.p>
         </div>
 
@@ -72,7 +74,7 @@ export default function Hero() {
           className="mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-bone/70"
         >
           <span className="h-px w-10 bg-bone" />
-          <span>Scroll to explore</span>
+          <span>{t("Scroll to explore")}</span>
         </motion.div>
       </div>
     </section>

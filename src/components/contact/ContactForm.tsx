@@ -20,7 +20,7 @@ const DEFAULT_TYPE: InquiryType = "project";
 
 /**
  * Tab-driven contact form. Pick an inquiry type at the top, the form
- * below swaps inline — no chooser screen, no back button, no full
+ * below swaps inline, no chooser screen, no back button, no full
  * navigation. The active tab is mirrored to ?type=<inquiry> so deep
  * links still work (sharing /contact?type=career lands on the careers
  * tab pre-selected), but tab switches feel instant.
@@ -113,7 +113,7 @@ function Tabs({
           );
         })}
       </div>
-      {/* Subtle helper text under the active tab — drawn from the same
+      {/* Subtle helper text under the active tab, drawn from the same
           description map the old chooser screen used, so we don't lose
           the "what is this for" hint when the chooser goes away. */}
       <div className="mt-5 max-w-2xl">

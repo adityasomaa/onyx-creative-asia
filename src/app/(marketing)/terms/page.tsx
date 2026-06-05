@@ -14,7 +14,7 @@ export default function TermsPage() {
     <>
       <section className="container-x pt-40 md:pt-52 pb-12 md:pb-16">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          (Terms of Use — last updated {UPDATED})
+          (Terms of Use, last updated {UPDATED})
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           Terms <span className="font-light italic">of use.</span>
@@ -49,7 +49,7 @@ export default function TermsPage() {
               <p>
                 Onyx Creative Asia (&quot;Onyx&quot;) operates this site to
                 showcase our studio's work, services, and contact paths. The site
-                isn't a contract — engagements are governed by separate signed
+                isn't a contract, engagements are governed by separate signed
                 agreements.
               </p>
             </Section>
@@ -123,7 +123,7 @@ export default function TermsPage() {
                 indirect, incidental, special, consequential, or punitive damages
                 arising from your use of the site. Our total liability for any
                 claim arising from the site is limited to the amount you've paid
-                us for site access — which, since the site is free to use, is zero.
+                us for site access, which, since the site is free to use, is zero.
               </p>
             </Section>
 

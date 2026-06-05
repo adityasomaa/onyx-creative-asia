@@ -5,13 +5,14 @@ import { useState } from "react";
 import {
   BUNDLE_SAVINGS,
   PRICING_NOTES,
+  priceFor,
   SERVICE_ROWS,
   TIER_LABELS,
   TIER_ORDER,
   YEARLY_SAVINGS_RANGE,
   type Tier,
 } from "@/lib/pricing";
-import { useT } from "@/lib/i18n";
+import { useLang, useT } from "@/lib/i18n";
 
 type Cadence = "monthly" | "yearly";
 
@@ -90,6 +91,7 @@ function ServiceBlock({
   index: number;
 }) {
   const t = useT();
+  const { lang } = useLang();
   const tiers = cadence === "monthly" ? row.monthly : row.yearly;
   // Default suffix is English (/mo, /yr). t() swaps to /bln, /thn in ID.
   const cadenceSuffix = cadence === "monthly" ? t("/mo") : t("/yr");
@@ -113,17 +115,17 @@ function ServiceBlock({
             "Built once, ships forever." for meaning). The tagline
             survives as a small italic kicker beneath. */}
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium leading-[0.98] tracking-tight">
-          {row.name}
+          {t(row.name)}
         </h2>
         <p className="mt-3 text-base md:text-lg italic font-light text-ink/55 leading-snug">
           {row.italic} {row.bold}
         </p>
         <p className="mt-5 max-w-sm text-base md:text-lg text-ink/70 leading-relaxed">
-          {row.blurb}
+          {t(row.blurb)}
         </p>
         {row.footnote && (
           <p className="mt-6 text-xs uppercase tracking-[0.22em] text-ink/50">
-            //&nbsp;&nbsp;{row.footnote}
+            //&nbsp;&nbsp;{t(row.footnote)}
           </p>
         )}
       </div>
@@ -151,7 +153,7 @@ function ServiceBlock({
 
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
-                  key={`${cadence}-${content.price}`}
+                  key={`${cadence}-${lang}-${priceFor(content.price, lang)}`}
                   initial={{ y: 12, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   exit={{ y: -10, opacity: 0 }}
@@ -160,7 +162,7 @@ function ServiceBlock({
                 >
                   <p className="flex items-baseline gap-1.5">
                     <span className="text-3xl md:text-4xl font-medium tracking-tight">
-                      {content.price}
+                      {priceFor(content.price, lang)}
                     </span>
                     <span
                       className={`text-sm italic font-light ${
@@ -181,13 +183,13 @@ function ServiceBlock({
                 {content.bullets.map((b) => (
                   <li key={b} className="flex items-baseline gap-2">
                     <span
-                      className={`text-[10px] mt-0.5 tabular-nums ${
+                      className={`text-[10px] mt-1 tabular-nums ${
                         isFeatured ? "text-bone/50" : "text-ink/40"
                       }`}
                     >
-                      —
+                      ·
                     </span>
-                    <span>{b}</span>
+                    <span>{t(b)}</span>
                   </li>
                 ))}
               </ul>
@@ -212,7 +214,7 @@ export default function PricingGrid() {
           </p>
           <p className="text-lg md:text-xl text-ink/75 leading-snug">
             {t(
-              "Pick monthly for flexibility, or yearly to save 30–46% with an upfront commitment.",
+              "Pick monthly for flexibility, or yearly to save 30 to 46% with an upfront commitment.",
             )}
           </p>
         </div>
@@ -262,10 +264,10 @@ export default function PricingGrid() {
                 className="grid grid-cols-1 sm:grid-cols-12 gap-2 py-4"
               >
                 <dt className="sm:col-span-3 text-xs uppercase tracking-[0.22em] opacity-55">
-                  {n.label}
+                  {t(n.label)}
                 </dt>
                 <dd className="sm:col-span-9 text-base text-ink/85 leading-snug">
-                  {n.body}
+                  {t(n.body)}
                 </dd>
               </div>
             ))}

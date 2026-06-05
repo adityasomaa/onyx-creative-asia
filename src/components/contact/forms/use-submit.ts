@@ -72,7 +72,7 @@ export function useInquirySubmit() {
       console.error("[contact] submit failed:", msg);
       setStatus("idle");
       setError(
-        "Couldn't reach the server. Check your connection and try again — or write to hello@onyxcreative.asia."
+        "Couldn't reach the server. Check your connection and try again, or write to hello@onyxcreative.asia."
       );
       return false;
     }

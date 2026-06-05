@@ -4,12 +4,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import {
+  priceFor,
   SERVICE_ROWS,
   TIER_LABELS,
   TIER_ORDER,
   YEARLY_SAVINGS_RANGE,
   type Tier,
 } from "@/lib/pricing";
+import { useLang, useT } from "@/lib/i18n";
 
 type Cadence = "monthly" | "yearly";
 
@@ -34,6 +36,7 @@ function CadenceToggle({
   value: Cadence;
   onChange: (v: Cadence) => void;
 }) {
+  const t = useT();
   return (
     <div
       role="tablist"
@@ -65,14 +68,14 @@ function CadenceToggle({
                 active ? "text-bone" : "text-ink/70"
               }`}
             >
-              {c === "monthly" ? "Monthly" : "Yearly"}
+              {c === "monthly" ? t("Monthly") : t("Yearly")}
               {c === "yearly" && (
                 <span
                   className={`ml-2 text-[10px] uppercase tracking-[0.18em] ${
                     active ? "text-bone/70" : "text-ink/50"
                   }`}
                 >
-                  save {YEARLY_SAVINGS_RANGE}
+                  {t(`save ${YEARLY_SAVINGS_RANGE}`)}
                 </span>
               )}
             </span>
@@ -88,6 +91,8 @@ export default function ServicePricing({
 }: {
   serviceSlug: string;
 }) {
+  const t = useT();
+  const { lang } = useLang();
   const pricingId = SERVICE_TO_PRICING_ID[serviceSlug];
   const row = SERVICE_ROWS.find((r) => r.id === pricingId);
 
@@ -98,38 +103,39 @@ export default function ServicePricing({
   if (!row) return null;
 
   const tiers = cadence === "monthly" ? row.monthly : row.yearly;
-  const cadenceSuffix = cadence === "monthly" ? "/mo" : "/yr";
+  const cadenceSuffix = cadence === "monthly" ? t("/mo") : t("/yr");
 
   return (
     <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-y-10 gap-x-10 md:gap-x-12">
-        {/* Left column — heading + cadence toggle + intro */}
+        {/* Left column: heading + cadence toggle + intro */}
         <div className="md:col-span-4">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-            Pricing
+            {t("Pricing")}
           </p>
           <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-            Three tiers.
+            {t("Three tiers.")}
             <br />
-            <span className="font-light italic">Pick yours.</span>
+            <span className="font-light italic">{t("Pick yours.")}</span>
           </h2>
           <p className="mt-6 text-base md:text-lg text-ink/70 leading-relaxed max-w-sm">
-            Transparent monthly retainer. Switch to yearly upfront to save
-            30–46%. No lock-in on monthly, refund pro-rata on yearly.
+            {t(
+              "Transparent monthly retainer. Switch to yearly upfront to save 30 to 46%. No lock-in on monthly, refund pro-rata on yearly.",
+            )}
           </p>
           <div className="mt-8">
             <CadenceToggle value={cadence} onChange={setCadence} />
           </div>
           {row.footnote && (
             <p className="mt-8 text-xs uppercase tracking-[0.22em] text-ink/50">
-              //&nbsp;&nbsp;{row.footnote}
+              //&nbsp;&nbsp;{t(row.footnote)}
             </p>
           )}
           <Link
             href="/pricing"
             className="mt-10 inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] opacity-75 hover:opacity-100 transition-opacity group"
           >
-            See all pricing
+            {t("See all pricing")}
             <span
               aria-hidden
               className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
@@ -139,7 +145,7 @@ export default function ServicePricing({
           </Link>
         </div>
 
-        {/* Right column — three tier cards */}
+        {/* Right column: three tier cards */}
         <div className="md:col-span-8 md:col-start-5 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5">
           {TIER_ORDER.map((tier: Tier) => {
             const content = tiers[tier];
@@ -149,12 +155,12 @@ export default function ServicePricing({
                 className="flex flex-col p-6 md:p-7 border border-hairline hover:border-ink/40 transition-colors duration-500"
               >
                 <p className="text-xs uppercase tracking-[0.25em] text-ink/55">
-                  {TIER_LABELS[tier]}
+                  {t(TIER_LABELS[tier])}
                 </p>
 
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
-                    key={`${cadence}-${content.price}`}
+                    key={`${cadence}-${lang}-${priceFor(content.price, lang)}`}
                     initial={{ y: 12, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -10, opacity: 0 }}
@@ -163,7 +169,7 @@ export default function ServicePricing({
                   >
                     <p className="flex items-baseline gap-1.5">
                       <span className="text-3xl md:text-4xl font-medium tracking-tight">
-                        {content.price}
+                        {priceFor(content.price, lang)}
                       </span>
                       <span className="text-sm italic font-light text-ink/55">
                         {cadenceSuffix}
@@ -175,10 +181,10 @@ export default function ServicePricing({
                 <ul className="mt-6 space-y-2.5 border-t border-hairline pt-5 text-sm leading-snug">
                   {content.bullets.map((b) => (
                     <li key={b} className="flex items-baseline gap-2">
-                      <span className="text-[10px] mt-0.5 tabular-nums text-ink/40">
-                        —
+                      <span className="text-[10px] mt-1 tabular-nums text-ink/40">
+                        ·
                       </span>
-                      <span>{b}</span>
+                      <span>{t(b)}</span>
                     </li>
                   ))}
                 </ul>

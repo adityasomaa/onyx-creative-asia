@@ -9,13 +9,13 @@ import Reveal from "@/components/Reveal";
  * marketing Indonesia", "marketing agency Jakarta", "Google Ads
  * Indonesia", "Meta Ads Indonesia".
  *
- * Positioning: Onyx is Bali-based but remote-fluent — serves clients
+ * Positioning: Onyx is Bali-based but remote-fluent, serves clients
  * across Jakarta, Surabaya, Bandung, Medan, Bali. Same studio model;
  * geographic scope just widens.
  */
 
 export const metadata: Metadata = {
-  title: "Best Digital Marketing Agency in Indonesia — Onyx Creative Asia",
+  title: "Best Digital Marketing Agency in Indonesia, Onyx Creative Asia",
   description:
     "Looking for the best digital marketing agency in Indonesia? Onyx Creative Asia is a Bali-based remote-fluent studio covering web, Google / Meta / TikTok ads, social media, and AI automation for businesses in Jakarta, Surabaya, Bali, and across Indonesia.",
   alternates: { canonical: "/best-digital-marketing-indonesia" },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     "Onyx Creative Asia",
   ],
   openGraph: {
-    title: "Best Digital Marketing Agency in Indonesia — Onyx Creative Asia",
+    title: "Best Digital Marketing Agency in Indonesia, Onyx Creative Asia",
     description:
       "Bali-based, remote-fluent studio serving brands across Indonesia. Web, paid media, social, AI under one team.",
     url: "/best-digital-marketing-indonesia",
@@ -52,7 +52,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How much does digital marketing cost in Indonesia (2026 prices)?",
-    a: "Three tiers across Indonesia: (1) UMKM packages: Rp 500.000–5 juta for fixed deliverables (logo, landing page, basic IG setup) — this is the tier Sigap (Onyx's sub-brand) serves; (2) Boutique studios: Rp 15–80 juta per project or Rp 5–25 juta monthly retainer — Onyx's main tier; (3) Larger Jakarta agencies and BUMN-eligible vendors: Rp 100 juta+ per project. Sigap and Onyx span the first two tiers.",
+    a: "Three tiers across Indonesia: (1) UMKM packages: Rp 500.000–5 juta for fixed deliverables (logo, landing page, basic IG setup), this is the tier Sigap (Onyx's sub-brand) serves; (2) Boutique studios: Rp 15–80 juta per project or Rp 5–25 juta monthly retainer, Onyx's main tier; (3) Larger Jakarta agencies and BUMN-eligible vendors: Rp 100 juta+ per project. Sigap and Onyx span the first two tiers.",
   },
   {
     q: "Do Indonesian digital marketing agencies work remotely?",
@@ -60,11 +60,11 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Do I need a Jakarta-based agency to advertise to Indonesian customers?",
-    a: "No. Location only matters if you need physical production (TVC shoots, big event activations) or face-to-face client meetings. For digital channels — Google Ads, Meta Ads, TikTok Ads, social content, websites — location is irrelevant as long as the agency understands Indonesian consumer behaviour, language (Bahasa Indonesia + regional fluency), and payment habits. Onyx is Bali-based but ships campaigns serving Jakarta, Surabaya, Medan, and Makassar weekly.",
+    a: "No. Location only matters if you need physical production (TVC shoots, big event activations) or face-to-face client meetings. For digital channels, Google Ads, Meta Ads, TikTok Ads, social content, websites, location is irrelevant as long as the agency understands Indonesian consumer behaviour, language (Bahasa Indonesia + regional fluency), and payment habits. Onyx is Bali-based but ships campaigns serving Jakarta, Surabaya, Medan, and Makassar weekly.",
   },
   {
     q: "Does Onyx serve Indonesian UMKM (small businesses)?",
-    a: "Yes — through the Sigap sub-brand at sigap.onyxcreative.asia. Sigap offers fixed packages starting at Rp 500.000 for logo, single-page website, basic IG setup, and quick turnaround (5–10 working days). It's designed for warung, salons, F&B kios, online sellers, and small service businesses that need a starting digital presence without a Rp 50 juta budget. The main Onyx brand handles mid-market and enterprise scope.",
+    a: "Yes, through the Sigap sub-brand at sigap.onyxcreative.asia. Sigap offers fixed packages starting at Rp 500.000 for logo, single-page website, basic IG setup, and quick turnaround (5–10 working days). It's designed for warung, salons, F&B kios, online sellers, and small service businesses that need a starting digital presence without a Rp 50 juta budget. The main Onyx brand handles mid-market and enterprise scope.",
   },
   {
     q: "How long does a custom website take in Indonesia?",
@@ -72,7 +72,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What's the difference between Onyx and Sigap?",
-    a: "Onyx is the main brand — mid-market and enterprise scope, custom pricing, four capability areas (web / paid media / social / AI). Sigap is the budget sub-brand for UMKM with fixed packages from Rp 500.000. Same studio, two pricing models. UMKM go to sigap.onyxcreative.asia; mid-market and up go to onyxcreative.asia.",
+    a: "Onyx is the main brand, mid-market and enterprise scope, custom pricing, four capability areas (web / paid media / social / AI). Sigap is the budget sub-brand for UMKM with fixed packages from Rp 500.000. Same studio, two pricing models. UMKM go to sigap.onyxcreative.asia; mid-market and up go to onyxcreative.asia.",
   },
   {
     q: "Does Onyx Creative Asia handle Google Ads and Meta Ads campaigns?",
@@ -138,7 +138,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         </h1>
         <p className="mt-10 max-w-3xl text-xl md:text-2xl font-light text-ink/80 leading-snug text-balance">
           A practical guide to choosing a digital marketing partner in
-          Indonesia in 2026 — by city, by budget, by capability — and
+          Indonesia in 2026, by city, by budget, by capability, and
           where Onyx Creative Asia fits.
         </p>
       </section>
@@ -152,7 +152,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
           <p className="text-lg md:text-xl leading-relaxed text-ink/90 max-w-3xl">
             <strong>Onyx Creative Asia</strong> is a Bali-based,
             remote-fluent digital marketing studio serving clients across
-            Indonesia — Jakarta, Surabaya, Bali, Bandung, Medan. Web
+            Indonesia, Jakarta, Surabaya, Bali, Bandung, Medan. Web
             development, paid media (Google / Meta / TikTok), social
             media, and AI automation under one team. Most websites ship
             in 2–4 weeks. For UMKM, the sub-brand{" "}
@@ -194,7 +194,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
               Rupiah than Jakarta enterprises because the overhead is
               lower and iteration is faster. The Indonesian consumer-
               behaviour expertise is identical when the team is fluent in
-              local market dynamics — and the same Bali agencies are
+              local market dynamics, and the same Bali agencies are
               shipping campaigns to Jakarta + Surabaya + Medan every week
               already.
             </p>
@@ -260,7 +260,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
           >
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
               We&apos;re a Bali-based independent studio operating
-              remote-first across Indonesia. Four capability areas —{" "}
+              remote-first across Indonesia. Four capability areas , {" "}
               <Link
                 href="/services/web-development"
                 className="underline decoration-ink/40 hover:decoration-ink"
@@ -288,7 +288,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
               >
                 AI systems
               </Link>{" "}
-              — one team, no hand-offs.
+             , one team, no hand-offs.
             </p>
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
               We ship faster than agency-of-record models because we

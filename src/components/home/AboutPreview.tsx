@@ -8,7 +8,7 @@ const WORDS = [
   "An",
   "independent",
   "studio",
-  "in Bali —",
+  "in Bali , ",
   "building",
   "brands,",
   "performance,",
@@ -29,7 +29,7 @@ export default function AboutPreview() {
   return (
     <section ref={ref} className="container-x py-24 md:py-32 border-t border-hairline">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-8 md:mb-12">
-        (About — the studio)
+        (About, the studio)
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end">

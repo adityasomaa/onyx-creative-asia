@@ -3,16 +3,17 @@ import Link from "next/link";
 import { PROJECTS } from "@/lib/data";
 import { RevealText } from "@/components/Reveal";
 import ProjectCover from "@/components/ProjectCover";
+import { T } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Works",
   description:
-    "Selected projects across web, paid media, social, and AI systems — including Great Bali Properties, RADcruiters, and The Hair Extensions Bali.",
+    "Selected projects across web, paid media, social, and AI systems, including Great Bali Properties, RADcruiters, and The Hair Extensions Bali.",
   alternates: { canonical: "/works" },
   openGraph: {
-    title: "Works — Onyx Creative Asia",
+    title: "Works, Onyx Creative Asia",
     description:
-      "Selected projects from the studio — web, performance, social, AI systems.",
+      "Selected projects from the studio, web, performance, social, AI systems.",
     url: "/works",
     type: "website",
   },
@@ -23,7 +24,7 @@ export default function WorksPage() {
     <>
       <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          (Selected works — {new Date().getFullYear()})
+          (<T>Selected works</T>, {new Date().getFullYear()})
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text="Brands we've helped" />
@@ -37,9 +38,9 @@ export default function WorksPage() {
       {PROJECTS.length === 0 ? (
         <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16">
           <p className="text-lg text-ink/70 max-w-md">
-            New work shipping soon. In the meantime —{" "}
+            <T>New work shipping soon. In the meantime,</T>{" "}
             <Link href="/contact" className="border-b border-ink/40 hover:border-ink">
-              start a project
+              <T>start a project</T>
             </Link>
             .
           </p>
@@ -75,7 +76,7 @@ function ProjectCard({
           <ProjectCover
             src={project.cover}
             loop={project.coverLoop}
-            alt={`${project.client} — ${project.title}`}
+            alt={`${project.client}, ${project.title}`}
             sizes="(min-width: 768px) 50vw, 100vw"
           />
           <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
@@ -83,7 +84,7 @@ function ProjectCard({
         <div className="flex items-baseline justify-between mt-5 gap-4">
           <div>
             <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-              {project.category} — {project.year}
+              <T>{project.category}</T>, {project.year}
             </p>
             <h2 className="mt-2 text-2xl md:text-3xl font-medium tracking-tight">
               {project.client}

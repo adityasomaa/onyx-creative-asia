@@ -13,7 +13,7 @@ import { useInquirySubmit } from "./use-submit";
 import { isEmail } from "../inquiry-types";
 
 /**
- * General Question — the shortest path. Name, email, message. Auto-reply
+ * General Question, the shortest path. Name, email, message. Auto-reply
  * confirms receipt; we follow up by replying to the email thread.
  */
 export default function GeneralForm() {
@@ -76,7 +76,7 @@ export default function GeneralForm() {
           body={
             <>
               <p>
-                A copy of your question is in your inbox now — keep an eye
+                A copy of your question is in your inbox now, keep an eye
                 on it (and check spam, just in case). We also opened a
                 WhatsApp tab if you&apos;d rather keep the conversation there.
               </p>
@@ -142,7 +142,7 @@ export default function GeneralForm() {
             <textarea
               required
               rows={5}
-              placeholder="Ask us anything — we read everything."
+              placeholder="Ask us anything, we read everything."
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               disabled={submitting}
@@ -154,7 +154,7 @@ export default function GeneralForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
+            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
             ctaLabel="Send question"
             ctaKicker="EMAIL + WHATSAPP"
           />

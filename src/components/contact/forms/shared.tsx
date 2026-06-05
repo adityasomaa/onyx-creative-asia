@@ -20,7 +20,7 @@ const EASE = [0.25, 1, 0.5, 1] as const;
 export const WHATSAPP_NUMBER = getWaNumber();
 
 /* ============================================================
- * Group — numbered field row (kicker · label · inputs)
+ * Group, numbered field row (kicker · label · inputs)
  * ============================================================ */
 
 export function Group({
@@ -120,7 +120,7 @@ export function ErrorPill({ children }: { children: React.ReactNode }) {
 }
 
 /* ============================================================
- * SuccessScreen — single layout for every successful submission.
+ * SuccessScreen, single layout for every successful submission.
  * ============================================================ */
 
 export function SuccessScreen({
@@ -167,14 +167,14 @@ export function SuccessScreen({
 }
 
 /* ============================================================
- * SuccessFallbackCopy — what to do if the user wants to follow up.
+ * SuccessFallbackCopy, what to do if the user wants to follow up.
  * ============================================================ */
 
 export function SuccessFallback() {
   return (
     <>
       <p>
-        A copy of your message is in your inbox now — keep an eye on it (and
+        A copy of your message is in your inbox now, keep an eye on it (and
         check spam, just in case).
       </p>
       <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
@@ -191,7 +191,7 @@ export function SuccessFallback() {
 }
 
 /* ============================================================
- * Pill set — multi or single select for chips.
+ * Pill set, multi or single select for chips.
  * ============================================================ */
 
 export function PillSet({
@@ -238,7 +238,7 @@ export function PillSet({
 }
 
 /* ============================================================
- * Input styles — shared CSS via the .input class.
+ * Input styles, shared CSS via the .input class.
  * Imported once into each sub-form as <FormStyles />.
  * ============================================================ */
 

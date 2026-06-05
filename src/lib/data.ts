@@ -10,7 +10,7 @@ export type Project = {
   /** Optional looping video cover. Plays muted on top of the poster. */
   coverLoop?: string;
   tags: string[];
-  /** Live destination — domain for web projects, social URL for non-web. */
+  /** Live destination, domain for web projects, social URL for non-web. */
   url: string;
   /** Optional override for the CTA label. Defaults from `url` host. */
   urlLabel?: string;
@@ -37,7 +37,7 @@ export const PROJECTS: Project[] = [
     category: "Web Development",
     year: "2025",
     description:
-      "Multilingual marketplace for premium Bali villas and land — interactive map, advanced filters, currency-aware pricing, and WhatsApp-first agent routing. 50+ curated listings across eight locations, built for investors who buy on care, not volume.",
+      "Multilingual marketplace for premium Bali villas and land, interactive map, advanced filters, currency-aware pricing, and WhatsApp-first agent routing. 50+ curated listings across eight locations, built for investors who buy on care, not volume.",
     cover: "/projects/great-bali-properties.webp",
     coverLoop: "/projects/great-bali-properties.mp4",
     tags: ["Web", "Listings", "Multilingual"],
@@ -54,7 +54,7 @@ export const PROJECTS: Project[] = [
       "Featured carousel + property detail galleries",
     ],
     longDescription:
-      "Great Bali Properties needed a digital surface that felt like an investment partner, not a broker. The previous site treated villas as inventory. This one positions them as curation. The marketplace lives across English and Bahasa, switches currency on demand, and routes serious buyers straight to the agent on WhatsApp — Bali's actual sales channel — instead of forcing a generic contact form.",
+      "Great Bali Properties needed a digital surface that felt like an investment partner, not a broker. The previous site treated villas as inventory. This one positions them as curation. The marketplace lives across English and Bahasa, switches currency on demand, and routes serious buyers straight to the agent on WhatsApp, Bali's actual sales channel, instead of forcing a generic contact form.",
   },
   {
     slug: "radcruiters",
@@ -63,7 +63,7 @@ export const PROJECTS: Project[] = [
     category: "AI Systems",
     year: "2026",
     description:
-      "Self-routing intake for new campaign briefs. WordPress form → Make.com pipeline extracts the domain, matches the client in Airtable, queues a Trello task, and fires team + client emails — end-to-end in seconds. Zero-handoff onboarding for a recruitment-marketing agency.",
+      "Self-routing intake for new campaign briefs. WordPress form → Make.com pipeline extracts the domain, matches the client in Airtable, queues a Trello task, and fires team + client emails, end-to-end in seconds. Zero-handoff onboarding for a recruitment-marketing agency.",
     cover: "/projects/radcruiters.webp",
     coverLoop: "/projects/radcruiters.mp4",
     tags: ["Workflow", "Make.com", "WordPress"],
@@ -80,7 +80,7 @@ export const PROJECTS: Project[] = [
       "Always-on with execution history and error monitoring",
     ],
     longDescription:
-      "RADcruiters runs Meta-ads recruitment campaigns for staffing agencies — a high-touch service with high-volume intake. The campaign-request form had become the bottleneck: every brief pinged the team in Slack, someone manually parsed the URL, looked up the client, then created the Trello card. We rebuilt the intake as a self-routing pipeline. Submission → seconds → the right person sees the right card with the right context, and the client gets an instant confirmation that says 'we have it.'",
+      "RADcruiters runs Meta-ads recruitment campaigns for staffing agencies, a high-touch service with high-volume intake. The campaign-request form had become the bottleneck: every brief pinged the team in Slack, someone manually parsed the URL, looked up the client, then created the Trello card. We rebuilt the intake as a self-routing pipeline. Submission → seconds → the right person sees the right card with the right context, and the client gets an instant confirmation that says 'we have it.'",
   },
   {
     slug: "the-hair-extensions-bali",
@@ -89,7 +89,7 @@ export const PROJECTS: Project[] = [
     category: "Web Development",
     year: "2025",
     description:
-      "Brand and site for a premium hair extensions studio in Kerobokan — six application methods, an editorial gallery with method filters, and a video hero of the actual color wall. Built for women who travel for the appointment, not the brochure.",
+      "Brand and site for a premium hair extensions studio in Kerobokan, six application methods, an editorial gallery with method filters, and a video hero of the actual color wall. Built for women who travel for the appointment, not the brochure.",
     cover: "/projects/the-hair-extensions-bali.webp",
     coverLoop: "/projects/the-hair-extensions-bali.mp4",
     tags: ["Web", "Brand", "Beauty"],
@@ -103,10 +103,10 @@ export const PROJECTS: Project[] = [
       "Video hero showcasing the studio color wall",
       "Gallery with method filters (transformations / products & color / studio)",
       "Six service methods with detail and IDR pricing",
-      "Direct-to-WhatsApp booking flow — Bali's appointment language",
+      "Direct-to-WhatsApp booking flow, Bali's appointment language",
     ],
     longDescription:
-      "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person — quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine, not in the average beauty-salon site. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
+      "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person, quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine, not in the average beauty-salon site. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
   },
   {
     slug: "astungkare-spa",
@@ -115,7 +115,7 @@ export const PROJECTS: Project[] = [
     category: "Web & Software Development",
     year: "2026",
     description:
-      "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa — booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero. Built for travelers and residents who want the appointment to come to them.",
+      "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero. Built for travelers and residents who want the appointment to come to them.",
     cover: "/projects/astungkare-spa.webp",
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
@@ -127,11 +127,11 @@ export const PROJECTS: Project[] = [
       "Live earliest-availability indicator on the hero",
       "WhatsApp-first booking flow (sub-five-minute reply SLA)",
       "Treatment catalog with mobile-spa logistics + cancellation policy",
-      "Service area pages — Canggu, Seminyak, Ubud, and Bali-wide",
+      "Service area pages, Canggu, Seminyak, Ubud, and Bali-wide",
       "Always-on social feed + Meta + Google ads management",
     ],
     longDescription:
-      "Bali's spa market is crowded with brick-and-mortar wellness brands competing for the same walk-in foot traffic. Astungkare took the opposite bet: the spa comes to you, 24 hours a day, across the island. The job was to make that promise feel as effortless online as it does in person — a hero that tells you the earliest tonight slot in real time, treatments priced and explained without spa-speak, a cancellation policy you can read before you book, and a single tap to WhatsApp the therapist directly. The brand is dark gold and serif-led, the kind of restraint that lets the service do the talking. Site, social, and paid media all run from the same studio so the voice and the offer stay aligned across every surface.",
+      "Bali's spa market is crowded with brick-and-mortar wellness brands competing for the same walk-in foot traffic. Astungkare took the opposite bet: the spa comes to you, 24 hours a day, across the island. The job was to make that promise feel as effortless online as it does in person, a hero that tells you the earliest tonight slot in real time, treatments priced and explained without spa-speak, a cancellation policy you can read before you book, and a single tap to WhatsApp the therapist directly. The brand is dark gold and serif-led, the kind of restraint that lets the service do the talking. Site, social, and paid media all run from the same studio so the voice and the offer stay aligned across every surface.",
   },
 ];
 
@@ -193,7 +193,7 @@ export const SERVICES: Service[] = [
     intro:
       "Sites that load fast, scale cleanly, and don't fall apart in six months.",
     narrative: [
-      "Most agency websites peak at launch. Ours are built to peak later. Performance budgets, accessibility, and a design system the next engineer can extend — these aren't extras, they're the contract.",
+      "Most agency websites peak at launch. Ours are built to peak later. Performance budgets, accessibility, and a design system the next engineer can extend, these aren't extras, they're the contract.",
       "We work in one team. The person designing the hero is the person who knows what the loader does on slow networks. No handoff means tighter craft and weeks shaved off the timeline.",
       "Best fit for founders launching their flagship, brands migrating off a WordPress that aged into a maintenance tax, or product teams who need a marketing site that doesn't lag behind the product.",
     ],
@@ -232,7 +232,7 @@ export const SERVICES: Service[] = [
     id: "paid-media",
     number: "02",
     title: "Ads Management",
-    short: "Google, Meta, TikTok — ran like a system.",
+    short: "Google, Meta, and TikTok, run like a system.",
     description:
       "Performance marketing across the channels that matter. Creative testing, audience architecture, and attribution that survives iOS.",
     capabilities: [
@@ -253,7 +253,7 @@ export const SERVICES: Service[] = [
       "Blended CAC trending the right direction within 30 days",
       "Creative variants that don't read like generic templates",
       "Weekly tightening loop, not monthly slide decks",
-      "Honest reporting — what worked, what didn't, why",
+      "Honest reporting, what worked, what didn't, why",
     ],
     process: [
       {
@@ -283,7 +283,7 @@ export const SERVICES: Service[] = [
     id: "social-media",
     number: "03",
     title: "Social Media Management",
-    short: "Brands that show up — and stick.",
+    short: "Brands that show up and stick.",
     description:
       "Strategy, content, and community for brands that want to be remembered. We make the feed feel like a place.",
     capabilities: [
@@ -297,7 +297,7 @@ export const SERVICES: Service[] = [
     intro:
       "Strategy, content, and community for brands that want to be remembered.",
     narrative: [
-      "Most brand feeds feel like nobody lives there. Ours feel like a place. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy — so it actually adds up.",
+      "Most brand feeds feel like nobody lives there. Ours feel like a place. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy, so it actually adds up.",
       "We don't separate the strategist from the creator. The person planning the month is the person shooting the week. Less drift between intention and what ships.",
       "Best fit for lifestyle brands, hospitality, restaurants, and F&B, plus creators ready to build past “we should post more this month.”",
     ],
@@ -335,7 +335,7 @@ export const SERVICES: Service[] = [
     id: "ai-systems",
     number: "04",
     title: "AI Automation",
-    short: "AI that does the work — quietly.",
+    short: "AI that does the work, without the noise.",
     description:
       "Custom AI agents and automations connected to your real tools. Built to remove busywork, not replace people.",
     capabilities: [
@@ -347,15 +347,15 @@ export const SERVICES: Service[] = [
       "Integrations (CRM, calendar, ops)",
     ],
     intro:
-      "AI that operates inside your workflow — not a chatbot bolted to the homepage.",
+      "AI that operates inside your workflow, not a chatbot bolted to the homepage.",
     narrative: [
       "Most “AI launches” are a chat widget on a marketing site. We build the other kind: agents that classify inbound, triage leads, draft replies in your voice, route work to the right person, and stay out of the way until they're needed.",
-      "Tooling-first means we plug into your real stack — Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that ships externally.",
+      "Tooling-first means we plug into your real stack, Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that ships externally.",
       "Best fit for small teams drowning in repetitive coordination, ops managers tired of being a copy-paste machine, or founders who want one workflow back before they hire for it.",
     ],
     outcomes: [
-      "One workflow that ate your week — now runs in the background",
-      "Decisions you can audit (priority, classification, routing) — not a black box",
+      "One workflow that ate your week, now runs in the background",
+      "Decisions you can audit (priority, classification, routing), not a black box",
       "Kill switches + rate guards baked in for safety",
       "An automation your team owns, not a vendor you rent",
     ],
@@ -449,7 +449,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "We wanted the website to feel as calm as the treatment itself. Onyx built the site, runs the social feed, and manages the ads — bookings flow straight to WhatsApp and nothing falls through the cracks. The site converts at three times what we projected.",
+      "We wanted the website to feel as calm as the treatment itself. Onyx built the site, runs the social feed, and manages the ads, bookings flow straight to WhatsApp and nothing falls through the cracks. The site converts at three times what we projected.",
     author: "Wayan Suka",
     role: "Founder",
     client: "Astungkare Spa",

@@ -1,10 +1,15 @@
 /**
- * Onyx Creative Asia — pricing source-of-truth.
+ * Onyx Creative Asia, pricing source-of-truth.
  *
  * The /pricing page renders directly off this file, and the same
  * structure mirrors the printed proposal at
- * design/marketing/pricing-proposal/. Keep both in sync — if you bump
- * a tier price here, update build.py there too.
+ * design/marketing/pricing-proposal/. Keep both in sync. If you bump a
+ * tier price here, update build.py there too.
+ *
+ * Currency: every price carries both an IDR and a USD display string.
+ * The UI picks one based on the active language (ID shows IDR, EN shows
+ * USD), via priceFor() below. USD values are the IDR amount divided by
+ * ~16,000 and rounded to a clean figure.
  */
 
 export type Tier = "startup" | "growth" | "enterprise";
@@ -21,16 +26,24 @@ export const TIER_LABELS: Record<Tier, string> = {
   enterprise: "Enterprise",
 };
 
+/** A price with both currency presentations. */
+export type Money = { idr: string; usd: string };
+
+/** Pick the display string for the active language. */
+export function priceFor(m: Money, lang: "en" | "id"): string {
+  return lang === "id" ? m.idr : m.usd;
+}
+
 export type TierContent = {
-  /** Display price, e.g. "Rp 500k" / "Rp 4jt". */
-  price: string;
+  /** Display price in both currencies. */
+  price: Money;
   /** Inclusion bullets shown under the price. */
   bullets: ReadonlyArray<string>;
 };
 
 export type ServiceRow = {
   id: string;
-  /** Display name, e.g. "Web Development". */
+  /** Display name, e.g. "Web & Software Development". */
   name: string;
   /** Italic kicker that pairs with the headline on the service detail. */
   italic: string;
@@ -40,7 +53,7 @@ export type ServiceRow = {
   blurb: string;
   /** Featured = render with extra emphasis (used for the bundle). */
   featured?: boolean;
-  /** Per-tier × cadence content. */
+  /** Per-tier content per cadence. */
   monthly: Record<Tier, TierContent>;
   yearly: Record<Tier, TierContent>;
   /** Optional footer note for the service block (e.g. ad spend disclaimer). */
@@ -48,14 +61,14 @@ export type ServiceRow = {
 };
 
 /**
- * Yearly bullets reuse the monthly inclusions. We only swap the price
- * (and add a hemat tag in the UI). Defining a tiny helper keeps the
- * data clean while still letting individual cells override bullets if
- * a tier genuinely changes scope between cadences.
+ * Yearly bullets reuse the monthly inclusions. We only swap the price.
+ * Defining a tiny helper keeps the data clean while still letting
+ * individual cells override bullets if a tier genuinely changes scope
+ * between cadences.
  */
 function yearlyOf(
   monthly: Record<Tier, TierContent>,
-  prices: Record<Tier, string>,
+  prices: Record<Tier, Money>,
 ): Record<Tier, TierContent> {
   return {
     startup: { price: prices.startup, bullets: monthly.startup.bullets },
@@ -70,7 +83,7 @@ function yearlyOf(
 // --- Web ----------------------------------------------------------------
 const webMonthly: Record<Tier, TierContent> = {
   startup: {
-    price: "Rp 500k",
+    price: { idr: "Rp 500k", usd: "$30" },
     bullets: [
       "Hosting + SSL",
       "Security patches",
@@ -79,7 +92,7 @@ const webMonthly: Record<Tier, TierContent> = {
     ],
   },
   growth: {
-    price: "Rp 900k",
+    price: { idr: "Rp 900k", usd: "$55" },
     bullets: [
       "Everything in Startup",
       "New section/page",
@@ -88,7 +101,7 @@ const webMonthly: Record<Tier, TierContent> = {
     ],
   },
   enterprise: {
-    price: "Rp 1,4jt",
+    price: { idr: "Rp 1,4jt", usd: "$90" },
     bullets: [
       "Everything in Growth",
       "A/B test setup",
@@ -102,7 +115,7 @@ const webMonthly: Record<Tier, TierContent> = {
 // --- Social -------------------------------------------------------------
 const socialMonthly: Record<Tier, TierContent> = {
   startup: {
-    price: "Rp 650k",
+    price: { idr: "Rp 650k", usd: "$40" },
     bullets: [
       "1 platform (IG or LinkedIn)",
       "4 static posts/mo",
@@ -112,7 +125,7 @@ const socialMonthly: Record<Tier, TierContent> = {
     ],
   },
   growth: {
-    price: "Rp 1,1jt",
+    price: { idr: "Rp 1,1jt", usd: "$70" },
     bullets: [
       "2 platforms",
       "10 static + 2 reels/mo",
@@ -123,7 +136,7 @@ const socialMonthly: Record<Tier, TierContent> = {
     ],
   },
   enterprise: {
-    price: "Rp 1,5jt",
+    price: { idr: "Rp 1,5jt", usd: "$95" },
     bullets: [
       "3+ platforms",
       "20 static + 4 reels/mo",
@@ -138,7 +151,7 @@ const socialMonthly: Record<Tier, TierContent> = {
 // --- AI -----------------------------------------------------------------
 const aiMonthly: Record<Tier, TierContent> = {
   startup: {
-    price: "Rp 750k",
+    price: { idr: "Rp 750k", usd: "$45" },
     bullets: [
       "1 automation",
       "WhatsApp auto-reply or FAQ bot",
@@ -148,9 +161,9 @@ const aiMonthly: Record<Tier, TierContent> = {
     ],
   },
   growth: {
-    price: "Rp 1,2jt",
+    price: { idr: "Rp 1,2jt", usd: "$75" },
     bullets: [
-      "2–3 automations",
+      "2 to 3 automations",
       "Lead scoring + CRM sync",
       "Content draft AI",
       "Dashboard",
@@ -159,7 +172,7 @@ const aiMonthly: Record<Tier, TierContent> = {
     ],
   },
   enterprise: {
-    price: "Rp 1,7jt",
+    price: { idr: "Rp 1,7jt", usd: "$105" },
     bullets: [
       "5+ automations + custom agent",
       "Internal tools integration",
@@ -174,7 +187,7 @@ const aiMonthly: Record<Tier, TierContent> = {
 // --- Ads ----------------------------------------------------------------
 const adsMonthly: Record<Tier, TierContent> = {
   startup: {
-    price: "Rp 700k",
+    price: { idr: "Rp 700k", usd: "$45" },
     bullets: [
       "1 platform (Meta or Google)",
       "Ad spend ≤ Rp 3M/mo",
@@ -184,7 +197,7 @@ const adsMonthly: Record<Tier, TierContent> = {
     ],
   },
   growth: {
-    price: "Rp 1,1jt",
+    price: { idr: "Rp 1,1jt", usd: "$70" },
     bullets: [
       "2 platforms",
       "Ad spend ≤ Rp 15M/mo",
@@ -195,7 +208,7 @@ const adsMonthly: Record<Tier, TierContent> = {
     ],
   },
   enterprise: {
-    price: "Rp 1,6jt",
+    price: { idr: "Rp 1,6jt", usd: "$100" },
     bullets: [
       "3+ platforms",
       "Ad spend ≤ Rp 40M/mo",
@@ -210,7 +223,7 @@ const adsMonthly: Record<Tier, TierContent> = {
 // --- Full Digital Marketing (the bundle) --------------------------------
 const fullMonthly: Record<Tier, TierContent> = {
   startup: {
-    price: "Rp 1,2jt",
+    price: { idr: "Rp 1,2jt", usd: "$75" },
     bullets: [
       "Web Startup",
       "Social Startup",
@@ -221,7 +234,7 @@ const fullMonthly: Record<Tier, TierContent> = {
     ],
   },
   growth: {
-    price: "Rp 1,7jt",
+    price: { idr: "Rp 1,7jt", usd: "$105" },
     bullets: [
       "Web Growth",
       "Social Growth",
@@ -233,7 +246,7 @@ const fullMonthly: Record<Tier, TierContent> = {
     ],
   },
   enterprise: {
-    price: "Rp 2jt",
+    price: { idr: "Rp 2jt", usd: "$125" },
     bullets: [
       "Web Enterprise",
       "Social Enterprise",
@@ -256,11 +269,11 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
       "Monthly retainer covers maintenance, content updates, security patches, and progressive iteration on the live site. New website builds are quoted separately as a one-time fee.",
     monthly: webMonthly,
     yearly: yearlyOf(webMonthly, {
-      startup: "Rp 4jt",
-      growth: "Rp 6,5jt",
-      enterprise: "Rp 9jt",
+      startup: { idr: "Rp 4jt", usd: "$250" },
+      growth: { idr: "Rp 6,5jt", usd: "$405" },
+      enterprise: { idr: "Rp 9jt", usd: "$560" },
     }),
-    footnote: "New website build — separate one-time fee (Rp 3–25jt scoped).",
+    footnote: "New website build is a separate one-time fee (Rp 3jt to 25jt scoped).",
   },
   {
     id: "social",
@@ -268,12 +281,12 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Show up.",
     bold: "Show why.",
     blurb:
-      "End-to-end content production, scheduling, and community management. We don't post for the sake of posting — every piece serves a thesis.",
+      "End-to-end content production, scheduling, and community management. We don't post for the sake of posting. Every piece serves a thesis.",
     monthly: socialMonthly,
     yearly: yearlyOf(socialMonthly, {
-      startup: "Rp 5,5jt",
-      growth: "Rp 8jt",
-      enterprise: "Rp 10jt",
+      startup: { idr: "Rp 5,5jt", usd: "$345" },
+      growth: { idr: "Rp 8jt", usd: "$500" },
+      enterprise: { idr: "Rp 10jt", usd: "$625" },
     }),
   },
   {
@@ -282,12 +295,12 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Less manual,",
     bold: "more output.",
     blurb:
-      "Build AI workflows that handle the repeatable work so your team can focus on the unrepeatable. WA chatbots, lead scoring, content drafting, internal Q&A bots, custom agents.",
+      "Build AI workflows that handle the repeatable work so your team can focus on the unrepeatable. WhatsApp chatbots, lead scoring, content drafting, internal Q&A bots, custom agents.",
     monthly: aiMonthly,
     yearly: yearlyOf(aiMonthly, {
-      startup: "Rp 6jt",
-      growth: "Rp 8,5jt",
-      enterprise: "Rp 11jt",
+      startup: { idr: "Rp 6jt", usd: "$375" },
+      growth: { idr: "Rp 8,5jt", usd: "$530" },
+      enterprise: { idr: "Rp 11jt", usd: "$690" },
     }),
   },
   {
@@ -296,12 +309,12 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Spend smarter,",
     bold: "not louder.",
     blurb:
-      "Strategy, creative, and management for paid media across Meta, Google, TikTok, and LinkedIn. Management fee separate from ad spend — you pay platforms directly.",
+      "Strategy, creative, and management for paid media across Meta, Google, TikTok, and LinkedIn. Management fee is separate from ad spend. You pay platforms directly.",
     monthly: adsMonthly,
     yearly: yearlyOf(adsMonthly, {
-      startup: "Rp 6jt",
-      growth: "Rp 8jt",
-      enterprise: "Rp 10,5jt",
+      startup: { idr: "Rp 6jt", usd: "$375" },
+      growth: { idr: "Rp 8jt", usd: "$500" },
+      enterprise: { idr: "Rp 10,5jt", usd: "$655" },
     }),
     footnote: "Ad spend is billed by the platform directly. Mgmt fee separate.",
   },
@@ -311,13 +324,13 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Everything,",
     bold: "one team.",
     blurb:
-      "The bundle. Web + Social + AI + Ads under one roof, with one strategy, one PM, and one invoice. Up to ~29% off vs buying services individually.",
+      "The bundle. Web + Social + AI + Ads under one roof, with one strategy, one PM, and one invoice. Up to ~29% off versus buying services individually.",
     featured: true,
     monthly: fullMonthly,
     yearly: yearlyOf(fullMonthly, {
-      startup: "Rp 9jt",
-      growth: "Rp 11jt",
-      enterprise: "Rp 13jt",
+      startup: { idr: "Rp 9jt", usd: "$560" },
+      growth: { idr: "Rp 11jt", usd: "$690" },
+      enterprise: { idr: "Rp 13jt", usd: "$810" },
     }),
   },
 ];
@@ -325,15 +338,15 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
 export const PRICING_NOTES: ReadonlyArray<{ label: string; body: string }> = [
   {
     label: "Commitment",
-    body: "Monthly — 1 month, no lock-in. Yearly — paid upfront, pro-rata refund if cancelled mid-term.",
+    body: "Monthly is 1 month, no lock-in. Yearly is paid upfront, with a pro-rata refund if cancelled mid-term.",
   },
   {
     label: "Onboarding",
-    body: "Startup tier — FREE. Growth Rp 1M. Enterprise Rp 3M. One-time, covers brand/asset audit + system setup.",
+    body: "Startup tier is free. Growth Rp 1M. Enterprise Rp 3M. One-time, covers brand/asset audit and system setup.",
   },
   {
     label: "Tax",
-    body: "Indonesian VAT (PPN 11%) not included in any of the prices above.",
+    body: "Indonesian VAT (PPN 11%) is not included in any of the prices above.",
   },
   {
     label: "Payment",
@@ -341,13 +354,13 @@ export const PRICING_NOTES: ReadonlyArray<{ label: string; body: string }> = [
   },
   {
     label: "Currency",
-    body: "USD pricing available for international clients (≈ ÷16,000).",
+    body: "Prices switch to USD in English and IDR in Indonesian, at roughly Rp 16,000 to the dollar.",
   },
 ];
 
 /**
  * Bundle savings copy shown beneath both tables. Computed mentally
- * once when the pricing structure was set — if prices change, update
+ * once when the pricing structure was set. If prices change, update
  * here too.
  */
 export const BUNDLE_SAVINGS = {
@@ -356,4 +369,4 @@ export const BUNDLE_SAVINGS = {
   enterprise: "~29%",
 };
 
-export const YEARLY_SAVINGS_RANGE = "30–46%";
+export const YEARLY_SAVINGS_RANGE = "30 to 46%";

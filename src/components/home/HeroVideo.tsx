@@ -5,8 +5,8 @@ import { motion, useMotionTemplate, useMotionValue, useSpring } from "framer-mot
 
 /**
  * Background video for the home hero with a cursor-following "spotlight":
- *   • Default state — desaturated (mono) + lightly dimmed
- *   • Inside the spotlight — full color + full brightness
+ *   • Default state, desaturated (mono) + lightly dimmed
+ *   • Inside the spotlight, full color + full brightness
  *
  * Drop these files in `public/videos/`:
  *   - hero.mp4         (H.264, 1920×1080, 24fps)

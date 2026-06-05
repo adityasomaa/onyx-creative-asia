@@ -2,6 +2,7 @@
 
 import { motion, useInView, type Variants } from "framer-motion";
 import { useRef, type ReactNode } from "react";
+import { useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
@@ -53,13 +54,17 @@ export function RevealText({
   className?: string;
   delay?: number;
 }) {
+  const t = useT();
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, {
     once: true,
     amount: "some",
     margin: "0px 0px -5% 0px",
   });
-  const words = text.split(" ");
+  // Auto-translate the headline when an ID dictionary entry exists. Words
+  // are re-split after translation so the per-word reveal stagger applies
+  // to the translated string. No entry → identity (English) passthrough.
+  const words = t(text).split(" ");
 
   return (
     <span ref={ref} className={className}>

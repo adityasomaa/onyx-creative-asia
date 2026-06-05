@@ -6,12 +6,12 @@ import { INSIGHTS } from "@/lib/insights";
 export const metadata: Metadata = {
   title: "Insights",
   description:
-    "Field notes from the studio — on brand, performance, AI systems, and the work behind them. Long-form essays from Onyx Creative Asia.",
+    "Field notes from the studio, on brand, performance, AI systems, and the work behind them. Long-form essays from Onyx Creative Asia.",
   alternates: { canonical: "/insights" },
   openGraph: {
-    title: "Insights — Onyx Creative Asia",
+    title: "Insights, Onyx Creative Asia",
     description:
-      "Field notes from the studio — on brand, performance, AI systems, and the work behind them.",
+      "Field notes from the studio, on brand, performance, AI systems, and the work behind them.",
     url: "/insights",
     type: "website",
   },
@@ -28,7 +28,7 @@ export default function InsightsPage() {
     <>
       <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          (Insights — field notes)
+          (Insights, field notes)
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text="Long-form on brand," />
@@ -38,7 +38,7 @@ export default function InsightsPage() {
           </span>
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
-          Pieces about the work — what we ship, what we learned, what we'd do
+          Pieces about the work, what we ship, what we learned, what we'd do
           differently. We write when the lesson is sharp enough to hand to
           someone else.
         </p>

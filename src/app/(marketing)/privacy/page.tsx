@@ -14,7 +14,7 @@ export default function PrivacyPage() {
     <>
       <section className="container-x pt-40 md:pt-52 pb-12 md:pb-16">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          (Privacy Policy — last updated {UPDATED})
+          (Privacy Policy, last updated {UPDATED})
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           Privacy <span className="font-light italic">policy.</span>
@@ -58,18 +58,18 @@ export default function PrivacyPage() {
               <p>We only collect personal information you give us, directly or via the form below. Specifically:</p>
               <ul>
                 <li>
-                  <strong>Contact form submissions</strong> — name, email, optional
+                  <strong>Contact form submissions</strong>, name, email, optional
                   company name, optional budget, services of interest, and the
                   message you write.
                 </li>
                 <li>
-                  <strong>Cookies</strong> — small text files stored in your
+                  <strong>Cookies</strong>, small text files stored in your
                   browser. We use only what's needed to make the site work and to
                   understand how it's used in aggregate. You can control these via
                   the cookie banner that appears on your first visit.
                 </li>
                 <li>
-                  <strong>Server logs</strong> — our hosting provider (Vercel) keeps
+                  <strong>Server logs</strong>, our hosting provider (Vercel) keeps
                   standard request logs (IP address, user-agent, timestamps). These
                   are not joined with form submissions or used for marketing.
                 </li>
@@ -81,7 +81,7 @@ export default function PrivacyPage() {
               <ul>
                 <li>To reply to project inquiries you send through the contact form.</li>
                 <li>To maintain and secure the site (hosting, error monitoring, basic analytics).</li>
-                <li>To improve the site over time — but only on aggregated, anonymous patterns.</li>
+                <li>To improve the site over time, but only on aggregated, anonymous patterns.</li>
               </ul>
               <p>We don't sell your data. We don't share it with advertisers. We don't add you to a marketing list unless you explicitly opt in.</p>
             </Section>

@@ -8,6 +8,7 @@ import {
 } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import ProjectCover from "@/components/ProjectCover";
+import { T } from "@/lib/i18n";
 
 type Params = { slug: string };
 
@@ -26,11 +27,11 @@ export async function generateMetadata({
 
   const url = `/works/${project.slug}`;
   return {
-    title: `${project.client} — ${project.title}`,
+    title: `${project.client}, ${project.title}`,
     description: project.description,
     alternates: { canonical: url },
     openGraph: {
-      title: `${project.client} — ${project.title}`,
+      title: `${project.client}, ${project.title}`,
       description: project.description,
       url,
       type: "article",
@@ -38,7 +39,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: `${project.client} — ${project.title}`,
+      title: `${project.client}, ${project.title}`,
       description: project.description,
       images: [project.cover],
     },
@@ -63,7 +64,7 @@ export default async function ProjectDetailPage({
   const testimonial = getTestimonialForProject(project.slug);
 
   // Per-project Review schema for AI answer engines + Google rich
-  // results. Inline (not a standalone Review type) — Schema.org allows
+  // results. Inline (not a standalone Review type), Schema.org allows
   // CreativeWork to carry review[], but for an agency case study the
   // cleanest is a top-level Review pointing back at our Organization.
   const REVIEW_JSON_LD = testimonial
@@ -93,14 +94,14 @@ export default async function ProjectDetailPage({
 
   return (
     <>
-      {/* Top — caption + headline */}
+      {/* Top, caption + headline */}
       <section className="container-x pt-40 md:pt-52 pb-12 md:pb-16">
         <div className="flex items-center gap-4 text-xs uppercase tracking-[0.25em] opacity-60 mb-8">
           <span className="tabular-nums">
             {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
           <span className="h-px flex-1 bg-ink/20 max-w-24" />
-          <span>{project.category}</span>
+          <span><T>{project.category}</T></span>
           <span className="opacity-50">·</span>
           <span>{project.year}</span>
         </div>
@@ -121,7 +122,7 @@ export default async function ProjectDetailPage({
             <ProjectCover
               src={project.cover}
               loop={project.coverLoop}
-              alt={`${project.client} — ${project.title}`}
+              alt={`${project.client}, ${project.title}`}
               priority
               sizes="(min-width: 768px) 90vw, 100vw"
             />
@@ -162,12 +163,12 @@ export default async function ProjectDetailPage({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
             <Reveal className="md:col-span-3">
               <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                (The work)
+                <T>(The work)</T>
               </p>
             </Reveal>
             <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
               <p className="text-xl md:text-2xl leading-snug text-ink/85 max-w-3xl text-balance">
-                {project.longDescription}
+                <T>{project.longDescription}</T>
               </p>
             </Reveal>
           </div>
@@ -180,7 +181,7 @@ export default async function ProjectDetailPage({
           <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
             <Reveal className="md:col-span-3">
               <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                (Scope)
+                <T>(Scope)</T>
               </p>
             </Reveal>
             <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
@@ -212,7 +213,7 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      {/* Client testimonial — only when one exists for this project */}
+      {/* Client testimonial, only when one exists for this project */}
       {testimonial && (
         <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
           {REVIEW_JSON_LD && (
@@ -224,7 +225,7 @@ export default async function ProjectDetailPage({
             />
           )}
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-            (Client words)
+            <T>(Client words)</T>
           </p>
           <Reveal>
             <blockquote className="text-display-sm font-medium leading-[1.05] tracking-tight max-w-4xl text-balance">
@@ -252,7 +253,7 @@ export default async function ProjectDetailPage({
             href="/works"
             className="text-sm tracking-tight border-b border-ink/40 hover:border-ink pb-1 transition-colors w-fit"
           >
-            ← All works
+            ← <T>All works</T>
           </Link>
 
           {total > 1 && (
@@ -287,7 +288,7 @@ function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div className="col-span-1 md:col-span-2">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-2">
-        {label}
+        <T>{label}</T>
       </p>
       <p className="text-base md:text-lg">{value}</p>
     </div>

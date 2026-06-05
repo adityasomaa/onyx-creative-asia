@@ -2,14 +2,15 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import ContactForm from "@/components/contact/ContactForm";
 import { RevealText } from "@/components/Reveal";
+import { T } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Tell us what you're working on. Project briefs, general questions, careers, or partnerships — we reply within 48 hours.",
+    "Tell us what you're working on. Project briefs, general questions, careers, or partnerships, we reply within 48 hours.",
   alternates: { canonical: "/contact" },
   openGraph: {
-    title: "Contact — Onyx Creative Asia",
+    title: "Contact, Onyx Creative Asia",
     description:
       "Briefs, questions, careers, partnerships. We reply within 48 hours.",
     url: "/contact",
@@ -22,7 +23,7 @@ export default function ContactPage() {
     <>
       <section className="container-x pt-40 md:pt-52 pb-12 md:pb-16">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          (Get in touch)
+          <T>(Get in touch)</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text="Let's start" />
@@ -32,9 +33,11 @@ export default function ContactPage() {
           </span>
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
-          Project brief, quick question, job application, or partnership
-          proposal — pick the path below and we&apos;ll tailor the form. We
-          read every message and reply within 48 hours.
+          <T>
+            Project brief, quick question, job application, or partnership
+            proposal, pick the path below and we&apos;ll tailor the form. We
+            read every message and reply within 48 hours.
+          </T>
         </p>
       </section>
 

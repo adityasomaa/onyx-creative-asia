@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Transparent monthly + yearly pricing for web development, social media, AI automation, and ads management. Bundles save up to ~29%.",
   alternates: { canonical: "/pricing" },
   openGraph: {
-    title: "Pricing — Onyx Creative Asia",
+    title: "Pricing, Onyx Creative Asia",
     description:
       "Transparent monthly + yearly pricing across five services. Bundle and save up to ~29%.",
     url: "/pricing",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 // JSON-LD: emit one Offer per cell (service × tier × cadence) so AI
 // answer engines and Google rich results can quote our prices exactly.
-// Builds straight off the pricing source of truth — no manual drift.
+// Builds straight off the pricing source of truth, no manual drift.
 function PricingJsonLd() {
   const offers = SERVICE_ROWS.flatMap((row) =>
     (["startup", "growth", "enterprise"] as const).flatMap((tier) =>
@@ -28,12 +28,12 @@ function PricingJsonLd() {
         const c = cadence === "monthly" ? row.monthly[tier] : row.yearly[tier];
         return {
           "@type": "Offer",
-          name: `${row.name} — ${tier} (${cadence})`,
+          name: `${row.name} ${tier} (${cadence})`,
           priceCurrency: "IDR",
-          price: c.price,
+          price: c.price.idr,
           priceSpecification: {
             "@type": "UnitPriceSpecification",
-            price: c.price,
+            price: c.price.idr,
             priceCurrency: "IDR",
             unitText: cadence === "monthly" ? "MONTH" : "ANN",
           },
@@ -46,7 +46,7 @@ function PricingJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "OfferCatalog",
-    name: "Onyx Creative Asia — Service Pricing 2026",
+    name: "Onyx Creative Asia Service Pricing 2026",
     itemListElement: offers,
   };
   return (
@@ -81,7 +81,7 @@ export default function PricingPage() {
         </p>
       </section>
 
-      {/* Pricing grid (client island — the cadence toggle is the only
+      {/* Pricing grid (client island, the cadence toggle is the only
           interactive piece, everything else is content) */}
       <PricingGrid />
 
@@ -97,7 +97,7 @@ export default function PricingPage() {
               <span className="block">build together?</span>
             </h2>
             <p className="mt-6 max-w-md text-lg text-ink/70 leading-relaxed">
-              Brief us in 30 minutes — we&apos;ll send back a scoped tier
+              Brief us in 30 minutes, we&apos;ll send back a scoped tier
               recommendation within 24 hours. No commitment to start.
             </p>
           </div>

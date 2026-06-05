@@ -42,7 +42,7 @@ export const INQUIRY_KICKER: Record<InquiryType, string> = {
 };
 
 /* ============================================================
- * Career — department options
+ * Career, department options
  * ============================================================ */
 
 export const CAREER_DEPARTMENTS = [
@@ -58,7 +58,7 @@ export const CAREER_DEPARTMENTS = [
 export type CareerDepartment = (typeof CAREER_DEPARTMENTS)[number];
 
 /* ============================================================
- * Partnership — collab type options
+ * Partnership, collab type options
  * ============================================================ */
 
 export const PARTNERSHIP_TYPES = [

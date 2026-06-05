@@ -139,7 +139,7 @@ export default async function InsightPage({
                 </p>
                 {block.attribution && (
                   <p className="mt-4 text-sm uppercase tracking-[0.18em] opacity-60">
-                    — {block.attribution}
+                   , {block.attribution}
                   </p>
                 )}
               </blockquote>

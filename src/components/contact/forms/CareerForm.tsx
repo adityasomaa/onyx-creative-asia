@@ -28,7 +28,7 @@ const ACCEPTED_MIME = [
 ];
 
 /**
- * Career — application form. Department selector, portfolio link,
+ * Career, application form. Department selector, portfolio link,
  * cover letter, optional CV upload (PDF/doc, ≤3MB).
  *
  * CV upload: file is read on the client as base64 and POSTed in the
@@ -36,7 +36,7 @@ const ACCEPTED_MIME = [
  * (bucket: career-cvs), then writes a row in public.files linking
  * back to the submission.
  *
- * No WhatsApp pre-fill — career applications belong in writing.
+ * No WhatsApp pre-fill, career applications belong in writing.
  */
 export default function CareerForm() {
   const [name, setName] = useState("");
@@ -83,7 +83,7 @@ export default function CareerForm() {
       const r = new FileReader();
       r.onload = () => {
         const result = typeof r.result === "string" ? r.result : "";
-        // strip the "data:<mime>;base64," prefix — backend just wants raw b64
+        // strip the "data:<mime>;base64," prefix, backend just wants raw b64
         const comma = result.indexOf(",");
         resolve(comma >= 0 ? result.slice(comma + 1) : result);
       };
@@ -164,7 +164,7 @@ export default function CareerForm() {
             <>
               <p>
                 We&apos;ll get back within 7 days. If we want to move forward
-                we&apos;ll send a short async exercise — no panel interviews,
+                we&apos;ll send a short async exercise, no panel interviews,
                 no whiteboards. A copy is in your inbox now, and we
                 opened a WhatsApp tab in case you want to nudge us.
               </p>
@@ -260,7 +260,7 @@ export default function CareerForm() {
               disabled={submitting}
             />
             <p className="text-xs opacity-50 leading-relaxed">
-              PDF, DOC, or DOCX. Max 3 MB. Optional — but speeds things up.
+              PDF, DOC, or DOCX. Max 3 MB. Optional, but speeds things up.
             </p>
           </Group>
 
@@ -280,7 +280,7 @@ export default function CareerForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 7 days."
+            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 7 days."
             ctaLabel="Send application"
             ctaKicker="EMAIL + WHATSAPP"
           />
@@ -292,7 +292,7 @@ export default function CareerForm() {
 }
 
 /* ============================================================
- * FileField — minimal drag-and-drop styled file input.
+ * FileField, minimal drag-and-drop styled file input.
  * ============================================================ */
 
 const FileField = forwardRef<

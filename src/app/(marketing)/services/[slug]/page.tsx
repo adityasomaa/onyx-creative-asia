@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { SERVICES } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import ServicePricing from "@/components/pricing/ServicePricing";
+import { T } from "@/lib/i18n";
 
 type Params = { slug: string };
 
@@ -22,11 +23,11 @@ export async function generateMetadata({
   if (!service) return { title: "Service not found" };
 
   return {
-    title: `${service.title} — Services`,
+    title: `${service.title}, Services`,
     description: service.intro,
     alternates: { canonical: `/services/${service.id}` },
     openGraph: {
-      title: `${service.title} — Onyx Creative Asia`,
+      title: `${service.title}, Onyx Creative Asia`,
       description: service.intro,
       url: `/services/${service.id}`,
       type: "article",
@@ -100,13 +101,13 @@ export default async function ServiceDetailPage({
       {/* ───────────────────── HERO ───────────────────── */}
       <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 tabular-nums">
-          ({service.number} / 04) · Capability
+          ({service.number} / 04) · <T>Capability</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text={service.title} />
         </h1>
         <p className="mt-10 max-w-2xl text-xl md:text-2xl font-light italic text-ink/75 leading-snug text-balance">
-          {service.intro}
+          <T>{service.intro}</T>
         </p>
       </section>
 
@@ -115,7 +116,7 @@ export default async function ServiceDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           <Reveal className="md:col-span-4">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-              What we do
+              <T>What we do</T>
             </p>
           </Reveal>
           <Reveal
@@ -127,7 +128,7 @@ export default async function ServiceDetailPage({
                 key={i}
                 className="text-lg md:text-xl leading-relaxed text-ink/85"
               >
-                {para}
+                <T>{para}</T>
               </p>
             ))}
           </Reveal>
@@ -139,12 +140,14 @@ export default async function ServiceDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           <Reveal className="md:col-span-4">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              Outcomes
+              <T>Outcomes</T>
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              What you walk
+              <T>What you walk</T>
               <br />
-              <span className="font-light italic">away with.</span>
+              <span className="font-light italic">
+                <T>away with.</T>
+              </span>
             </h2>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
@@ -157,7 +160,9 @@ export default async function ServiceDetailPage({
                   <span className="text-xs opacity-50 tabular-nums shrink-0 mt-1">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <span className="text-lg md:text-xl leading-snug">{o}</span>
+                  <span className="text-lg md:text-xl leading-snug">
+                    <T>{o}</T>
+                  </span>
                 </li>
               ))}
             </ul>
@@ -170,14 +175,16 @@ export default async function ServiceDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           <Reveal className="md:col-span-4">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              Inside the scope
+              <T>Inside the scope</T>
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              Capabilities.
+              <T>Capabilities.</T>
             </h2>
             <p className="mt-6 text-sm opacity-65 max-w-xs italic">
-              Mix and match. Most engagements pull from three or four; a few
-              pull all of them.
+              <T>
+                Mix and match. Most engagements pull from three or four; a few
+                pull all of them.
+              </T>
             </p>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
@@ -201,12 +208,14 @@ export default async function ServiceDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           <Reveal className="md:col-span-4">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              How it goes
+              <T>How it goes</T>
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              The shape of an
+              <T>The shape of an</T>
               <br />
-              <span className="font-light italic">engagement.</span>
+              <span className="font-light italic">
+                <T>engagement.</T>
+              </span>
             </h2>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
@@ -221,10 +230,10 @@ export default async function ServiceDetailPage({
                   </span>
                   <div className="col-span-10 md:col-span-11">
                     <p className="text-lg md:text-xl font-medium tracking-tight">
-                      {step.title}
+                      <T>{step.title}</T>
                     </p>
                     <p className="mt-2 text-base text-ink/65 leading-relaxed max-w-xl">
-                      {step.detail}
+                      <T>{step.detail}</T>
                     </p>
                   </div>
                 </li>
@@ -244,10 +253,10 @@ export default async function ServiceDetailPage({
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
         <Reveal className="max-w-3xl">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-            Who this is for
+            <T>Who this is for</T>
           </p>
           <p className="text-display-sm font-light italic leading-[1.05] tracking-tight text-balance">
-            “{service.fitFor}”
+            “<T>{service.fitFor}</T>”
           </p>
         </Reveal>
 
@@ -256,14 +265,14 @@ export default async function ServiceDetailPage({
             href="/contact"
             className="inline-flex items-center gap-2 rounded-full bg-ink text-bone px-6 py-3 text-sm transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
           >
-            Start a project
+            <T>Start a project</T>
             <span aria-hidden>→</span>
           </Link>
           <Link
             href="/works"
             className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-ink transition-colors"
           >
-            See related work
+            <T>See related work</T>
             <span aria-hidden>→</span>
           </Link>
         </Reveal>
@@ -272,7 +281,7 @@ export default async function ServiceDetailPage({
       {/* ───────────────────── OTHER SERVICES ───────────────────── */}
       <section className="container-x pb-32 md:pb-40 border-t border-hairline pt-16 md:pt-20">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-8">
-          Other capabilities
+          <T>Other capabilities</T>
         </p>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {others.map((o) => (
@@ -285,13 +294,13 @@ export default async function ServiceDetailPage({
                   {o.number} / 04
                 </p>
                 <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
-                  {o.title}
+                  <T>{o.title}</T>
                 </h3>
                 <p className="mt-3 text-sm italic text-ink/65 leading-relaxed">
-                  {o.short}
+                  <T>{o.short}</T>
                 </p>
                 <p className="mt-6 text-xs uppercase tracking-[0.22em] opacity-70 inline-flex items-center gap-2">
-                  Read more
+                  <T>Read more</T>
                   <span
                     aria-hidden
                     className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"

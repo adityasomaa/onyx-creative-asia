@@ -19,10 +19,10 @@ import {
 } from "../inquiry-types";
 
 /**
- * Partnership — outreach from other studios, agencies, platforms.
+ * Partnership, outreach from other studios, agencies, platforms.
  * Company, partnership type, website (for context), and the proposal.
  *
- * No WhatsApp pre-fill — partnership convos start in email.
+ * No WhatsApp pre-fill, partnership convos start in email.
  */
 export default function PartnershipForm() {
   const [name, setName] = useState("");
@@ -214,7 +214,7 @@ export default function PartnershipForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 5 days."
+            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 5 days."
             ctaLabel="Send proposal"
             ctaKicker="EMAIL + WHATSAPP"
           />

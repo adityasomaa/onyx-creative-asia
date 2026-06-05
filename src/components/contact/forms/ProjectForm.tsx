@@ -32,7 +32,7 @@ const BUDGETS = [
 ] as const;
 
 /**
- * Project Brief — the original full contact form. Pre-fills WhatsApp so
+ * Project Brief, the original full contact form. Pre-fills WhatsApp so
  * the conversation can move there if the visitor prefers chat.
  */
 export default function ProjectForm() {
@@ -66,14 +66,14 @@ export default function ProjectForm() {
   }
 
   function buildWhatsAppText(): string {
-    const interest = services.length > 0 ? services.join(", ") : "—";
+    const interest = services.length > 0 ? services.join(", ") : ", ";
     return (
       "Hi Onyx Creative Asia! I just sent a project brief via the contact form. Quick recap:\n\n" +
       `Name: ${name.trim()}\n` +
-      `Company: ${company.trim() || "—"}\n` +
+      `Company: ${company.trim() || ", "}\n` +
       `Email: ${email.trim()}\n` +
       `Interested in: ${interest}\n` +
-      `Budget: ${budget ?? "—"}\n\n` +
+      `Budget: ${budget ?? ", "}\n\n` +
       `Brief:\n${message.trim()}`
     );
   }
@@ -99,7 +99,7 @@ export default function ProjectForm() {
       {sent ? (
         <SuccessScreen
           key="sent"
-          kicker="(Brief sent — confirmation on its way)"
+          kicker="(Brief sent, confirmation on its way)"
           headline={
             <>
               We got it. We&apos;ll{" "}
@@ -109,7 +109,7 @@ export default function ProjectForm() {
           body={
             <>
               <p>
-                A copy of your brief is in your inbox now — keep an eye on it
+                A copy of your brief is in your inbox now, keep an eye on it
                 (and check spam, just in case). We also opened a WhatsApp tab
                 if you&apos;d rather keep the conversation there.
               </p>
@@ -218,7 +218,7 @@ export default function ProjectForm() {
 
           <SubmitRow
             submitting={submitting}
-            caption="One send — email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
+            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
             ctaLabel="Send the brief"
             ctaKicker="EMAIL + WHATSAPP"
           />

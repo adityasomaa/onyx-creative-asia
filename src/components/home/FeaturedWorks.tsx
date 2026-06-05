@@ -5,18 +5,20 @@ import { motion } from "framer-motion";
 import { PROJECTS } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import ProjectCover from "@/components/ProjectCover";
+import { useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
 export default function FeaturedWorks() {
   const items = PROJECTS.slice(0, 4);
+  const t = useT();
 
   return (
     <section className="container-x py-24 md:py-32 border-t border-hairline">
       <div className="flex items-end justify-between mb-12 md:mb-16">
         <div>
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            (Selected works)
+            {t("(Selected works)")}
           </p>
           <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-2xl text-balance">
             <RevealText text="A small group of brave brands." />
@@ -27,7 +29,7 @@ export default function FeaturedWorks() {
             href="/works"
             className="text-sm border-b border-ink/40 hover:border-ink pb-1 transition-colors"
           >
-            All works →
+            {t("All works")} →
           </Link>
         </Reveal>
       </div>
@@ -51,7 +53,7 @@ export default function FeaturedWorks() {
                 <ProjectCover
                   src={p.cover}
                   loop={p.coverLoop}
-                  alt={`${p.client} — ${p.title}`}
+                  alt={`${p.client}, ${p.title}`}
                   sizes="(min-width: 768px) 50vw, 100vw"
                 />
                 <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
@@ -59,7 +61,7 @@ export default function FeaturedWorks() {
               <div className="flex items-baseline justify-between mt-4 md:mt-5 gap-4">
                 <div>
                   <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                    {p.category} — {p.year}
+                    {t(p.category)}, {p.year}
                   </p>
                   <h3 className="mt-2 text-xl md:text-2xl font-medium tracking-tight">
                     {p.client}
@@ -83,7 +85,7 @@ export default function FeaturedWorks() {
           href="/works"
           className="inline-block text-sm border-b border-ink/40 hover:border-ink pb-1"
         >
-          All works →
+          {t("All works")} →
         </Link>
       </div>
     </section>

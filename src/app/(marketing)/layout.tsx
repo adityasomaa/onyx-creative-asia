@@ -10,12 +10,12 @@ import { LanguageProvider } from "@/lib/i18n";
 
 // GA4 Measurement ID for the public-facing marketing site only. The
 // internal /agents dashboard lives outside this route group (its own
-// app/agents/layout.tsx) so it never gets tagged — operator activity
+// app/agents/layout.tsx) so it never gets tagged, operator activity
 // stays out of the funnel.
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 /**
- * Marketing site layout — chrome (Loader, Nav, Footer, etc.) + JSON-LD
+ * Marketing site layout, chrome (Loader, Nav, Footer, etc.) + JSON-LD
  * structured data. Wraps all public routes under the (marketing) route
  * group: /, /about, /contact, /services, /works, /insights, /privacy,
  * /terms.
@@ -28,14 +28,14 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
  * JSON-LD structured data
  *
  * Three blocks emitted into <head>:
- *   1. Organization — who we are, what we do, how to contact us
- *   2. LocalBusiness — Bali-anchored variant with serviceArea + price
+ *   1. Organization, who we are, what we do, how to contact us
+ *   2. LocalBusiness, Bali-anchored variant with serviceArea + price
  *      range. This is what surfaces in Google Local Pack + AI answers
  *      to "best agency in Bali" / "marketing studio near me".
- *   3. WebSite — search action for site-wide queries
+ *   3. WebSite, search action for site-wide queries
  *
  * Each /services/[slug] page emits its own Service schema scoped to the
- * specific capability (web dev, paid media, etc.) — see that route.
+ * specific capability (web dev, paid media, etc.), see that route.
  * The /best-digital-marketing-bali and /best-digital-marketing-indonesia
  * landings emit FAQPage schemas with answer-engine-friendly Q&A.
  * ============================================================ */

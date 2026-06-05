@@ -2,10 +2,15 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { useLang } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
-const WORDS = [
+// The manifesto reveals word-chunk by word-chunk on scroll, so each
+// language needs its own chunk array (chunk boundaries differ between
+// English and Indonesian). Same number of chunks keeps the reveal
+// timing identical.
+const WORDS_EN = [
   "We design",
   "for the people",
   "who use it,",
@@ -16,7 +21,20 @@ const WORDS = [
   "actually moves.",
 ];
 
+const WORDS_ID = [
+  "Kami merancang",
+  "untuk orang",
+  "yang memakainya,",
+  "membangun untuk",
+  "tim yang",
+  "merilisnya, dan",
+  "mengukur apa",
+  "yang berdampak.",
+];
+
 export default function AboutManifesto() {
+  const { lang, t } = useLang();
+  const words = lang === "id" ? WORDS_ID : WORDS_EN;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -29,11 +47,11 @@ export default function AboutManifesto() {
       className="container-x py-20 md:py-28 relative"
     >
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-12">
-        (Our position)
+        {t("(Our position)")}
       </p>
 
       <h2 className="text-display-sm md:text-display-md font-medium leading-[0.95] tracking-tight text-balance max-w-5xl">
-        {WORDS.map((word, i) => (
+        {words.map((word, i) => (
           <Word
             key={i}
             word={word}

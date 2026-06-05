@@ -74,7 +74,7 @@ export default function Footer() {
             Studio
           </p>
           <p className="leading-relaxed opacity-80 max-w-xs">
-            Onyx Creative Asia — an independent studio in Bali, building brands,
+            Onyx Creative Asia, an independent studio in Bali, building brands,
             performance, and AI systems for ambitious teams.
           </p>
         </div>
@@ -123,7 +123,7 @@ export default function Footer() {
             ))}
           </ul>
           <p className="mt-6 text-xs uppercase tracking-[0.2em] opacity-60">
-            Bali — ID
+            Bali, ID
           </p>
         </div>
       </section>

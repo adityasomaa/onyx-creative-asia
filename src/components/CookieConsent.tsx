@@ -28,7 +28,7 @@ export default function CookieConsent() {
     try {
       localStorage.setItem(STORAGE_KEY, value);
     } catch {
-      // SSR / private mode — non-fatal.
+      // SSR / private mode, non-fatal.
     }
     setShow(false);
   }
