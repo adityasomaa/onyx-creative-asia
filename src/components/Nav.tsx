@@ -130,7 +130,7 @@ export default function Nav() {
         <div className="container-x flex h-16 md:h-20 items-center justify-between">
           <Link
             href="/"
-            aria-label="Onyx Creative Asia — home"
+            aria-label="Onyx Creative Asia, home"
             className="flex items-center gap-2 group"
           >
             <span
