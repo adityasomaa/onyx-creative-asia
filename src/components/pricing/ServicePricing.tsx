@@ -12,6 +12,7 @@ import {
   type Tier,
 } from "@/lib/pricing";
 import { useCurrency, useT } from "@/lib/i18n";
+import CurrencyPill from "./CurrencyPill";
 
 type Cadence = "monthly" | "yearly";
 
@@ -123,7 +124,8 @@ export default function ServicePricing({
               "Transparent monthly retainer. Switch to yearly upfront to save 30 to 46%. No lock-in on monthly, refund pro-rata on yearly.",
             )}
           </p>
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <CurrencyPill id="service" />
             <CadenceToggle value={cadence} onChange={setCadence} />
           </div>
           {row.footnote && (

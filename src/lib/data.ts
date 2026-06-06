@@ -117,6 +117,7 @@ export const PROJECTS: Project[] = [
     description:
       "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero. Built for travelers and residents who want the appointment to come to them.",
     cover: "/projects/astungkare-spa.webp",
+    coverLoop: "/projects/astungkare-spa.mp4",
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",

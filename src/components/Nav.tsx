@@ -8,7 +8,6 @@ import { cn } from "@/lib/cn";
 import { useIntroState } from "@/lib/intro";
 import { SERVICES } from "@/lib/data";
 import { useT } from "@/lib/i18n";
-import LangToggle from "@/components/LangToggle";
 
 type NavLink = {
   href: string;
@@ -178,11 +177,6 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-3 md:gap-4">
-            {/* Language toggle — sits between the inline nav and the
-                Start a project CTA on desktop, and stays visible on
-                mobile (compact) so the preference is always one tap
-                away. Variant matches the surrounding chrome. */}
-            <LangToggle variant={dark ? "dark" : "light"} />
             <Link
               href="/contact"
               onMouseEnter={closeMegaWithDelay}

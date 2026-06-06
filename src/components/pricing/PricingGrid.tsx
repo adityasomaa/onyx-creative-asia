@@ -13,6 +13,7 @@ import {
   type Tier,
 } from "@/lib/pricing";
 import { useCurrency, useT } from "@/lib/i18n";
+import CurrencyPill from "./CurrencyPill";
 
 type Cadence = "monthly" | "yearly";
 
@@ -218,7 +219,10 @@ export default function PricingGrid() {
             )}
           </p>
         </div>
-        <CadenceToggle value={cadence} onChange={setCadence} />
+        <div className="flex flex-wrap items-center gap-3">
+          <CurrencyPill id="grid" />
+          <CadenceToggle value={cadence} onChange={setCadence} />
+        </div>
       </div>
 
       <div className="container-x pb-24 md:pb-32 space-y-0">
