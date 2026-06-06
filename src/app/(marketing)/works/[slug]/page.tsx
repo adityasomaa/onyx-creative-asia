@@ -146,7 +146,9 @@ export default async function ProjectDetailPage({
             className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
             data-cursor="hover"
           >
-            <span className="text-sm font-medium">{ctaLabel}</span>
+            <span className="text-sm font-medium">
+              <T>{ctaLabel}</T>
+            </span>
             <span
               aria-hidden
               className="transition-transform duration-500 group-hover:translate-x-1"
@@ -194,7 +196,7 @@ export default async function ProjectDetailPage({
                     <span className="text-xs opacity-50 tabular-nums w-6 shrink-0">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span>{s}</span>
+                    <span><T>{s}</T></span>
                   </li>
                 ))}
               </ul>

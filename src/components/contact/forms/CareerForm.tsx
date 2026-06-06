@@ -17,6 +17,7 @@ import {
   isHttpUrl,
   type CareerDepartment,
 } from "../inquiry-types";
+import { useT } from "@/lib/i18n";
 
 const MAX_CV_BYTES = 3 * 1024 * 1024; // 3 MB
 
@@ -39,6 +40,7 @@ const ACCEPTED_MIME = [
  * No WhatsApp pre-fill, career applications belong in writing.
  */
 export default function CareerForm() {
+  const t = useT();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [department, setDepartment] = useState<CareerDepartment | "">("");
@@ -156,20 +158,19 @@ export default function CareerForm() {
           kicker="(Application received)"
           headline={
             <>
-              Thanks for applying. We&apos;ll{" "}
-              <span className="font-light italic">read every word.</span>
+              {t("Thanks for applying. We'll")}{" "}
+              <span className="font-light italic">{t("read every word.")}</span>
             </>
           }
           body={
             <>
               <p>
-                We&apos;ll get back within 7 days. If we want to move forward
-                we&apos;ll send a short async exercise, no panel interviews,
-                no whiteboards. A copy is in your inbox now, and we
-                opened a WhatsApp tab in case you want to nudge us.
+                {t(
+                  "We'll get back within 7 days. If we want to move forward we'll send a short async exercise, no panel interviews, no whiteboards. A copy is in your inbox now, and we opened a WhatsApp tab in case you want to nudge us.",
+                )}
               </p>
               <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                Or write us anytime at{" "}
+                {t("Or write us anytime at")}{" "}
                 <a
                   href="mailto:hello@onyxcreative.asia"
                   className="underline underline-offset-4 hover:opacity-100 opacity-90"
@@ -208,7 +209,7 @@ export default function CareerForm() {
             <input
               type="text"
               required
-              placeholder="Full name"
+              placeholder={t("Full name")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
@@ -244,7 +245,7 @@ export default function CareerForm() {
           <Group label="Portfolio / work link" number="04">
             <input
               type="url"
-              placeholder="https://your-portfolio.com (optional but encouraged)"
+              placeholder={t("https://your-portfolio.com (optional but encouraged)")}
               value={portfolioUrl}
               onChange={(e) => setPortfolioUrl(e.target.value)}
               disabled={submitting}
@@ -260,7 +261,7 @@ export default function CareerForm() {
               disabled={submitting}
             />
             <p className="text-xs opacity-50 leading-relaxed">
-              PDF, DOC, or DOCX. Max 3 MB. Optional, but speeds things up.
+              {t("PDF, DOC, or DOCX. Max 3 MB. Optional, but speeds things up.")}
             </p>
           </Group>
 
@@ -268,7 +269,7 @@ export default function CareerForm() {
             <textarea
               required
               rows={6}
-              placeholder="Why Onyx? What kind of work do you want to make next? Anything we should look at first?"
+              placeholder={t("Why Onyx? What kind of work do you want to make next? Anything we should look at first?")}
               value={coverLetter}
               onChange={(e) => setCoverLetter(e.target.value)}
               disabled={submitting}
@@ -276,7 +277,7 @@ export default function CareerForm() {
             />
           </Group>
 
-          {error && <ErrorPill>{error}</ErrorPill>}
+          {error && <ErrorPill>{t(error)}</ErrorPill>}
 
           <SubmitRow
             submitting={submitting}
@@ -303,6 +304,7 @@ const FileField = forwardRef<
     disabled?: boolean;
   }
 >(function FileField({ file, onChange, disabled }, ref) {
+  const t = useT();
   return (
     <label
       className={
@@ -320,12 +322,12 @@ const FileField = forwardRef<
           </span>
         ) : (
           <span className="text-sm opacity-55">
-            Drop CV here or click to choose
+            {t("Drop CV here or click to choose")}
           </span>
         )}
       </div>
       <span className="text-xs uppercase tracking-[0.22em] opacity-60">
-        {file ? "Replace" : "Choose file"}
+        {file ? t("Replace") : t("Choose file")}
       </span>
       <input
         ref={ref}

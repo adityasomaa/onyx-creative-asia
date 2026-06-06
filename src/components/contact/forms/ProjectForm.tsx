@@ -13,12 +13,13 @@ import {
 } from "./shared";
 import { useInquirySubmit } from "./use-submit";
 import { isEmail } from "../inquiry-types";
+import { useT } from "@/lib/i18n";
 
 const SERVICES = [
-  "Web Development",
-  "Paid Media",
-  "Social Media",
-  "AI Systems",
+  "Web & Software Development",
+  "Ads Management",
+  "Social Media Management",
+  "AI Automation",
   "Brand & Design",
 ] as const;
 
@@ -36,6 +37,7 @@ const BUDGETS = [
  * the conversation can move there if the visitor prefers chat.
  */
 export default function ProjectForm() {
+  const t = useT();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -102,19 +104,19 @@ export default function ProjectForm() {
           kicker="(Brief sent, confirmation on its way)"
           headline={
             <>
-              We got it. We&apos;ll{" "}
-              <span className="font-light italic">reply within 48 hours.</span>
+              {t("We got it. We'll")}{" "}
+              <span className="font-light italic">{t("reply within 48 hours.")}</span>
             </>
           }
           body={
             <>
               <p>
-                A copy of your brief is in your inbox now, keep an eye on it
-                (and check spam, just in case). We also opened a WhatsApp tab
-                if you&apos;d rather keep the conversation there.
+                {t(
+                  "A copy of your brief is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
+                )}
               </p>
               <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                Or write us anytime at{" "}
+                {t("Or write us anytime at")}{" "}
                 <a
                   href="mailto:hello@onyxcreative.asia"
                   className="underline underline-offset-4 hover:opacity-100 opacity-90"
@@ -152,7 +154,7 @@ export default function ProjectForm() {
             <input
               type="text"
               required
-              placeholder="Full name"
+              placeholder={t("Full name")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
@@ -161,7 +163,7 @@ export default function ProjectForm() {
             />
             <input
               type="text"
-              placeholder="Company (optional)"
+              placeholder={t("Company (optional)")}
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               autoComplete="organization"
@@ -206,7 +208,7 @@ export default function ProjectForm() {
             <textarea
               required
               rows={5}
-              placeholder="Goals, timing, anything we should know…"
+              placeholder={t("Goals, timing, anything we should know…")}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               disabled={submitting}
@@ -214,7 +216,7 @@ export default function ProjectForm() {
             />
           </Group>
 
-          {error && <ErrorPill>{error}</ErrorPill>}
+          {error && <ErrorPill>{t(error)}</ErrorPill>}
 
           <SubmitRow
             submitting={submitting}

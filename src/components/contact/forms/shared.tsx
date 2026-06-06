@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { getWaNumber } from "@/lib/wa-number";
+import { useT } from "@/lib/i18n";
 
 /**
  * Shared bits across every sub-form: numbered field group, success
@@ -32,6 +33,7 @@ export function Group({
   number: string;
   children: React.ReactNode;
 }) {
+  const t = useT();
   const groupId = `group-${number}`;
   return (
     <div
@@ -45,7 +47,7 @@ export function Group({
       >
         <span className="tabular-nums">{number}</span>
         <span className="h-px w-6 bg-ink/30" />
-        <span>{label}</span>
+        <span>{t(label)}</span>
       </p>
       <div className="md:col-span-9 col-span-12 space-y-6">{children}</div>
     </div>
@@ -67,10 +69,11 @@ export function SubmitRow({
   ctaLabel?: string;
   ctaKicker?: string;
 }) {
+  const t = useT();
   return (
     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pt-6 border-t border-hairline">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 max-w-sm">
-        {caption}
+        {t(caption)}
       </p>
       <button
         type="submit"
@@ -81,7 +84,7 @@ export function SubmitRow({
         )}
       >
         <span className="text-sm font-medium">
-          {submitting ? "Sending…" : ctaLabel}
+          {submitting ? t("Sending…") : t(ctaLabel ?? "Send")}
         </span>
         {ctaKicker && !submitting && (
           <span
@@ -136,6 +139,7 @@ export function SuccessScreen({
   ctaLabel?: string;
   onReset: () => void;
 }) {
+  const t = useT();
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -147,7 +151,7 @@ export function SuccessScreen({
       aria-live="polite"
     >
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-        {kicker}
+        {t(kicker)}
       </p>
       <h3 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl mx-auto text-balance">
         {headline}
@@ -160,7 +164,7 @@ export function SuccessScreen({
         onClick={onReset}
         className="mt-10 text-xs uppercase tracking-[0.25em] opacity-60 hover:opacity-100 transition-opacity"
       >
-        {ctaLabel}
+        {t(ctaLabel ?? "← Send another inquiry")}
       </button>
     </motion.div>
   );
@@ -171,14 +175,16 @@ export function SuccessScreen({
  * ============================================================ */
 
 export function SuccessFallback() {
+  const t = useT();
   return (
     <>
       <p>
-        A copy of your message is in your inbox now, keep an eye on it (and
-        check spam, just in case).
+        {t(
+          "A copy of your message is in your inbox now, keep an eye on it (and check spam, just in case).",
+        )}
       </p>
       <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-        Or write us anytime at{" "}
+        {t("Or write us anytime at")}{" "}
         <a
           href="mailto:hello@onyxcreative.asia"
           className="underline underline-offset-4 hover:opacity-100 opacity-90"

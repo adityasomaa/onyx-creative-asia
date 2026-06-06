@@ -11,12 +11,14 @@ import {
 } from "./shared";
 import { useInquirySubmit } from "./use-submit";
 import { isEmail } from "../inquiry-types";
+import { useT } from "@/lib/i18n";
 
 /**
  * General Question, the shortest path. Name, email, message. Auto-reply
  * confirms receipt; we follow up by replying to the email thread.
  */
 export default function GeneralForm() {
+  const t = useT();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -67,21 +69,21 @@ export default function GeneralForm() {
           kicker="(Question received)"
           headline={
             <>
-              Got it.{" "}
+              {t("Got it.")}{" "}
               <span className="font-light italic">
-                We&apos;ll reply within 48 hours.
+                {t("We'll reply within 48 hours.")}
               </span>
             </>
           }
           body={
             <>
               <p>
-                A copy of your question is in your inbox now, keep an eye
-                on it (and check spam, just in case). We also opened a
-                WhatsApp tab if you&apos;d rather keep the conversation there.
+                {t(
+                  "A copy of your question is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
+                )}
               </p>
               <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                Or write us anytime at{" "}
+                {t("Or write us anytime at")}{" "}
                 <a
                   href="mailto:hello@onyxcreative.asia"
                   className="underline underline-offset-4 hover:opacity-100 opacity-90"
@@ -116,7 +118,7 @@ export default function GeneralForm() {
             <input
               type="text"
               required
-              placeholder="Full name"
+              placeholder={t("Full name")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
@@ -142,7 +144,7 @@ export default function GeneralForm() {
             <textarea
               required
               rows={5}
-              placeholder="Ask us anything, we read everything."
+              placeholder={t("Ask us anything, we read everything.")}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               disabled={submitting}
@@ -150,7 +152,7 @@ export default function GeneralForm() {
             />
           </Group>
 
-          {error && <ErrorPill>{error}</ErrorPill>}
+          {error && <ErrorPill>{t(error)}</ErrorPill>}
 
           <SubmitRow
             submitting={submitting}

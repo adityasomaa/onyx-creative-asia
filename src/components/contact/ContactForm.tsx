@@ -14,6 +14,7 @@ import GeneralForm from "./forms/GeneralForm";
 import ProjectForm from "./forms/ProjectForm";
 import CareerForm from "./forms/CareerForm";
 import PartnershipForm from "./forms/PartnershipForm";
+import { useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 const DEFAULT_TYPE: InquiryType = "project";
@@ -68,18 +69,25 @@ function Tabs({
   active: InquiryType;
   onChange: (t: InquiryType) => void;
 }) {
+  const t = useT();
   return (
-    <div role="tablist" aria-label="Inquiry type" className="-mx-4 sm:mx-0">
-      <div className="flex flex-wrap gap-2 sm:gap-3 px-4 sm:px-0">
-        {INQUIRY_TYPES.map((t) => {
-          const isActive = active === t;
+    <div role="tablist" aria-label="Inquiry type">
+      {/* Pills sit in normal container flow (no negative-margin bleed) so
+          their left edge lines up with the headline above and the form
+          fields below, on every breakpoint. A small negative left margin
+          equal to the first pill's horizontal padding pulls the first
+          LABEL flush to the container edge so it aligns with the headline
+          text too. */}
+      <div className="flex flex-wrap gap-2 sm:gap-3 -ml-4 sm:-ml-5">
+        {INQUIRY_TYPES.map((type) => {
+          const isActive = active === type;
           return (
             <button
-              key={t}
+              key={type}
               type="button"
               role="tab"
               aria-selected={isActive}
-              onClick={() => onChange(t)}
+              onClick={() => onChange(type)}
               data-cursor="hover"
               className="relative px-4 sm:px-5 py-2.5 rounded-full text-sm tracking-tight transition-colors duration-300"
             >
@@ -105,9 +113,9 @@ function Tabs({
                     isActive ? "text-bone/60" : "text-ink/45"
                   }`}
                 >
-                  {INQUIRY_KICKER[t]}
+                  {INQUIRY_KICKER[type]}
                 </span>
-                <span className="font-medium">{INQUIRY_LABEL[t]}</span>
+                <span className="font-medium">{t(INQUIRY_LABEL[type])}</span>
               </span>
             </button>
           );
@@ -126,7 +134,7 @@ function Tabs({
             transition={{ duration: 0.25, ease: EASE }}
             className="text-sm md:text-base text-ink/65 leading-relaxed"
           >
-            {INQUIRY_DESCRIPTION[active]}
+            {t(INQUIRY_DESCRIPTION[active])}
           </motion.p>
         </AnimatePresence>
       </div>

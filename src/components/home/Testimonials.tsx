@@ -3,18 +3,20 @@
 import { motion } from "framer-motion";
 import { TESTIMONIALS } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
+import { useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
 export default function Testimonials() {
   const hasItems = TESTIMONIALS.length > 0;
+  const translate = useT();
 
   return (
     <section className="container-x py-24 md:py-32 border-t border-hairline">
       <div className="flex items-end justify-between mb-12 md:mb-16 gap-6 flex-wrap">
         <div>
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            (Testimonials)
+            {translate("(Testimonials)")}
           </p>
           <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
             <RevealText text="Words from the work." />
@@ -34,12 +36,12 @@ export default function Testimonials() {
               className="border-t border-hairline pt-8"
             >
               <blockquote className="text-2xl md:text-3xl font-medium leading-snug tracking-tight text-balance">
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{translate(t.quote)}&rdquo;
               </blockquote>
               <figcaption className="mt-6 text-sm flex items-baseline gap-3 flex-wrap">
                 <span className="font-medium">{t.author}</span>
                 <span className="opacity-50">·</span>
-                <span className="opacity-70">{t.role}</span>
+                <span className="opacity-70">{translate(t.role)}</span>
                 <span className="opacity-50">·</span>
                 <span className="opacity-70 italic">{t.client}</span>
               </figcaption>

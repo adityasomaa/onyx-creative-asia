@@ -17,6 +17,7 @@ import {
   PARTNERSHIP_TYPES,
   type PartnershipType,
 } from "../inquiry-types";
+import { useT } from "@/lib/i18n";
 
 /**
  * Partnership, outreach from other studios, agencies, platforms.
@@ -25,6 +26,7 @@ import {
  * No WhatsApp pre-fill, partnership convos start in email.
  */
 export default function PartnershipForm() {
+  const t = useT();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -92,22 +94,21 @@ export default function PartnershipForm() {
           kicker="(Partnership proposal received)"
           headline={
             <>
-              Got it.{" "}
+              {t("Got it.")}{" "}
               <span className="font-light italic">
-                We&apos;ll be in touch within 5 days.
+                {t("We'll be in touch within 5 days.")}
               </span>
             </>
           }
           body={
             <>
               <p>
-                Most partnerships start with a short call after the first
-                async exchange. If the fit is clear, we move fast. A copy
-                is in your inbox now, and we opened a WhatsApp tab in case
-                you want to keep the conversation there.
+                {t(
+                  "Most partnerships start with a short call after the first async exchange. If the fit is clear, we move fast. A copy is in your inbox now, and we opened a WhatsApp tab in case you want to keep the conversation there.",
+                )}
               </p>
               <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                Or write us anytime at{" "}
+                {t("Or write us anytime at")}{" "}
                 <a
                   href="mailto:hello@onyxcreative.asia"
                   className="underline underline-offset-4 hover:opacity-100 opacity-90"
@@ -145,7 +146,7 @@ export default function PartnershipForm() {
             <input
               type="text"
               required
-              placeholder="Full name"
+              placeholder={t("Full name")}
               value={name}
               onChange={(e) => setName(e.target.value)}
               autoComplete="name"
@@ -155,7 +156,7 @@ export default function PartnershipForm() {
             <input
               type="text"
               required
-              placeholder="Company / studio"
+              placeholder={t("Company / studio")}
               value={company}
               onChange={(e) => setCompany(e.target.value)}
               autoComplete="organization"
@@ -177,7 +178,7 @@ export default function PartnershipForm() {
             />
             <input
               type="url"
-              placeholder="https://company.com (optional)"
+              placeholder={t("https://company.com (optional)")}
               value={website}
               onChange={(e) => setWebsite(e.target.value)}
               disabled={submitting}
@@ -189,9 +190,9 @@ export default function PartnershipForm() {
             <PillSet
               options={PARTNERSHIP_TYPES}
               selected={partnershipType}
-              onToggle={(t) =>
+              onToggle={(pt) =>
                 setPartnershipType(
-                  partnershipType === t ? "" : (t as PartnershipType)
+                  partnershipType === pt ? "" : (pt as PartnershipType)
                 )
               }
               disabled={submitting}
@@ -202,7 +203,7 @@ export default function PartnershipForm() {
             <textarea
               required
               rows={6}
-              placeholder="What are you proposing, what's in it for both sides, and what would the first 30 days look like?"
+              placeholder={t("What are you proposing, what's in it for both sides, and what would the first 30 days look like?")}
               value={proposal}
               onChange={(e) => setProposal(e.target.value)}
               disabled={submitting}
@@ -210,7 +211,7 @@ export default function PartnershipForm() {
             />
           </Group>
 
-          {error && <ErrorPill>{error}</ErrorPill>}
+          {error && <ErrorPill>{t(error)}</ErrorPill>}
 
           <SubmitRow
             submitting={submitting}
