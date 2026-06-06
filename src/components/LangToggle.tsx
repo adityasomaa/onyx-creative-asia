@@ -2,17 +2,16 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
-import { useLang, type Lang } from "@/lib/i18n";
+import { useCurrency, type Currency } from "@/lib/i18n";
 
 /**
- * Compact EN | ID pill toggle. Sits in the Nav between the desktop
- * links and the "Start a project" CTA. On mobile it's also rendered
- * (smaller) so the language preference travels with the user.
+ * Compact IDR | USD pill toggle. Sits in the Nav between the desktop
+ * links and the "Start a project" CTA, and in the mobile menu, so the
+ * currency preference travels with the user and flips every price on
+ * the pricing surfaces.
  *
- * Visual mirrors the Pricing cadence pill — animated `layoutId`
- * highlight slides under the active option. Two options keeps it
- * compact; expanding to a third language later just means adding
- * another button + dict entry.
+ * Visual mirrors the Pricing cadence pill, an animated `layoutId`
+ * highlight slides under the active option.
  */
 export default function LangToggle({
   variant = "light",
@@ -21,16 +20,16 @@ export default function LangToggle({
   variant?: "light" | "dark";
   className?: string;
 }) {
-  const { lang, setLang } = useLang();
-  const options: Array<{ value: Lang; label: string }> = [
-    { value: "en", label: "EN" },
-    { value: "id", label: "ID" },
+  const { currency, setCurrency } = useCurrency();
+  const options: Array<{ value: Currency; label: string }> = [
+    { value: "idr", label: "IDR" },
+    { value: "usd", label: "USD" },
   ];
 
   return (
     <div
       role="tablist"
-      aria-label="Language"
+      aria-label="Currency"
       className={cn(
         "inline-flex items-center rounded-full p-[3px] text-[11px] tracking-[0.18em] uppercase font-medium",
         variant === "dark"
@@ -40,20 +39,20 @@ export default function LangToggle({
       )}
     >
       {options.map((o) => {
-        const active = lang === o.value;
+        const active = currency === o.value;
         return (
           <button
             key={o.value}
             type="button"
             role="tab"
             aria-selected={active}
-            onClick={() => setLang(o.value)}
+            onClick={() => setCurrency(o.value)}
             className="relative px-3 py-1.5 rounded-full transition-colors duration-300"
             data-cursor="hover"
           >
             {active && (
               <motion.span
-                layoutId={`lang-pill-${variant}`}
+                layoutId={`currency-pill-${variant}`}
                 transition={{ type: "spring", stiffness: 380, damping: 32 }}
                 className={cn(
                   "absolute inset-0 rounded-full",

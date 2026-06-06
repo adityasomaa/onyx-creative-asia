@@ -29,9 +29,9 @@ export const TIER_LABELS: Record<Tier, string> = {
 /** A price with both currency presentations. */
 export type Money = { idr: string; usd: string };
 
-/** Pick the display string for the active language. */
-export function priceFor(m: Money, lang: "en" | "id"): string {
-  return lang === "id" ? m.idr : m.usd;
+/** Pick the display string for the active currency. */
+export function priceFor(m: Money, currency: "idr" | "usd"): string {
+  return currency === "idr" ? m.idr : m.usd;
 }
 
 export type TierContent = {

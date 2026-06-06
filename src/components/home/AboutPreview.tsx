@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { useLang } from "@/lib/i18n";
 
-// Word-chunk scroll reveal, so each language needs its own chunk array
-// with matching length. Technical terms (performance, AI) kept English.
-const WORDS_EN = [
+// Word-chunk scroll reveal.
+const WORDS = [
   "An",
   "independent",
   "studio",
@@ -22,24 +20,8 @@ const WORDS_EN = [
   "ship.",
 ];
 
-const WORDS_ID = [
-  "Studio",
-  "independen",
-  "di Bali,",
-  "yang",
-  "membangun",
-  "brand,",
-  "performance,",
-  "dan sistem",
-  "AI",
-  "untuk tim",
-  "ambisius",
-  "yang merilis.",
-];
-
 export default function AboutPreview() {
-  const { lang, t } = useLang();
-  const words = lang === "id" ? WORDS_ID : WORDS_EN;
+  const words = WORDS;
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -49,7 +31,7 @@ export default function AboutPreview() {
   return (
     <section ref={ref} className="container-x py-24 md:py-32 border-t border-hairline">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-8 md:mb-12">
-        {t("(About, the studio)")}
+        (About, the studio)
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end">
@@ -69,7 +51,7 @@ export default function AboutPreview() {
             href="/about"
             className="group inline-flex items-center gap-3 text-sm border-b border-ink/40 hover:border-ink pb-1 transition-colors"
           >
-            {t("More about us")}
+            More about us
             <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">
               →
             </span>

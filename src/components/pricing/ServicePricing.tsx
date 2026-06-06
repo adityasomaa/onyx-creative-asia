@@ -11,7 +11,7 @@ import {
   YEARLY_SAVINGS_RANGE,
   type Tier,
 } from "@/lib/pricing";
-import { useLang, useT } from "@/lib/i18n";
+import { useCurrency, useT } from "@/lib/i18n";
 
 type Cadence = "monthly" | "yearly";
 
@@ -92,7 +92,7 @@ export default function ServicePricing({
   serviceSlug: string;
 }) {
   const t = useT();
-  const { lang } = useLang();
+  const { currency } = useCurrency();
   const pricingId = SERVICE_TO_PRICING_ID[serviceSlug];
   const row = SERVICE_ROWS.find((r) => r.id === pricingId);
 
@@ -160,7 +160,7 @@ export default function ServicePricing({
 
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
-                    key={`${cadence}-${lang}-${priceFor(content.price, lang)}`}
+                    key={`${cadence}-${currency}-${priceFor(content.price, currency)}`}
                     initial={{ y: 12, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     exit={{ y: -10, opacity: 0 }}
@@ -169,7 +169,7 @@ export default function ServicePricing({
                   >
                     <p className="flex items-baseline gap-1.5">
                       <span className="text-3xl md:text-4xl font-medium tracking-tight">
-                        {priceFor(content.price, lang)}
+                        {priceFor(content.price, currency)}
                       </span>
                       <span className="text-sm italic font-light text-ink/55">
                         {cadenceSuffix}
