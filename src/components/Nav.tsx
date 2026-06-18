@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -130,16 +131,36 @@ export default function Nav() {
           <Link
             href="/"
             aria-label="Onyx Creative Asia, home"
-            className="flex items-center gap-2 group"
+            className="group flex items-center"
           >
-            <span
-              className={cn(
-                "block h-2 w-2 rounded-full transition-[transform,background-color] duration-500 group-hover:scale-150",
-                dark ? "bg-bone" : "bg-ink"
-              )}
-            />
-            <span className="text-sm md:text-base font-medium tracking-tight">
-              Onyx<span className="font-light italic">.</span>
+            {/* ONYX Creative wordmark. Both color variants are stacked
+                and cross-faded by opacity so the logo flips instantly
+                with the dark/light nav state, no src swap flash.
+                Aspect ratio ~2:1 (trimmed master in design/brand). */}
+            <span className="relative block h-6 md:h-7 w-[48px] md:w-[56px] transition-transform duration-500 ease-out-expo group-hover:scale-[1.04]">
+              <Image
+                src="/onyx-logo-black.png"
+                alt="Onyx Creative Asia"
+                fill
+                priority
+                sizes="56px"
+                className={cn(
+                  "object-contain object-left transition-opacity duration-500",
+                  dark ? "opacity-0" : "opacity-100"
+                )}
+              />
+              <Image
+                src="/onyx-logo-white.png"
+                alt=""
+                aria-hidden
+                fill
+                priority
+                sizes="56px"
+                className={cn(
+                  "object-contain object-left transition-opacity duration-500",
+                  dark ? "opacity-100" : "opacity-0"
+                )}
+              />
             </span>
           </Link>
 
