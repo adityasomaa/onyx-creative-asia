@@ -32,7 +32,7 @@ export default function Hero() {
             transition={{ duration: 1, ease: EASE, delay: ENTER + 0.05 }}
             className="opacity-80"
           >
-            {`(${new Date().getFullYear()}, Always shipping)`}
+            {`(${new Date().getFullYear()}, Open for projects)`}
           </motion.span>
         </div>
 
@@ -61,7 +61,7 @@ export default function Hero() {
             className="max-w-md text-base leading-relaxed text-bone/80 md:col-span-5 md:col-start-7 md:text-lg"
           >
             {t(
-              "Onyx Creative Asia builds the digital surface, the growth engine, and the automation layer, under one roof, with one team that actually ships.",
+              "Onyx Creative Asia builds the digital surface, the growth engine, and the automation layer, under one roof, with one team that actually does the work.",
             )}
           </motion.p>
         </div>

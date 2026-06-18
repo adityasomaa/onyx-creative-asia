@@ -16,8 +16,7 @@ const WORDS = [
   "and AI",
   "systems",
   "for ambitious",
-  "teams who",
-  "ship.",
+  "teams.",
 ];
 
 export default function AboutPreview() {
@@ -73,7 +72,7 @@ function Word({
 }) {
   const opacity = useTransform(progress, range, [0.18, 1]);
   return (
-    <motion.span style={{ opacity }} className="mr-[0.25em] inline-block">
+    <motion.span style={{ opacity }} className="mr-[0.18em] inline-block">
       {word}
     </motion.span>
   );

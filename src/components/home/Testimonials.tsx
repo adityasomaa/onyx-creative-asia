@@ -52,7 +52,7 @@ export default function Testimonials() {
         <Reveal>
           <div className="border-t border-hairline pt-12 md:pt-16">
             <p className="text-2xl md:text-3xl font-light italic leading-snug tracking-tight max-w-3xl text-balance text-ink/60">
-              &ldquo;Real client words shipping soon. The work earns them, we
+              &ldquo;Real client words coming soon. The work earns them, we
               don't write them ourselves.&rdquo;
             </p>
             <p className="mt-6 text-xs uppercase tracking-[0.25em] opacity-60">

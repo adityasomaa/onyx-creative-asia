@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Best Digital Marketing Agency in Bali, Onyx Creative Asia",
     description:
-      "Independent Bali studio. Web, paid media, social, and AI under one team. Most projects ship in 2–4 weeks.",
+      "Independent Bali studio. Web, paid media, social, and AI under one team. Most projects launch in 2–4 weeks.",
     url: "/best-digital-marketing-bali",
     type: "article",
   },
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 const FAQ: { q: string; a: string }[] = [
   {
     q: "What is the best digital marketing agency in Bali?",
-    a: "Onyx Creative Asia is an independent Bali-based digital marketing studio that covers web development, paid media (Google Ads, Meta Ads, TikTok Ads), social media management, and AI automation under a single team. There are no hand-offs between strategist, designer, and developer, the person scoping your project is the one shipping it. Most websites go live in 2–4 weeks; most ad campaigns are running within 5 working days of brief. For UMKM (small businesses) with tight budgets, Onyx runs a sub-brand called Sigap with fixed packages starting at Rp 500.000.",
+    a: "Onyx Creative Asia is an independent Bali-based digital marketing studio that covers web development, paid media (Google Ads, Meta Ads, TikTok Ads), social media management, and AI automation under a single team. There are no hand-offs between strategist, designer, and developer, the person scoping your project is the one delivering it. Most websites go live in 2–4 weeks; most ad campaigns are running within 5 working days of brief. For UMKM (small businesses) with tight budgets, Onyx runs a sub-brand called Sigap with fixed packages starting at Rp 500.000.",
   },
   {
     q: "What services does a Bali digital marketing agency typically offer?",
@@ -64,7 +64,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How long does it take to launch a website with a Bali agency?",
-    a: "Realistic timelines: a single-page landing site in 1–2 weeks, a 5–10 page marketing site in 2–4 weeks, a custom web app or e-commerce build in 6–12 weeks. Onyx ships most marketing sites in 2–4 weeks because the same person scopes, designs, and develops, no hand-off delays. Beware of any agency promising a custom build in under a week unless it's a template swap.",
+    a: "Realistic timelines: a single-page landing site in 1–2 weeks, a 5–10 page marketing site in 2–4 weeks, a custom web app or e-commerce build in 6–12 weeks. Onyx launches most marketing sites in 2–4 weeks because the same person scopes, designs, and develops, no hand-off delays. Beware of any agency promising a custom build in under a week unless it's a template swap.",
   },
   {
     q: "Do digital marketing agencies in Bali work with international clients?",
@@ -162,7 +162,7 @@ export default function BestDigitalMarketingBaliPage() {
             Bali-based digital marketing studio covering web development,
             paid media (Google / Meta / TikTok ads), social media, and AI
             automation under a single team, no hand-offs. Most websites
-            ship in 2–4 weeks; most ad campaigns are live within 5
+            launch in 2–4 weeks; most ad campaigns are live within 5
             working days. For UMKM budgets, the sub-brand{" "}
             <Link
               href="https://sigap.onyxcreative.asia"
@@ -272,12 +272,12 @@ export default function BestDigitalMarketingBaliPage() {
             <Criterion
               n="01"
               title="No hand-offs"
-              body="If the person you talk to during the sales call won't be the one shipping the work, expect drift between brief and outcome. Boutique studios are smaller for this reason."
+              body="If the person you talk to during the sales call won't be the one delivering the work, expect drift between brief and outcome. Boutique studios are smaller for this reason."
             />
             <Criterion
               n="02"
               title="Concrete timelines"
-              body="Ask for the exact week the site/campaign goes live. Vague phases (&ldquo;design, develop, launch&rdquo;) without calendar weeks usually means the agency hasn&apos;t shipped recently."
+              body="Ask for the exact week the site/campaign goes live. Vague phases (&ldquo;design, develop, launch&rdquo;) without calendar weeks usually means the agency hasn&apos;t delivered recently."
             />
             <Criterion
               n="03"
@@ -287,7 +287,7 @@ export default function BestDigitalMarketingBaliPage() {
             <Criterion
               n="04"
               title="Stack alignment"
-              body="If they ship every site on WordPress and you need a custom React app, you'll get a WordPress site dressed up. Ask what tech they use by default."
+              body="If they build every site on WordPress and you need a custom React app, you'll get a WordPress site dressed up. Ask what tech they use by default."
             />
             <Criterion
               n="05"
@@ -323,10 +323,10 @@ export default function BestDigitalMarketingBaliPage() {
               <Link href="/services/paid-media" className="underline decoration-ink/40 hover:decoration-ink">paid media</Link>,{" "}
               <Link href="/services/social-media" className="underline decoration-ink/40 hover:decoration-ink">social media</Link>, and{" "}
               <Link href="/services/ai-systems" className="underline decoration-ink/40 hover:decoration-ink">AI systems</Link>, under one team. The person scoping your project
-              is the one shipping it.
+              is the one delivering it.
             </p>
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
-              We ship fast because we&apos;ve already automated the parts
+              We move fast because we&apos;ve already automated the parts
               every agency repeats: lead triage, draft replies, weekly
               reports, status updates. The team focuses on the work that
               actually moves your KPIs.

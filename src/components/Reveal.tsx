@@ -69,7 +69,7 @@ export function RevealText({
   return (
     <span ref={ref} className={className}>
       {words.map((word, i) => (
-        <span key={i} className="reveal-mask align-bottom mr-[0.25em]">
+        <span key={i} className="reveal-mask align-bottom mr-[0.18em]">
           <motion.span
             initial={{ y: "110%" }}
             animate={inView ? { y: "0%" } : { y: "110%" }}

@@ -22,12 +22,12 @@ const PRINCIPLES = [
   {
     n: "01",
     t: "Make, don't decorate",
-    d: "Every output earns its place. If a section doesn't move someone closer to a decision, it doesn't ship.",
+    d: "Every output earns its place. If a section doesn't move someone closer to a decision, it doesn't make the cut.",
   },
   {
     n: "02",
     t: "One team, no hand-offs",
-    d: "Brand, build, and growth in the same room. Less coordination tax, faster ship cycles, sharper outcomes.",
+    d: "Brand, build, and growth in the same room. Less coordination tax, faster delivery, sharper outcomes.",
   },
   {
     n: "03",
@@ -52,7 +52,7 @@ export default function AboutPage() {
           <RevealText text="A small studio." />
           <br />
           <span className="font-light italic">
-            <RevealText text="Built to ship." delay={0.15} />
+            <RevealText text="Built to deliver." delay={0.15} />
           </span>
         </h1>
       </section>

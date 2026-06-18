@@ -12,7 +12,7 @@ const WORDS = [
   "who use it,",
   "build for the",
   "teams who",
-  "ship it, and",
+  "run it, and",
   "measure what",
   "actually moves.",
 ];
@@ -68,7 +68,7 @@ function Word({
 }) {
   const opacity = useTransform(progress, range, [0.18, 1]);
   return (
-    <motion.span style={{ opacity }} className="mr-[0.25em] inline-block">
+    <motion.span style={{ opacity }} className="mr-[0.18em] inline-block">
       {word}
     </motion.span>
   );

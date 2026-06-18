@@ -227,7 +227,7 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Studios who want craft and ship speed, without choosing between them.",
+      "Studios who want craft and speed, without choosing between them.",
   },
   {
     id: "paid-media",
@@ -299,7 +299,7 @@ export const SERVICES: Service[] = [
       "Strategy, content, and community for brands that want to be remembered.",
     narrative: [
       "Most brand feeds feel like nobody lives there. Ours feel like a place. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy, so it actually adds up.",
-      "We don't separate the strategist from the creator. The person planning the month is the person shooting the week. Less drift between intention and what ships.",
+      "We don't separate the strategist from the creator. The person planning the month is the person shooting the week. Less drift between intention and what goes live.",
       "Best fit for lifestyle brands, hospitality, restaurants, and F&B, plus creators ready to build past “we should post more this month.”",
     ],
     outcomes: [
@@ -351,7 +351,7 @@ export const SERVICES: Service[] = [
       "AI that operates inside your workflow, not a chatbot bolted to the homepage.",
     narrative: [
       "Most “AI launches” are a chat widget on a marketing site. We build the other kind: agents that classify inbound, triage leads, draft replies in your voice, route work to the right person, and stay out of the way until they're needed.",
-      "Tooling-first means we plug into your real stack, Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that ships externally.",
+      "Tooling-first means we plug into your real stack, Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that goes out externally.",
       "Best fit for small teams drowning in repetitive coordination, ops managers tired of being a copy-paste machine, or founders who want one workflow back before they hire for it.",
     ],
     outcomes: [
@@ -388,7 +388,7 @@ export const SERVICES: Service[] = [
 ];
 
 export const STATS = [
-  { value: "120+", label: "Projects shipped" },
+  { value: "120+", label: "Projects delivered" },
   { value: "4.8×", label: "Avg. ROAS uplift" },
   { value: "12", label: "Industries served" },
   { value: "3 yrs", label: "Building since 2023" },
@@ -427,7 +427,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "The previous site treated villas like inventory. The new one treats them like a story. Our agents are getting four times the qualified WhatsApp inquiries we used to filter through the contact form.",
-    author: "Ari Kusuma",
+    author: "Gustu Adi",
     role: "Founder",
     client: "Great Bali Properties",
     projectSlug: "great-bali-properties",
@@ -435,23 +435,23 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
       "What used to take three Slack pings and a manual Trello card now happens in under a minute. The team is focused on the campaign, not the intake.",
-    author: "Marije van der Berg",
-    role: "Operations Lead",
+    author: "Koen Geytenbeek",
+    role: "Founder",
     client: "RADcruiters",
     projectSlug: "radcruiters",
   },
   {
     quote:
       "The brand finally matches how the salon actually feels in person. First-time bookings doubled within two months of launch.",
-    author: "Maya Santoso",
-    role: "Owner",
+    author: "Hanny Andoko",
+    role: "Founder",
     client: "The Hair Extensions Bali",
     projectSlug: "the-hair-extensions-bali",
   },
   {
     quote:
       "We wanted the website to feel as calm as the treatment itself. Onyx built the site, runs the social feed, and manages the ads, bookings flow straight to WhatsApp and nothing falls through the cracks. The site converts at three times what we projected.",
-    author: "Wayan Suka",
+    author: "Ayu Sriati",
     role: "Founder",
     client: "Astungkare Spa",
     projectSlug: "astungkare-spa",

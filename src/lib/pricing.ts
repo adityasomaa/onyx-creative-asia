@@ -264,7 +264,7 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     id: "web",
     name: "Web & Software Development",
     italic: "Built once,",
-    bold: "ships forever.",
+    bold: "made to last.",
     blurb:
       "Monthly retainer covers maintenance, content updates, security patches, and progressive iteration on the live site. New website builds are quoted separately as a one-time fee.",
     monthly: webMonthly,

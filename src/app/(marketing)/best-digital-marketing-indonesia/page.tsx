@@ -60,7 +60,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Do I need a Jakarta-based agency to advertise to Indonesian customers?",
-    a: "No. Location only matters if you need physical production (TVC shoots, big event activations) or face-to-face client meetings. For digital channels, Google Ads, Meta Ads, TikTok Ads, social content, websites, location is irrelevant as long as the agency understands Indonesian consumer behaviour, language (Bahasa Indonesia + regional fluency), and payment habits. Onyx is Bali-based but ships campaigns serving Jakarta, Surabaya, Medan, and Makassar weekly.",
+    a: "No. Location only matters if you need physical production (TVC shoots, big event activations) or face-to-face client meetings. For digital channels, Google Ads, Meta Ads, TikTok Ads, social content, websites, location is irrelevant as long as the agency understands Indonesian consumer behaviour, language (Bahasa Indonesia + regional fluency), and payment habits. Onyx is Bali-based but launches campaigns serving Jakarta, Surabaya, Medan, and Makassar weekly.",
   },
   {
     q: "Does Onyx serve Indonesian UMKM (small businesses)?",
@@ -68,7 +68,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How long does a custom website take in Indonesia?",
-    a: "Realistic Indonesian timelines: a single-page landing in 1–2 weeks, a 5–10 page marketing site in 2–4 weeks, a custom web app or e-commerce build in 6–12 weeks. Onyx ships marketing sites in 2–4 weeks because the same person scopes, designs, and develops. A custom Tokopedia / Shopee-equivalent build is 12+ weeks and Rp 100 juta+. Template swaps via WordPress/Wix can be done in days but you'll pay for the rework when you outgrow them.",
+    a: "Realistic Indonesian timelines: a single-page landing in 1–2 weeks, a 5–10 page marketing site in 2–4 weeks, a custom web app or e-commerce build in 6–12 weeks. Onyx launches marketing sites in 2–4 weeks because the same person scopes, designs, and develops. A custom Tokopedia / Shopee-equivalent build is 12+ weeks and Rp 100 juta+. Template swaps via WordPress/Wix can be done in days but you'll pay for the rework when you outgrow them.",
   },
   {
     q: "What's the difference between Onyx and Sigap?",
@@ -154,7 +154,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
             remote-fluent digital marketing studio serving clients across
             Indonesia, Jakarta, Surabaya, Bali, Bandung, Medan. Web
             development, paid media (Google / Meta / TikTok), social
-            media, and AI automation under one team. Most websites ship
+            media, and AI automation under one team. Most websites launch
             in 2–4 weeks. For UMKM, the sub-brand{" "}
             <Link
               href="https://sigap.onyxcreative.asia"
@@ -195,7 +195,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
               lower and iteration is faster. The Indonesian consumer-
               behaviour expertise is identical when the team is fluent in
               local market dynamics, and the same Bali agencies are
-              shipping campaigns to Jakarta + Surabaya + Medan every week
+              delivering campaigns to Jakarta + Surabaya + Medan every week
               already.
             </p>
           </Reveal>
@@ -291,7 +291,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
              , one team, no hand-offs.
             </p>
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
-              We ship faster than agency-of-record models because we
+              We move faster than agency-of-record models because we
               automate the parts every agency repeats (triage, drafts,
               reports) and our team focuses on the work that moves your
               KPIs.

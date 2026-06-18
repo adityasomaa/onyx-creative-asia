@@ -38,7 +38,7 @@ export default function InsightsPage() {
           </span>
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
-          Pieces about the work, what we ship, what we learned, what we'd do
+          Pieces about the work, what we build, what we learned, what we'd do
           differently. We write when the lesson is sharp enough to hand to
           someone else.
         </p>

@@ -38,7 +38,7 @@ export default function WorksPage() {
       {PROJECTS.length === 0 ? (
         <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16">
           <p className="text-lg text-ink/70 max-w-md">
-            <T>New work shipping soon. In the meantime,</T>{" "}
+            <T>New work coming soon. In the meantime,</T>{" "}
             <Link href="/contact" className="border-b border-ink/40 hover:border-ink">
               <T>start a project</T>
             </Link>

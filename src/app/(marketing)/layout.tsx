@@ -55,7 +55,7 @@ const ORG_JSON_LD = {
   },
   image: "https://onyxcreative.asia/opengraph-image",
   description:
-    "Independent digital marketing and creative studio in Bali, Indonesia. We build websites, run paid media (Google / Meta / TikTok), produce social media content, and ship AI automation for ambitious teams across Asia.",
+    "Independent digital marketing and creative studio in Bali, Indonesia. We build websites, run paid media (Google / Meta / TikTok), produce social media content, and build AI automation for ambitious teams across Asia.",
   slogan: "Brand, performance, and AI systems for ambitious teams.",
   foundingDate: "2026",
   address: {

@@ -68,13 +68,13 @@ export const INSIGHTS: Insight[] = [
     title: "Performance creative isn't a different language. It's the same one, faster.",
     tag: "Paid Media",
     excerpt:
-      "There's a myth that paid creative is its own discipline. It isn't. The team that ships brand should ship paid, same craft, same voice, just a tighter loop and a different success metric.",
+      "There's a myth that paid creative is its own discipline. It isn't. The team that builds brand should run paid, same craft, same voice, just a tighter loop and a different success metric.",
     publishedAt: "2026-05-08",
     readingTimeMin: 4,
     body: [
       "Most studios split brand and performance into two rooms. Brand designers make the slow, considered work. Performance designers make the fast, disposable work. The two teams use different tools, different references, and, somewhere along the way, different aesthetic standards.",
       "It's a false split. The audience doesn't know which room a piece came from. They scroll. The ad either earns the next two seconds or it doesn't. Whether it was made by the brand team or the performance team is irrelevant.",
-      "What does change between brand work and performance work is cadence. A brand campaign ships once a quarter. A paid campaign ships forty variants in a week. The craft has to compress. But compress isn't the same as compromise. The same designer who can hold a brand line for a year can hold it across forty ad variants, if the system supports them.",
+      "What does change between brand work and performance work is cadence. A brand campaign launches once a quarter. A paid campaign launches forty variants in a week. The craft has to compress. But compress isn't the same as compromise. The same designer who can hold a brand line for a year can hold it across forty ad variants, if the system supports them.",
       {
         type: "quote",
         text: "Spend that compounds isn't a budget tactic. It's a creative one.",
@@ -85,7 +85,7 @@ export const INSIGHTS: Insight[] = [
   },
   {
     slug: "why-we-shipped-a-hero-video-instead-of-a-hero-image",
-    title: "Why we shipped a hero video instead of a hero image",
+    title: "Why we delivered a hero video instead of a hero image",
     tag: "Web · Brand",
     excerpt:
       "A hero image is a postcard. A hero video is a moment. The first viewport on a homepage isn't the place to be efficient, it's the place to set the temperature for the rest of the visit.",
