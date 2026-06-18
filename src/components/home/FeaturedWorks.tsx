@@ -21,7 +21,7 @@ export default function FeaturedWorks() {
             {t("(Selected works)")}
           </p>
           <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-2xl text-balance">
-            <RevealText text="A small group of brave brands." />
+            <RevealText text="Brands we've helped scale." />
           </h2>
         </div>
         <Reveal className="hidden md:block" delay={0.2}>
@@ -42,14 +42,17 @@ export default function FeaturedWorks() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.9, ease: EASE, delay: (i % 2) * 0.1 }}
-            className={i % 3 === 0 ? "md:mt-0" : i % 3 === 1 ? "md:mt-16" : ""}
+            // Tidy 2-col masonry: right column (odd index) sits lower so
+            // the grid has editorial rhythm while every card stays the
+            // same uniform 16:9.
+            className={i % 2 === 1 ? "md:mt-16" : ""}
           >
             <Link
               href={`/works/${p.slug}`}
               className="group block"
               data-cursor="hover"
             >
-              <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-ink">
+              <div className="relative aspect-[16/9] overflow-hidden bg-ink">
                 <ProjectCover
                   src={p.cover}
                   loop={p.coverLoop}

@@ -66,13 +66,15 @@ function ProjectCard({
   index: number;
 }) {
   return (
-    <li className={index % 3 === 1 ? "md:mt-16" : ""}>
+    // Tidy 2-col masonry: right column (odd index) sits lower for
+    // editorial rhythm; every card stays a uniform 16:9.
+    <li className={index % 2 === 1 ? "md:mt-16" : ""}>
       <Link
         href={`/works/${project.slug}`}
         className="group block"
         data-cursor="hover"
       >
-        <div className="relative aspect-[4/3] overflow-hidden bg-ink">
+        <div className="relative aspect-[16/9] overflow-hidden bg-ink">
           <ProjectCover
             src={project.cover}
             loop={project.coverLoop}

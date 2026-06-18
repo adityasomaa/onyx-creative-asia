@@ -40,7 +40,7 @@ export default function Image() {
           }}
         >
           <span>[ ONYX_CREATIVE.SYS ]</span>
-          <span>BALI · ASIA · MMXXVI</span>
+          <span>BALI · ASIA · MMXXIII</span>
         </div>
         <div
           style={{

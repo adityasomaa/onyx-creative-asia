@@ -391,7 +391,7 @@ export const STATS = [
   { value: "120+", label: "Projects shipped" },
   { value: "4.8×", label: "Avg. ROAS uplift" },
   { value: "12", label: "Industries served" },
-  { value: "9 yrs", label: "Combined craft" },
+  { value: "3 yrs", label: "Building since 2023" },
 ];
 
 export const CLIENTS = [

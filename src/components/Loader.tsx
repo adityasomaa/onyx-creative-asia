@@ -67,7 +67,7 @@ export default function Loader() {
           {/* Top bar */}
           <div className="container-x flex items-center justify-between pt-6 md:pt-8 text-xs uppercase tracking-[0.2em]">
             <span>Onyx Creative Asia</span>
-            <span className="hidden md:inline">EST. 2025 — Asia</span>
+            <span className="hidden md:inline">EST. 2023 · Asia</span>
           </div>
 
           {/* Center wordmark — cryptographic reveal */}

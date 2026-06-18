@@ -36,7 +36,7 @@ export default async function LoginPage({
 
         {/* footer line */}
         <p className="mt-14 text-[10px] tracking-[0.3em] uppercase opacity-40 text-center">
-          ONYX · BALI · MMXXVI · NOT FOR PUBLIC INDEXING
+          ONYX · BALI · MMXXIII · NOT FOR PUBLIC INDEXING
         </p>
       </div>
     </div>
