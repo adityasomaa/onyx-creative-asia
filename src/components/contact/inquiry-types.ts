@@ -30,7 +30,7 @@ export const INQUIRY_LABEL: Record<InquiryType, string> = {
 export const INQUIRY_DESCRIPTION: Record<InquiryType, string> = {
   general: "Quick question, a hello, or anything that doesn't fit the others.",
   project: "You want us to design, build, or scale something for you.",
-  career: "You want to work with us. We're a small, opinionated team.",
+  career: "You want to work with us. We're a senior, opinionated team.",
   partnership: "You run a studio, agency, or platform and you're proposing a collab.",
 };
 

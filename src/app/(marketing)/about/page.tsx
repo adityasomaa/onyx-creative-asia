@@ -49,7 +49,7 @@ export default function AboutPage() {
           <T>(About, the studio)</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text="A small studio." />
+          <RevealText text="An independent studio." />
           <br />
           <span className="font-light italic">
             <RevealText text="Built to deliver." delay={0.15} />
@@ -84,9 +84,9 @@ export default function AboutPage() {
             </p>
             <p>
               <T>
-                We&apos;re small on purpose. The team you meet is the team you
-                work with. There is no account layer between strategy and the
-                people writing the code or running the ads.
+                By design, the team you meet is the team you work with. There
+                is no account layer between strategy and the people writing the
+                code or running the ads.
               </T>
             </p>
             <p>
