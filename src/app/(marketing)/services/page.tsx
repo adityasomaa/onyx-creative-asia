@@ -34,9 +34,9 @@ export default function ServicesPage() {
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
           <T>
-            We don&apos;t hand work between five vendors. The team that builds
-            your site is the same team running your ads and building the AI
-            agent. Less hand-off, sharper execution.
+            The team that builds your site is the same team running your ads
+            and building the AI agent. One team, less hand-off, sharper
+            execution.
           </T>
         </p>
       </section>

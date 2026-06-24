@@ -106,7 +106,7 @@ export const PROJECTS: Project[] = [
       "Direct-to-WhatsApp booking flow, Bali's appointment language",
     ],
     longDescription:
-      "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person, quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine, not in the average beauty-salon site. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
+      "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person, quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
   },
   {
     slug: "astungkare-spa",
@@ -194,7 +194,7 @@ export const SERVICES: Service[] = [
     intro:
       "Sites that load fast, scale cleanly, and don't fall apart in six months.",
     narrative: [
-      "Most agency websites peak at launch. Ours are built to peak later. Performance budgets, accessibility, and a design system the next engineer can extend, these aren't extras, they're the contract.",
+      "We build sites to peak later, not at launch. Performance budgets, accessibility, and a design system the next engineer can extend, these aren't extras, they're the contract.",
       "We work in one team. The person designing the hero is the person who knows what the loader does on slow networks. No handoff means tighter craft and weeks shaved off the timeline.",
       "Best fit for founders launching their flagship, brands migrating off a WordPress that aged into a maintenance tax, or product teams who need a marketing site that doesn't lag behind the product.",
     ],
@@ -247,7 +247,7 @@ export const SERVICES: Service[] = [
     intro: "Performance marketing run like a system, not a monthly creative.",
     narrative: [
       "We treat paid media as one system with multiple surfaces. Creative variants get tested against each other, not against vibes. Audiences get architected, not just retargeted. Attribution stays sane in the post-iOS world because we build for blended signal from day one.",
-      "Creative is where most ad accounts quietly leak budget. We produce in-house, iterate weekly, and kill what isn't moving instead of leaving it to drag a quarter.",
+      "Creative is where ad budget quietly leaks. We produce in-house, iterate weekly, and kill what isn't moving instead of leaving it to drag a quarter.",
       "Best fit for D2C brands hitting a ceiling on a single channel, SaaS teams growing past their organic plateau, or services with strong LTV who need predictable inbound.",
     ],
     outcomes: [
@@ -278,7 +278,7 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Brands tired of agency-shaped reports that hide what's actually working.",
+      "Brands that want reporting which shows exactly what's working, and what isn't.",
   },
   {
     id: "social-media",
@@ -298,7 +298,7 @@ export const SERVICES: Service[] = [
     intro:
       "Strategy, content, and community for brands that want to be remembered.",
     narrative: [
-      "Most brand feeds feel like nobody lives there. Ours feel like a place. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy, so it actually adds up.",
+      "We make a brand feed feel like a place someone actually lives. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy, so it actually adds up.",
       "We don't separate the strategist from the creator. The person planning the month is the person shooting the week. Less drift between intention and what goes live.",
       "Best fit for lifestyle brands, hospitality, restaurants, and F&B, plus creators ready to build past “we should post more this month.”",
     ],
@@ -348,9 +348,9 @@ export const SERVICES: Service[] = [
       "Integrations (CRM, calendar, ops)",
     ],
     intro:
-      "AI that operates inside your workflow, not a chatbot bolted to the homepage.",
+      "AI that operates inside your workflow, where the work actually happens.",
     narrative: [
-      "Most “AI launches” are a chat widget on a marketing site. We build the other kind: agents that classify inbound, triage leads, draft replies in your voice, route work to the right person, and stay out of the way until they're needed.",
+      "We build agents that earn their place: they classify inbound, triage leads, draft replies in your voice, route work to the right person, and stay out of the way until they're needed.",
       "Tooling-first means we plug into your real stack, Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that goes out externally.",
       "Best fit for small teams drowning in repetitive coordination, ops managers tired of being a copy-paste machine, or founders who want one workflow back before they hire for it.",
     ],

@@ -63,13 +63,11 @@ export default function AboutPage() {
             <T>(Story)</T>
           </p>
           <h2 className="text-3xl md:text-4xl font-medium leading-tight tracking-tight">
-            We started Onyx because the
-            <span className="font-light italic"> good agencies</span> moved too
-            slow,
+            We started Onyx around one belief:
             <br />
-            and the
-            <span className="font-light italic"> fast ones</span> moved without
-            care.
+            <span className="font-light italic">speed</span> and
+            <span className="font-light italic"> care</span> don&apos;t have to
+            trade off.
           </h2>
         </Reveal>
         <Reveal className="md:col-span-6 md:col-start-7" delay={0.1}>

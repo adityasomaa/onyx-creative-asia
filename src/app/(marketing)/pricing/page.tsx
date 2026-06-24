@@ -76,8 +76,7 @@ export default function PricingPage() {
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
           Every retainer is published. Pick the tier, pick the cadence, sign,
-          start. No tier-pricing email tag, no &ldquo;contact us for a
-          quote&rdquo; on the small ones.
+          start. The price you see is the price you pay, on every tier.
         </p>
       </section>
 
