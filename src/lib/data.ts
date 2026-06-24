@@ -159,6 +159,13 @@ export type ServiceProcessStep = {
   detail: string;
 };
 
+export type ServiceCta = {
+  /** Problem question used as the CTA heading. */
+  problem: string;
+  /** Solution + invite, used as the CTA paragraph. */
+  solution: string;
+};
+
 export type Service = {
   id: string;
   number: string;
@@ -167,12 +174,14 @@ export type Service = {
   description: string;
   capabilities: string[];
   // Fields used on the dedicated /services/[slug] detail page.
-  // Keep the brand voice: editorial, first-person plural, restrained.
+  // Voice is descriptive, not promotional: explain what the service
+  // includes, its scope, and who it fits. No outcome/result promises.
   intro: string;
   narrative: string[];
-  outcomes: string[];
   process: ServiceProcessStep[];
   fitFor: string;
+  /** Problem -> solution funnel block at the bottom of the page. */
+  cta: ServiceCta;
 };
 
 export const SERVICES: Service[] = [
@@ -192,17 +201,10 @@ export const SERVICES: Service[] = [
       "SEO & Core Web Vitals",
     ],
     intro:
-      "Sites that load fast, scale cleanly, and don't fall apart in six months.",
+      "Custom websites, web apps, and the software behind them, designed, built, and maintained by one team.",
     narrative: [
-      "We build sites to peak later, not at launch. Performance budgets, accessibility, and a design system the next engineer can extend, these aren't extras, they're the contract.",
-      "We work in one team. The person designing the hero is the person who knows what the loader does on slow networks. No handoff means tighter craft and weeks shaved off the timeline.",
-      "Best fit for founders launching their flagship, brands migrating off a WordPress that aged into a maintenance tax, or product teams who need a marketing site that doesn't lag behind the product.",
-    ],
-    outcomes: [
-      "A site that scores 95+ on Lighthouse and stays there",
-      "A design system the next engineer can extend",
-      "Editor experience that survives Friday afternoon",
-      "Motion that earns its frame budget",
+      "We cover the full build: design system, frontend, backend, CMS, and the integrations that connect the site to the tools you already use. One team scopes, designs, and develops, so there's no hand-off between the person who draws the screen and the person who builds it.",
+      "Every site runs on a modern stack (Next.js, React, headless CMS), with performance, accessibility, and SEO handled as part of the work. After launch, we stay on as a monthly retainer for maintenance, content updates, and new sections.",
     ],
     process: [
       {
@@ -227,7 +229,13 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Studios who want craft and speed, without choosing between them.",
+      "Founders launching a flagship site, brands moving off an aging WordPress, or product teams who need both a marketing site and the software around it, from one team.",
+    cta: {
+      problem:
+        "Spending more time fighting your website than running your business?",
+      solution:
+        "We design, build, and maintain it for you, end to end. Book a free consultation and we'll map the scope together.",
+    },
   },
   {
     id: "paid-media",
@@ -244,17 +252,11 @@ export const SERVICES: Service[] = [
       "Conversion tracking",
       "Reporting & optimisation",
     ],
-    intro: "Performance marketing run like a system, not a monthly creative.",
+    intro:
+      "Paid media across Meta, Google, and TikTok, planned, produced, and managed by one team.",
     narrative: [
-      "We treat paid media as one system with multiple surfaces. Creative variants get tested against each other, not against vibes. Audiences get architected, not just retargeted. Attribution stays sane in the post-iOS world because we build for blended signal from day one.",
-      "Creative is where ad budget quietly leaks. We produce in-house, iterate weekly, and kill what isn't moving instead of leaving it to drag a quarter.",
-      "Best fit for D2C brands hitting a ceiling on a single channel, SaaS teams growing past their organic plateau, or services with strong LTV who need predictable inbound.",
-    ],
-    outcomes: [
-      "Blended CAC trending the right direction within 30 days",
-      "Creative variants that don't read like generic templates",
-      "Weekly tightening loop, not monthly slide decks",
-      "Honest reporting, what worked, what didn't, why",
+      "We handle the full loop: account and funnel setup, audience research, creative production (static and video), conversion tracking, and weekly optimization. Creative is produced in-house, so testing and iteration don't wait on an outside vendor.",
+      "The management fee is separate from ad spend, which you pay the platforms directly. You get a clear view of where the budget goes and what each variant is doing, plus a regular performance call.",
     ],
     process: [
       {
@@ -278,7 +280,12 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Brands that want reporting which shows exactly what's working, and what isn't.",
+      "D2C brands, service businesses, and SaaS teams that want paid media run as a managed system rather than a one-off campaign.",
+    cta: {
+      problem: "Tired of pouring budget into ads that don't move?",
+      solution:
+        "We plan, produce, and manage the whole thing, creative included. Get a free consultation on your account.",
+    },
   },
   {
     id: "social-media",
@@ -296,17 +303,10 @@ export const SERVICES: Service[] = [
       "Always-on planning",
     ],
     intro:
-      "Strategy, content, and community for brands that want to be remembered.",
+      "End-to-end social media, strategy, content, and community, run by one team.",
     narrative: [
-      "We make a brand feed feel like a place someone actually lives. Consistent posture, recognisable hand, photography and motion produced in the same room as the strategy, so it actually adds up.",
-      "We don't separate the strategist from the creator. The person planning the month is the person shooting the week. Less drift between intention and what goes live.",
-      "Best fit for lifestyle brands, hospitality, restaurants, and F&B, plus creators ready to build past “we should post more this month.”",
-    ],
-    outcomes: [
-      "Visual system that survives 12 months without looking tired",
-      "Community that engages, not just followers that count",
-      "Production pipeline you can take in-house when ready",
-      "Calendar your team can run on Monday morning",
+      "We cover content strategy, photo/video/motion production, scheduling, and community management across the platforms that fit your brand. Strategy and production happen in the same room, so the plan and the posts stay aligned.",
+      "You get a monthly content calendar, a consistent visual system, and someone managing the comments and DMs, plus a regular strategy call to adjust direction.",
     ],
     process: [
       {
@@ -330,7 +330,12 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Brands that want their feed to feel like a place, not a checklist.",
+      "Lifestyle brands, hospitality, F&B, beauty, and founders who want a managed social presence instead of doing it themselves.",
+    cta: {
+      problem: "Are you tired of managing your own social media?",
+      solution:
+        "We'll handle it for you, end to end, from strategy to posting to replies. Contact us for a free consultation.",
+    },
   },
   {
     id: "ai-systems",
@@ -348,17 +353,10 @@ export const SERVICES: Service[] = [
       "Integrations (CRM, calendar, ops)",
     ],
     intro:
-      "AI that operates inside your workflow, where the work actually happens.",
+      "Custom AI agents and automations, built into the tools your team already uses.",
     narrative: [
-      "We build agents that earn their place: they classify inbound, triage leads, draft replies in your voice, route work to the right person, and stay out of the way until they're needed.",
-      "Tooling-first means we plug into your real stack, Postgres, webhooks, the CRM you already pay for. No no-code black boxes you can't audit. Operator stays in the loop on anything that goes out externally.",
-      "Best fit for small teams drowning in repetitive coordination, ops managers tired of being a copy-paste machine, or founders who want one workflow back before they hire for it.",
-    ],
-    outcomes: [
-      "One workflow that ate your week, now runs in the background",
-      "Decisions you can audit (priority, classification, routing), not a black box",
-      "Kill switches + rate guards baked in for safety",
-      "An automation your team owns, not a vendor you rent",
+      "We build automations that handle repeatable work: WhatsApp auto-replies and FAQ bots, lead scoring, CRM sync, content drafting, internal Q&A, and custom agents. Everything plugs into your real stack, Postgres, webhooks, the CRM you already pay for.",
+      "You stay in control: kill switches, rate guards, and an operator who approves anything that goes out externally. It's an automation your team owns, with a dashboard to see what it's doing.",
     ],
     process: [
       {
@@ -383,13 +381,18 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Teams who'd rather amplify their best operator than replace them.",
+      "Teams drowning in repetitive coordination, ops managers tired of copy-pasting, or founders who want a workflow back before they hire for it.",
+    cta: {
+      problem: "Buried in repetitive, manual work?",
+      solution:
+        "We build AI that handles it quietly in the background. Book a free consultation and we'll find the first workflow to automate.",
+    },
   },
 ];
 
 export const STATS = [
   { value: "120+", label: "Projects delivered" },
-  { value: "4.8×", label: "Avg. ROAS uplift" },
+  { value: "4", label: "Disciplines, one team" },
   { value: "12", label: "Industries served" },
   { value: "3 yrs", label: "Building since 2023" },
 ];

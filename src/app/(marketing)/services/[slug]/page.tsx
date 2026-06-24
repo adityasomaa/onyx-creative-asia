@@ -135,41 +135,6 @@ export default async function ServiceDetailPage({
         </div>
       </section>
 
-      {/* ───────────────────── OUTCOMES ───────────────────── */}
-      <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
-          <Reveal className="md:col-span-4">
-            <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              <T>Outcomes</T>
-            </p>
-            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              <T>What you walk</T>
-              <br />
-              <span className="font-light italic">
-                <T>away with.</T>
-              </span>
-            </h2>
-          </Reveal>
-          <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
-            <ul className="border-t border-hairline">
-              {service.outcomes.map((o, i) => (
-                <li
-                  key={i}
-                  className="border-b border-hairline py-5 flex items-baseline gap-4"
-                >
-                  <span className="text-xs opacity-50 tabular-nums shrink-0 mt-1">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span className="text-lg md:text-xl leading-snug">
-                    <T>{o}</T>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ───────────────────── CAPABILITIES ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
@@ -249,33 +214,56 @@ export default async function ServiceDetailPage({
           /pricing page and per-service detail stay in lockstep. */}
       <ServicePricing serviceSlug={service.id} />
 
-      {/* ───────────────────── FIT FOR + CTA ───────────────────── */}
+      {/* ───────────────────── WHO THIS IS FOR ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
         <Reveal className="max-w-3xl">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
             <T>Who this is for</T>
           </p>
           <p className="text-display-sm font-light italic leading-[1.05] tracking-tight text-balance">
-            “<T>{service.fitFor}</T>”
+            <T>{service.fitFor}</T>
           </p>
         </Reveal>
+      </section>
 
-        <Reveal className="mt-14 md:mt-16 flex flex-wrap items-center gap-5" delay={0.1}>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-ink text-bone px-6 py-3 text-sm transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
+      {/* ───────────── PROBLEM → SOLUTION CTA ─────────────
+          Funnel close: name the problem, offer to take it off their
+          plate, invite a free consultation. */}
+      <section className="bg-ink text-bone py-24 md:py-32">
+        <div className="container-x">
+          <Reveal className="max-w-3xl">
+            <h2 className="text-display-sm md:text-display-md font-medium leading-[0.98] tracking-tight text-balance">
+              <T>{service.cta.problem}</T>
+            </h2>
+            <p className="mt-6 md:mt-8 text-lg md:text-xl leading-relaxed text-bone/85 max-w-2xl">
+              <T>{service.cta.solution}</T>
+            </p>
+          </Reveal>
+          <Reveal
+            className="mt-10 md:mt-12 flex flex-wrap items-center gap-5"
+            delay={0.1}
           >
-            <T>Start a project</T>
-            <span aria-hidden>→</span>
-          </Link>
-          <Link
-            href="/works"
-            className="inline-flex items-center gap-2 text-sm text-ink/70 hover:text-ink transition-colors"
-          >
-            <T>See related work</T>
-            <span aria-hidden>→</span>
-          </Link>
-        </Reveal>
+            <Link
+              href="/contact"
+              className="group inline-flex items-center gap-3 rounded-full bg-bone text-ink px-7 py-4 text-sm font-medium transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
+            >
+              <T>Book a free consultation</T>
+              <span
+                aria-hidden
+                className="transition-transform duration-500 group-hover:translate-x-1"
+              >
+                ↗
+              </span>
+            </Link>
+            <Link
+              href="/works"
+              className="inline-flex items-center gap-2 text-sm text-bone/70 hover:text-bone transition-colors"
+            >
+              <T>See related work</T>
+              <span aria-hidden>→</span>
+            </Link>
+          </Reveal>
+        </div>
       </section>
 
       {/* ───────────────────── OTHER SERVICES ───────────────────── */}
