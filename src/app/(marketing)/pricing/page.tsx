@@ -2,45 +2,40 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RevealText } from "@/components/Reveal";
 import PricingGrid from "@/components/pricing/PricingGrid";
-import { SERVICE_ROWS } from "@/lib/pricing";
+import { SERVICE_ROWS, TIER_LABELS, TIER_ORDER } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Transparent monthly + yearly pricing for web development, social media, AI automation, and ads management. Bundles save up to ~29%.",
+    "Fixed, published pricing for web & software development, social media management, ads management, and AI automation. See exactly what each tier includes.",
   alternates: { canonical: "/pricing" },
   openGraph: {
     title: "Pricing, Onyx Creative Asia",
     description:
-      "Transparent monthly + yearly pricing across five services. Bundle and save up to ~29%.",
+      "Fixed, published pricing across four services. Three tiers each, with every inclusion listed.",
     url: "/pricing",
     type: "website",
   },
 };
 
-// JSON-LD: emit one Offer per cell (service × tier × cadence) so AI
-// answer engines and Google rich results can quote our prices exactly.
-// Builds straight off the pricing source of truth, no manual drift.
+// JSON-LD: emit one Offer per cell (service × tier) so AI answer engines
+// and Google rich results can quote our prices exactly. Builds straight
+// off the pricing source of truth, no manual drift.
 function PricingJsonLd() {
   const offers = SERVICE_ROWS.flatMap((row) =>
-    (["startup", "growth", "enterprise"] as const).flatMap((tier) =>
-      (["monthly", "yearly"] as const).map((cadence) => {
-        const c = cadence === "monthly" ? row.monthly[tier] : row.yearly[tier];
-        return {
-          "@type": "Offer",
-          name: `${row.name} ${tier} (${cadence})`,
-          priceCurrency: "IDR",
-          price: c.price.idr,
-          priceSpecification: {
-            "@type": "UnitPriceSpecification",
-            price: c.price.idr,
-            priceCurrency: "IDR",
-            unitText: cadence === "monthly" ? "MONTH" : "ANN",
-          },
-          eligibleRegion: { "@type": "Country", name: "Indonesia" },
-        };
-      }),
-    ),
+    TIER_ORDER.map((tier) => ({
+      "@type": "Offer",
+      name: `${row.name} ${TIER_LABELS[tier]}`,
+      priceCurrency: "IDR",
+      price: row.tiers[tier].amount,
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: row.tiers[tier].amount,
+        priceCurrency: "IDR",
+        unitText: row.unit === "month" ? "MONTH" : "ANN",
+      },
+      eligibleRegion: { "@type": "Country", name: "Indonesia" },
+    })),
   );
 
   const data = {
@@ -75,13 +70,13 @@ export default function PricingPage() {
           </span>
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
-          Every retainer is published. Pick the tier, pick the cadence, sign,
-          start. The price you see is the price you pay, on every tier.
+          Every price is published. Pick the tier, see exactly what is
+          included and what is not, then start. The price you see is the
+          price you pay.
         </p>
       </section>
 
-      {/* Pricing grid (client island, the cadence toggle is the only
-          interactive piece, everything else is content) */}
+      {/* Pricing grid (fully static now, no toggles) */}
       <PricingGrid />
 
       {/* Closing CTA */}

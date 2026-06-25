@@ -1,15 +1,14 @@
 /**
  * Onyx Creative Asia, pricing source-of-truth.
  *
- * The /pricing page renders directly off this file, and the same
- * structure mirrors the printed proposal at
- * design/marketing/pricing-proposal/. Keep both in sync. If you bump a
- * tier price here, update build.py there too.
+ * Fixed, published pricing. No cadence toggle, no currency toggle, every
+ * price is a single IDR figure with its own billing unit (Web is yearly,
+ * the rest are monthly retainers).
  *
- * Currency: every price carries both an IDR and a USD display string.
- * The UI picks one based on the active language (ID shows IDR, EN shows
- * USD), via priceFor() below. USD values are the IDR amount divided by
- * ~16,000 and rounded to a clean figure.
+ * Each tier renders the SAME ordered feature list so the three cards line
+ * up as a comparison: a feature the tier includes is checklisted, a
+ * feature it doesn't get is shown oblique (struck/dimmed). The Enterprise
+ * tier includes everything, so it never shows an oblique row.
  */
 
 export type Tier = "startup" | "growth" | "enterprise";
@@ -26,238 +25,206 @@ export const TIER_LABELS: Record<Tier, string> = {
   enterprise: "Enterprise",
 };
 
-/** A price with both currency presentations. */
-export type Money = { idr: string; usd: string };
+/** One row in a tier's feature list. */
+export type Feature = {
+  label: string;
+  /** true = checklisted (included), false = oblique (not included). */
+  included: boolean;
+};
 
-/** Pick the display string for the active currency. */
-export function priceFor(m: Money, currency: "idr" | "usd"): string {
-  return currency === "idr" ? m.idr : m.usd;
-}
-
-export type TierContent = {
-  /** Display price in both currencies. */
-  price: Money;
-  /** Inclusion bullets shown under the price. */
-  bullets: ReadonlyArray<string>;
+export type TierPlan = {
+  /** Price in IDR (integer rupiah). */
+  amount: number;
+  features: ReadonlyArray<Feature>;
+  /** "suitable if you need a ..." line shown under the feature list. */
+  suitableFor: string;
 };
 
 export type ServiceRow = {
   id: string;
   /** Display name, e.g. "Web & Software Development". */
   name: string;
-  /** Italic kicker that pairs with the headline on the service detail. */
+  /** Italic kicker. */
   italic: string;
-  /** Bold one-liner under the kicker. */
+  /** Bold one-liner that pairs with the kicker. */
   bold: string;
   /** One-paragraph blurb. */
   blurb: string;
-  /** Featured = render with extra emphasis (used for the bundle). */
-  featured?: boolean;
-  /** Per-tier content per cadence. */
-  monthly: Record<Tier, TierContent>;
-  yearly: Record<Tier, TierContent>;
-  /** Optional footer note for the service block (e.g. ad spend disclaimer). */
+  /** Billing unit for every tier of this service. */
+  unit: "month" | "year";
+  /** Small note shown right under each price (e.g. "ads budget excluded"). */
+  priceNote?: string;
+  /** Optional footer note for the whole service block. */
   footnote?: string;
+  tiers: Record<Tier, TierPlan>;
 };
 
+/** Format an integer rupiah amount as "Rp 2.500.000". */
+export function formatIDR(amount: number): string {
+  return "Rp " + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
 /**
- * Yearly bullets reuse the monthly inclusions. We only swap the price.
- * Defining a tiny helper keeps the data clean while still letting
- * individual cells override bullets if a tier genuinely changes scope
- * between cadences.
+ * Per-feature spec: the label this feature shows in each tier, or null
+ * when the tier doesn't include it. When null, `off` is the label shown
+ * oblique (struck/dimmed) so the comparison row still reads.
  */
-function yearlyOf(
-  monthly: Record<Tier, TierContent>,
-  prices: Record<Tier, Money>,
-): Record<Tier, TierContent> {
+type Spec = {
+  startup: string | null;
+  growth: string | null;
+  enterprise: string | null;
+  off: string;
+};
+
+function tiersFrom(
+  specs: ReadonlyArray<Spec>,
+  amounts: Record<Tier, number>,
+  suitableFor: Record<Tier, string>,
+): Record<Tier, TierPlan> {
+  const featuresFor = (tier: Tier): Feature[] =>
+    specs.map((s) => {
+      const value = s[tier];
+      return value
+        ? { label: value, included: true }
+        : { label: s.off, included: false };
+    });
+
   return {
-    startup: { price: prices.startup, bullets: monthly.startup.bullets },
-    growth: { price: prices.growth, bullets: monthly.growth.bullets },
+    startup: {
+      amount: amounts.startup,
+      features: featuresFor("startup"),
+      suitableFor: suitableFor.startup,
+    },
+    growth: {
+      amount: amounts.growth,
+      features: featuresFor("growth"),
+      suitableFor: suitableFor.growth,
+    },
     enterprise: {
-      price: prices.enterprise,
-      bullets: monthly.enterprise.bullets,
+      amount: amounts.enterprise,
+      features: featuresFor("enterprise"),
+      suitableFor: suitableFor.enterprise,
     },
   };
 }
 
-// --- Web ----------------------------------------------------------------
-const webMonthly: Record<Tier, TierContent> = {
-  startup: {
-    price: { idr: "Rp 500k", usd: "$30" },
-    bullets: [
-      "Hosting + SSL",
-      "Security patches",
-      "Monthly backup",
-      "1 content update",
-    ],
+// --- Web & Software Development (yearly) --------------------------------
+const webSpecs: ReadonlyArray<Spec> = [
+  {
+    startup: "1-3 pages (for new website)",
+    growth: "3-7 pages (for new website)",
+    enterprise: "7-15 pages (for new website)",
+    off: "",
   },
-  growth: {
-    price: { idr: "Rp 900k", usd: "$55" },
-    bullets: [
-      "Everything in Startup",
-      "New section/page",
-      "Basic analytics",
-      "Quarterly speed audit",
-    ],
+  { startup: "Domain (for new website)", growth: "Domain (for new website)", enterprise: "Domain (for new website)", off: "" },
+  { startup: "Hosting (for new website)", growth: "Hosting (for new website)", enterprise: "Hosting (for new website)", off: "" },
+  { startup: "Custom layout", growth: "Custom layout", enterprise: "Custom layout", off: "" },
+  {
+    startup: "Simple frontend (simple layout, no animation, no loader)",
+    growth: "Advanced frontend (complex layout, dynamic animation, eye-catching loader)",
+    enterprise: "Advanced frontend (complex layout, dynamic animation, eye-catching loader)",
+    off: "",
   },
-  enterprise: {
-    price: { idr: "Rp 1,4jt", usd: "$90" },
-    bullets: [
-      "Everything in Growth",
-      "A/B test setup",
-      "Conversion optimization",
-      "Custom integrations",
-      "24-hr SLA hotfix",
-    ],
+  {
+    startup: "Simple backend (basic database, no webhook & API setup, no CMS)",
+    growth: "Simple backend (basic database, no webhook & API setup, no CMS)",
+    enterprise: "Advanced backend (complex database, webhook & API setup, CMS setup)",
+    off: "",
   },
-};
+  { startup: "Security and SSL", growth: "Security and SSL", enterprise: "Security and SSL", off: "" },
+  { startup: "Content management", growth: "Content management", enterprise: "Content management", off: "" },
+  { startup: null, growth: "SEO setup", enterprise: "SEO setup", off: "SEO setup" },
+  { startup: null, growth: "Monthly SEO report", enterprise: "Monthly SEO report", off: "Monthly SEO report" },
+  { startup: null, growth: null, enterprise: "Google Analytics setup", off: "Google Analytics setup" },
+  { startup: null, growth: null, enterprise: "Monthly Google Analytics report", off: "Monthly Google Analytics report" },
+];
 
-// --- Social -------------------------------------------------------------
-const socialMonthly: Record<Tier, TierContent> = {
-  startup: {
-    price: { idr: "Rp 650k", usd: "$40" },
-    bullets: [
-      "1 platform (IG or LinkedIn)",
-      "4 static posts/mo",
-      "Caption writing",
-      "Scheduling",
-      "Monthly report",
-    ],
+// --- Social Media Management (monthly) ----------------------------------
+const socialSpecs: ReadonlyArray<Spec> = [
+  {
+    startup: "1 platform (Instagram / Facebook / TikTok)",
+    growth: "2 platforms (Instagram / Facebook / TikTok)",
+    enterprise: "All platforms (Instagram, Facebook, and TikTok)",
+    off: "",
   },
-  growth: {
-    price: { idr: "Rp 1,1jt", usd: "$70" },
-    bullets: [
-      "2 platforms",
-      "10 static + 2 reels/mo",
-      "3× stories/week",
-      "Community management",
-      "Hashtag refresh",
-      "Monthly strategy call",
-    ],
+  { startup: "Design and post 1 feed/week", growth: "Design and post 2 feeds/week", enterprise: "Design and post 3 feeds/week", off: "" },
+  { startup: "Design and post 1 story/week", growth: "Design and post 3 stories/week", enterprise: "Design and post 5 stories/week", off: "" },
+  { startup: "Edit and post 1 reel/week", growth: "Edit and post 2 reels/week", enterprise: "Edit and post 3 reels/week", off: "" },
+  {
+    startup: "Simple design (template-based, minimal graphics)",
+    growth: "Advanced design (custom graphics, on-brand)",
+    enterprise: "Advanced design (custom graphics, on-brand)",
+    off: "",
   },
-  enterprise: {
-    price: { idr: "Rp 1,5jt", usd: "$95" },
-    bullets: [
-      "3+ platforms",
-      "20 static + 4 reels/mo",
-      "Daily stories",
-      "Paid amplification setup",
-      "Influencer outreach",
-      "Weekly strategy call",
-    ],
+  {
+    startup: "Simple editing (cut, text, transitions)",
+    growth: "Advanced editing (cut, text, transitions, effects, sound design)",
+    enterprise: "Advanced editing (cut, text, transitions, effects, sound design)",
+    off: "",
   },
-};
+  { startup: "Simple copywriting", growth: "Advanced copywriting", enterprise: "Advanced copywriting", off: "" },
+  { startup: "Monthly reporting", growth: "Monthly reporting", enterprise: "Monthly reporting", off: "" },
+  { startup: null, growth: "Monthly content strategy", enterprise: "Monthly content strategy", off: "Monthly content strategy" },
+  { startup: null, growth: "Trend and hashtag research", enterprise: "Trend and hashtag research", off: "Trend and hashtag research" },
+  { startup: null, growth: null, enterprise: "Community management (comments and DMs)", off: "Community management (comments and DMs)" },
+];
 
-// --- AI -----------------------------------------------------------------
-const aiMonthly: Record<Tier, TierContent> = {
-  startup: {
-    price: { idr: "Rp 750k", usd: "$45" },
-    bullets: [
-      "1 automation",
-      "WhatsApp auto-reply or FAQ bot",
-      "Basic monitoring",
-      "1 LLM (Gemini Flash) included",
-      "1 hr tweaks/mo",
-    ],
+// --- AI Automation (monthly) --------------------------------------------
+const aiSpecs: ReadonlyArray<Spec> = [
+  { startup: "1 automation workflow", growth: "Up to 3 automation workflows", enterprise: "Unlimited automation workflows", off: "" },
+  { startup: "Up to 2 app integrations", growth: "Up to 5 app integrations", enterprise: "Unlimited app integrations", off: "" },
+  {
+    startup: "Trigger-based automation (scheduled or event-driven)",
+    growth: "Trigger-based automation (scheduled or event-driven)",
+    enterprise: "Trigger-based automation (scheduled or event-driven)",
+    off: "",
   },
-  growth: {
-    price: { idr: "Rp 1,2jt", usd: "$75" },
-    bullets: [
-      "2 to 3 automations",
-      "Lead scoring + CRM sync",
-      "Content draft AI",
-      "Dashboard",
-      "Claude Haiku / GPT-4o-mini tier",
-      "4 hrs tweaks/mo",
-    ],
+  { startup: "Error monitoring and alerts", growth: "Error monitoring and alerts", enterprise: "Error monitoring and alerts", off: "" },
+  { startup: "Monthly run reporting", growth: "Monthly run reporting", enterprise: "Monthly run reporting", off: "" },
+  {
+    startup: null,
+    growth: "AI-assisted steps (classification, extraction, drafting)",
+    enterprise: "AI-assisted steps (classification, extraction, drafting)",
+    off: "AI-assisted steps (classification, extraction, drafting)",
   },
-  enterprise: {
-    price: { idr: "Rp 1,7jt", usd: "$105" },
-    bullets: [
-      "5+ automations + custom agent",
-      "Internal tools integration",
-      "RAG / fine-tuning ready",
-      "Claude Sonnet / GPT-4 tier",
-      "A/B test automation logic",
-      "Dedicated AI engineer",
-    ],
+  {
+    startup: null,
+    growth: "Advanced logic (branching and conditionals)",
+    enterprise: "Advanced logic (branching and conditionals)",
+    off: "Advanced logic (branching and conditionals)",
   },
-};
+  { startup: null, growth: "Monthly optimization", enterprise: "Monthly optimization", off: "Monthly optimization" },
+  { startup: null, growth: null, enterprise: "Custom AI agent (chatbot or internal assistant)", off: "Custom AI agent (chatbot or internal assistant)" },
+  { startup: null, growth: null, enterprise: "Dedicated support", off: "Dedicated support" },
+];
 
-// --- Ads ----------------------------------------------------------------
-const adsMonthly: Record<Tier, TierContent> = {
-  startup: {
-    price: { idr: "Rp 700k", usd: "$45" },
-    bullets: [
-      "1 platform (Meta or Google)",
-      "Ad spend ≤ Rp 3M/mo",
-      "2 creative variants",
-      "Pixel + conversion setup",
-      "Weekly WhatsApp check-in",
-    ],
+// --- Ads Management (monthly, ad spend excluded) ------------------------
+const adsSpecs: ReadonlyArray<Spec> = [
+  {
+    startup: "1 platform (Google Ads / Meta Ads / TikTok Ads)",
+    growth: "2 platforms (Google Ads / Meta Ads / TikTok Ads)",
+    enterprise: "All platforms (Google Ads, Meta Ads, and TikTok Ads)",
+    off: "",
   },
-  growth: {
-    price: { idr: "Rp 1,1jt", usd: "$70" },
-    bullets: [
-      "2 platforms",
-      "Ad spend ≤ Rp 15M/mo",
-      "6 creatives + 1 video",
-      "Landing-page optimization",
-      "Audience research",
-      "Monthly performance call",
-    ],
+  { startup: "Ads audit", growth: "Ads audit", enterprise: "Ads audit", off: "" },
+  { startup: "Ads optimization", growth: "Ads optimization", enterprise: "Ads optimization", off: "" },
+  {
+    startup: "Post 1 ad/month (10 days each)",
+    growth: "Post 2 ads/month (10 days each)",
+    enterprise: "Post 4 ads/month (7 days each)",
+    off: "",
   },
-  enterprise: {
-    price: { idr: "Rp 1,6jt", usd: "$100" },
-    bullets: [
-      "3+ platforms",
-      "Ad spend ≤ Rp 40M/mo",
-      "15+ creatives + weekly iteration",
-      "Dedicated media buyer",
-      "Attribution modeling",
-      "Weekly strategy call",
-    ],
+  { startup: "Simple copywriting", growth: "Advanced copywriting", enterprise: "Advanced copywriting", off: "" },
+  { startup: "Simple targeting", growth: "Simple targeting", enterprise: "Advanced targeting", off: "" },
+  { startup: "Monthly result reporting", growth: "Monthly result reporting", enterprise: "Monthly result reporting", off: "" },
+  { startup: null, growth: "Ads strategy", enterprise: "Ads strategy", off: "Ads strategy" },
+  {
+    startup: null,
+    growth: "Monthly strategy reporting (for the upcoming month)",
+    enterprise: "Monthly strategy reporting (for the upcoming month)",
+    off: "Monthly strategy reporting (for the upcoming month)",
   },
-};
-
-// --- Full Digital Marketing (the bundle) --------------------------------
-const fullMonthly: Record<Tier, TierContent> = {
-  startup: {
-    price: { idr: "Rp 1,2jt", usd: "$75" },
-    bullets: [
-      "Web Startup",
-      "Social Startup",
-      "AI Startup",
-      "Ads Startup",
-      "Quarterly strategy review",
-      "Shared PM",
-    ],
-  },
-  growth: {
-    price: { idr: "Rp 1,7jt", usd: "$105" },
-    bullets: [
-      "Web Growth",
-      "Social Growth",
-      "AI Growth",
-      "Ads Growth",
-      "Monthly strategy review",
-      "Dedicated PM",
-      "Bi-weekly reporting",
-    ],
-  },
-  enterprise: {
-    price: { idr: "Rp 2jt", usd: "$125" },
-    bullets: [
-      "Web Enterprise",
-      "Social Enterprise",
-      "AI Enterprise",
-      "Ads Enterprise",
-      "Weekly strategy review",
-      "Dedicated PM + designer + dev + media buyer + AI engineer",
-      "Weekly reporting",
-    ],
-  },
-};
+];
 
 export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
   {
@@ -266,14 +233,22 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Built once,",
     bold: "made to last.",
     blurb:
-      "Monthly retainer covers maintenance, content updates, security patches, and progressive iteration on the live site. New website builds are quoted separately as a one-time fee.",
-    monthly: webMonthly,
-    yearly: yearlyOf(webMonthly, {
-      startup: { idr: "Rp 4jt", usd: "$250" },
-      growth: { idr: "Rp 6,5jt", usd: "$405" },
-      enterprise: { idr: "Rp 9jt", usd: "$560" },
-    }),
-    footnote: "New website build is a separate one-time fee (Rp 3jt to 25jt scoped).",
+      "A yearly plan that builds your new website and keeps it running: pages, domain, hosting, security, and ongoing content management, all in.",
+    unit: "year",
+    footnote:
+      "Price is per year and covers the new website build, domain, and hosting.",
+    tiers: tiersFrom(
+      webSpecs,
+      { startup: 2_500_000, growth: 3_600_000, enterprise: 5_100_000 },
+      {
+        startup:
+          "Suitable if you need a simple landing page, company profile, website redesign, or website management.",
+        growth:
+          "Suitable if you need a portfolio site, a website with a simple reservation feature, or a site to showcase multiple services or products.",
+        enterprise:
+          "Suitable if you need an e-commerce website, a system with an advanced reservation or booking feature, or an admin panel to view and manage data.",
+      },
+    ),
   },
   {
     id: "social",
@@ -281,13 +256,20 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Show up.",
     bold: "Show why.",
     blurb:
-      "End-to-end content production, scheduling, and community management. We don't post for the sake of posting. Every piece serves a thesis.",
-    monthly: socialMonthly,
-    yearly: yearlyOf(socialMonthly, {
-      startup: { idr: "Rp 5,5jt", usd: "$345" },
-      growth: { idr: "Rp 8jt", usd: "$500" },
-      enterprise: { idr: "Rp 10jt", usd: "$625" },
-    }),
+      "End-to-end content production, editing, and posting. We design, write, and ship the feeds, stories, and reels that keep your brand present.",
+    unit: "month",
+    tiers: tiersFrom(
+      socialSpecs,
+      { startup: 1_800_000, growth: 2_800_000, enterprise: 4_000_000 },
+      {
+        startup:
+          "Suitable if you need a team that keeps your social media active and consistent.",
+        growth:
+          "Suitable if you need a team that grows your presence with a real content strategy, not just regular posting.",
+        enterprise:
+          "Suitable if you need a team that fully runs your social, from strategy and production to community management.",
+      },
+    ),
   },
   {
     id: "ai",
@@ -295,13 +277,20 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Less manual,",
     bold: "more output.",
     blurb:
-      "Build AI workflows that handle the repeatable work so your team can focus on the unrepeatable. WhatsApp chatbots, lead scoring, content drafting, internal Q&A bots, custom agents.",
-    monthly: aiMonthly,
-    yearly: yearlyOf(aiMonthly, {
-      startup: { idr: "Rp 6jt", usd: "$375" },
-      growth: { idr: "Rp 8,5jt", usd: "$530" },
-      enterprise: { idr: "Rp 11jt", usd: "$690" },
-    }),
+      "Automation and AI agents that handle the repetitive, manual work in the background, from simple trigger-based workflows to custom AI agents.",
+    unit: "month",
+    tiers: tiersFrom(
+      aiSpecs,
+      { startup: 2_000_000, growth: 3_500_000, enterprise: 5_500_000 },
+      {
+        startup:
+          "Suitable if you want to automate one repetitive task from start to finish.",
+        growth:
+          "Suitable if you want to automate several workflows and add AI to your day-to-day operations.",
+        enterprise:
+          "Suitable if you want custom AI agents and fully automated pipelines across your business.",
+      },
+    ),
   },
   {
     id: "ads",
@@ -309,64 +298,37 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     italic: "Spend smarter,",
     bold: "not louder.",
     blurb:
-      "Strategy, creative, and management for paid media across Meta, Google, TikTok, and LinkedIn. Management fee is separate from ad spend. You pay platforms directly.",
-    monthly: adsMonthly,
-    yearly: yearlyOf(adsMonthly, {
-      startup: { idr: "Rp 6jt", usd: "$375" },
-      growth: { idr: "Rp 8jt", usd: "$500" },
-      enterprise: { idr: "Rp 10,5jt", usd: "$655" },
-    }),
-    footnote: "Ad spend is billed by the platform directly. Mgmt fee separate.",
-  },
-  {
-    id: "full",
-    name: "Full Digital Marketing",
-    italic: "Everything,",
-    bold: "one team.",
-    blurb:
-      "The bundle. Web + Social + AI + Ads under one roof, with one strategy, one PM, and one invoice. Up to ~29% off versus buying services individually.",
-    featured: true,
-    monthly: fullMonthly,
-    yearly: yearlyOf(fullMonthly, {
-      startup: { idr: "Rp 9jt", usd: "$560" },
-      growth: { idr: "Rp 11jt", usd: "$690" },
-      enterprise: { idr: "Rp 13jt", usd: "$810" },
-    }),
+      "Strategy, creative, and management for paid media across Google, Meta, and TikTok. The management fee is separate from your ad spend.",
+    unit: "month",
+    priceNote: "ads budget excluded",
+    footnote:
+      "Ad spend is billed by the platforms directly; the management fee is separate.",
+    tiers: tiersFrom(
+      adsSpecs,
+      { startup: 1_500_000, growth: 2_600_000, enterprise: 3_800_000 },
+      {
+        startup:
+          "Suitable if you need a team to look after, optimize, audit, and regularly post your ads.",
+        growth:
+          "Suitable if you need a team to set an ads strategy, post more ads regularly, and write stronger ad copy.",
+        enterprise:
+          "Suitable if you need a team that analyses thoroughly which ads worked and why, keeps your ads always running, and targets the right people more precisely.",
+      },
+    ),
   },
 ];
 
 export const PRICING_NOTES: ReadonlyArray<{ label: string; body: string }> = [
   {
-    label: "Commitment",
-    body: "Monthly is 1 month, no lock-in. Yearly is paid upfront, with a pro-rata refund if cancelled mid-term.",
-  },
-  {
-    label: "Onboarding",
-    body: "Startup tier is free. Growth Rp 1M. Enterprise Rp 3M. One-time, covers brand/asset audit and system setup.",
+    label: "Billing",
+    body: "Web & Software Development is billed per year. Social Media, Ads, and AI Automation are monthly retainers with no lock-in.",
   },
   {
     label: "Tax",
-    body: "Indonesian VAT (PPN 11%) is not included in any of the prices above.",
+    body: "Indonesian VAT (PPN 11%) is not included in the prices above.",
   },
   {
     label: "Payment",
-    body: "Monthly upfront via bank transfer. NET 7 invoice.",
-  },
-  {
-    label: "Currency",
-    body: "Prices switch to USD in English and IDR in Indonesian, at roughly Rp 16,000 to the dollar.",
+    body: "Paid upfront via bank transfer.",
   },
 ];
-
-/**
- * Bundle savings copy shown beneath both tables. Computed mentally
- * once when the pricing structure was set. If prices change, update
- * here too.
- */
-export const BUNDLE_SAVINGS = {
-  startup: "~24%",
-  growth: "~26%",
-  enterprise: "~29%",
-};
-
-export const YEARLY_SAVINGS_RANGE = "30 to 46%";
