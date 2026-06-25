@@ -4,31 +4,37 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useIntroState, markIntroShown } from "@/lib/intro";
+import TextScramble from "@/components/TextScramble";
 
 /**
- * Curtain page transition.
+ * Page transition + intro loader, one overlay.
  *
- * Replaces the old route spinner + intro loader on the marketing site.
- * The flow on every internal link click:
+ * A single full-screen ink panel handles every covered moment on the
+ * marketing site:
  *
- *   1. close   — an ink panel wipes up to cover the screen
- *   2. swap    — router.push() loads the new route UNDER the cover
- *   3. settle  — once the new route commits, scroll is reset to the top
- *   4. reveal  — the panel wipes off the top, uncovering the fresh page
+ *   • First open of the site (any landing page) and every navigation to
+ *     the HOME page play the branded count-up LOADER: the panel covers,
+ *     the "Onyx Creative" wordmark decodes while a counter runs to 100,
+ *     then the panel wipes off the top to reveal the page.
  *
- * Because the content swap + scroll reset happen while the panel fully
- * covers the viewport, the change is never visible — it reads as one
- * seamless wipe. A short minimum hold keeps it deliberate even when the
- * next route is statically pre-rendered and commits instantly.
+ *   • Navigating to any OTHER page plays the quick CURTAIN wipe: cover →
+ *     swap → reveal, with just the logo mark, no counter.
  *
- * We intercept clicks in the capture phase and call router.push ourselves,
- * so Next's <Link> never navigates on its own (no flash of the new page
- * before the curtain is in place). Browser back/forward is left alone.
+ * In both cases the route swap + scroll reset happen while the panel
+ * fully covers the viewport, so the content change is never visible.
+ *
+ * Internal link clicks are intercepted in the capture phase so Next's
+ * <Link> never navigates ahead of the panel. Browser back/forward and
+ * reduced-motion users are left to native behavior.
  */
 
 const EASE = [0.76, 0, 0.24, 1] as const;
-const MIN_COVER_MS = 180; // guaranteed covered hold so the swap can't peek through
-const NAV_SAFETY_MS = 1400; // never wait forever for a route that won't commit
+const COUNT_MS = 1700; // loader counter duration
+const MIN_COVER_MS = 180; // minimum covered hold for the plain curtain
+const NAV_SAFETY_MS = 1600; // cap on waiting for a route to commit
+
+type Mode = "loader" | "curtain";
 
 const PANEL = {
   hidden: { y: "100%" },
@@ -36,23 +42,30 @@ const PANEL = {
   reveal: { y: "-100%", transition: { duration: 0.65, ease: EASE } },
 } as const;
 
-const MARK = {
-  hidden: { opacity: 0, y: 10 },
-  cover: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE } },
-  reveal: { opacity: 0, y: -10, transition: { duration: 0.3, ease: EASE } },
-} as const;
-
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+const twoFrames = () =>
+  new Promise<void>((r) =>
+    requestAnimationFrame(() => requestAnimationFrame(() => r())),
+  );
+
+type Lenis = { stop: () => void; start: () => void; scrollTo: (t: number, o?: unknown) => void };
+const getLenis = () =>
+  (window as unknown as { __lenis?: Lenis }).__lenis;
 
 export default function PageCurtain() {
   const router = useRouter();
   const pathname = usePathname();
+  const intro = useIntroState();
   const controls = useAnimationControls();
 
-  const busy = useRef(false);
-  const [active, setActive] = useState(false); // drives pointer-events while transitioning
+  const [mode, setMode] = useState<Mode>("curtain");
+  const [count, setCount] = useState(0);
+  const [active, setActive] = useState(false);
+  // Bumped each time the loader plays so the wordmark re-mounts and the
+  // scramble decode replays.
+  const [runId, setRunId] = useState(0);
 
-  // Resolver plumbing so run() can `await` the next route actually committing.
+  const busy = useRef(false);
   const targetPath = useRef<string | null>(null);
   const resolvePath = useRef<(() => void) | null>(null);
 
@@ -79,39 +92,92 @@ export default function PageCurtain() {
     });
   }
 
+  function lockScroll(lock: boolean) {
+    const l = getLenis();
+    if (!l) return;
+    if (lock) l.stop();
+    else l.start();
+  }
+
   function resetScroll() {
-    // Lenis owns the scroll position; reset it instantly (no smooth glide)
-    // while we're covered, then sync the raw window scroll as a fallback.
-    const lenis = (window as unknown as { __lenis?: { scrollTo: (t: number, o?: unknown) => void } })
-      .__lenis;
-    lenis?.scrollTo(0, { immediate: true, force: true });
+    getLenis()?.scrollTo(0, { immediate: true, force: true });
     window.scrollTo(0, 0);
   }
 
-  async function run(to: string, pathOnly: string) {
+  function runCount(duration = COUNT_MS) {
+    return new Promise<void>((resolve) => {
+      const start = performance.now();
+      const tick = (now: number) => {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setCount(Math.round(eased * 100));
+        if (p < 1) requestAnimationFrame(tick);
+        else resolve();
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // ── First open of the site: play the loader intro standalone ──
+  useEffect(() => {
+    if (intro !== true) return; // only the first session load
+    markIntroShown();
+    let cancelled = false;
+    (async () => {
+      setMode("loader");
+      setCount(0);
+      setRunId((n) => n + 1);
+      setActive(true);
+      lockScroll(true);
+      controls.set("cover"); // already on the page — cover without a wipe-in
+      await runCount();
+      if (cancelled) return;
+      await sleep(150);
+      await controls.start("reveal");
+      controls.set("hidden");
+      lockScroll(false);
+      setActive(false);
+      setMode("curtain");
+    })();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [intro]);
+
+  // ── Drive a click-initiated navigation ──
+  async function run(to: string, pathOnly: string, isHome: boolean) {
     busy.current = true;
     setActive(true);
+    setMode(isHome ? "loader" : "curtain");
+    if (isHome) {
+      setCount(0);
+      setRunId((n) => n + 1);
+    }
+    lockScroll(true);
 
     const t0 = Date.now();
     await controls.start("cover");
 
     router.push(to);
     await waitForRoute(pathOnly);
-
     resetScroll();
 
-    // Guarantee a minimum covered hold + let the fresh page paint at top.
-    const held = Date.now() - t0;
-    if (held < MIN_COVER_MS) await sleep(MIN_COVER_MS - held);
-    await new Promise<void>((r) =>
-      requestAnimationFrame(() => requestAnimationFrame(() => r())),
-    );
+    if (isHome) {
+      await runCount();
+    } else {
+      const held = Date.now() - t0;
+      if (held < MIN_COVER_MS) await sleep(MIN_COVER_MS - held);
+    }
 
+    await twoFrames();
     await controls.start("reveal");
     controls.set("hidden");
 
+    lockScroll(false);
     busy.current = false;
     setActive(false);
+    setMode("curtain");
   }
 
   useEffect(() => {
@@ -120,7 +186,7 @@ export default function PageCurtain() {
       window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
     function handler(e: MouseEvent) {
-      if (reduce) return; // honour reduced-motion: let Next navigate normally
+      if (reduce) return;
       if (e.defaultPrevented) return;
       if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0)
         return;
@@ -148,15 +214,12 @@ export default function PageCurtain() {
         return;
       }
       if (url.origin !== window.location.origin) return;
-      // Same path (incl. pure hash links) — let the browser/Next handle it.
       if (url.pathname === window.location.pathname) return;
 
-      // Take over navigation. stopPropagation keeps Next's <Link> onClick
-      // from firing, so it never navigates ahead of the curtain.
       e.preventDefault();
       e.stopPropagation();
       if (busy.current) return;
-      run(url.pathname + url.search + url.hash, url.pathname);
+      run(url.pathname + url.search + url.hash, url.pathname, url.pathname === "/");
     }
 
     document.addEventListener("click", handler, true);
@@ -171,22 +234,68 @@ export default function PageCurtain() {
       animate={controls}
       variants={PANEL}
       style={{ pointerEvents: active ? "auto" : "none" }}
-      className="fixed inset-0 z-[300] flex items-center justify-center bg-ink"
+      className="fixed inset-0 z-[300] bg-ink text-bone"
     >
-      <motion.div
-        variants={MARK}
-        animate={controls}
-        initial="hidden"
-        className="relative h-7 w-[64px] md:h-8 md:w-[72px]"
-      >
-        <Image
-          src="/onyx-logo-white.png"
-          alt=""
-          fill
-          sizes="72px"
-          className="object-contain"
-        />
-      </motion.div>
+      {mode === "loader" ? (
+        <div key={runId} className="flex h-full w-full flex-col justify-between">
+          {/* Top bar */}
+          <div className="container-x flex items-center justify-between pt-6 md:pt-8 text-xs uppercase tracking-[0.2em]">
+            <span>Onyx Creative Asia</span>
+            <span className="hidden md:inline">EST. 2023 · Asia</span>
+          </div>
+
+          {/* Center wordmark — cryptographic decode */}
+          <div className="container-x flex flex-1 items-center justify-center">
+            <h1 className="text-display-md font-medium leading-none text-balance text-center">
+              <TextScramble
+                text="Onyx"
+                duration={1500}
+                startDelay={120}
+                scramblePerSecond={26}
+              />
+              <span className="font-light italic">
+                {" "}
+                <TextScramble
+                  text="Creative"
+                  duration={1800}
+                  startDelay={320}
+                  scramblePerSecond={24}
+                />
+              </span>
+            </h1>
+          </div>
+
+          {/* Bottom: counter + progress bar */}
+          <div className="container-x pb-6 md:pb-8">
+            <div className="flex items-end justify-between">
+              <div className="text-xs uppercase tracking-[0.2em] opacity-70">
+                Loading experience
+              </div>
+              <div className="font-medium tabular-nums text-2xl md:text-3xl">
+                {String(count).padStart(3, "0")}
+              </div>
+            </div>
+            <div className="mt-4 h-px w-full overflow-hidden bg-bone/15">
+              <div
+                className="h-full w-full origin-left bg-bone"
+                style={{ transform: `scaleX(${count / 100})` }}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="relative h-7 w-[64px] md:h-8 md:w-[72px]">
+            <Image
+              src="/onyx-logo-white.png"
+              alt=""
+              fill
+              sizes="72px"
+              className="object-contain"
+            />
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 }

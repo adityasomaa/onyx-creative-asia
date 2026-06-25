@@ -1,11 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 import HeroVideo from "./HeroVideo";
 import TextScramble from "@/components/TextScramble";
 import { useT } from "@/lib/i18n";
-import { useIntroState, markIntroShown } from "@/lib/intro";
+import { useIntroState } from "@/lib/intro";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 // Hold the headline below the mask while the loader covers the page.
@@ -19,13 +18,6 @@ export default function Hero() {
   // in full view, reading like a glitch. Gate it: scramble only when the
   // intro is showing; otherwise render the settled text directly.
   const intro = useIntroState();
-  // The intro loader used to own this; with it removed, the Hero marks the
-  // intro as "shown" for the session the first time it plays. Subsequent
-  // mounts (client-side nav back home) then render the settled text instead
-  // of re-scrambling.
-  useEffect(() => {
-    if (intro) markIntroShown();
-  }, [intro]);
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-ink text-bone">
       <HeroVideo />
