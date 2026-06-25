@@ -46,20 +46,26 @@ export default function Hero() {
         {/* Main headline */}
         <h1 className="text-balance text-display-lg font-medium leading-[0.88] tracking-tight">
           <Line delay={ENTER + 0.1}>Brand, performance,</Line>
-          <span className="block">
-            <span className="font-light italic">
-              {intro ? (
+          {intro ? (
+            // First session load: the "system unlocking" scramble, hidden
+            // under the intro loader.
+            <span className="block">
+              <span className="font-light italic">
                 <TextScramble
                   text="and AI systems"
                   duration={1700}
                   startDelay={(ENTER + 0.18) * 1000}
                   scramblePerSecond={26}
                 />
-              ) : (
-                "and AI systems"
-              )}
+              </span>
             </span>
-          </span>
+          ) : (
+            // Client-side nav back home (no loader): match the slide-up
+            // reveal of the lines above and below.
+            <Line delay={ENTER + 0.18} italic>
+              and AI systems
+            </Line>
+          )}
           <Line delay={ENTER + 0.26}>for ambitious teams.</Line>
         </h1>
 
