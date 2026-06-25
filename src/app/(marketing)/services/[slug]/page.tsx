@@ -216,11 +216,11 @@ export default async function ServiceDetailPage({
 
       {/* ───────────────────── WHO THIS IS FOR ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
-        <Reveal className="max-w-3xl">
+        <Reveal className="max-w-6xl">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
             <T>Who this is for</T>
           </p>
-          <p className="text-display-sm font-light italic leading-[1.05] tracking-tight text-balance">
+          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-light italic leading-[1.1] tracking-tight text-balance">
             <T>{service.fitFor}</T>
           </p>
         </Reveal>
@@ -231,8 +231,8 @@ export default async function ServiceDetailPage({
           plate, invite a free consultation. */}
       <section className="bg-ink text-bone py-24 md:py-32">
         <div className="container-x">
-          <Reveal className="max-w-3xl">
-            <h2 className="text-display-sm md:text-display-md font-medium leading-[0.98] tracking-tight text-balance">
+          <Reveal className="max-w-6xl">
+            <h2 className="text-4xl sm:text-5xl md:text-display-md font-medium leading-[1.0] tracking-tight text-balance">
               <T>{service.cta.problem}</T>
             </h2>
             <p className="mt-6 md:mt-8 text-lg md:text-xl leading-relaxed text-bone/85 max-w-2xl">
