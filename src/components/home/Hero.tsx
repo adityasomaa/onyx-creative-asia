@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import HeroVideo from "./HeroVideo";
 import TextScramble from "@/components/TextScramble";
 import { useT } from "@/lib/i18n";
+import { useIntroState } from "@/lib/intro";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 // Hold the headline below the mask while the loader covers the page.
@@ -11,6 +12,12 @@ const ENTER = 0.4;
 
 export default function Hero() {
   const t = useT();
+  // The scramble is part of the intro "system unlocking" moment, which only
+  // happens on the first session load (under the loader). On client-side
+  // navigation back home the loader doesn't run, so the scramble would play
+  // in full view, reading like a glitch. Gate it: scramble only when the
+  // intro is showing; otherwise render the settled text directly.
+  const intro = useIntroState();
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-ink text-bone">
       <HeroVideo />
@@ -41,12 +48,16 @@ export default function Hero() {
           <Line delay={ENTER + 0.1}>Brand, performance,</Line>
           <span className="block">
             <span className="font-light italic">
-              <TextScramble
-                text="and AI systems"
-                duration={1700}
-                startDelay={(ENTER + 0.18) * 1000}
-                scramblePerSecond={26}
-              />
+              {intro ? (
+                <TextScramble
+                  text="and AI systems"
+                  duration={1700}
+                  startDelay={(ENTER + 0.18) * 1000}
+                  scramblePerSecond={26}
+                />
+              ) : (
+                "and AI systems"
+              )}
             </span>
           </span>
           <Line delay={ENTER + 0.26}>for ambitious teams.</Line>

@@ -37,7 +37,7 @@ export default function ServicesPreview() {
             className="border-b border-hairline-light"
           >
             <Link
-              href={`/services#${s.id}`}
+              href={`/services/${s.id}`}
               className="container-x grid grid-cols-12 items-center py-8 md:py-12 group"
               data-cursor="hover"
             >
