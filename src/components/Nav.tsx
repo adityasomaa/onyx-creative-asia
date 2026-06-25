@@ -58,9 +58,9 @@ export default function Nav() {
   // outside any single NavItem and span the full header width.
   const [megaOpen, setMegaOpen] = useState(false);
 
-  // When intro loader is showing this session, delay until it exits.
-  // Otherwise (returning visitor), animate right away.
-  const navDelay = introState === true ? 2.4 : 0.1;
+  // The intro loader is gone, so the header no longer waits for it to exit.
+  // A small delay on first load lets the hero start animating in first.
+  const navDelay = introState === true ? 0.4 : 0.1;
   // Header is treated as "on a light surface" whenever it's scrolled, the
   // mobile menu is open, OR the mega menu is open — in all three cases we
   // paint it bone with ink text so the panel reads cleanly.

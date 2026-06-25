@@ -1,0 +1,27 @@
+Add curtain page transition; remove intro + route loaders
+
+Marketing site now uses a seamless curtain wipe for client-side
+navigation instead of the intro count-up loader and the route spinner:
+
+  1. internal link click is intercepted (capture phase, so Next's <Link>
+     never navigates ahead of the curtain)
+  2. an ink panel wipes up to cover the screen
+  3. router.push loads the new route UNDER the cover
+  4. once it commits, scroll is hard-reset to the top (Lenis + window)
+  5. the panel wipes off the top, revealing the fresh page
+
+The swap + scroll reset happen fully covered, so the content change is
+never visible. A minimum covered hold keeps it deliberate on instant
+(pre-rendered) routes; a safety timeout caps the wait on slow ones.
+Honors prefers-reduced-motion (skips the curtain). Browser back/forward
+is left to native behavior.
+
+- New PageCurtain mounted in the marketing layout; intro Loader removed.
+- RouteLoader spinner moved from the root layout to the agents layout
+  (the dashboard keeps its spinner; the public site uses the curtain).
+- Hero now owns markIntroShown() so the first-load scramble gating still
+  works without the loader; second+ visits render the settled text.
+- Nav no longer waits ~2.4s for the (now absent) loader to exit.
+- SmoothScroll exposes the Lenis instance for the curtain's scroll reset.
+
+Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>

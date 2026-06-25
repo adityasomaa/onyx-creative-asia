@@ -1,5 +1,5 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
-import Loader from "@/components/Loader";
+import PageCurtain from "@/components/PageCurtain";
 import Nav from "@/components/Nav";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
@@ -237,7 +237,7 @@ export default function MarketingLayout({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }}
       />
       <CurrencyProvider>
-        <Loader />
+        <PageCurtain />
         <SmoothScroll />
         <Cursor />
         <Nav />

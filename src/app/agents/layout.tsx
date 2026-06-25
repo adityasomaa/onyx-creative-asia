@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
 import AgentsChrome from "./_components/AgentsChrome";
+import RouteLoader from "@/components/RouteLoader";
 import { getProfile } from "@/lib/db/profile";
 
 export const metadata: Metadata = {
@@ -25,6 +26,7 @@ export default async function AgentsLayout({
     // on narrow viewports if any child component overflows by accident.
     // The sticky header's inner nav is the one that scrolls horizontally.
     <div className="min-h-screen bg-ink text-bone font-sans antialiased overflow-x-hidden">
+      <RouteLoader />
       <AgentsChrome
         displayName={profile.display_name || "Onyx"}
         avatarUrl={profile.avatar_url}

@@ -24,6 +24,9 @@ export default function SmoothScroll() {
       touchMultiplier: 1.4,
     });
     lenisRef.current = lenis;
+    // Expose the instance so the page-transition curtain can hard-reset the
+    // scroll position to the top while it's covering the screen.
+    (window as unknown as { __lenis?: Lenis }).__lenis = lenis;
 
     let rafId: number;
     function raf(time: number) {
@@ -36,6 +39,7 @@ export default function SmoothScroll() {
       cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
+      delete (window as unknown as { __lenis?: Lenis }).__lenis;
     };
   }, []);
 
