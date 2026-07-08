@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { SERVICES } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
-import ServicePricing from "@/components/pricing/ServicePricing";
 import RelatedWorks from "@/components/services/RelatedWorks";
 import { T } from "@/lib/i18n";
 
@@ -208,12 +207,6 @@ export default async function ServiceDetailPage({
           </Reveal>
         </div>
       </section>
-
-      {/* ───────────────────── PRICING ─────────────────────
-          Drop in the 3-tier pricing card for this service. Pulled
-          from the central src/lib/pricing.ts source of truth so the
-          /pricing page and per-service detail stay in lockstep. */}
-      <ServicePricing serviceSlug={service.id} />
 
       {/* ───────────────────── WHO THIS IS FOR ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">

@@ -37,7 +37,6 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
     ],
   },
   { href: "/works", label: "Works" },
-  { href: "/pricing", label: "Pricing" },
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ];
