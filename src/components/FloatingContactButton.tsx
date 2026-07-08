@@ -45,7 +45,7 @@ export default function FloatingContactButton() {
           <Link
             href="/contact"
             aria-label="Get in touch"
-            className="group inline-flex items-center gap-3 rounded-full bg-ink/70 backdrop-blur-xl ring-1 ring-white/10 text-bone pl-5 pr-5 md:pr-6 py-3 md:py-3.5 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.7)] transition-all duration-500 ease-out-expo hover:-translate-y-0.5"
+            className="group inline-flex items-center gap-3 rounded-full bg-ink text-bone pl-5 pr-5 md:pr-6 py-3 md:py-3.5 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.7)] transition-all duration-500 ease-out-expo hover:-translate-y-0.5"
           >
             <span
               aria-hidden

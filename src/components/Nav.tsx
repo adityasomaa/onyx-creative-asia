@@ -127,7 +127,7 @@ export default function Nav() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[120] transition-colors duration-500",
           onLightSurface
-            ? "bg-bone/70 backdrop-blur-xl border-b border-white/30 text-ink"
+            ? "bg-bone/95 backdrop-blur-md border-b border-hairline text-ink"
             : dark
               ? "bg-transparent text-bone"
               : "bg-transparent text-ink"
@@ -254,7 +254,7 @@ export default function Nav() {
               transition={{ duration: 0.28, ease: EASE }}
               onMouseEnter={cancelCloseMega}
               onMouseLeave={closeMegaWithDelay}
-              className="hidden md:block absolute top-full left-0 right-0 bg-bone/75 backdrop-blur-2xl text-ink border-b border-white/40 shadow-[0_24px_60px_-20px_rgba(14,14,14,0.18)]"
+              className="hidden md:block absolute top-full left-0 right-0 bg-bone text-ink border-b border-hairline shadow-[0_24px_60px_-20px_rgba(14,14,14,0.18)]"
             >
               <div className="container-x py-10 lg:py-12">
                 {/* Heading row */}
@@ -345,7 +345,7 @@ export default function Nav() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.7, ease: EASE }}
-            className="fixed inset-0 z-[110] bg-ink/85 backdrop-blur-2xl text-bone flex flex-col pt-20 md:hidden"
+            className="fixed inset-0 z-[110] bg-ink text-bone flex flex-col pt-20 md:hidden"
           >
             <nav className="container-x flex flex-col gap-2 pt-12 overflow-y-auto pb-8">
               {NAV_LINKS.map((link, i) => {
