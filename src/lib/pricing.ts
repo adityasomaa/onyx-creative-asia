@@ -235,8 +235,6 @@ export const SERVICE_ROWS: ReadonlyArray<ServiceRow> = [
     blurb:
       "A yearly plan that builds your new website and keeps it running: pages, domain, hosting, security, and ongoing content management, all in.",
     unit: "year",
-    footnote:
-      "Price is per year and covers the new website build, domain, and hosting.",
     tiers: tiersFrom(
       webSpecs,
       { startup: 2_500_000, growth: 3_600_000, enterprise: 5_100_000 },

@@ -57,6 +57,9 @@ export default function Nav() {
   // Desktop mega-menu open state, lifted to Nav so the panel can render
   // outside any single NavItem and span the full header width.
   const [megaOpen, setMegaOpen] = useState(false);
+  // Mobile: which parent's sub-menu is expanded (only Services has one).
+  // First tap on Services expands this; a second tap navigates to /services.
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
 
   // On first load the intro loader is covering the page, so the header waits
   // until it has counted up and started lifting. Returning visitors (and
@@ -101,10 +104,12 @@ export default function Nav() {
   useEffect(() => {
     setOpen(false);
     setMegaOpen(false);
+    setMobileExpanded(null);
   }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
+    if (!open) setMobileExpanded(null);
     return () => {
       document.body.style.overflow = "";
     };
@@ -122,7 +127,7 @@ export default function Nav() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[120] transition-colors duration-500",
           onLightSurface
-            ? "bg-bone/95 backdrop-blur-md border-b border-hairline text-ink"
+            ? "bg-bone/70 backdrop-blur-xl border-b border-white/30 text-ink"
             : dark
               ? "bg-transparent text-bone"
               : "bg-transparent text-ink"
@@ -249,7 +254,7 @@ export default function Nav() {
               transition={{ duration: 0.28, ease: EASE }}
               onMouseEnter={cancelCloseMega}
               onMouseLeave={closeMegaWithDelay}
-              className="hidden md:block absolute top-full left-0 right-0 bg-bone text-ink border-b border-hairline shadow-[0_24px_60px_-20px_rgba(14,14,14,0.18)]"
+              className="hidden md:block absolute top-full left-0 right-0 bg-bone/75 backdrop-blur-2xl text-ink border-b border-white/40 shadow-[0_24px_60px_-20px_rgba(14,14,14,0.18)]"
             >
               <div className="container-x py-10 lg:py-12">
                 {/* Heading row */}
@@ -340,45 +345,86 @@ export default function Nav() {
             animate={{ y: 0 }}
             exit={{ y: "-100%" }}
             transition={{ duration: 0.7, ease: EASE }}
-            className="fixed inset-0 z-[110] bg-ink text-bone flex flex-col pt-20 md:hidden"
+            className="fixed inset-0 z-[110] bg-ink/85 backdrop-blur-2xl text-bone flex flex-col pt-20 md:hidden"
           >
             <nav className="container-x flex flex-col gap-2 pt-12 overflow-y-auto pb-8">
-              {NAV_LINKS.map((link, i) => (
-                <motion.div
-                  key={link.href}
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{
-                    duration: 0.7,
-                    ease: EASE,
-                    delay: 0.2 + i * 0.07,
-                  }}
-                >
-                  <Link
-                    href={link.href}
-                    className="block py-3 text-4xl font-medium tracking-tight"
+              {NAV_LINKS.map((link, i) => {
+                const hasChildren =
+                  !!link.children && link.children.length > 0;
+                const expanded = mobileExpanded === link.href;
+                return (
+                  <motion.div
+                    key={link.href}
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{
+                      duration: 0.7,
+                      ease: EASE,
+                      delay: 0.2 + i * 0.07,
+                    }}
                   >
-                    {t(link.label)}
-                  </Link>
-                  {/* Sub-items rendered inline under the parent — no
-                      accordion toggle, just a tighter indented list so the
-                      overview link + each detail page are all one tap away. */}
-                  {link.children && link.children.length > 0 && (
-                    <ul className="pl-1 pb-2 flex flex-col gap-1 border-l border-bone/20 ml-1">
-                      {link.children.map((child) => (
-                        <li key={child.href}>
-                          <Link
-                            href={child.href}
-                            className="block py-1.5 pl-4 text-base font-light tracking-tight text-bone/70 hover:text-bone transition-colors"
-                          >
-                            {child.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </motion.div>
-              ))}
+                    {/* A parent with children (Services) is a two-step tap:
+                        first tap expands the sub-menu (button, no nav),
+                        a second tap on the now-open parent navigates to the
+                        overview page (link). Leaf links navigate directly. */}
+                    {hasChildren ? (
+                      expanded ? (
+                        <Link
+                          href={link.href}
+                          className="flex items-center justify-between py-3 text-4xl font-medium tracking-tight"
+                        >
+                          {t(link.label)}
+                          <span aria-hidden className="text-xl opacity-60">
+                            ▴
+                          </span>
+                        </Link>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => setMobileExpanded(link.href)}
+                          aria-expanded={false}
+                          className="flex w-full items-center justify-between py-3 text-4xl font-medium tracking-tight text-left"
+                        >
+                          {t(link.label)}
+                          <span aria-hidden className="text-xl opacity-60">
+                            ▾
+                          </span>
+                        </button>
+                      )
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="block py-3 text-4xl font-medium tracking-tight"
+                      >
+                        {t(link.label)}
+                      </Link>
+                    )}
+
+                    <AnimatePresence initial={false}>
+                      {hasChildren && expanded && (
+                        <motion.ul
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.45, ease: EASE }}
+                          className="overflow-hidden pl-1 pb-2 flex flex-col gap-1 border-l border-bone/20 ml-1"
+                        >
+                          {link.children!.map((child) => (
+                            <li key={child.href}>
+                              <Link
+                                href={child.href}
+                                className="block py-1.5 pl-4 text-base font-light tracking-tight text-bone/70 hover:text-bone transition-colors"
+                              >
+                                {child.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
             </nav>
             <div className="mt-auto container-x pb-10 text-xs uppercase tracking-[0.2em] opacity-60">
               hello@onyxcreative.asia

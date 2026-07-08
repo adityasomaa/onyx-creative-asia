@@ -134,7 +134,55 @@ export const PROJECTS: Project[] = [
     longDescription:
       "Bali's spa market is crowded with brick-and-mortar wellness brands competing for the same walk-in foot traffic. Astungkare took the opposite bet: the spa comes to you, 24 hours a day, across the island. The job was to make that promise feel as effortless online as it does in person, a hero that tells you the earliest tonight slot in real time, treatments priced and explained without spa-speak, a cancellation policy you can read before you book, and a single tap to WhatsApp the therapist directly. The brand is dark gold and serif-led, the kind of restraint that lets the service do the talking. Site, social, and paid media all run from the same studio so the voice and the offer stay aligned across every surface.",
   },
+  {
+    slug: "great-bali-villas",
+    title: "Villa Rental Surface",
+    client: "Great Bali Villas",
+    category: "Web & Software Development",
+    year: "2025",
+    description:
+      "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp. Built so short-listing a villa feels considered, not chaotic.",
+    cover: "/projects/great-bali-villas.webp",
+    coverLoop: "/projects/great-bali-villas.mp4",
+    tags: ["Web", "Villas", "Booking"],
+    url: "https://greatbalivillas.com",
+    urlLabel: "Visit site",
+    services: ["Web & Software Development"],
+    location: "Bali, Indonesia",
+    scope: [
+      "Villa catalog with area, size, and date filters",
+      "Full-bleed galleries and per-villa amenity breakdowns",
+      "Availability enquiry routed straight to WhatsApp",
+      "Responsive editorial layout with map context",
+      "SEO setup for high-intent villa searches",
+    ],
+    longDescription:
+      "Booking a villa in Bali usually means bouncing between listing sites, screenshots, and half-answered DMs. Great Bali Villas wanted the opposite: one calm surface where a guest can filter by the things that actually matter, area, size, and dates, see each villa properly, and reach a real person in one tap. We built the catalog, the galleries, and the enquiry flow to run straight to WhatsApp, Bali's real booking channel, so interest turns into a conversation without a form standing in the way.",
+  },
 ];
+
+/**
+ * Category strings a project can carry (in `category` or `services[]`)
+ * that count as matching a given /services/[slug]. Kept explicit because
+ * older projects use looser labels ("Web Development", "AI Systems") than
+ * the current service names ("Web & Software Development", "AI Automation").
+ */
+const SERVICE_PROJECT_MATCH: Record<string, ReadonlyArray<string>> = {
+  "web-development": ["Web Development", "Web & Software Development"],
+  "paid-media": ["Ads Management", "Paid Media", "Ads"],
+  "social-media": ["Social Media Management", "Social Media", "Social"],
+  "ai-systems": ["AI Systems", "AI Automation"],
+};
+
+/** Projects related to a service detail page, empty array if none yet. */
+export function getProjectsForService(serviceSlug: string): Project[] {
+  const accepted = SERVICE_PROJECT_MATCH[serviceSlug];
+  if (!accepted) return [];
+  return PROJECTS.filter((p) => {
+    const labels = [p.category, ...(p.services ?? [])];
+    return labels.some((l) => accepted.includes(l));
+  });
+}
 
 /** Best-effort label for a project's live URL when none is provided. */
 export function defaultUrlLabel(url: string): string {

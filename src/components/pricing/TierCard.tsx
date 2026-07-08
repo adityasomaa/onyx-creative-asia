@@ -24,12 +24,10 @@ export default function TierCard({
         {TIER_LABELS[tier]}
       </p>
 
-      <p className="mt-3 flex items-baseline gap-1.5">
-        <span className="text-3xl md:text-4xl font-medium tracking-tight tabular-nums">
-          {formatIDR(plan.amount)}
-        </span>
-        <span className="text-sm italic font-light text-ink/55">/ {unit}</span>
+      <p className="mt-3 text-3xl md:text-4xl font-medium tracking-tight tabular-nums">
+        {formatIDR(plan.amount)}
       </p>
+      <p className="mt-1 text-sm italic font-light text-ink/55">/ {unit}</p>
       {priceNote && (
         <p className="mt-1 text-xs italic text-ink/45">{priceNote}</p>
       )}

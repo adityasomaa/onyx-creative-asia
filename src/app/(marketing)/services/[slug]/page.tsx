@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { SERVICES } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import ServicePricing from "@/components/pricing/ServicePricing";
+import RelatedWorks from "@/components/services/RelatedWorks";
 import { T } from "@/lib/i18n";
 
 type Params = { slug: string };
@@ -225,6 +226,11 @@ export default async function ServiceDetailPage({
           </p>
         </Reveal>
       </section>
+
+      {/* ───────────────────── RELATED WORK ─────────────────────
+          Case studies that used this discipline. Renders nothing when
+          there are no matching projects yet. */}
+      <RelatedWorks serviceSlug={service.id} />
 
       {/* ───────────── PROBLEM → SOLUTION CTA ─────────────
           Funnel close: name the problem, offer to take it off their
