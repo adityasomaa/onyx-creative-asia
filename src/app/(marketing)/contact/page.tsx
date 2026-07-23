@@ -26,8 +26,7 @@ export default function ContactPage() {
           <T>(Get in touch)</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text="Let's start" />
-          <br />
+          <RevealText text="Let's start" />{" "}
           <span className="font-normal italic">
             <RevealText text="a conversation." delay={0.15} />
           </span>

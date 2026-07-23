@@ -110,8 +110,7 @@ export default async function ProjectDetailPage({
         </div>
 
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text={project.client} />
-          <br />
+          <RevealText text={project.client} />{" "}
           <span className="font-normal italic">
             <RevealText text={project.title.toLowerCase() + "."} delay={0.15} />
           </span>
@@ -121,7 +120,7 @@ export default async function ProjectDetailPage({
       {/* Hero cover (image + optional looping video) */}
       <section className="container-x pb-12 md:pb-20">
         <Reveal amount={0.1}>
-          <div className="relative aspect-[4/3] md:aspect-[16/8] overflow-hidden bg-ink group">
+          <div className="group relative aspect-[4/3] md:aspect-[16/8] overflow-hidden rounded-3xl bg-ink">
             <ProjectCover
               src={project.cover}
               loop={project.coverLoop}

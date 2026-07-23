@@ -43,11 +43,9 @@ export default function Footer() {
           className="text-display-md font-medium leading-[0.92] tracking-tight text-balance"
         >
           {t("Got a brand to")}{" "}
-          <span className="font-normal italic">{t("build,")}</span>
-          <br />
+          <span className="font-normal italic">{t("build,")}</span>{" "}
           {t("a system to")}{" "}
-          <span className="font-normal italic">{t("automate,")}</span>
-          <br />
+          <span className="font-normal italic">{t("automate,")}</span>{" "}
           {t("or growth to")}{" "}
           <span className="font-normal italic">{t("unlock?")}</span>
         </motion.h2>

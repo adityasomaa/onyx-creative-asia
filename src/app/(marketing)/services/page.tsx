@@ -7,12 +7,12 @@ import { T } from "@/lib/i18n";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Web development, paid media (Google/Meta/TikTok), social media strategy, and AI systems, four disciplines under one roof.",
+    "Digital presence, digital marketing, creative studio, AI automation, growth and analytics, and managed services, all from one team.",
   alternates: { canonical: "/services" },
   openGraph: {
     title: "Services, Onyx Creative Asia",
     description:
-      "Web · Paid Media · Social · AI Systems. Four disciplines, one studio.",
+      "Six services, one team. Everything your business needs to grow digitally.",
     url: "/services",
     type: "website",
   },
@@ -26,11 +26,7 @@ export default function ServicesPage() {
           <T>(Capabilities)</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text="Four disciplines." />
-          <br />
-          <span className="font-normal italic">
-            <RevealText text="One studio." delay={0.15} />
-          </span>
+          <RevealText text="Everything we do." />
         </h1>
         <p className="mt-14 md:mt-10 max-w-xl text-lg text-ink/70 leading-relaxed">
           <T>
@@ -50,7 +46,7 @@ export default function ServicesPage() {
           >
             <Reveal className="md:col-span-4">
               <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3 tabular-nums">
-                {s.number} / 04
+                {s.number} / {String(SERVICES.length).padStart(2, "0")}
               </p>
               <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
                 <T>{s.title}</T>

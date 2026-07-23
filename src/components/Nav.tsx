@@ -62,10 +62,11 @@ export default function Nav() {
   // until it has counted up and started lifting. Returning visitors (and
   // every client-side nav after) get the quick delay.
   const navDelay = introState === true ? 2.4 : 0.1;
-  // Header is treated as "on a light surface" whenever it's scrolled, the
-  // mobile menu is open, OR the mega menu is open — in all three cases we
-  // paint it bone with ink text so the panel reads cleanly.
-  const onLightSurface = scrolled || open || megaOpen;
+  // Header is treated as "on a light surface" when it's scrolled or the
+  // mobile menu is open. Opening the mega menu deliberately does NOT flip
+  // it, so hovering Services only reveals the panel and the header stays
+  // exactly as it was.
+  const onLightSurface = scrolled || open;
   const dark = DARK_HERO_PATHS.has(pathname) && !onLightSurface;
 
   // Hover-coordination for the mega menu.
@@ -237,39 +238,32 @@ export default function Nav() {
         </div>
 
         {/* ─────────────────── DESKTOP MEGA MENU ───────────────────
-            Lives inside the header, absolute-positioned to span full width
-            below the inner container. Hovering it keeps the panel open;
-            leaving the header (or hovering a non-Services nav item) closes
-            it with a small delay. */}
+            A floating, rounded glass panel centred under the header. It is
+            deliberately NOT full width and does NOT flip the header to its
+            light state, so opening it only reveals the panel. Each service
+            row lights up by changing its own background on hover. */}
         <AnimatePresence>
           {megaOpen && (
             <motion.div
               key="mega-services"
-              initial={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.28, ease: EASE }}
               onMouseEnter={cancelCloseMega}
               onMouseLeave={closeMegaWithDelay}
-              className="hidden md:block absolute top-full left-0 right-0 bg-bone text-ink border-b border-hairline shadow-[0_24px_60px_-20px_rgba(14,14,14,0.18)]"
+              className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[min(72rem,calc(100vw-4rem))] overflow-hidden rounded-3xl border border-white/15 bg-ink/60 text-bone shadow-[0_30px_80px_-30px_rgba(0,0,0,0.65)] backdrop-blur-3xl backdrop-saturate-150"
             >
-              <div className="container-x py-10 lg:py-12">
-                {/* Heading row */}
-                <div className="flex items-end justify-between flex-wrap gap-y-4 pb-8 border-b border-hairline">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-[0.28em] opacity-55 mb-2">
-                      Capabilities
-                    </p>
-                    <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
-                      Four disciplines,
-                      <span className="font-normal italic"> one studio.</span>
-                    </h2>
-                  </div>
+              <div className="p-7 lg:p-9">
+                <div className="mb-6 flex flex-wrap items-end justify-between gap-y-3 border-b border-white/10 pb-5">
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-bone/55">
+                    What we do
+                  </p>
                   <Link
                     href="/services"
-                    className="text-xs uppercase tracking-[0.22em] opacity-70 hover:opacity-100 inline-flex items-center gap-2 group transition-opacity"
+                    className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-bone/70 transition-colors hover:text-bone"
                   >
-                    All on one page
+                    See all services
                     <span
                       aria-hidden
                       className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
@@ -279,51 +273,22 @@ export default function Nav() {
                   </Link>
                 </div>
 
-                {/* Service cards — 4 columns on lg, 2 on md, 1 on sm */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-6 pt-8">
+                <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
                   {SERVICES.map((s) => (
                     <Link
                       key={s.id}
                       href={`/services/${s.id}`}
-                      className="group relative block py-2 pl-5"
+                      className="group rounded-2xl p-4 transition-colors duration-300 hover:bg-bone/10 focus-visible:bg-bone/10"
                     >
-                      {/* Hairline left-edge accent on hover.
-                          Sits in the 20px gutter created by pl-5 above, so
-                          it never overlaps the text — even on the leftmost
-                          column where there's no preceding card gap. */}
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-2 bottom-2 w-px bg-ink/70 scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-500 ease-out-expo"
-                      />
-                      <p className="text-[10px] uppercase tracking-[0.25em] opacity-50 tabular-nums">
-                        {s.number} / 04
+                      <p className="text-[10px] uppercase tracking-[0.25em] tabular-nums text-bone/45">
+                        {s.number}
                       </p>
-                      <h3 className="mt-2 text-xl font-medium tracking-tight leading-tight">
+                      <h3 className="mt-1.5 text-lg font-medium leading-tight tracking-tight">
                         {s.title}
                       </h3>
-                      <p className="mt-2 text-sm italic text-ink/65 leading-relaxed">
+                      <p className="mt-1.5 text-sm leading-snug text-bone/60">
                         {s.short}
                       </p>
-                      <ul className="mt-4 space-y-1.5">
-                        {s.capabilities.slice(0, 4).map((c) => (
-                          <li
-                            key={c}
-                            className="text-xs text-ink/55 leading-snug flex items-baseline gap-2"
-                          >
-                            <span className="opacity-50">·</span>
-                            <span>{c}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      <span className="mt-5 inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.22em] opacity-70 group-hover:opacity-100 transition-opacity">
-                        Read
-                        <span
-                          aria-hidden
-                          className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
-                        >
-                          →
-                        </span>
-                      </span>
                     </Link>
                   ))}
                 </div>

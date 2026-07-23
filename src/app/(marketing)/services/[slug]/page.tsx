@@ -49,7 +49,7 @@ export default async function ServiceDetailPage({
   // ───────── JSON-LD: per-service Service schema ─────────
   // Scopes the capability to this URL so AI answer engines can cite
   // the right page when asked about a specific service ("best web
-  // development agency in Bali" → /services/web-development).
+  // agency in Bali" → /services/digital-presence).
   const SERVICE_JSON_LD = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -101,7 +101,7 @@ export default async function ServiceDetailPage({
       {/* ───────────────────── HERO ───────────────────── */}
       <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 tabular-nums">
-          ({service.number} / 04) · <T>Capability</T>
+          ({service.number} / {String(SERVICES.length).padStart(2, "0")}) · <T>Service</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text={service.title} />
@@ -140,10 +140,10 @@ export default async function ServiceDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           <Reveal className="md:col-span-4">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              <T>Inside the scope</T>
+              <T>What is included</T>
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              <T>Capabilities.</T>
+              <T>What we cover.</T>
             </h2>
             <p className="mt-6 text-sm opacity-65 max-w-xs italic">
               <T>
@@ -173,14 +173,10 @@ export default async function ServiceDetailPage({
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
           <Reveal className="md:col-span-4">
             <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              <T>How it goes</T>
+              <T>Our process</T>
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              <T>The shape of an</T>
-              <br />
-              <span className="font-normal italic">
-                <T>engagement.</T>
-              </span>
+              <T>How we deliver this work</T>
             </h2>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
@@ -268,17 +264,17 @@ export default async function ServiceDetailPage({
       {/* ───────────────────── OTHER SERVICES ───────────────────── */}
       <section className="container-x pb-32 md:pb-40 border-t border-hairline pt-16 md:pt-20">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-8">
-          <T>Other capabilities</T>
+          <T>Other services</T>
         </p>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {others.map((o) => (
             <li key={o.id}>
               <Link
                 href={`/services/${o.id}`}
-                className="group block border border-hairline p-6 md:p-8 transition-colors hover:bg-ink/[0.03]"
+                className="group block rounded-2xl border border-hairline p-6 md:p-8 transition-colors hover:bg-ink/[0.03]"
               >
                 <p className="text-xs uppercase tracking-[0.25em] opacity-60 tabular-nums mb-4">
-                  {o.number} / 04
+                  {o.number} / {String(SERVICES.length).padStart(2, "0")}
                 </p>
                 <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
                   <T>{o.title}</T>

@@ -20,7 +20,7 @@ export default function ServicesPreview() {
           {t("(What we do)")}
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
-          <RevealText text="Four disciplines, working as one." />
+          <RevealText text="What we do." />
         </h2>
       </div>
 

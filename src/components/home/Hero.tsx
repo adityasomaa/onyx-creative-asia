@@ -2,121 +2,61 @@
 
 import { motion } from "framer-motion";
 import HeroVideo from "./HeroVideo";
-import TextScramble from "@/components/TextScramble";
-import { useT } from "@/lib/i18n";
-import { useIntroState } from "@/lib/intro";
+import HeroImageTrail from "./HeroImageTrail";
+import { PROJECTS } from "@/lib/data";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
-// Hold the headline below the mask while the loader covers the page.
-const ENTER = 0.4;
+const ENTER = 0.35;
+
+// The trail cycles every project's cover. Swapping a project's `cover` for
+// a real client screenshot updates the hero with no change here.
+const TRAIL_IMAGES = PROJECTS.map((p) => p.cover);
 
 export default function Hero() {
-  const t = useT();
-  // The scramble is part of the intro "system unlocking" moment, which only
-  // happens on the first session load (under the loader). On client-side
-  // navigation back home the loader doesn't run, so the scramble would play
-  // in full view, reading like a glitch. Gate it: scramble only when the
-  // intro is showing; otherwise render the settled text directly.
-  const intro = useIntroState();
   return (
     <section className="relative min-h-[100svh] overflow-hidden bg-ink text-bone">
       <HeroVideo />
+      <HeroImageTrail images={TRAIL_IMAGES} />
 
-      <div className="container-x relative z-10 flex min-h-[100svh] flex-col justify-end pb-12 pt-44 md:pb-20 md:pt-40">
-        {/* Top meta */}
-        <div className="absolute left-0 right-0 top-24 flex flex-col justify-between gap-3 px-6 text-xs uppercase tracking-[0.25em] md:top-28 md:flex-row md:gap-2 md:px-10 lg:px-16">
-          <motion.span
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: EASE, delay: ENTER }}
-            className="opacity-80"
-          >
-            {t("(Independent studio, Asia)")}
-          </motion.span>
-          <motion.span
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: EASE, delay: ENTER + 0.05 }}
-            className="opacity-80"
-          >
-            {`(${new Date().getFullYear()}, Open for projects)`}
-          </motion.span>
-        </div>
+      <div className="container-x relative z-10 flex min-h-[100svh] flex-col items-center justify-center py-32 text-center">
+        <motion.p
+          initial={{ y: 16, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.9, ease: EASE, delay: ENTER }}
+          className="text-xs uppercase tracking-[0.3em] text-bone/70 md:text-sm"
+        >
+          Onyx Creative Asia
+        </motion.p>
 
-        {/* Main headline */}
-        <h1 className="text-balance text-display-lg font-medium leading-[0.88] tracking-tight">
-          <Line delay={ENTER + 0.1}>Brand, performance,</Line>
-          {intro ? (
-            // First session load: the "system unlocking" scramble, hidden
-            // under the intro loader.
-            <span className="block">
-              <span className="font-normal italic">
-                <TextScramble
-                  text="and AI systems"
-                  duration={1700}
-                  startDelay={(ENTER + 0.18) * 1000}
-                  scramblePerSecond={26}
-                />
-              </span>
-            </span>
-          ) : (
-            // Client-side nav back home (no loader): match the slide-up
-            // reveal of the lines above and below.
-            <Line delay={ENTER + 0.18} italic>
-              and AI systems
-            </Line>
-          )}
-          <Line delay={ENTER + 0.26}>for ambitious teams.</Line>
-        </h1>
+        <motion.h1
+          initial={{ y: 28, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.12 }}
+          className="mt-6 max-w-5xl text-balance text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+        >
+          Your one stop business development digital solution
+        </motion.h1>
 
-        {/* Sub copy */}
-        <div className="mt-20 grid grid-cols-1 items-end gap-8 md:mt-16 md:grid-cols-12">
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: EASE, delay: ENTER + 0.55 }}
-            className="max-w-md text-base leading-relaxed text-bone/80 md:col-span-5 md:col-start-7 md:text-lg"
-          >
-            {t(
-              "Onyx Creative Asia builds the digital surface, the growth engine, and the automation layer, under one roof, with one team that actually does the work.",
-            )}
-          </motion.p>
-        </div>
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.24 }}
+          className="mt-8 max-w-2xl text-balance text-base leading-relaxed text-bone/80 md:text-lg"
+        >
+          We help your business grow digitally, the correct way. Everything you
+          need, everything you will ever look for to grow digitally, we have it
+          all.
+        </motion.p>
 
-        {/* Scroll cue */}
-        <motion.div
+        {/* Wordless scroll cue, so the copy above stays exactly as specified. */}
+        <motion.span
+          aria-hidden
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.8 }}
-          className="mt-16 flex items-center gap-3 text-xs uppercase tracking-[0.25em] text-bone/70"
-        >
-          <span className="h-px w-10 bg-bone" />
-          <span>{t("Scroll to explore")}</span>
-        </motion.div>
+          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.6 }}
+          className="absolute bottom-10 left-1/2 h-10 w-px -translate-x-1/2 bg-gradient-to-b from-bone/60 to-transparent"
+        />
       </div>
     </section>
-  );
-}
-
-function Line({
-  children,
-  delay,
-  italic = false,
-}: {
-  children: React.ReactNode;
-  delay: number;
-  italic?: boolean;
-}) {
-  return (
-    <span className="block reveal-mask">
-      <motion.span
-        initial={{ y: "110%" }}
-        animate={{ y: "0%" }}
-        transition={{ duration: 1.1, ease: EASE, delay }}
-        className={`inline-block ${italic ? "font-normal italic" : ""}`}
-      >
-        {children}
-      </motion.span>
-    </span>
   );
 }

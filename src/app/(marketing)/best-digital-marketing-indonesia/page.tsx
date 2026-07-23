@@ -172,8 +172,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         <div className="grid md:grid-cols-12 gap-10">
           <Reveal className="md:col-span-4">
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              Do you need a
-              <br />
+              Do you need a{" "}
               <span className="font-normal italic">
                 Jakarta agency?
               </span>
@@ -208,8 +207,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
           Indonesian agency hubs
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
-          Which Indonesian city for
-          <br />
+          Which Indonesian city for{" "}
           <span className="font-normal italic">which work?</span>
         </h2>
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
@@ -249,8 +247,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
               Where Onyx fits
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              Why
-              <br />
+              Why{" "}
               <span className="font-normal italic">Onyx.</span>
             </h2>
           </Reveal>
@@ -331,8 +328,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
           FAQ
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
-          Common
-          <br />
+          Common{" "}
           <span className="font-normal italic">questions.</span>
         </h2>
         <ul className="border-t border-hairline">

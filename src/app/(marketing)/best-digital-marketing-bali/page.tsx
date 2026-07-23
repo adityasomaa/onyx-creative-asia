@@ -180,8 +180,7 @@ export default function BestDigitalMarketingBaliPage() {
         <div className="grid md:grid-cols-12 gap-10">
           <Reveal className="md:col-span-4">
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              What does
-              <br />
+              What does{" "}
               <span className="font-normal italic">&ldquo;best&rdquo; mean.</span>
             </h2>
           </Reveal>
@@ -207,8 +206,7 @@ export default function BestDigitalMarketingBaliPage() {
           Pricing tiers in Bali (2026)
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
-          How much should digital marketing
-          <br />
+          How much should digital marketing{" "}
           <span className="font-normal italic">cost in Bali?</span>
         </h2>
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -263,8 +261,7 @@ export default function BestDigitalMarketingBaliPage() {
               Selection criteria
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              How to pick
-              <br />
+              How to pick{" "}
               <span className="font-normal italic">an agency.</span>
             </h2>
           </Reveal>
@@ -311,8 +308,7 @@ export default function BestDigitalMarketingBaliPage() {
               Where Onyx fits
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              Why
-              <br />
+              Why{" "}
               <span className="font-normal italic">Onyx.</span>
             </h2>
           </Reveal>
@@ -362,8 +358,7 @@ export default function BestDigitalMarketingBaliPage() {
           FAQ
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
-          Common
-          <br />
+          Common{" "}
           <span className="font-normal italic">questions.</span>
         </h2>
         <ul className="border-t border-hairline">

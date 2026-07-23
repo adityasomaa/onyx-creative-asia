@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About, Onyx Creative Asia",
     description:
-      "Independent studio in Bali. One team, four disciplines, no hand-offs.",
+      "Independent studio in Bali. One team, every service, no hand-offs.",
     url: "/about",
     type: "website",
   },
@@ -49,8 +49,7 @@ export default function AboutPage() {
           <T>(About, the studio)</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text="An independent studio." />
-          <br />
+          <RevealText text="An independent studio." />{" "}
           <span className="font-normal italic">
             <RevealText text="Built to deliver." delay={0.15} />
           </span>
@@ -63,8 +62,7 @@ export default function AboutPage() {
             <T>(Story)</T>
           </p>
           <h2 className="text-3xl md:text-4xl font-medium leading-tight tracking-tight">
-            We started Onyx around one belief:
-            <br />
+            We started Onyx around one belief:{" "}
             <span className="font-normal italic">speed</span> and
             <span className="font-normal italic"> care</span> don&apos;t have to
             trade off.
