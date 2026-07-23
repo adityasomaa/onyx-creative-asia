@@ -70,7 +70,7 @@ export default function GeneralForm() {
           headline={
             <>
               {t("Got it.")}{" "}
-              <span className="font-light italic">
+              <span className="font-normal italic">
                 {t("We'll reply within 48 hours.")}
               </span>
             </>

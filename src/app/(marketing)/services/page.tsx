@@ -28,7 +28,7 @@ export default function ServicesPage() {
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text="Four disciplines." />
           <br />
-          <span className="font-light italic">
+          <span className="font-normal italic">
             <RevealText text="One studio." delay={0.15} />
           </span>
         </h1>
@@ -55,7 +55,7 @@ export default function ServicesPage() {
               <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
                 <T>{s.title}</T>
               </h2>
-              <p className="mt-6 md:mt-4 text-lg font-light italic text-ink/70 max-w-sm">
+              <p className="mt-6 md:mt-4 text-lg font-normal italic text-ink/70 max-w-sm">
                 <T>{s.short}</T>
               </p>
             </Reveal>

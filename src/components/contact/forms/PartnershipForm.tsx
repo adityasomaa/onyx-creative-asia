@@ -95,7 +95,7 @@ export default function PartnershipForm() {
           headline={
             <>
               {t("Got it.")}{" "}
-              <span className="font-light italic">
+              <span className="font-normal italic">
                 {t("We'll be in touch within 5 days.")}
               </span>
             </>

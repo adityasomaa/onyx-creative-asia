@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { getProjectsForService } from "@/lib/data";
-import ProjectCover from "@/components/ProjectCover";
+import WorkCard from "@/components/works/WorkCard";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
@@ -34,40 +33,10 @@ export default function RelatedWorks({
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, ease: EASE, delay: (i % 3) * 0.08 }}
           >
-            <Link
-              href={`/works/${p.slug}`}
-              className="group block"
-              data-cursor="hover"
-            >
-              <div className="relative aspect-[16/9] overflow-hidden bg-ink">
-                <ProjectCover
-                  src={p.cover}
-                  loop={p.coverLoop}
-                  alt={`${p.client}, ${p.title}`}
-                  sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                />
-                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
-              </div>
-              <div className="mt-4 flex items-baseline justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                    {p.category}, {p.year}
-                  </p>
-                  <h3 className="mt-1.5 text-lg md:text-xl font-medium tracking-tight">
-                    {p.client}
-                    <span className="font-light italic text-ink/60">
-                      , {p.title.toLowerCase()}
-                    </span>
-                  </h3>
-                </div>
-                <span
-                  aria-hidden
-                  className="text-xl transition-transform duration-700 ease-out-expo group-hover:translate-x-1 group-hover:-translate-y-1"
-                >
-                  ↗
-                </span>
-              </div>
-            </Link>
+            <WorkCard
+              project={p}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            />
           </motion.div>
         ))}
       </div>

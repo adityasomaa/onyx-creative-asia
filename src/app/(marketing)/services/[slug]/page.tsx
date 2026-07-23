@@ -106,7 +106,7 @@ export default async function ServiceDetailPage({
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text={service.title} />
         </h1>
-        <p className="mt-10 max-w-2xl text-xl md:text-2xl font-light italic text-ink/75 leading-snug text-balance">
+        <p className="mt-10 max-w-2xl text-xl md:text-2xl font-normal italic text-ink/75 leading-snug text-balance">
           <T>{service.intro}</T>
         </p>
       </section>
@@ -178,7 +178,7 @@ export default async function ServiceDetailPage({
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               <T>The shape of an</T>
               <br />
-              <span className="font-light italic">
+              <span className="font-normal italic">
                 <T>engagement.</T>
               </span>
             </h2>
@@ -214,7 +214,7 @@ export default async function ServiceDetailPage({
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
             <T>Who this is for</T>
           </p>
-          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-light italic leading-[1.1] tracking-tight text-balance">
+          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-normal italic leading-[1.1] tracking-tight text-balance">
             <T>{service.fitFor}</T>
           </p>
         </Reveal>

@@ -13,6 +13,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    // The service taxonomy was reorganised (4 disciplines -> 6 services).
+    // Old detail URLs were indexed, so point them at the closest new one
+    // instead of 404ing. Also covers the retired /pricing page and the
+    // removed Great Bali Properties case study.
+    return [
+      { source: "/services/web-development", destination: "/services/digital-presence", permanent: true },
+      { source: "/services/paid-media", destination: "/services/digital-marketing", permanent: true },
+      { source: "/services/social-media", destination: "/services/digital-marketing", permanent: true },
+      { source: "/services/ai-systems", destination: "/services/ai-automation", permanent: true },
+      { source: "/pricing", destination: "/services", permanent: true },
+      { source: "/works/great-bali-properties", destination: "/works", permanent: true },
+    ];
+  },
   async rewrites() {
     // Subdomain splits:
     //   agents.onyxcreative.asia/* → /agents/* (internal route)

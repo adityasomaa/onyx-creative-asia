@@ -1,5 +1,6 @@
 import { GoogleAnalytics } from "@next/third-parties/google";
 import PageCurtain from "@/components/PageCurtain";
+import { SERVICES } from "@/lib/data";
 import Nav from "@/components/Nav";
 import SmoothScroll from "@/components/SmoothScroll";
 import Cursor from "@/components/Cursor";
@@ -86,57 +87,19 @@ const ORG_JSON_LD = {
     "Digital Marketing Bali",
     "Digital Marketing Indonesia",
   ],
-  serviceType: [
-    "Web Development",
-    "Paid Media Management",
-    "Social Media Management",
-    "AI Systems Development",
-  ],
+  serviceType: SERVICES.map((s) => s.title),
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Onyx Creative Asia Services",
-    itemListElement: [
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Web Development",
-          url: "https://onyxcreative.asia/services/web-development",
-          description:
-            "Custom websites and web apps built with Next.js / React. Marketing sites, headless commerce, and product UI.",
-        },
+    itemListElement: SERVICES.map((s) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: s.title,
+        url: `https://onyxcreative.asia/services/${s.id}`,
+        description: s.description,
       },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Paid Media",
-          url: "https://onyxcreative.asia/services/paid-media",
-          description:
-            "Google Ads, Meta Ads, and TikTok Ads management. Creative testing, audience architecture, attribution.",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "Social Media",
-          url: "https://onyxcreative.asia/services/social-media",
-          description:
-            "Strategy, content production (photo/video/motion), and community management for Instagram, TikTok, LinkedIn.",
-        },
-      },
-      {
-        "@type": "Offer",
-        itemOffered: {
-          "@type": "Service",
-          name: "AI Systems",
-          url: "https://onyxcreative.asia/services/ai-systems",
-          description:
-            "Custom-built AI automation: chatbots, internal workflow agents, content pipelines, reporting systems.",
-        },
-      },
-    ],
+    })),
   },
   contactPoint: [
     {

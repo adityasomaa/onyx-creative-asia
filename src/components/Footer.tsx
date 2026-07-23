@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { SERVICES } from "@/lib/data";
 import { useT } from "@/lib/i18n";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
@@ -15,12 +16,10 @@ const SITEMAP = [
   { label: "Contact", href: "/contact" },
 ];
 
-const SERVICES_LINKS = [
-  { label: "Web & Software Development", href: "/services#web-development" },
-  { label: "Ads Management", href: "/services#paid-media" },
-  { label: "Social Media Management", href: "/services#social-media" },
-  { label: "AI Automation", href: "/services#ai-systems" },
-];
+const SERVICES_LINKS = SERVICES.map((s) => ({
+  label: s.title,
+  href: `/services/${s.id}`,
+}));
 
 const LEGAL = [
   { label: "Privacy Policy", href: "/privacy" },
@@ -44,13 +43,13 @@ export default function Footer() {
           className="text-display-md font-medium leading-[0.92] tracking-tight text-balance"
         >
           {t("Got a brand to")}{" "}
-          <span className="font-light italic">{t("build,")}</span>
+          <span className="font-normal italic">{t("build,")}</span>
           <br />
           {t("a system to")}{" "}
-          <span className="font-light italic">{t("automate,")}</span>
+          <span className="font-normal italic">{t("automate,")}</span>
           <br />
           {t("or growth to")}{" "}
-          <span className="font-light italic">{t("unlock?")}</span>
+          <span className="font-normal italic">{t("unlock?")}</span>
         </motion.h2>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -152,7 +151,7 @@ export default function Footer() {
           className="text-display-xl font-medium tracking-[-0.05em] text-bone leading-[0.85] pb-4"
         >
           ONYX
-          <span className="font-light italic"> Creative</span>
+          <span className="font-normal italic"> Creative</span>
         </h3>
       </div>
     </footer>

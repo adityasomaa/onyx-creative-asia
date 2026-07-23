@@ -17,7 +17,7 @@ export default function TermsPage() {
           (Terms of Use, last updated {UPDATED})
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          Terms <span className="font-light italic">of use.</span>
+          Terms <span className="font-normal italic">of use.</span>
         </h1>
         <p className="mt-14 md:mt-10 max-w-2xl text-lg text-ink/70 leading-relaxed">
           By using{" "}

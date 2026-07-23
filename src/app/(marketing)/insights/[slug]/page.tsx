@@ -115,7 +115,7 @@ export default async function InsightPage({
             <RevealText text={piece.title} />
           </h1>
 
-          <p className="mt-10 text-xl md:text-2xl text-ink/70 leading-relaxed font-light italic max-w-2xl">
+          <p className="mt-10 text-xl md:text-2xl text-ink/70 leading-relaxed font-normal italic max-w-2xl">
             {piece.excerpt}
           </p>
         </div>

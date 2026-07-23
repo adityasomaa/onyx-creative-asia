@@ -50,7 +50,7 @@ export default function Hero() {
             // First session load: the "system unlocking" scramble, hidden
             // under the intro loader.
             <span className="block">
-              <span className="font-light italic">
+              <span className="font-normal italic">
                 <TextScramble
                   text="and AI systems"
                   duration={1700}
@@ -113,7 +113,7 @@ function Line({
         initial={{ y: "110%" }}
         animate={{ y: "0%" }}
         transition={{ duration: 1.1, ease: EASE, delay }}
-        className={`inline-block ${italic ? "font-light italic" : ""}`}
+        className={`inline-block ${italic ? "font-normal italic" : ""}`}
       >
         {children}
       </motion.span>

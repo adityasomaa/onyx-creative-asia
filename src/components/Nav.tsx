@@ -29,12 +29,10 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
     // The desktop mega panel reads from SERVICES directly so each card
     // has the full payload (number, short tagline, capabilities preview)
     // without us having to duplicate it here.
-    children: [
-      { href: "/services/web-development", label: "Web & Software Development" },
-      { href: "/services/paid-media", label: "Ads Management" },
-      { href: "/services/social-media", label: "Social Media Management" },
-      { href: "/services/ai-systems", label: "AI Automation" },
-    ],
+    children: SERVICES.map((s) => ({
+      href: `/services/${s.id}`,
+      label: s.title,
+    })),
   },
   { href: "/works", label: "Works" },
   { href: "/insights", label: "Insights" },
@@ -264,7 +262,7 @@ export default function Nav() {
                     </p>
                     <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
                       Four disciplines,
-                      <span className="font-light italic"> one studio.</span>
+                      <span className="font-normal italic"> one studio.</span>
                     </h2>
                   </div>
                   <Link
@@ -412,7 +410,7 @@ export default function Nav() {
                             <li key={child.href}>
                               <Link
                                 href={child.href}
-                                className="block py-1.5 pl-4 text-base font-light tracking-tight text-bone/70 hover:text-bone transition-colors"
+                                className="block py-1.5 pl-4 text-base font-normal tracking-tight text-bone/70 hover:text-bone transition-colors"
                               >
                                 {child.label}
                               </Link>

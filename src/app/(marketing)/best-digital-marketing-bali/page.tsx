@@ -142,9 +142,9 @@ export default function BestDigitalMarketingBaliPage() {
         </p>
         <h1 className="text-display-md font-medium leading-[0.95] tracking-tight max-w-5xl text-balance">
           The best digital marketing agency in{" "}
-          <span className="font-light italic">Bali</span>.
+          <span className="font-normal italic">Bali</span>.
         </h1>
-        <p className="mt-10 max-w-3xl text-xl md:text-2xl font-light text-ink/80 leading-snug text-balance">
+        <p className="mt-10 max-w-3xl text-xl md:text-2xl font-normal text-ink/80 leading-snug text-balance">
           An honest breakdown of how to pick a digital marketing partner in
           Bali, what to look for, what to pay, and where Onyx Creative
           Asia fits.
@@ -182,7 +182,7 @@ export default function BestDigitalMarketingBaliPage() {
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               What does
               <br />
-              <span className="font-light italic">&ldquo;best&rdquo; mean.</span>
+              <span className="font-normal italic">&ldquo;best&rdquo; mean.</span>
             </h2>
           </Reveal>
           <Reveal className="md:col-span-7 md:col-start-6 space-y-5 max-w-2xl" delay={0.1}>
@@ -209,7 +209,7 @@ export default function BestDigitalMarketingBaliPage() {
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
           How much should digital marketing
           <br />
-          <span className="font-light italic">cost in Bali?</span>
+          <span className="font-normal italic">cost in Bali?</span>
         </h2>
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           <Tier
@@ -265,7 +265,7 @@ export default function BestDigitalMarketingBaliPage() {
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               How to pick
               <br />
-              <span className="font-light italic">an agency.</span>
+              <span className="font-normal italic">an agency.</span>
             </h2>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6 space-y-6 max-w-2xl" delay={0.1}>
@@ -313,16 +313,16 @@ export default function BestDigitalMarketingBaliPage() {
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               Why
               <br />
-              <span className="font-light italic">Onyx.</span>
+              <span className="font-normal italic">Onyx.</span>
             </h2>
           </Reveal>
           <Reveal className="md:col-span-8 md:col-start-6 space-y-6 max-w-2xl" delay={0.1}>
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
               We&apos;re an independent Bali studio. Four capability areas
-             , <Link href="/services/web-development" className="underline decoration-ink/40 hover:decoration-ink">web development</Link>,{" "}
-              <Link href="/services/paid-media" className="underline decoration-ink/40 hover:decoration-ink">paid media</Link>,{" "}
-              <Link href="/services/social-media" className="underline decoration-ink/40 hover:decoration-ink">social media</Link>, and{" "}
-              <Link href="/services/ai-systems" className="underline decoration-ink/40 hover:decoration-ink">AI systems</Link>, under one team. The person scoping your project
+             , <Link href="/services/digital-presence" className="underline decoration-ink/40 hover:decoration-ink">digital presence</Link>,{" "}
+              <Link href="/services/digital-marketing" className="underline decoration-ink/40 hover:decoration-ink">digital marketing</Link>,{" "}
+              <Link href="/services/creative-studio" className="underline decoration-ink/40 hover:decoration-ink">creative studio</Link>, and{" "}
+              <Link href="/services/ai-automation" className="underline decoration-ink/40 hover:decoration-ink">AI automation</Link>, under one team. The person scoping your project
               is the one delivering it.
             </p>
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
@@ -364,7 +364,7 @@ export default function BestDigitalMarketingBaliPage() {
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
           Common
           <br />
-          <span className="font-light italic">questions.</span>
+          <span className="font-normal italic">questions.</span>
         </h2>
         <ul className="border-t border-hairline">
           {FAQ.map((f) => (

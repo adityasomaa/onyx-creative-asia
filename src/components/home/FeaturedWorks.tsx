@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { PROJECTS } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
-import ProjectCover from "@/components/ProjectCover";
+import WorkCard from "@/components/works/WorkCard";
 import { useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
@@ -47,38 +47,7 @@ export default function FeaturedWorks() {
             // same uniform 16:9.
             className={i % 2 === 1 ? "md:mt-16" : ""}
           >
-            <Link
-              href={`/works/${p.slug}`}
-              className="group block"
-              data-cursor="hover"
-            >
-              <div className="relative aspect-[16/9] overflow-hidden bg-ink">
-                <ProjectCover
-                  src={p.cover}
-                  loop={p.coverLoop}
-                  alt={`${p.client}, ${p.title}`}
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                />
-                <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
-              </div>
-              <div className="flex items-baseline justify-between mt-4 md:mt-5 gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                    {t(p.category)}, {p.year}
-                  </p>
-                  <h3 className="mt-2 text-xl md:text-2xl font-medium tracking-tight">
-                    {p.client}
-                    <span className="font-light italic text-ink/60">, {p.title.toLowerCase()}</span>
-                  </h3>
-                </div>
-                <span
-                  aria-hidden
-                  className="text-2xl transition-transform duration-700 ease-out-expo group-hover:translate-x-2 group-hover:-translate-y-1"
-                >
-                  ↗
-                </span>
-              </div>
-            </Link>
+            <WorkCard project={p} sizes="(min-width: 768px) 50vw, 100vw" />
           </motion.div>
         ))}
       </div>

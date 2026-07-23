@@ -60,7 +60,10 @@ export default async function ProjectDetailPage({
   const next = PROJECTS[(index + 1) % total];
   const prev = PROJECTS[(index - 1 + total) % total];
 
-  const ctaLabel = project.urlLabel ?? defaultUrlLabel(project.url);
+  // Some projects aren't publicly linkable, so the visit CTA is optional.
+  const ctaLabel = project.url
+    ? (project.urlLabel ?? defaultUrlLabel(project.url))
+    : null;
   const testimonial = getTestimonialForProject(project.slug);
 
   // Per-project Review schema for AI answer engines + Google rich
@@ -109,7 +112,7 @@ export default async function ProjectDetailPage({
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text={project.client} />
           <br />
-          <span className="font-light italic">
+          <span className="font-normal italic">
             <RevealText text={project.title.toLowerCase() + "."} delay={0.15} />
           </span>
         </h1>
@@ -138,25 +141,27 @@ export default async function ProjectDetailPage({
           label="Discipline"
           value={(project.services && project.services.join(" · ")) || project.category}
         />
-        <div className="col-span-2 md:col-span-6 md:col-start-7 flex md:justify-end items-end">
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noreferrer noopener"
-            className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
-            data-cursor="hover"
-          >
-            <span className="text-sm font-medium">
-              <T>{ctaLabel}</T>
-            </span>
-            <span
-              aria-hidden
-              className="transition-transform duration-500 group-hover:translate-x-1"
+        {project.url && ctaLabel && (
+          <div className="col-span-2 md:col-span-6 md:col-start-7 flex md:justify-end items-end">
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
+              data-cursor="hover"
             >
-              ↗
-            </span>
-          </a>
-        </div>
+              <span className="text-sm font-medium">
+                <T>{ctaLabel}</T>
+              </span>
+              <span
+                aria-hidden
+                className="transition-transform duration-500 group-hover:translate-x-1"
+              >
+                ↗
+              </span>
+            </a>
+          </div>
+        )}
       </section>
 
       {/* Long description */}

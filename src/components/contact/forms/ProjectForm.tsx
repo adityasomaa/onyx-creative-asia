@@ -105,7 +105,7 @@ export default function ProjectForm() {
           headline={
             <>
               {t("We got it. We'll")}{" "}
-              <span className="font-light italic">{t("reply within 48 hours.")}</span>
+              <span className="font-normal italic">{t("reply within 48 hours.")}</span>
             </>
           }
           body={

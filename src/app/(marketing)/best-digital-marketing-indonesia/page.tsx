@@ -134,9 +134,9 @@ export default function BestDigitalMarketingIndonesiaPage() {
         </p>
         <h1 className="text-display-md font-medium leading-[0.95] tracking-tight max-w-5xl text-balance">
           The best digital marketing agency in{" "}
-          <span className="font-light italic">Indonesia</span>.
+          <span className="font-normal italic">Indonesia</span>.
         </h1>
-        <p className="mt-10 max-w-3xl text-xl md:text-2xl font-light text-ink/80 leading-snug text-balance">
+        <p className="mt-10 max-w-3xl text-xl md:text-2xl font-normal text-ink/80 leading-snug text-balance">
           A practical guide to choosing a digital marketing partner in
           Indonesia in 2026, by city, by budget, by capability, and
           where Onyx Creative Asia fits.
@@ -174,7 +174,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               Do you need a
               <br />
-              <span className="font-light italic">
+              <span className="font-normal italic">
                 Jakarta agency?
               </span>
             </h2>
@@ -210,7 +210,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
           Which Indonesian city for
           <br />
-          <span className="font-light italic">which work?</span>
+          <span className="font-normal italic">which work?</span>
         </h2>
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <CityCard
@@ -251,7 +251,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               Why
               <br />
-              <span className="font-light italic">Onyx.</span>
+              <span className="font-normal italic">Onyx.</span>
             </h2>
           </Reveal>
           <Reveal
@@ -262,31 +262,31 @@ export default function BestDigitalMarketingIndonesiaPage() {
               We&apos;re a Bali-based independent studio operating
               remote-first across Indonesia. Four capability areas , {" "}
               <Link
-                href="/services/web-development"
+                href="/services/digital-presence"
                 className="underline decoration-ink/40 hover:decoration-ink"
               >
-                web development
+                digital presence
               </Link>
               ,{" "}
               <Link
-                href="/services/paid-media"
+                href="/services/digital-marketing"
                 className="underline decoration-ink/40 hover:decoration-ink"
               >
-                paid media
+                digital marketing
               </Link>
               ,{" "}
               <Link
-                href="/services/social-media"
+                href="/services/creative-studio"
                 className="underline decoration-ink/40 hover:decoration-ink"
               >
-                social media
+                creative studio
               </Link>
               , and{" "}
               <Link
-                href="/services/ai-systems"
+                href="/services/ai-automation"
                 className="underline decoration-ink/40 hover:decoration-ink"
               >
-                AI systems
+                AI automation
               </Link>{" "}
              , one team, no hand-offs.
             </p>
@@ -333,7 +333,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
           Common
           <br />
-          <span className="font-light italic">questions.</span>
+          <span className="font-normal italic">questions.</span>
         </h2>
         <ul className="border-t border-hairline">
           {FAQ.map((f) => (

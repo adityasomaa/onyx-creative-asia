@@ -253,7 +253,7 @@ export default function PageCurtain() {
                 startDelay={120}
                 scramblePerSecond={26}
               />
-              <span className="font-light italic">
+              <span className="font-normal italic">
                 {" "}
                 <TextScramble
                   text="Creative"

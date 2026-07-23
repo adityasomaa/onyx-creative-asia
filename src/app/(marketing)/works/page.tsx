@@ -1,46 +1,91 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PROJECTS } from "@/lib/data";
+import { PROJECTS, SERVICES, getProjectsForService } from "@/lib/data";
 import { RevealText } from "@/components/Reveal";
-import ProjectCover from "@/components/ProjectCover";
+import WorkCard from "@/components/works/WorkCard";
 import { T } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "Works",
   description:
-    "Selected projects across web, paid media, social, and AI systems, including Great Bali Properties, RADcruiters, and The Hair Extensions Bali.",
+    "Selected projects across digital presence, digital marketing, creative studio, AI automation, growth and analytics, and managed services.",
   alternates: { canonical: "/works" },
   openGraph: {
     title: "Works, Onyx Creative Asia",
-    description:
-      "Selected projects from the studio, web, performance, social, AI systems.",
+    description: "Selected projects from the studio.",
     url: "/works",
     type: "website",
   },
 };
 
-export default function WorksPage() {
+export default async function WorksPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string }>;
+}) {
+  const { service } = await searchParams;
+  const activeService = service
+    ? SERVICES.find((s) => s.id === service)
+    : undefined;
+  const projects = activeService
+    ? getProjectsForService(activeService.id)
+    : PROJECTS;
+
   return (
     <>
-      <section className="container-x pt-40 md:pt-52 pb-16 md:pb-24">
+      <section className="container-x pt-40 md:pt-52 pb-10 md:pb-14">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
           (<T>Selected works</T>, {new Date().getFullYear()})
         </p>
-        <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text="Brands we've helped" />
-          <br />
-          <span className="font-light italic">
-            <RevealText text="show up & scale up." delay={0.15} />
-          </span>
+        <h1 className="text-display-md font-medium leading-[0.95] tracking-tight max-w-4xl text-balance">
+          <RevealText text="The work we deliver." />
         </h1>
       </section>
 
-      {PROJECTS.length === 0 ? (
+      {/* Service filter. Each work card's tags link here too. */}
+      <section className="container-x pb-10 md:pb-12">
+        <ul className="flex flex-wrap gap-2">
+          <li>
+            <Link
+              href="/works"
+              className={`inline-flex rounded-full border px-4 py-2 text-sm tracking-tight transition-colors duration-300 ${
+                activeService
+                  ? "border-hairline text-ink/70 hover:border-ink/40"
+                  : "border-ink bg-ink text-bone"
+              }`}
+            >
+              All work
+            </Link>
+          </li>
+          {SERVICES.map((s) => {
+            const on = activeService?.id === s.id;
+            return (
+              <li key={s.id}>
+                <Link
+                  href={`/works?service=${s.id}`}
+                  className={`inline-flex rounded-full border px-4 py-2 text-sm tracking-tight transition-colors duration-300 ${
+                    on
+                      ? "border-ink bg-ink text-bone"
+                      : "border-hairline text-ink/70 hover:border-ink/40"
+                  }`}
+                >
+                  {s.title}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+
+      {projects.length === 0 ? (
         <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16">
-          <p className="text-lg text-ink/70 max-w-md">
-            <T>New work coming soon. In the meantime,</T>{" "}
-            <Link href="/contact" className="border-b border-ink/40 hover:border-ink">
-              <T>start a project</T>
+          <p className="text-lg text-ink/70 max-w-lg">
+            No work to show under {activeService?.title ?? "this filter"} yet.{" "}
+            <Link
+              href="/works"
+              className="border-b border-ink/40 hover:border-ink"
+            >
+              See all work
             </Link>
             .
           </p>
@@ -48,61 +93,15 @@ export default function WorksPage() {
       ) : (
         <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-12 md:pt-16">
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-8 md:gap-y-16">
-            {PROJECTS.map((p, i) => (
-              <ProjectCard key={p.slug} project={p} index={i} />
+            {projects.map((p, i) => (
+              // Tidy 2-col masonry: the right column sits lower for rhythm.
+              <li key={p.slug} className={i % 2 === 1 ? "md:mt-16" : ""}>
+                <WorkCard project={p} sizes="(min-width: 768px) 50vw, 100vw" />
+              </li>
             ))}
           </ul>
         </section>
       )}
     </>
-  );
-}
-
-function ProjectCard({
-  project,
-  index,
-}: {
-  project: (typeof PROJECTS)[number];
-  index: number;
-}) {
-  return (
-    // Tidy 2-col masonry: right column (odd index) sits lower for
-    // editorial rhythm; every card stays a uniform 16:9.
-    <li className={index % 2 === 1 ? "md:mt-16" : ""}>
-      <Link
-        href={`/works/${project.slug}`}
-        className="group block"
-        data-cursor="hover"
-      >
-        <div className="relative aspect-[16/9] overflow-hidden bg-ink">
-          <ProjectCover
-            src={project.cover}
-            loop={project.coverLoop}
-            alt={`${project.client}, ${project.title}`}
-            sizes="(min-width: 768px) 50vw, 100vw"
-          />
-          <div className="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors duration-700 z-10" />
-        </div>
-        <div className="flex items-baseline justify-between mt-5 gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-              <T>{project.category}</T>, {project.year}
-            </p>
-            <h2 className="mt-2 text-2xl md:text-3xl font-medium tracking-tight">
-              {project.client}
-              <span className="font-light italic text-ink/60">
-                , {project.title.toLowerCase()}
-              </span>
-            </h2>
-          </div>
-          <span
-            aria-hidden
-            className="text-2xl transition-transform duration-700 ease-out-expo group-hover:translate-x-2 group-hover:-translate-y-1"
-          >
-            ↗
-          </span>
-        </div>
-      </Link>
-    </li>
   );
 }
