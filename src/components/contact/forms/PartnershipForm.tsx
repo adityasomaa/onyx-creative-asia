@@ -170,16 +170,14 @@ export default function PartnershipForm() {
           kicker="(Partnership proposal received)"
           headline={
             <>
-              {t("Got it.")}{" "}
-              <span className="font-light italic">
-                {t("We'll be in touch within 5 days.")}
-              </span>
+              {t("Got it,")}{" "}
+              <span className="font-light italic">{t("thanks.")}</span>
             </>
           }
           body={
             <p>
               {t(
-                "Most partnerships start with a short call after the first async exchange. If the fit is clear, we move fast. A copy is in your inbox now.",
+                "Your proposal is with us. If the fit is clear, we move fast.",
               )}
             </p>
           }

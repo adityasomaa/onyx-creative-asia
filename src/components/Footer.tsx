@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { SERVICES } from "@/lib/data";
 import ProjectForm from "@/components/contact/forms/ProjectForm";
@@ -29,6 +30,9 @@ const LEGAL = [
 
 export default function Footer() {
   const t = useT();
+  const pathname = usePathname();
+  // /contact is a chrome-less canvas: no footer there.
+  if (pathname === "/contact") return null;
   return (
     <footer className="relative bg-ink text-bone overflow-hidden">
       {/* Big CTA + embedded project form */}

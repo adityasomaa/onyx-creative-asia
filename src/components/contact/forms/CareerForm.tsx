@@ -229,7 +229,7 @@ export default function CareerForm() {
           body={
             <p>
               {t(
-                "We'll get back within 7 days. If we want to move forward we'll send a short async exercise, no panel interviews, no whiteboards. A copy is in your inbox now.",
+                "Your application is with us. If we want to move forward, we'll send a short async exercise, no panel interviews, no whiteboards.",
               )}
             </p>
           }

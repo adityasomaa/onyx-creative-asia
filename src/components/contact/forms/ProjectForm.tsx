@@ -173,16 +173,14 @@ export default function ProjectForm({
           kicker="(Brief sent, confirmation on its way)"
           headline={
             <>
-              {t("We got it. We'll")}{" "}
-              <span className="font-light italic">
-                {t("reply within 48 hours.")}
-              </span>
+              {t("We got it,")}{" "}
+              <span className="font-light italic">{t("thanks.")}</span>
             </>
           }
           body={
             <p>
               {t(
-                "A copy of your brief is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
+                "Your brief is on its way to us, we opened a WhatsApp chat so you can keep it going there too.",
               )}
             </p>
           }
