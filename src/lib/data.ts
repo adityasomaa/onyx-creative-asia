@@ -42,8 +42,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero.",
-    cover: "/projects/astungkare-spa.webp",
-    coverLoop: "/projects/astungkare-spa.mp4",
+    cover: UNSPLASH("photo-1540555700478-4be289fbecef"),
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",
@@ -69,8 +68,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Brand and digital presence for a hospitality group, covering the group identity, the property pages, and the enquiry flow that routes guests and owners to the right team.",
-    cover: "/projects/aligna-hospitality.webp",
-    coverLoop: "/projects/aligna-hospitality.mp4",
+    cover: UNSPLASH("photo-1566073771259-6a8506099945"),
     tags: ["Web", "Brand", "Hospitality"],
     services: ["Digital Presence", "Creative Studio", "Digital Marketing"],
     location: "Bali, Indonesia",
@@ -93,8 +91,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Digital presence for a cargo and freight operator, with service and route pages, a structured quote request, and tracking information kept where customers actually look for it.",
-    cover: "/projects/jalak-cargo-logistics.webp",
-    coverLoop: "/projects/jalak-cargo-logistics.mp4",
+    cover: UNSPLASH("photo-1494412574643-ff11b0a5c1c3"),
     tags: ["Web", "Logistics", "Operations"],
     services: ["Digital Presence", "Digital Marketing"],
     location: "Indonesia",
@@ -117,8 +114,7 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Self-routing intake for new campaign briefs. WordPress form to a Make.com pipeline that extracts the domain, matches the client in Airtable, queues a Trello task, and fires team and client emails, end to end in seconds.",
-    cover: "/projects/radcruiters.webp",
-    coverLoop: "/projects/radcruiters.mp4",
+    cover: UNSPLASH("photo-1521737711867-e3b97375f902"),
     tags: ["Workflow", "Make.com", "WordPress"],
     url: "https://onlineresults.radcruiters.com/campaign-request/",
     urlLabel: "Visit site",
@@ -144,8 +140,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp.",
-    cover: "/projects/great-bali-villas.webp",
-    coverLoop: "/projects/great-bali-villas.mp4",
+    cover: UNSPLASH("photo-1613490493576-7fde63acd811"),
     tags: ["Web", "Villas", "Booking"],
     url: "https://greatbalivillas.com",
     urlLabel: "Visit site",
@@ -170,8 +165,7 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan, six application methods, an editorial gallery with method filters, and a video hero of the actual color wall.",
-    cover: "/projects/the-hair-extensions-bali.webp",
-    coverLoop: "/projects/the-hair-extensions-bali.mp4",
+    cover: UNSPLASH("photo-1560066984-138dadb4c035"),
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",
