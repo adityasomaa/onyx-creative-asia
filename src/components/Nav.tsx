@@ -252,18 +252,18 @@ export default function Nav() {
               transition={{ duration: 0.28, ease: EASE }}
               onMouseEnter={cancelCloseMega}
               onMouseLeave={closeMegaWithDelay}
-              className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[min(72rem,calc(100vw-4rem))] overflow-hidden rounded-3xl border border-white/15 bg-ink/60 text-bone shadow-[0_30px_80px_-30px_rgba(0,0,0,0.65)] backdrop-blur-3xl backdrop-saturate-150"
+              className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[min(58rem,calc(100vw-3rem))] overflow-hidden rounded-3xl border border-white/15 bg-ink/85 text-bone shadow-[0_30px_90px_-32px_rgba(0,0,0,0.75)] ring-1 ring-inset ring-white/5 backdrop-blur-2xl backdrop-saturate-150"
             >
-              <div className="p-7 lg:p-9">
-                <div className="mb-6 flex flex-wrap items-end justify-between gap-y-3 border-b border-white/10 pb-5">
-                  <p className="text-[10px] uppercase tracking-[0.28em] text-bone/55">
-                    What we do
+              <div className="p-5 lg:p-6">
+                <div className="mb-4 flex items-center justify-between gap-4 px-1">
+                  <p className="text-[10px] uppercase tracking-[0.28em] text-bone/50">
+                    Services
                   </p>
                   <Link
                     href="/services"
-                    className="group inline-flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-bone/70 transition-colors hover:text-bone"
+                    className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-bone/70 transition-colors hover:text-bone"
                   >
-                    See all services
+                    See all
                     <span
                       aria-hidden
                       className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
@@ -273,20 +273,20 @@ export default function Nav() {
                   </Link>
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 lg:grid-cols-3">
+                <div className="grid grid-cols-2 gap-1.5 lg:grid-cols-3">
                   {SERVICES.map((s) => (
                     <Link
                       key={s.id}
                       href={`/services/${s.id}`}
-                      className="group rounded-2xl p-4 transition-colors duration-300 hover:bg-bone/10 focus-visible:bg-bone/10"
+                      className="group flex flex-col rounded-2xl p-4 ring-1 ring-transparent transition-colors duration-300 hover:bg-bone/[0.08] hover:ring-white/10"
                     >
-                      <p className="text-[10px] uppercase tracking-[0.25em] tabular-nums text-bone/45">
+                      <p className="text-[10px] uppercase tracking-[0.25em] tabular-nums text-bone/40">
                         {s.number}
                       </p>
-                      <h3 className="mt-1.5 text-lg font-medium leading-tight tracking-tight">
+                      <h3 className="mt-2 text-base font-medium leading-tight tracking-tight">
                         {s.title}
                       </h3>
-                      <p className="mt-1.5 text-sm leading-snug text-bone/60">
+                      <p className="mt-1.5 line-clamp-2 text-[13px] leading-snug text-bone/55">
                         {s.short}
                       </p>
                     </Link>

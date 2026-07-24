@@ -265,7 +265,7 @@ export const SERVICES: Service[] = [
     title: "Digital Presence",
     short: "Everything your business needs to exist online.",
     description:
-      "Website, software, hosting, maintenance, and SEO, built and run as one package so your business has a proper home online.",
+      "We build your business a website that turns visitors into inquiries, then host it, maintain it, and keep it found on Google, all in one package.",
     capabilities: [
       "Website design and build",
       "Custom software and web apps",
@@ -316,7 +316,7 @@ export const SERVICES: Service[] = [
     title: "Digital Marketing",
     short: "Getting your business in front of the right people.",
     description:
-      "SEO, social media management, content marketing, email marketing, and paid ads, planned and run together instead of as separate channels.",
+      "We get your business in front of the right people and bring them back, across search, social, content, email, and paid ads, run as one plan.",
     capabilities: [
       "SEO",
       "Social media management",
@@ -367,7 +367,7 @@ export const SERVICES: Service[] = [
     title: "Creative Studio",
     short: "The look, feel, and assets your brand runs on.",
     description:
-      "Branding, design, photography, videography, motion graphics, and the creative assets your business uses everywhere.",
+      "We give your business a look people remember, from the brand identity to the photos, videos, and assets you use every day.",
     capabilities: [
       "Branding and identity",
       "Graphic design",
@@ -418,7 +418,7 @@ export const SERVICES: Service[] = [
     title: "AI Automation",
     short: "Letting software handle the repetitive work.",
     description:
-      "Workflow automation, chatbots, CRM automation, AI agents, system integration, and AI applied to everyday business operations.",
+      "We take the repetitive, manual work off your team and hand it to software that runs it quietly in the background.",
     capabilities: [
       "Workflow automation",
       "Chatbots",
@@ -469,7 +469,7 @@ export const SERVICES: Service[] = [
     title: "Growth & Analytics",
     short: "Knowing what is working, and what is not.",
     description:
-      "Tracking, dashboards, reporting, conversion optimisation, and regular performance reviews, so decisions are made on numbers rather than guesses.",
+      "We make your numbers make sense, tracking what actually happens, reporting it in plain language, and improving what matters.",
     capabilities: [
       "Tracking setup",
       "Dashboards",
@@ -519,7 +519,7 @@ export const SERVICES: Service[] = [
     title: "Managed Services",
     short: "Keeping everything running after launch.",
     description:
-      "Web maintenance, servers, security, updates, monitoring, backups, and technical support, so the things you have built keep working.",
+      "We keep everything you have already built running, updated, secure, and monitored, so it never quietly breaks.",
     capabilities: [
       "Web maintenance",
       "Server management",
