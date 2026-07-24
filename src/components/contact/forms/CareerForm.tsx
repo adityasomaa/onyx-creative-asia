@@ -223,7 +223,7 @@ export default function CareerForm() {
           headline={
             <>
               {t("Thanks for applying. We'll")}{" "}
-              <span className="font-normal italic">{t("read every word.")}</span>
+              <span className="font-light italic">{t("read every word.")}</span>
             </>
           }
           body={
@@ -253,7 +253,6 @@ export default function CareerForm() {
           setError={setError}
           onSubmit={() => void send()}
           submitLabel="Send application"
-          submitKicker="EMAIL + WHATSAPP"
         />
       )}
     </AnimatePresence>

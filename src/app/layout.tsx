@@ -11,8 +11,8 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
   title: {
-    default: "Onyx Creative Asia · Brand, Performance & AI Systems",
-    template: "%s · Onyx Creative Asia",
+    default: "Onyx Creative Asia | #1 Digital Marketing in Asia",
+    template: "%s | Onyx Creative Asia",
   },
   description:
     "Onyx Creative Asia is an independent studio building brands, performance marketing, and AI systems for ambitious teams across Asia and beyond.",

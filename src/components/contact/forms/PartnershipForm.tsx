@@ -171,7 +171,7 @@ export default function PartnershipForm() {
           headline={
             <>
               {t("Got it.")}{" "}
-              <span className="font-normal italic">
+              <span className="font-light italic">
                 {t("We'll be in touch within 5 days.")}
               </span>
             </>
@@ -202,7 +202,6 @@ export default function PartnershipForm() {
           setError={setError}
           onSubmit={() => void send()}
           submitLabel="Send proposal"
-          submitKicker="EMAIL + WHATSAPP"
         />
       )}
     </AnimatePresence>

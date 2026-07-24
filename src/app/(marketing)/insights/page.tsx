@@ -32,7 +32,7 @@ export default function InsightsPage() {
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text="Long-form on brand," />{" "}
-          <span className="font-normal italic">
+          <span className="font-light italic">
             <RevealText text="performance, and systems." delay={0.15} />
           </span>
         </h1>

@@ -10,21 +10,26 @@ import { useT } from "@/lib/i18n";
 const EASE = [0.25, 1, 0.5, 1] as const;
 
 export default function FeaturedWorks() {
-  const items = PROJECTS.slice(0, 4);
+  const items = PROJECTS.slice(0, 6);
   const t = useT();
 
   return (
     <section className="container-x py-24 md:py-32 border-t border-hairline">
-      <div className="flex items-end justify-between mb-12 md:mb-16">
-        <div>
+      <div className="flex items-end justify-between mb-12 md:mb-16 gap-6">
+        <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            {t("(Selected works)")}
+            {t("Works")}
           </p>
-          <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-2xl text-balance">
-            <RevealText text="Brands we've helped scale." />
+          <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight whitespace-nowrap">
+            <RevealText text="Brands we've grown" />
           </h2>
+          <p className="mt-5 text-base md:text-lg text-ink/70 leading-relaxed">
+            {t(
+              "A look at recent projects across websites, marketing, brand, and automation.",
+            )}
+          </p>
         </div>
-        <Reveal className="hidden md:block" delay={0.2}>
+        <Reveal className="hidden md:block shrink-0" delay={0.2}>
           <Link
             href="/works"
             className="text-sm border-b border-ink/40 hover:border-ink pb-1 transition-colors"

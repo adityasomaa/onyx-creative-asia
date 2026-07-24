@@ -45,9 +45,16 @@ export default function WorkCard({
           <div className="absolute inset-0 rounded-2xl bg-ink/0 transition-colors duration-700 group-hover:bg-ink/10 z-10" />
         </div>
         <div className="mt-4 flex items-baseline justify-between gap-4">
-          <h3 className="text-xl md:text-2xl font-medium tracking-tight">
-            {project.client}
-          </h3>
+          <div>
+            <h3 className="text-xl md:text-2xl font-medium tracking-tight">
+              {project.client}
+            </h3>
+            {project.blurb && (
+              <p className="mt-1 text-sm text-ink/55 leading-snug">
+                {project.blurb}
+              </p>
+            )}
+          </div>
           <span
             aria-hidden
             className="text-xl transition-transform duration-700 ease-out-expo group-hover:translate-x-1 group-hover:-translate-y-1"

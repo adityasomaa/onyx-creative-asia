@@ -17,7 +17,7 @@ export default function PrivacyPage() {
           (Privacy Policy, last updated {UPDATED})
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          Privacy <span className="font-normal italic">policy.</span>
+          Privacy <span className="font-light italic">policy.</span>
         </h1>
         <p className="mt-14 md:mt-10 max-w-2xl text-lg text-ink/70 leading-relaxed">
           This page explains what information we collect when you use{" "}

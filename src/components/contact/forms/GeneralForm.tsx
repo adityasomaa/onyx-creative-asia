@@ -107,7 +107,7 @@ export default function GeneralForm() {
           headline={
             <>
               {t("Got it.")}{" "}
-              <span className="font-normal italic">
+              <span className="font-light italic">
                 {t("We'll reply within 48 hours.")}
               </span>
             </>
@@ -135,7 +135,6 @@ export default function GeneralForm() {
           setError={setError}
           onSubmit={() => void send()}
           submitLabel="Send question"
-          submitKicker="EMAIL + WHATSAPP"
         />
       )}
     </AnimatePresence>

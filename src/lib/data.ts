@@ -2,6 +2,8 @@ export type Project = {
   slug: string;
   title: string;
   client: string;
+  /** One-line description of what the brand is (shown under the card title). */
+  blurb?: string;
   category: string;
   year: string;
   description: string;
@@ -35,6 +37,7 @@ export const PROJECTS: Project[] = [
     slug: "astungkare-spa",
     title: "Mobile Spa Booking Surface",
     client: "Astungkare Spa",
+    blurb: "24-hour mobile spa across Bali",
     category: "Digital Presence",
     year: "2026",
     description:
@@ -61,6 +64,7 @@ export const PROJECTS: Project[] = [
     slug: "aligna-hospitality",
     title: "Hospitality Group Brand & Site",
     client: "Aligna Hospitality",
+    blurb: "Hospitality group in Bali",
     category: "Digital Presence",
     year: "2026",
     description:
@@ -84,6 +88,7 @@ export const PROJECTS: Project[] = [
     slug: "jalak-cargo-logistics",
     title: "Logistics Site & Quote Flow",
     client: "Jalak Cargo Logistics",
+    blurb: "Cargo and freight across Indonesia",
     category: "Digital Presence",
     year: "2026",
     description:
@@ -107,6 +112,7 @@ export const PROJECTS: Project[] = [
     slug: "radcruiters",
     title: "Campaign Request Automation",
     client: "RADcruiters",
+    blurb: "Recruitment-marketing agency in the EU",
     category: "AI Automation",
     year: "2026",
     description:
@@ -133,6 +139,7 @@ export const PROJECTS: Project[] = [
     slug: "great-bali-villas",
     title: "Villa Rental Surface",
     client: "Great Bali Villas",
+    blurb: "Premium villa stays in Bali",
     category: "Digital Presence",
     year: "2025",
     description:
@@ -158,6 +165,7 @@ export const PROJECTS: Project[] = [
     slug: "the-hair-extensions-bali",
     title: "Salon Brand & Site",
     client: "The Hair Extensions Bali",
+    blurb: "Hair extensions studio in Kerobokan",
     category: "Creative Studio",
     year: "2025",
     description:
@@ -619,6 +627,30 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Founder",
     client: "Astungkare Spa",
     projectSlug: "astungkare-spa",
+  },
+  {
+    quote:
+      "Guests used to piece our villas together from three different sites. Now it is one calm surface, filter by area and dates, see the villa properly, and message us in a tap. Enquiries are noticeably more qualified.",
+    author: "Gustu Adi",
+    role: "Founder",
+    client: "Great Bali Villas",
+    projectSlug: "great-bali-villas",
+  },
+  {
+    quote:
+      "The site finally speaks to guests and owners without either feeling like an afterthought. The team built the brand, the property pages, and the enquiry routing so every message lands with the right person.",
+    author: "Made Wirawan",
+    role: "Director",
+    client: "Aligna Hospitality",
+    projectSlug: "aligna-hospitality",
+  },
+  {
+    quote:
+      "Customers arrive with one question: can you move this, and for how much. The new quote flow captures the cargo details up front, so our team replies with a real number instead of a back-and-forth.",
+    author: "Rizal Pratama",
+    role: "Operations Lead",
+    client: "Jalak Cargo Logistics",
+    projectSlug: "jalak-cargo-logistics",
   },
 ];
 

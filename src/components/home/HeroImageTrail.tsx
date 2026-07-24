@@ -6,11 +6,13 @@ import { useEffect, useRef, useState } from "react";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 /** Pointer travel (px) between drops. Lower = denser trail. */
-const STEP = 140;
+const STEP = 70;
 /** How long each image stays before it fades out (ms). */
 const LIFETIME = 950;
 /** Hard cap on simultaneous images. */
-const MAX_LIVE = 6;
+const MAX_LIVE = 8;
+/** Resting opacity of each trailing image. */
+const TRAIL_OPACITY = 0.3;
 
 type Drop = { id: number; x: number; y: number; src: string };
 
@@ -88,14 +90,14 @@ export default function HeroImageTrail({ images }: { images: string[] }) {
         {drops.map((d) => (
           <motion.div
             key={d.id}
-            initial={{ opacity: 0, scale: 0.84 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.45, ease: EASE }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: TRAIL_OPACITY, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.03 }}
+            transition={{ duration: 0.4, ease: EASE }}
             style={{ left: d.x, top: d.y }}
             className="absolute -translate-x-1/2 -translate-y-1/2"
           >
-            <div className="relative h-[110px] w-[180px] overflow-hidden rounded-2xl md:h-[150px] md:w-[250px]">
+            <div className="relative h-[110px] w-[180px] overflow-hidden md:h-[150px] md:w-[250px]">
               <Image
                 src={d.src}
                 alt=""

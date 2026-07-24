@@ -50,7 +50,7 @@ export default function AboutPage() {
         </p>
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
           <RevealText text="An independent studio." />{" "}
-          <span className="font-normal italic">
+          <span className="font-light italic">
             <RevealText text="Built to deliver." delay={0.15} />
           </span>
         </h1>
@@ -63,8 +63,8 @@ export default function AboutPage() {
           </p>
           <h2 className="text-2xl md:text-3xl font-medium leading-tight tracking-tight">
             One belief:{" "}
-            <span className="font-normal italic">speed</span> and{" "}
-            <span className="font-normal italic">care</span> shouldn&apos;t trade off.
+            <span className="font-light italic">speed</span> and{" "}
+            <span className="font-light italic">care</span> shouldn&apos;t trade off.
           </h2>
         </Reveal>
         <Reveal className="md:col-span-6 md:col-start-7" delay={0.1}>

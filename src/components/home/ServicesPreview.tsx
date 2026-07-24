@@ -17,11 +17,16 @@ export default function ServicesPreview() {
     <section className="bg-ink text-bone py-24 md:py-32 overflow-hidden">
       <div className="container-x">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-          {t("(What we do)")}
+          {t("Services")}
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
-          <RevealText text="What we do." />
+          <RevealText text="What we do" />
         </h2>
+        <p className="mt-5 max-w-xl text-base md:text-lg text-bone/70 leading-relaxed">
+          {t(
+            "Six services that cover everything your business needs to grow online, run by one team so nothing falls between the gaps.",
+          )}
+        </p>
       </div>
 
       <div className="mt-12 md:mt-20 border-t border-hairline-light">

@@ -210,7 +210,7 @@ export default async function ServiceDetailPage({
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
             <T>Who this is for</T>
           </p>
-          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-normal italic leading-[1.1] tracking-tight text-balance">
+          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-light italic leading-[1.1] tracking-tight text-balance">
             <T>{service.fitFor}</T>
           </p>
         </Reveal>

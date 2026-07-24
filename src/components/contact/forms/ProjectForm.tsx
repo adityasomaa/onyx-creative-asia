@@ -24,7 +24,11 @@ const BUDGETS = [
  * Project Brief. Pre-fills WhatsApp so the conversation can move there if
  * the visitor prefers chat.
  */
-export default function ProjectForm() {
+export default function ProjectForm({
+  submitLabel = "Send the brief",
+}: {
+  submitLabel?: string;
+} = {}) {
   const t = useT();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -170,7 +174,7 @@ export default function ProjectForm() {
           headline={
             <>
               {t("We got it. We'll")}{" "}
-              <span className="font-normal italic">
+              <span className="font-light italic">
                 {t("reply within 48 hours.")}
               </span>
             </>
@@ -200,8 +204,7 @@ export default function ProjectForm() {
           error={error}
           setError={setError}
           onSubmit={() => void send()}
-          submitLabel="Send the brief"
-          submitKicker="EMAIL + WHATSAPP"
+          submitLabel={submitLabel}
         />
       )}
     </AnimatePresence>

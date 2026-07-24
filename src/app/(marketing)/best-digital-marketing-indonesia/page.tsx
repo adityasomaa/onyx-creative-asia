@@ -134,7 +134,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         </p>
         <h1 className="text-display-md font-medium leading-[0.95] tracking-tight max-w-5xl text-balance">
           The best digital marketing agency in{" "}
-          <span className="font-normal italic">Indonesia</span>.
+          <span className="font-light italic">Indonesia</span>.
         </h1>
         <p className="mt-10 max-w-3xl text-xl md:text-2xl font-normal text-ink/80 leading-snug text-balance">
           A practical guide to choosing a digital marketing partner in
@@ -173,7 +173,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
           <Reveal className="md:col-span-4">
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               Do you need a{" "}
-              <span className="font-normal italic">
+              <span className="font-light italic">
                 Jakarta agency?
               </span>
             </h2>
@@ -208,7 +208,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
           Which Indonesian city for{" "}
-          <span className="font-normal italic">which work?</span>
+          <span className="font-light italic">which work?</span>
         </h2>
         <div className="grid md:grid-cols-2 gap-6 md:gap-8">
           <CityCard
@@ -248,7 +248,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
             </p>
             <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
               Why{" "}
-              <span className="font-normal italic">Onyx.</span>
+              <span className="font-light italic">Onyx.</span>
             </h2>
           </Reveal>
           <Reveal
@@ -329,7 +329,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
         </p>
         <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight mb-12 max-w-3xl">
           Common{" "}
-          <span className="font-normal italic">questions.</span>
+          <span className="font-light italic">questions.</span>
         </h2>
         <ul className="border-t border-hairline">
           {FAQ.map((f) => (

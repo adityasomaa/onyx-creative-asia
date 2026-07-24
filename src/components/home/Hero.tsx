@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import HeroVideo from "./HeroVideo";
 import HeroImageTrail from "./HeroImageTrail";
+import ScrollArrows from "./ScrollArrows";
+import Button from "@/components/ui/Button";
 import { PROJECTS } from "@/lib/data";
 
 const EASE = [0.76, 0, 0.24, 1] as const;
@@ -11,6 +13,14 @@ const ENTER = 0.35;
 // The trail cycles every project's cover. Swapping a project's `cover` for
 // a real client screenshot updates the hero with no change here.
 const TRAIL_IMAGES = PROJECTS.map((p) => p.cover);
+
+function discover() {
+  const lenis = (window as unknown as { __lenis?: { scrollTo: (t: number) => void } })
+    .__lenis;
+  const target = window.innerHeight;
+  if (lenis) lenis.scrollTo(target);
+  else window.scrollTo({ top: target, behavior: "smooth" });
+}
 
 export default function Hero() {
   return (
@@ -34,7 +44,7 @@ export default function Hero() {
           transition={{ duration: 1, ease: EASE, delay: ENTER + 0.12 }}
           className="mt-6 max-w-5xl text-balance text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
-          Your one stop business development digital solution
+          Your One Stop Business Development Digital Solution
         </motion.h1>
 
         <motion.p
@@ -48,14 +58,28 @@ export default function Hero() {
           all.
         </motion.p>
 
-        {/* Wordless scroll cue, so the copy above stays exactly as specified. */}
-        <motion.span
-          aria-hidden
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.36 }}
+          className="mt-10 flex flex-wrap items-center justify-center gap-4"
+        >
+          <Button href="/contact" tone="light">
+            Start a project
+          </Button>
+          <Button onClick={discover} tone="outlineLight" arrow={false}>
+            Discover
+          </Button>
+        </motion.div>
+
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.6 }}
-          className="absolute bottom-10 left-1/2 h-10 w-px -translate-x-1/2 bg-gradient-to-b from-bone/60 to-transparent"
-        />
+          transition={{ duration: 1, ease: EASE, delay: ENTER + 0.7 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <ScrollArrows />
+        </motion.div>
       </div>
     </section>
   );
