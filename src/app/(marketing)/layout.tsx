@@ -7,6 +7,7 @@ import Cursor from "@/components/Cursor";
 import Footer from "@/components/Footer";
 import CookieConsent from "@/components/CookieConsent";
 import FloatingContactButton from "@/components/FloatingContactButton";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { CurrencyProvider } from "@/lib/i18n";
 
 // GA4 Measurement ID for the public-facing marketing site only. The
@@ -208,6 +209,7 @@ export default function MarketingLayout({
         <Footer />
         <CookieConsent />
         <FloatingContactButton />
+        <LanguageSwitcher />
       </CurrencyProvider>
       {/* Loaded with strategy="afterInteractive" by the wrapper, so it
           doesn't block render or fight the intro loader animation. Skipped
