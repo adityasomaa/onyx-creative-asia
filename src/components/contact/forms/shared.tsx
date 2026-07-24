@@ -146,7 +146,7 @@ export function SuccessScreen({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.7, ease: EASE }}
-      className="py-20 md:py-32 text-center"
+      className="flex h-full flex-col items-center justify-center py-8 text-center"
       role="status"
       aria-live="polite"
     >

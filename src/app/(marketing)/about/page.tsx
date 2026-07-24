@@ -61,11 +61,10 @@ export default function AboutPage() {
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
             <T>(Story)</T>
           </p>
-          <h2 className="text-3xl md:text-4xl font-medium leading-tight tracking-tight">
-            We started Onyx around one belief:{" "}
-            <span className="font-normal italic">speed</span> and
-            <span className="font-normal italic"> care</span> don&apos;t have to
-            trade off.
+          <h2 className="text-2xl md:text-3xl font-medium leading-tight tracking-tight">
+            One belief:{" "}
+            <span className="font-normal italic">speed</span> and{" "}
+            <span className="font-normal italic">care</span> shouldn&apos;t trade off.
           </h2>
         </Reveal>
         <Reveal className="md:col-span-6 md:col-start-7" delay={0.1}>

@@ -1,15 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import {
-  ErrorPill,
-  FormStyles,
-  Group,
-  PillSet,
-  SubmitRow,
-  SuccessScreen,
-} from "./shared";
+import { PillSet, SuccessScreen } from "./shared";
+import { StepForm, type Step } from "./StepForm";
 import { useInquirySubmit } from "./use-submit";
 import {
   isEmail,
@@ -21,8 +15,6 @@ import { useT } from "@/lib/i18n";
 
 /**
  * Partnership, outreach from other studios, agencies, platforms.
- * Company, partnership type, website (for context), and the proposal.
- *
  * No WhatsApp pre-fill, partnership convos start in email.
  */
 export default function PartnershipForm() {
@@ -32,30 +24,12 @@ export default function PartnershipForm() {
   const [company, setCompany] = useState("");
   const [website, setWebsite] = useState("");
   const [partnershipType, setPartnershipType] = useState<PartnershipType | "">(
-    ""
+    "",
   );
   const [proposal, setProposal] = useState("");
 
   const { submitting, sent, error, setError, submit, reset } =
     useInquirySubmit();
-
-  function validate(): boolean {
-    if (!name.trim()) return fail("Please add your name.");
-    if (!email.trim()) return fail("Please add your email.");
-    if (!isEmail(email)) return fail("That email doesn't look right.");
-    if (!company.trim()) return fail("Add your company name.");
-    if (website.trim() && !isHttpUrl(website.trim())) {
-      return fail("Website should start with http(s)://");
-    }
-    if (!partnershipType) return fail("Pick a partnership type.");
-    if (!proposal.trim()) return fail("Outline the proposal in a few lines.");
-    setError(null);
-    return true;
-  }
-  function fail(msg: string) {
-    setError(msg);
-    return false;
-  }
 
   function buildWhatsAppText(): string {
     const websiteLine = website.trim() ? `Website: ${website.trim()}\n` : "";
@@ -71,7 +45,6 @@ export default function PartnershipForm() {
   }
 
   async function send() {
-    if (!validate()) return;
     await submit(
       {
         inquiryType: "partnership",
@@ -82,9 +55,112 @@ export default function PartnershipForm() {
         partnershipType,
         proposal: proposal.trim(),
       },
-      { whatsappText: buildWhatsAppText() }
+      { whatsappText: buildWhatsAppText() },
     );
   }
+
+  const steps: Step[] = [
+    {
+      number: "01",
+      label: "Who's reaching out?",
+      validate: () =>
+        !name.trim()
+          ? "Please add your name."
+          : !company.trim()
+            ? "Add your company name."
+            : null,
+      node: (
+        <>
+          <input
+            type="text"
+            placeholder={t("Full name")}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="name"
+            disabled={submitting}
+            className="input"
+          />
+          <input
+            type="text"
+            placeholder={t("Company / studio")}
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            autoComplete="organization"
+            disabled={submitting}
+            className="input"
+          />
+        </>
+      ),
+    },
+    {
+      number: "02",
+      label: "How do we reach you?",
+      validate: () =>
+        !email.trim()
+          ? "Please add your email."
+          : !isEmail(email)
+            ? "That email doesn't look right."
+            : website.trim() && !isHttpUrl(website.trim())
+              ? "Website should start with http(s)://"
+              : null,
+      node: (
+        <>
+          <input
+            type="email"
+            placeholder="email@domain.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            disabled={submitting}
+            className="input"
+          />
+          <input
+            type="url"
+            placeholder={t("https://company.com (optional)")}
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            disabled={submitting}
+            className="input"
+          />
+        </>
+      ),
+    },
+    {
+      number: "03",
+      label: "What kind of partnership?",
+      validate: () => (!partnershipType ? "Pick a partnership type." : null),
+      node: (
+        <PillSet
+          options={PARTNERSHIP_TYPES}
+          selected={partnershipType}
+          onToggle={(pt) =>
+            setPartnershipType(
+              partnershipType === pt ? "" : (pt as PartnershipType),
+            )
+          }
+          disabled={submitting}
+        />
+      ),
+    },
+    {
+      number: "04",
+      label: "Outline the proposal.",
+      validate: () =>
+        !proposal.trim() ? "Outline the proposal in a few lines." : null,
+      node: (
+        <textarea
+          rows={4}
+          placeholder={t(
+            "What are you proposing, what's in it for both sides, and what would the first 30 days look like?",
+          )}
+          value={proposal}
+          onChange={(e) => setProposal(e.target.value)}
+          disabled={submitting}
+          className="input resize-none"
+        />
+      ),
+    },
+  ];
 
   return (
     <AnimatePresence mode="wait">
@@ -101,22 +177,11 @@ export default function PartnershipForm() {
             </>
           }
           body={
-            <>
-              <p>
-                {t(
-                  "Most partnerships start with a short call after the first async exchange. If the fit is clear, we move fast. A copy is in your inbox now, and we opened a WhatsApp tab in case you want to keep the conversation there.",
-                )}
-              </p>
-              <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                {t("Or write us anytime at")}{" "}
-                <a
-                  href="mailto:hello@onyxcreative.asia"
-                  className="underline underline-offset-4 hover:opacity-100 opacity-90"
-                >
-                  hello@onyxcreative.asia
-                </a>
-              </p>
-            </>
+            <p>
+              {t(
+                "Most partnerships start with a short call after the first async exchange. If the fit is clear, we move fast. A copy is in your inbox now.",
+              )}
+            </p>
           }
           onReset={() => {
             reset();
@@ -129,98 +194,16 @@ export default function PartnershipForm() {
           }}
         />
       ) : (
-        <motion.form
+        <StepForm
           key="form"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!submitting) void send();
-          }}
-          className="space-y-12 md:space-y-16"
-          noValidate
-        >
-          <Group label="Hello, my name is" number="01">
-            <input
-              type="text"
-              required
-              placeholder={t("Full name")}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-              disabled={submitting}
-              className="input"
-            />
-            <input
-              type="text"
-              required
-              placeholder={t("Company / studio")}
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              autoComplete="organization"
-              disabled={submitting}
-              className="input"
-            />
-          </Group>
-
-          <Group label="You can reach me at" number="02">
-            <input
-              type="email"
-              required
-              placeholder="email@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-              disabled={submitting}
-              className="input"
-            />
-            <input
-              type="url"
-              placeholder={t("https://company.com (optional)")}
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              disabled={submitting}
-              className="input"
-            />
-          </Group>
-
-          <Group label="Type of partnership" number="03">
-            <PillSet
-              options={PARTNERSHIP_TYPES}
-              selected={partnershipType}
-              onToggle={(pt) =>
-                setPartnershipType(
-                  partnershipType === pt ? "" : (pt as PartnershipType)
-                )
-              }
-              disabled={submitting}
-            />
-          </Group>
-
-          <Group label="The proposal" number="04">
-            <textarea
-              required
-              rows={6}
-              placeholder={t("What are you proposing, what's in it for both sides, and what would the first 30 days look like?")}
-              value={proposal}
-              onChange={(e) => setProposal(e.target.value)}
-              disabled={submitting}
-              className="input resize-none"
-            />
-          </Group>
-
-          {error && <ErrorPill>{t(error)}</ErrorPill>}
-
-          <SubmitRow
-            submitting={submitting}
-            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 5 days."
-            ctaLabel="Send proposal"
-            ctaKicker="EMAIL + WHATSAPP"
-          />
-          <FormStyles />
-        </motion.form>
+          steps={steps}
+          submitting={submitting}
+          error={error}
+          setError={setError}
+          onSubmit={() => void send()}
+          submitLabel="Send proposal"
+          submitKicker="EMAIL + WHATSAPP"
+        />
       )}
     </AnimatePresence>
   );

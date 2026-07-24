@@ -1,27 +1,15 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import {
-  ErrorPill,
-  FormStyles,
-  Group,
-  PillSet,
-  SubmitRow,
-  SuccessFallback,
-  SuccessScreen,
-} from "./shared";
+import { PillSet, SuccessScreen } from "./shared";
+import { StepForm, type Step } from "./StepForm";
 import { useInquirySubmit } from "./use-submit";
 import { isEmail } from "../inquiry-types";
+import { SERVICES } from "@/lib/data";
 import { useT } from "@/lib/i18n";
 
-const SERVICES = [
-  "Web & Software Development",
-  "Ads Management",
-  "Social Media Management",
-  "AI Automation",
-  "Brand & Design",
-] as const;
+const SERVICE_OPTIONS = SERVICES.map((s) => s.title);
 
 const BUDGETS = [
   "< $1k",
@@ -33,8 +21,8 @@ const BUDGETS = [
 ] as const;
 
 /**
- * Project Brief, the original full contact form. Pre-fills WhatsApp so
- * the conversation can move there if the visitor prefers chat.
+ * Project Brief. Pre-fills WhatsApp so the conversation can move there if
+ * the visitor prefers chat.
  */
 export default function ProjectForm() {
   const t = useT();
@@ -50,21 +38,8 @@ export default function ProjectForm() {
 
   function toggleService(s: string) {
     setServices((curr) =>
-      curr.includes(s) ? curr.filter((c) => c !== s) : [...curr, s]
+      curr.includes(s) ? curr.filter((c) => c !== s) : [...curr, s],
     );
-  }
-
-  function validate(): boolean {
-    if (!name.trim()) return fail("Please add your name.");
-    if (!email.trim()) return fail("Please add your email.");
-    if (!isEmail(email)) return fail("That email doesn't look right.");
-    if (!message.trim()) return fail("Please add a short brief.");
-    setError(null);
-    return true;
-  }
-  function fail(msg: string) {
-    setError(msg);
-    return false;
   }
 
   function buildWhatsAppText(): string {
@@ -81,7 +56,6 @@ export default function ProjectForm() {
   }
 
   async function send() {
-    if (!validate()) return;
     await submit(
       {
         inquiryType: "project",
@@ -92,9 +66,100 @@ export default function ProjectForm() {
         budget,
         message: message.trim(),
       },
-      { whatsappText: buildWhatsAppText() }
+      { whatsappText: buildWhatsAppText() },
     );
   }
+
+  const steps: Step[] = [
+    {
+      number: "01",
+      label: "Who are we talking to?",
+      validate: () => (!name.trim() ? "Please add your name." : null),
+      node: (
+        <>
+          <input
+            type="text"
+            placeholder={t("Full name")}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            autoComplete="name"
+            disabled={submitting}
+            className="input"
+          />
+          <input
+            type="text"
+            placeholder={t("Company (optional)")}
+            value={company}
+            onChange={(e) => setCompany(e.target.value)}
+            autoComplete="organization"
+            disabled={submitting}
+            className="input"
+          />
+        </>
+      ),
+    },
+    {
+      number: "02",
+      label: "Where can we reach you?",
+      validate: () =>
+        !email.trim()
+          ? "Please add your email."
+          : !isEmail(email)
+            ? "That email doesn't look right."
+            : null,
+      node: (
+        <input
+          type="email"
+          placeholder="email@domain.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          disabled={submitting}
+          className="input"
+        />
+      ),
+    },
+    {
+      number: "03",
+      label: "What do you need?",
+      node: (
+        <PillSet
+          options={SERVICE_OPTIONS}
+          selected={services}
+          onToggle={toggleService}
+          multi
+          disabled={submitting}
+        />
+      ),
+    },
+    {
+      number: "04",
+      label: "Budget in mind?",
+      node: (
+        <PillSet
+          options={BUDGETS}
+          selected={budget ?? ""}
+          onToggle={(b) => setBudget(budget === b ? null : b)}
+          disabled={submitting}
+        />
+      ),
+    },
+    {
+      number: "05",
+      label: "Tell us about the project.",
+      validate: () => (!message.trim() ? "Please add a short brief." : null),
+      node: (
+        <textarea
+          rows={4}
+          placeholder={t("Goals, timing, anything we should know…")}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          disabled={submitting}
+          className="input resize-none"
+        />
+      ),
+    },
+  ];
 
   return (
     <AnimatePresence mode="wait">
@@ -105,26 +170,17 @@ export default function ProjectForm() {
           headline={
             <>
               {t("We got it. We'll")}{" "}
-              <span className="font-normal italic">{t("reply within 48 hours.")}</span>
+              <span className="font-normal italic">
+                {t("reply within 48 hours.")}
+              </span>
             </>
           }
           body={
-            <>
-              <p>
-                {t(
-                  "A copy of your brief is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
-                )}
-              </p>
-              <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                {t("Or write us anytime at")}{" "}
-                <a
-                  href="mailto:hello@onyxcreative.asia"
-                  className="underline underline-offset-4 hover:opacity-100 opacity-90"
-                >
-                  hello@onyxcreative.asia
-                </a>
-              </p>
-            </>
+            <p>
+              {t(
+                "A copy of your brief is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
+              )}
+            </p>
           }
           onReset={() => {
             reset();
@@ -137,95 +193,16 @@ export default function ProjectForm() {
           }}
         />
       ) : (
-        <motion.form
+        <StepForm
           key="form"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!submitting) void send();
-          }}
-          className="space-y-12 md:space-y-16"
-          noValidate
-        >
-          <Group label="Hello, my name is" number="01">
-            <input
-              type="text"
-              required
-              placeholder={t("Full name")}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-              disabled={submitting}
-              className="input"
-            />
-            <input
-              type="text"
-              placeholder={t("Company (optional)")}
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              autoComplete="organization"
-              disabled={submitting}
-              className="input"
-            />
-          </Group>
-
-          <Group label="You can reach me at" number="02">
-            <input
-              type="email"
-              required
-              placeholder="email@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-              disabled={submitting}
-              className="input"
-            />
-          </Group>
-
-          <Group label="I'm interested in" number="03">
-            <PillSet
-              options={SERVICES}
-              selected={services}
-              onToggle={toggleService}
-              multi
-              disabled={submitting}
-            />
-          </Group>
-
-          <Group label="Budget in mind" number="04">
-            <PillSet
-              options={BUDGETS}
-              selected={budget ?? ""}
-              onToggle={(b) => setBudget(budget === b ? null : b)}
-              disabled={submitting}
-            />
-          </Group>
-
-          <Group label="A bit about the project" number="05">
-            <textarea
-              required
-              rows={5}
-              placeholder={t("Goals, timing, anything we should know…")}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              disabled={submitting}
-              className="input resize-none"
-            />
-          </Group>
-
-          {error && <ErrorPill>{t(error)}</ErrorPill>}
-
-          <SubmitRow
-            submitting={submitting}
-            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
-            ctaLabel="Send the brief"
-            ctaKicker="EMAIL + WHATSAPP"
-          />
-          <FormStyles />
-        </motion.form>
+          steps={steps}
+          submitting={submitting}
+          error={error}
+          setError={setError}
+          onSubmit={() => void send()}
+          submitLabel="Send the brief"
+          submitKicker="EMAIL + WHATSAPP"
+        />
       )}
     </AnimatePresence>
   );

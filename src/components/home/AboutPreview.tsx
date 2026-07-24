@@ -6,17 +6,14 @@ import { useRef } from "react";
 
 // Word-chunk scroll reveal.
 const WORDS = [
-  "An",
-  "independent",
-  "studio",
-  "in Bali,",
-  "building",
-  "brands,",
-  "performance,",
-  "and AI",
-  "systems",
-  "for ambitious",
-  "teams.",
+  "One",
+  "team",
+  "for",
+  "everything",
+  "your",
+  "business",
+  "needs",
+  "online.",
 ];
 
 export default function AboutPreview() {
@@ -34,7 +31,7 @@ export default function AboutPreview() {
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end">
-        <h2 className="md:col-span-9 text-display-sm md:text-display-md font-medium leading-[0.95] tracking-tight text-balance">
+        <h2 className="md:col-span-9 text-2xl sm:text-4xl md:text-5xl lg:text-display-md font-medium leading-[1.02] tracking-tight text-balance">
           {words.map((word, i) => (
             <Word
               key={i}

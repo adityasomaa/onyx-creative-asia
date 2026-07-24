@@ -47,8 +47,8 @@ const config: Config = {
       },
       fontSize: {
         // Custom display scale for hero/section headlines
-        "display-sm": ["clamp(2.5rem, 6vw, 4rem)", { lineHeight: "0.95", letterSpacing: "-0.02em" }],
-        "display-md": ["clamp(3rem, 8vw, 6rem)", { lineHeight: "0.92", letterSpacing: "-0.03em" }],
+        "display-sm": ["clamp(2rem, 6vw, 4rem)", { lineHeight: "0.98", letterSpacing: "-0.02em" }],
+        "display-md": ["clamp(2.25rem, 7.5vw, 6rem)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],
         "display-lg": ["clamp(4rem, 12vw, 10rem)", { lineHeight: "0.88", letterSpacing: "-0.04em" }],
         "display-xl": ["clamp(5rem, 16vw, 14rem)", { lineHeight: "0.86", letterSpacing: "-0.05em" }],
       },

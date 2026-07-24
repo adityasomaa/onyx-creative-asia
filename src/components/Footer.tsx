@@ -40,14 +40,10 @@ export default function Footer() {
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 1, ease: EASE }}
-          className="text-display-md font-medium leading-[0.92] tracking-tight text-balance"
+          className="text-4xl sm:text-5xl md:text-display-md font-medium leading-[1.02] tracking-tight text-balance max-w-4xl"
         >
-          {t("Got a brand to")}{" "}
-          <span className="font-normal italic">{t("build,")}</span>{" "}
-          {t("a system to")}{" "}
-          <span className="font-normal italic">{t("automate,")}</span>{" "}
-          {t("or growth to")}{" "}
-          <span className="font-normal italic">{t("unlock?")}</span>
+          {t("Ready to grow your business")}{" "}
+          <span className="font-normal italic">{t("the correct way?")}</span>
         </motion.h2>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">

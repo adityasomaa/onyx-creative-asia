@@ -1,14 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import {
-  ErrorPill,
-  FormStyles,
-  Group,
-  SubmitRow,
-  SuccessScreen,
-} from "./shared";
+import { SuccessScreen } from "./shared";
+import { StepForm, type Step } from "./StepForm";
 import { useInquirySubmit } from "./use-submit";
 import { isEmail } from "../inquiry-types";
 import { useT } from "@/lib/i18n";
@@ -26,19 +21,6 @@ export default function GeneralForm() {
   const { submitting, sent, error, setError, submit, reset } =
     useInquirySubmit();
 
-  function validate(): boolean {
-    if (!name.trim()) return fail("Please add your name.");
-    if (!email.trim()) return fail("Please add your email.");
-    if (!isEmail(email)) return fail("That email doesn't look right.");
-    if (!message.trim()) return fail("Tell us what's on your mind.");
-    setError(null);
-    return true;
-  }
-  function fail(msg: string) {
-    setError(msg);
-    return false;
-  }
-
   function buildWhatsAppText(): string {
     return (
       "Hi Onyx Creative Asia! I just sent a quick question via the contact form.\n\n" +
@@ -49,7 +31,6 @@ export default function GeneralForm() {
   }
 
   async function send() {
-    if (!validate()) return;
     await submit(
       {
         inquiryType: "general",
@@ -57,9 +38,65 @@ export default function GeneralForm() {
         email: email.trim(),
         message: message.trim(),
       },
-      { whatsappText: buildWhatsAppText() }
+      { whatsappText: buildWhatsAppText() },
     );
   }
+
+  const steps: Step[] = [
+    {
+      number: "01",
+      label: "What's your name?",
+      validate: () => (!name.trim() ? "Please add your name." : null),
+      node: (
+        <input
+          type="text"
+          placeholder={t("Full name")}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoComplete="name"
+          disabled={submitting}
+          className="input"
+        />
+      ),
+    },
+    {
+      number: "02",
+      label: "Where can we reach you?",
+      validate: () =>
+        !email.trim()
+          ? "Please add your email."
+          : !isEmail(email)
+            ? "That email doesn't look right."
+            : null,
+      node: (
+        <input
+          type="email"
+          placeholder="email@domain.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          disabled={submitting}
+          className="input"
+        />
+      ),
+    },
+    {
+      number: "03",
+      label: "What's on your mind?",
+      validate: () =>
+        !message.trim() ? "Tell us what's on your mind." : null,
+      node: (
+        <textarea
+          rows={4}
+          placeholder={t("Ask us anything, we read everything.")}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          disabled={submitting}
+          className="input resize-none"
+        />
+      ),
+    },
+  ];
 
   return (
     <AnimatePresence mode="wait">
@@ -76,22 +113,11 @@ export default function GeneralForm() {
             </>
           }
           body={
-            <>
-              <p>
-                {t(
-                  "A copy of your question is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
-                )}
-              </p>
-              <p className="mt-3 text-xs uppercase tracking-[0.25em] opacity-50">
-                {t("Or write us anytime at")}{" "}
-                <a
-                  href="mailto:hello@onyxcreative.asia"
-                  className="underline underline-offset-4 hover:opacity-100 opacity-90"
-                >
-                  hello@onyxcreative.asia
-                </a>
-              </p>
-            </>
+            <p>
+              {t(
+                "A copy of your question is in your inbox now, keep an eye on it (and check spam, just in case). We also opened a WhatsApp tab if you'd rather keep the conversation there.",
+              )}
+            </p>
           }
           onReset={() => {
             reset();
@@ -101,67 +127,16 @@ export default function GeneralForm() {
           }}
         />
       ) : (
-        <motion.form
+        <StepForm
           key="form"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          onSubmit={(e) => {
-            e.preventDefault();
-            if (!submitting) void send();
-          }}
-          className="space-y-12 md:space-y-16"
-          noValidate
-        >
-          <Group label="Hello, my name is" number="01">
-            <input
-              type="text"
-              required
-              placeholder={t("Full name")}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              autoComplete="name"
-              disabled={submitting}
-              className="input"
-            />
-          </Group>
-
-          <Group label="You can reach me at" number="02">
-            <input
-              type="email"
-              required
-              placeholder="email@domain.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-              disabled={submitting}
-              className="input"
-            />
-          </Group>
-
-          <Group label="What's on your mind" number="03">
-            <textarea
-              required
-              rows={5}
-              placeholder={t("Ask us anything, we read everything.")}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              disabled={submitting}
-              className="input resize-none"
-            />
-          </Group>
-
-          {error && <ErrorPill>{t(error)}</ErrorPill>}
-
-          <SubmitRow
-            submitting={submitting}
-            caption="One send, email lands automatically, WhatsApp opens for the follow-up. Reply within 48h."
-            ctaLabel="Send question"
-            ctaKicker="EMAIL + WHATSAPP"
-          />
-          <FormStyles />
-        </motion.form>
+          steps={steps}
+          submitting={submitting}
+          error={error}
+          setError={setError}
+          onSubmit={() => void send()}
+          submitLabel="Send question"
+          submitKicker="EMAIL + WHATSAPP"
+        />
       )}
     </AnimatePresence>
   );

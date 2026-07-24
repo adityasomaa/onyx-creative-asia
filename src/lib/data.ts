@@ -552,7 +552,7 @@ export const SERVICES: Service[] = [
     fitFor:
       "Businesses with a site or system already running and no one responsible for keeping it healthy.",
     cta: {
-      problem: "Is there anyone actually looking after your website right now?",
+      problem: "Is anyone actually looking after your website?",
       solution:
         "We maintain, monitor, secure, and support it. Contact us for a free consultation.",
     },

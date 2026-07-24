@@ -227,7 +227,7 @@ export default async function ServiceDetailPage({
       <section className="bg-ink text-bone py-24 md:py-32">
         <div className="container-x">
           <Reveal className="max-w-6xl">
-            <h2 className="text-4xl sm:text-5xl md:text-display-md font-medium leading-[1.0] tracking-tight text-balance">
+            <h2 className="text-3xl sm:text-5xl md:text-display-md font-medium leading-[1.05] tracking-tight text-balance">
               <T>{service.cta.problem}</T>
             </h2>
             <p className="mt-6 md:mt-8 text-lg md:text-xl leading-relaxed text-bone/85 max-w-2xl">

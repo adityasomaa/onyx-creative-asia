@@ -55,9 +55,11 @@ export default function ContactForm() {
   );
 
   return (
-    <div className="space-y-10 md:space-y-12">
+    <div className="flex h-full flex-col gap-5 md:gap-7">
       <Tabs active={active} onChange={switchTab} />
-      <FormSlot type={active} />
+      <div className="min-h-0 flex-1">
+        <FormSlot type={active} />
+      </div>
     </div>
   );
 }
@@ -151,6 +153,7 @@ function FormSlot({ type }: { type: InquiryType }) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -12 }}
         transition={{ duration: 0.35, ease: EASE }}
+        className="h-full"
       >
         {type === "general" && <GeneralForm />}
         {type === "project" && <ProjectForm />}

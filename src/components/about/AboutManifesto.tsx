@@ -7,14 +7,12 @@ const EASE = [0.25, 1, 0.5, 1] as const;
 
 // The manifesto reveals word-chunk by word-chunk on scroll.
 const WORDS = [
-  "We design",
-  "for the people",
-  "who use it,",
-  "build for the",
-  "teams who",
-  "run it, and",
-  "measure what",
-  "actually moves.",
+  "We build,",
+  "we market,",
+  "we automate,",
+  "and we",
+  "measure",
+  "what moves.",
 ];
 
 export default function AboutManifesto() {
@@ -34,7 +32,7 @@ export default function AboutManifesto() {
         (Our position)
       </p>
 
-      <h2 className="text-display-sm md:text-display-md font-medium leading-[0.95] tracking-tight text-balance max-w-5xl">
+      <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-display-md font-medium leading-[1.02] tracking-tight text-balance max-w-5xl">
         {words.map((word, i) => (
           <Word
             key={i}
