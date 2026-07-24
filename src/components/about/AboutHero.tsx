@@ -17,7 +17,7 @@ export default function AboutHero() {
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
         About
       </p>
-      <h1 className="max-w-5xl text-4xl sm:text-5xl md:text-6xl lg:text-display-md font-medium leading-[1.02] tracking-tight text-balance">
+      <h1 className="max-w-5xl text-3xl sm:text-4xl md:text-5xl lg:text-display-md font-medium leading-[1.05] tracking-tight text-balance">
         <RevealText text="Your One Stop Business Development Digital Solution" />
       </h1>
       <p className="mt-8 max-w-2xl text-base md:text-lg leading-relaxed text-ink/70">
