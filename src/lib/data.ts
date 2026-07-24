@@ -567,11 +567,11 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export const STATS = [
-  { value: "120+", label: "Projects delivered" },
-  { value: "4", label: "Disciplines, one team" },
-  { value: "12", label: "Industries served" },
-  { value: "3 yrs", label: "Building since 2023" },
+export const STATS: ReadonlyArray<{ value: number; suffix: string; label: string }> = [
+  { value: 120, suffix: "+", label: "Projects delivered" },
+  { value: 20, suffix: "+", label: "Industries served" },
+  { value: 50, suffix: "+", label: "Platforms mastered" },
+  { value: 3, suffix: "+", label: "Years of experience" },
 ];
 
 export const CLIENTS = [
