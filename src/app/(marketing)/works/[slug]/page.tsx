@@ -121,7 +121,9 @@ export default async function ProjectDetailPage({
       {/* Hero cover (image + optional looping video) */}
       <section className="container-x pb-12 md:pb-20">
         <Reveal amount={0.1}>
-          <div className="group relative aspect-[4/3] md:aspect-[16/8] overflow-hidden rounded-3xl bg-ink">
+          {/* 16:9 exactly matches the generated cover, so the whole
+              device mockup stays in frame instead of being cropped. */}
+          <div className="group relative aspect-[16/9] overflow-hidden rounded-3xl bg-ink">
             <ProjectCover
               src={project.cover}
               loop={project.coverLoop}
