@@ -20,7 +20,9 @@ export default function FeaturedWorks() {
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
             {t("Works")}
           </p>
-          <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight whitespace-nowrap">
+          {/* No nowrap: the English fits on one line but the translations
+              are longer and were running off the right edge on mobile. */}
+          <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight text-balance">
             <RevealText text="Brands we've grown" />
           </h2>
           <p className="mt-5 text-base md:text-lg text-ink/70 leading-relaxed">
