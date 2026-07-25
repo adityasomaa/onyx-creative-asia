@@ -8,7 +8,8 @@ import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
 import { useIntroState } from "@/lib/intro";
 import { SERVICES } from "@/lib/data";
-import { useT } from "@/lib/i18n";
+import Button from "@/components/ui/Button";
+import { useT, T } from "@/lib/i18n";
 
 type NavLink = {
   href: string;
@@ -62,12 +63,14 @@ export default function Nav() {
   // until it has counted up and started lifting. Returning visitors (and
   // every client-side nav after) get the quick delay.
   const navDelay = introState === true ? 2.4 : 0.1;
-  // Header is treated as "on a light surface" when it's scrolled or the
-  // mobile menu is open. Opening the mega menu deliberately does NOT flip
+  // Header is treated as "on a light surface" only when it's scrolled and the
+  // mobile menu is closed. Opening the mega menu deliberately does NOT flip
   // it, so hovering Services only reveals the panel and the header stays
-  // exactly as it was.
-  const onLightSurface = scrolled || open;
-  const dark = DARK_HERO_PATHS.has(pathname) && !onLightSurface;
+  // exactly as it was. When the mobile menu is open the full-screen overlay
+  // behind the header is dark ink, so the header goes transparent with a
+  // white logo and a white X — never a white bar.
+  const onLightSurface = scrolled && !open;
+  const dark = (DARK_HERO_PATHS.has(pathname) && !onLightSurface) || open;
 
   // Hover-coordination for the mega menu.
   // We open immediately on mouseenter of the Services trigger, and close on
@@ -205,17 +208,18 @@ export default function Nav() {
           </nav>
 
           <div className="flex items-center gap-3 md:gap-4">
-            <Link
-              href="/contact"
+            <span
               onMouseEnter={closeMegaWithDelay}
-              className={cn(
-                "hidden md:inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm transition-[transform,background-color,color] duration-500 ease-out-expo hover:scale-[1.03]",
-                dark ? "bg-bone text-ink" : "bg-ink text-bone"
-              )}
+              className="hidden md:inline-flex"
             >
-              {t("Start a project")}
-              <span aria-hidden>→</span>
-            </Link>
+              <Button
+                href="/contact"
+                tone={dark ? "light" : "dark"}
+                className="px-5 py-2.5"
+              >
+                {t("Start a project")}
+              </Button>
+            </span>
             <button
               onClick={() => setOpen((o) => !o)}
               aria-label={open ? "Close menu" : "Open menu"}
@@ -255,18 +259,22 @@ export default function Nav() {
               transition={{ duration: 0.28, ease: EASE }}
               onMouseEnter={cancelCloseMega}
               onMouseLeave={closeMegaWithDelay}
-              className="hidden md:block absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[min(58rem,calc(100vw-3rem))] overflow-hidden rounded-3xl border border-white/15 bg-ink/85 text-bone shadow-[0_30px_90px_-32px_rgba(0,0,0,0.75)] ring-1 ring-inset ring-white/5 backdrop-blur-2xl backdrop-saturate-150"
+              className="pointer-events-none absolute top-full left-0 right-0 mt-3 hidden justify-center px-6 md:flex"
             >
-              <div className="p-5 lg:p-6">
+              {/* Centering is done by the flex wrapper above; the panel
+                  itself carries no transform so framer-motion's animated
+                  translateY can't clobber horizontal centering. */}
+              <div className="pointer-events-auto w-[min(58rem,100%)] overflow-hidden rounded-3xl border border-white/15 bg-ink/85 text-bone shadow-[0_30px_90px_-32px_rgba(0,0,0,0.75)] ring-1 ring-inset ring-white/5 backdrop-blur-2xl backdrop-saturate-150">
+                <div className="p-5 lg:p-6">
                 <div className="mb-4 flex items-center justify-between gap-4 px-1">
                   <p className="text-[10px] uppercase tracking-[0.28em] text-bone/50">
-                    Services
+                    {t("Services")}
                   </p>
                   <Link
                     href="/services"
                     className="group inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-bone/70 transition-colors hover:text-bone"
                   >
-                    See all
+                    {t("See all")}
                     <span
                       aria-hidden
                       className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
@@ -287,14 +295,15 @@ export default function Nav() {
                         {s.number}
                       </p>
                       <h3 className="mt-2 text-base font-medium leading-tight tracking-tight">
-                        {s.title}
+                        <T>{s.title}</T>
                       </h3>
                       <p className="mt-1.5 line-clamp-2 text-[13px] leading-snug text-bone/55">
-                        {s.short}
+                        <T>{s.short}</T>
                       </p>
                     </Link>
                   ))}
                 </div>
+              </div>
               </div>
             </motion.div>
           )}
@@ -328,34 +337,41 @@ export default function Nav() {
                       delay: 0.2 + i * 0.07,
                     }}
                   >
-                    {/* A parent with children (Services) is a two-step tap:
-                        first tap expands the sub-menu (button, no nav),
-                        a second tap on the now-open parent navigates to the
-                        overview page (link). Leaf links navigate directly. */}
+                    {/* A parent with children (Services): the label itself is
+                        always a plain link to the overview page, and a separate
+                        round +/× toggle on the right opens the sub-menu. That
+                        splits the two intents cleanly, no more guess-the-second-
+                        tap. Leaf links navigate directly. */}
                     {hasChildren ? (
-                      expanded ? (
+                      <div className="flex items-center justify-between">
                         <Link
                           href={link.href}
-                          className="flex items-center justify-between py-3 text-4xl font-medium tracking-tight"
+                          className="py-3 text-4xl font-medium tracking-tight"
                         >
                           {t(link.label)}
-                          <span aria-hidden className="text-xl opacity-60">
-                            ▴
-                          </span>
                         </Link>
-                      ) : (
                         <button
                           type="button"
-                          onClick={() => setMobileExpanded(link.href)}
-                          aria-expanded={false}
-                          className="flex w-full items-center justify-between py-3 text-4xl font-medium tracking-tight text-left"
+                          onClick={() =>
+                            setMobileExpanded(expanded ? null : link.href)
+                          }
+                          aria-expanded={expanded}
+                          aria-label={
+                            expanded ? "Collapse services" : "Expand services"
+                          }
+                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-bone/25 text-bone transition-colors duration-300 hover:bg-bone/10"
                         >
-                          {t(link.label)}
-                          <span aria-hidden className="text-xl opacity-60">
-                            ▾
+                          <span
+                            aria-hidden
+                            className={cn(
+                              "text-2xl leading-none transition-transform duration-500 ease-out-expo",
+                              expanded ? "rotate-45" : "rotate-0"
+                            )}
+                          >
+                            +
                           </span>
                         </button>
-                      )
+                      </div>
                     ) : (
                       <Link
                         href={link.href}
@@ -372,18 +388,38 @@ export default function Nav() {
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.45, ease: EASE }}
-                          className="overflow-hidden pl-1 pb-2 flex flex-col gap-1 border-l border-bone/20 ml-1"
+                          className="mt-1 flex flex-col overflow-hidden border-t border-bone/10"
                         >
-                          {link.children!.map((child) => (
-                            <li key={child.href}>
-                              <Link
-                                href={child.href}
-                                className="block py-1.5 pl-4 text-base font-normal tracking-tight text-bone/70 hover:text-bone transition-colors"
+                          {link.children!.map((child) => {
+                            const svc = SERVICES.find(
+                              (s) => `/services/${s.id}` === child.href
+                            );
+                            return (
+                              <li
+                                key={child.href}
+                                className="border-b border-bone/10"
                               >
-                                {child.label}
-                              </Link>
-                            </li>
-                          ))}
+                                <Link
+                                  href={child.href}
+                                  className="group flex items-baseline gap-3 py-3 transition-colors"
+                                >
+                                  <span className="shrink-0 pt-0.5 text-[11px] tabular-nums tracking-[0.2em] text-bone/35">
+                                    {svc?.number ?? "•"}
+                                  </span>
+                                  <span className="min-w-0">
+                                    <span className="block text-lg font-medium leading-tight tracking-tight text-bone/90 transition-colors group-hover:text-bone">
+                                      <T>{child.label}</T>
+                                    </span>
+                                    {svc?.short && (
+                                      <span className="mt-0.5 block text-sm leading-snug text-bone/45">
+                                        <T>{svc.short}</T>
+                                      </span>
+                                    )}
+                                  </span>
+                                </Link>
+                              </li>
+                            );
+                          })}
                         </motion.ul>
                       )}
                     </AnimatePresence>

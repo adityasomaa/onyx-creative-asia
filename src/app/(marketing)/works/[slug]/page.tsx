@@ -8,6 +8,7 @@ import {
 } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import ProjectCover from "@/components/ProjectCover";
+import Button from "@/components/ui/Button";
 import { T } from "@/lib/i18n";
 
 type Params = { slug: string };
@@ -142,23 +143,9 @@ export default async function ProjectDetailPage({
         />
         {project.url && ctaLabel && (
           <div className="col-span-2 md:col-span-6 md:col-start-7 flex md:justify-end items-end">
-            <a
-              href={project.url}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-4 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
-              data-cursor="hover"
-            >
-              <span className="text-sm font-medium">
-                <T>{ctaLabel}</T>
-              </span>
-              <span
-                aria-hidden
-                className="transition-transform duration-500 group-hover:translate-x-1"
-              >
-                ↗
-              </span>
-            </a>
+            <Button href={project.url} newTab tone="dark">
+              {ctaLabel}
+            </Button>
           </div>
         )}
       </section>
@@ -210,7 +197,7 @@ export default async function ProjectDetailPage({
                     key={t}
                     className="text-xs uppercase tracking-[0.18em] border border-ink/20 rounded-full px-3 py-1"
                   >
-                    {t}
+                    <T>{t}</T>
                   </span>
                 ))}
               </div>
@@ -236,7 +223,7 @@ export default async function ProjectDetailPage({
           <Reveal>
             <blockquote className="text-display-sm font-medium leading-[1.05] tracking-tight max-w-4xl text-balance">
               <span className="opacity-40 mr-1">&ldquo;</span>
-              {testimonial.quote}
+              <T>{testimonial.quote}</T>
               <span className="opacity-40 ml-0.5">&rdquo;</span>
             </blockquote>
           </Reveal>
@@ -244,7 +231,7 @@ export default async function ProjectDetailPage({
             <figcaption className="mt-8 text-sm flex items-baseline gap-3 flex-wrap">
               <span className="font-medium">{testimonial.author}</span>
               <span className="opacity-50">·</span>
-              <span className="opacity-70">{testimonial.role}</span>
+              <span className="opacity-70"><T>{testimonial.role}</T></span>
               <span className="opacity-50">·</span>
               <span className="opacity-70 italic">{testimonial.client}</span>
             </figcaption>

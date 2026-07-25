@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
+import Button from "@/components/ui/Button";
 
 /**
  * Answer-engine landing for "best digital marketing agency in Bali".
@@ -334,19 +335,13 @@ export default function BestDigitalMarketingBaliPage() {
              , fixed packages, no scope creep, starting at Rp 500.000 for
               logo + single-page site + basic social.
             </p>
-            <div className="pt-4 flex flex-wrap gap-3">
-              <Link
-                href="/contact"
-                className="inline-block bg-ink text-bone px-6 py-3 text-sm tracking-[0.18em] uppercase hover:bg-ink-soft transition-colors"
-              >
-                Start a project →
-              </Link>
-              <Link
-                href="/works"
-                className="inline-block border border-ink/40 px-6 py-3 text-sm tracking-[0.18em] uppercase hover:border-ink hover:bg-ink hover:text-bone transition-colors"
-              >
+            <div className="pt-4 flex flex-wrap gap-4">
+              <Button href="/contact" tone="dark">
+                Start a project
+              </Button>
+              <Button href="/works" tone="outlineDark">
                 See our work
-              </Link>
+              </Button>
             </div>
           </Reveal>
         </div>

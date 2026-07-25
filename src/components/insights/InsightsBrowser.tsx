@@ -5,6 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import { INSIGHTS } from "@/lib/insights";
+import { T, useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
@@ -27,6 +28,7 @@ const DATE_FMT = new Intl.DateTimeFormat("en-GB", {
 const primary = (tag: string) => tag.split("·")[0].trim();
 
 export default function InsightsBrowser() {
+  const t = useT();
   const categories = useMemo(
     () => Array.from(new Set(INSIGHTS.map((p) => primary(p.tag)))),
     [],
@@ -59,7 +61,7 @@ export default function InsightsBrowser() {
               onClick={() => setActive(null)}
               className={pill(active === null)}
             >
-              All
+              {t("All")}
             </button>
           </li>
           {categories.map((c) => (
@@ -69,7 +71,7 @@ export default function InsightsBrowser() {
                 onClick={() => setActive(c)}
                 className={pill(active === c)}
               >
-                {c}
+                <T>{c}</T>
               </button>
             </li>
           ))}
@@ -102,20 +104,22 @@ export default function InsightsBrowser() {
                       className="object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-[1.03]"
                     />
                     <span className="absolute left-3 top-3 rounded-full bg-bone/90 px-3 py-1 text-[10px] uppercase tracking-[0.18em] text-ink">
-                      {piece.tag}
+                      <T>{piece.tag}</T>
                     </span>
                   </div>
                   <div className="mt-4">
                     <p className="text-xs uppercase tracking-[0.18em] opacity-55 flex items-center gap-2">
-                      <span>{piece.readingTimeMin} min read</span>
+                      <span>
+                        {piece.readingTimeMin} {t("min read")}
+                      </span>
                       <span aria-hidden>·</span>
                       <span>{DATE_FMT.format(new Date(piece.publishedAt))}</span>
                     </p>
                     <h3 className="mt-2 text-lg md:text-xl font-medium tracking-tight leading-snug">
-                      {piece.title}
+                      <T>{piece.title}</T>
                     </h3>
                     <p className="mt-2 text-sm text-ink/65 leading-relaxed line-clamp-2">
-                      {piece.excerpt}
+                      <T>{piece.excerpt}</T>
                     </p>
                   </div>
                 </Link>

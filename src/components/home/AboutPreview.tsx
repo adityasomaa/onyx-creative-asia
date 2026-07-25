@@ -3,21 +3,16 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Button from "@/components/ui/Button";
+import { useT } from "@/lib/i18n";
 
-// Word-chunk scroll reveal.
-const WORDS = [
-  "One",
-  "team",
-  "for",
-  "everything",
-  "your",
-  "business",
-  "needs",
-  "online.",
-];
+// Word-chunk scroll reveal. The phrase is translated first, then split on
+// spaces so the per-word stagger applies to the active-locale copy (for
+// CN/JP with no spaces it simply reveals as one chunk).
+const HEADLINE = "One team for everything your business needs online.";
 
 export default function AboutPreview() {
-  const words = WORDS;
+  const t = useT();
+  const words = t(HEADLINE).split(" ");
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -27,7 +22,7 @@ export default function AboutPreview() {
   return (
     <section ref={ref} className="container-x py-24 md:py-32 border-t border-hairline">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-8 md:mb-12">
-        About
+        {t("About")}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-end">
@@ -44,8 +39,9 @@ export default function AboutPreview() {
 
         <div className="md:col-span-3 md:pl-4">
           <p className="mb-6 text-base leading-relaxed text-ink/70">
-            An independent studio in Bali running every digital service your
-            business needs, from one team, under one roof.
+            {t(
+              "An independent studio in Bali running every digital service your business needs, from one team, under one roof.",
+            )}
           </p>
           <Button href="/about" tone="dark">
             More about us

@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { PROJECTS, SERVICES, getProjectsForService } from "@/lib/data";
 import WorkCard from "@/components/works/WorkCard";
+import { T, useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
@@ -19,6 +20,7 @@ export default function WorksBrowser({
 }: {
   initialService?: string;
 }) {
+  const t = useT();
   const valid =
     initialService && SERVICES.some((s) => s.id === initialService)
       ? initialService
@@ -50,7 +52,7 @@ export default function WorksBrowser({
               onClick={() => select(null)}
               className={pill(active === null)}
             >
-              All work
+              {t("All work")}
             </button>
           </li>
           {SERVICES.map((s) => (
@@ -60,7 +62,7 @@ export default function WorksBrowser({
                 onClick={() => select(s.id)}
                 className={pill(active === s.id)}
               >
-                {s.title}
+                <T>{s.title}</T>
               </button>
             </li>
           ))}
@@ -78,17 +80,14 @@ export default function WorksBrowser({
               transition={{ duration: 0.35, ease: EASE }}
               className="text-lg text-ink/70 max-w-lg"
             >
-              No work under{" "}
-              {SERVICES.find((s) => s.id === active)?.title ?? "this filter"}{" "}
-              yet.{" "}
+              {t("No work under this filter yet.")}{" "}
               <button
                 type="button"
                 onClick={() => select(null)}
                 className="border-b border-ink/40 hover:border-ink"
               >
-                See all work
+                {t("See all work")}
               </button>
-              .
             </motion.p>
           ) : (
             <motion.ul

@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 /**
  * Background video for the home hero: fully monochrome, sat behind a heavy
  * black overlay so the centered headline always reads. The cursor
- * interaction now lives in HeroImageTrail, so this layer stays static.
+ * interaction now lives in HeroTextTrail, so this layer stays static.
  *
  * Files live in `public/videos/`:
  *   - hero.mp4         (H.264, 1920×1080, 24fps)

@@ -7,6 +7,7 @@ import {
   serviceTagsForProject,
   type Project,
 } from "@/lib/data";
+import { T } from "@/lib/i18n";
 
 /**
  * One project in any works loop (home, /works, related work on a service
@@ -51,7 +52,7 @@ export default function WorkCard({
             </h3>
             {project.blurb && (
               <p className="mt-1 text-sm text-ink/55 leading-snug">
-                {project.blurb}
+                <T>{project.blurb}</T>
               </p>
             )}
           </div>
@@ -75,7 +76,7 @@ export default function WorkCard({
                   href={`/works?service=${slug}`}
                   className="inline-flex rounded-full border border-hairline px-3 py-1 text-xs tracking-tight text-ink/70 transition-colors duration-300 hover:border-ink/40 hover:bg-ink hover:text-bone"
                 >
-                  {tag}
+                  <T>{tag}</T>
                 </Link>
               </li>
             );

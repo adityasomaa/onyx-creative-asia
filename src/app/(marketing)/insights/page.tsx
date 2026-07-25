@@ -22,7 +22,7 @@ export default function InsightsPage() {
     <>
       <section className="container-x pt-40 md:pt-52 pb-10 md:pb-14">
         <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          {"Insights"}
+          <T>Insights</T>
         </p>
         <h1 className="text-display-md font-medium leading-[0.95] tracking-tight max-w-4xl text-balance">
           <RevealText text="Useful articles" />

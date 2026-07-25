@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { findInsight, INSIGHTS } from "@/lib/insights";
 import { RevealText } from "@/components/Reveal";
+import Button from "@/components/ui/Button";
+import { T } from "@/lib/i18n";
 
 const DATE_FMT = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -99,12 +101,14 @@ export default async function InsightPage({
               href="/insights"
               className="hover:opacity-70 transition-opacity"
             >
-              ← Insights
+              ← <T>Insights</T>
             </Link>
             <span aria-hidden>·</span>
-            <span>{piece.tag}</span>
+            <span><T>{piece.tag}</T></span>
             <span aria-hidden>·</span>
-            <span>{piece.readingTimeMin} min read</span>
+            <span>
+              {piece.readingTimeMin} <T>min read</T>
+            </span>
             <span aria-hidden>·</span>
             <time dateTime={piece.publishedAt}>
               {DATE_FMT.format(new Date(piece.publishedAt))}
@@ -116,7 +120,7 @@ export default async function InsightPage({
           </h1>
 
           <p className="mt-10 text-xl md:text-2xl text-ink/70 leading-relaxed font-normal italic max-w-2xl">
-            {piece.excerpt}
+            <T>{piece.excerpt}</T>
           </p>
         </div>
 
@@ -127,7 +131,7 @@ export default async function InsightPage({
                 key={i}
                 className="text-lg md:text-xl leading-[1.7] text-ink/85 mb-7"
               >
-                {block}
+                <T>{block}</T>
               </p>
             ) : (
               <blockquote
@@ -135,7 +139,7 @@ export default async function InsightPage({
                 className="my-10 md:my-12 border-l-2 border-ink pl-6 md:pl-8"
               >
                 <p className="text-2xl md:text-3xl font-medium leading-[1.25] tracking-tight text-ink italic">
-                  &ldquo;{block.text}&rdquo;
+                  &ldquo;<T>{block.text}</T>&rdquo;
                 </p>
                 {block.attribution && (
                   <p className="mt-4 text-sm uppercase tracking-[0.18em] opacity-60">
@@ -151,7 +155,7 @@ export default async function InsightPage({
       {otherInsights.length > 0 && (
         <section className="container-x border-t border-hairline pt-16 md:pt-20 pb-24 md:pb-32">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-10">
-            (Keep reading)
+            <T>(Keep reading)</T>
           </p>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {otherInsights.map((other) => (
@@ -161,16 +165,16 @@ export default async function InsightPage({
                   className="group block border-t border-ink pt-6 transition-opacity duration-300 hover:opacity-80"
                 >
                   <p className="text-xs uppercase tracking-[0.18em] opacity-60 mb-3">
-                    {other.tag}
+                    <T>{other.tag}</T>
                   </p>
                   <p className="text-lg md:text-xl font-medium tracking-tight leading-snug">
-                    {other.title}
+                    <T>{other.title}</T>
                   </p>
                   <p className="mt-3 text-sm text-ink/60 leading-relaxed line-clamp-3">
-                    {other.excerpt}
+                    <T>{other.excerpt}</T>
                   </p>
                   <p className="mt-4 text-xs uppercase tracking-[0.18em] opacity-50 flex items-center gap-2">
-                    <span>Read</span>
+                    <span><T>Read</T></span>
                     <span
                       aria-hidden
                       className="transition-transform duration-500 group-hover:translate-x-1"
@@ -185,17 +189,11 @@ export default async function InsightPage({
 
           <div className="mt-16 md:mt-20 flex flex-col md:flex-row md:items-end md:justify-between gap-6 border-t border-hairline pt-12 md:pt-16">
             <p className="text-lg max-w-md text-ink/80 leading-relaxed">
-              Like the way we think? Tell us what you're trying to build.
+              <T>Like the way we think? Tell us what you&apos;re trying to build.</T>
             </p>
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-3 rounded-full bg-ink px-6 py-3 text-bone transition-transform duration-500 ease-out-expo hover:scale-[1.03] w-fit"
-            >
-              <span className="text-sm font-medium">Start a project</span>
-              <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">
-                →
-              </span>
-            </Link>
+            <Button href="/contact" tone="dark">
+              Start a project
+            </Button>
           </div>
         </section>
       )}

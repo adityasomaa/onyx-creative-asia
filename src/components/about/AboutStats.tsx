@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { STATS } from "@/lib/data";
 import Counter from "@/components/ui/Counter";
+import { T, useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
@@ -11,16 +12,17 @@ const EASE = [0.25, 1, 0.5, 1] as const;
  * record counters that tick up from zero on scroll.
  */
 export default function AboutStats() {
+  const t = useT();
   return (
     <section className="container-x pb-24 md:pb-32 pt-16 md:pt-24">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-        Experience
+        {t("Experience")}
       </p>
       <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight text-balance">
-        Our number records
+        {t("Our number records")}
       </h2>
 
-      <div className="mt-10 md:mt-14 border-t border-hairline pt-10 md:pt-14 grid grid-cols-2 md:grid-cols-4 gap-y-10 md:gap-x-12">
+      <div className="mt-10 md:mt-14 border-t border-hairline pt-10 md:pt-14 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-x-12">
         {STATS.map((stat, i) => (
           <motion.div
             key={stat.label}
@@ -28,12 +30,13 @@ export default function AboutStats() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true, amount: 0.4 }}
             transition={{ duration: 0.7, ease: EASE, delay: i * 0.06 }}
+            className="border-t border-hairline pt-6 first:border-t-0 first:pt-0 sm:border-t-0 sm:pt-0"
           >
             <p className="text-display-sm font-medium tracking-tight">
               <Counter to={stat.value} suffix={stat.suffix} />
             </p>
             <p className="mt-2 text-xs uppercase tracking-[0.2em] opacity-60">
-              {stat.label}
+              <T>{stat.label}</T>
             </p>
           </motion.div>
         ))}

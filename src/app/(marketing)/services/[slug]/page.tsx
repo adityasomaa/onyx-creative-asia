@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { SERVICES } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import RelatedWorks from "@/components/services/RelatedWorks";
+import Button from "@/components/ui/Button";
 import { T } from "@/lib/i18n";
 
 type Params = { slug: string };
@@ -160,7 +161,7 @@ export default async function ServiceDetailPage({
                   className="border-b border-hairline py-4 flex items-baseline gap-3 text-base"
                 >
                   <span className="text-xs opacity-50 tabular-nums">→</span>
-                  <span>{c}</span>
+                  <span><T>{c}</T></span>
                 </li>
               ))}
             </ul>
@@ -235,28 +236,15 @@ export default async function ServiceDetailPage({
             </p>
           </Reveal>
           <Reveal
-            className="mt-10 md:mt-12 flex flex-wrap items-center gap-5"
+            className="mt-10 md:mt-12 flex flex-wrap items-center gap-4"
             delay={0.1}
           >
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-3 rounded-full bg-bone text-ink px-7 py-4 text-sm font-medium transition-transform duration-500 ease-out-expo hover:scale-[1.03]"
-            >
-              <T>Book a free consultation</T>
-              <span
-                aria-hidden
-                className="transition-transform duration-500 group-hover:translate-x-1"
-              >
-                ↗
-              </span>
-            </Link>
-            <Link
-              href="/works"
-              className="inline-flex items-center gap-2 text-sm text-bone/70 hover:text-bone transition-colors"
-            >
-              <T>See related work</T>
-              <span aria-hidden>→</span>
-            </Link>
+            <Button href="/contact" tone="light">
+              Book a free consultation
+            </Button>
+            <Button href="/works" tone="outlineLight">
+              See related work
+            </Button>
           </Reveal>
         </div>
       </section>

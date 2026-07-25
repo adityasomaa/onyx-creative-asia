@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
+import { useT } from "@/lib/i18n";
 
 /**
  * Persistent contact CTA in the bottom-right corner.
@@ -21,6 +22,7 @@ const EASE = [0.25, 1, 0.5, 1] as const;
 
 export default function FloatingContactButton() {
   const pathname = usePathname();
+  const t = useT();
   const [mounted, setMounted] = useState(false);
 
   // Wait for the loader sequence before fading in.
@@ -55,19 +57,7 @@ export default function FloatingContactButton() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
             </span>
             <span className="text-sm font-medium tracking-tight">
-              Get in touch
-            </span>
-            <span
-              aria-hidden
-              className="hidden md:inline text-xs tracking-[0.2em] uppercase opacity-60"
-            >
-              ·
-            </span>
-            <span
-              aria-hidden
-              className="hidden md:inline text-xs tracking-[0.2em] uppercase opacity-60 transition-opacity group-hover:opacity-90"
-            >
-              48h reply
+              {t("Get in touch")}
             </span>
             <span
               aria-hidden

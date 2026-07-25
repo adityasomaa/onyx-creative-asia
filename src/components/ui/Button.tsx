@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/cn";
+import { useT } from "@/lib/i18n";
 
 /**
  * Shared button with a distinctive hover: the label flips (the current
@@ -16,10 +17,10 @@ import { cn } from "@/lib/cn";
  *   - outlineLight: outlined, fills bone on hover (dark surface)
  */
 const TONES = {
-  dark: { base: "bg-ink text-bone ring-1 ring-ink", fill: "bg-bone", copy2: "text-ink" },
-  light: { base: "bg-bone text-ink ring-1 ring-bone", fill: "bg-ink", copy2: "text-bone" },
-  outlineDark: { base: "bg-transparent text-ink ring-1 ring-ink/25", fill: "bg-ink", copy2: "text-bone" },
-  outlineLight: { base: "bg-transparent text-bone ring-1 ring-bone/40", fill: "bg-bone", copy2: "text-ink" },
+  dark: { base: "bg-ink text-bone ring-1 ring-ink", fill: "bg-bone", copy2: "text-ink", arrowHover: "group-hover:text-ink" },
+  light: { base: "bg-bone text-ink ring-1 ring-bone", fill: "bg-ink", copy2: "text-bone", arrowHover: "group-hover:text-bone" },
+  outlineDark: { base: "bg-transparent text-ink ring-1 ring-ink/25", fill: "bg-ink", copy2: "text-bone", arrowHover: "group-hover:text-bone" },
+  outlineLight: { base: "bg-transparent text-bone ring-1 ring-bone/40", fill: "bg-bone", copy2: "text-ink", arrowHover: "group-hover:text-ink" },
 } as const;
 
 type Tone = keyof typeof TONES;
@@ -32,6 +33,7 @@ export default function Button({
   tone = "dark",
   arrow = true,
   disabled = false,
+  newTab = false,
   className,
 }: {
   href?: string;
@@ -41,9 +43,15 @@ export default function Button({
   tone?: Tone;
   arrow?: boolean;
   disabled?: boolean;
+  /** Render as an external link that opens in a new tab. */
+  newTab?: boolean;
   className?: string;
 }) {
   const c = TONES[tone];
+  // Button labels translate with the active locale (dictionary lookup);
+  // untranslated labels fall back to their English source.
+  const t = useT();
+  const label = t(children);
 
   const inner = (
     <span
@@ -63,7 +71,7 @@ export default function Button({
       />
       <span className="relative z-10 block overflow-hidden">
         <span className="block transition-transform duration-500 ease-out-expo group-hover:-translate-y-[130%]">
-          {children}
+          {label}
         </span>
         <span
           aria-hidden
@@ -72,7 +80,7 @@ export default function Button({
             c.copy2,
           )}
         >
-          {children}
+          {label}
         </span>
       </span>
       {arrow && (
@@ -80,7 +88,7 @@ export default function Button({
           aria-hidden
           className={cn(
             "relative z-10 leading-none transition-[transform,color] duration-500 group-hover:translate-x-1",
-            `group-hover:${c.copy2}`,
+            c.arrowHover,
           )}
         >
           →
@@ -89,6 +97,19 @@ export default function Button({
     </span>
   );
 
+  if (href && newTab) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noreferrer noopener"
+        data-cursor="hover"
+        className="inline-block"
+      >
+        {inner}
+      </a>
+    );
+  }
   if (href) {
     return (
       <Link href={href} data-cursor="hover" className="inline-block">

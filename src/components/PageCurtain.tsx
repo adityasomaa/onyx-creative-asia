@@ -78,6 +78,17 @@ export default function PageCurtain() {
     }
   }, [pathname]);
 
+  // Recovery guard: a short beat after any route settles, if we're not in
+  // the middle of a covered transition, make sure Lenis is running. This
+  // catches any path where the scroll lock wasn't released and the page
+  // would otherwise feel stuck.
+  useEffect(() => {
+    const id = window.setTimeout(() => {
+      if (!busy.current) getLenis()?.start();
+    }, 400);
+    return () => window.clearTimeout(id);
+  }, [pathname]);
+
   function waitForRoute(pathOnly: string) {
     return new Promise<void>((resolve) => {
       targetPath.current = pathOnly;
@@ -123,6 +134,15 @@ export default function PageCurtain() {
     if (intro !== true) return; // only the first session load
     markIntroShown();
     let cancelled = false;
+    const release = () => {
+      controls.set("hidden");
+      lockScroll(false);
+      setActive(false);
+      setMode("curtain");
+    };
+    // Same safety as navigation: never leave the first session locked if the
+    // reveal animation fails to settle.
+    const watchdog = window.setTimeout(release, COUNT_MS + 2500);
     (async () => {
       setMode("loader");
       setCount(0);
@@ -130,17 +150,20 @@ export default function PageCurtain() {
       setActive(true);
       lockScroll(true);
       controls.set("cover"); // already on the page — cover without a wipe-in
-      await runCount();
-      if (cancelled) return;
-      await sleep(150);
-      await controls.start("reveal");
-      controls.set("hidden");
-      lockScroll(false);
-      setActive(false);
-      setMode("curtain");
+      try {
+        await runCount();
+        if (cancelled) return;
+        await sleep(150);
+        await controls.start("reveal");
+      } finally {
+        window.clearTimeout(watchdog);
+        if (!cancelled) release();
+      }
     })();
     return () => {
       cancelled = true;
+      window.clearTimeout(watchdog);
+      lockScroll(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [intro]);
@@ -156,28 +179,44 @@ export default function PageCurtain() {
     }
     lockScroll(true);
 
-    const t0 = Date.now();
-    await controls.start("cover");
+    // The scroll is locked for the whole covered sequence. If *any* await
+    // below throws or an animation promise never settles, we must still
+    // unlock Lenis, or the page silently becomes unscrollable ("nyangkut")
+    // until the next navigation. A finally block covers throws, and a
+    // watchdog covers a hung/never-resolving animation promise.
+    const release = () => {
+      lockScroll(false);
+      busy.current = false;
+      setActive(false);
+      setMode("curtain");
+    };
+    const watchdog = window.setTimeout(() => {
+      controls.set("hidden");
+      release();
+    }, NAV_SAFETY_MS + COUNT_MS + 1500);
 
-    router.push(to);
-    await waitForRoute(pathOnly);
-    resetScroll();
+    try {
+      const t0 = Date.now();
+      await controls.start("cover");
 
-    if (isHome) {
-      await runCount();
-    } else {
-      const held = Date.now() - t0;
-      if (held < MIN_COVER_MS) await sleep(MIN_COVER_MS - held);
+      router.push(to);
+      await waitForRoute(pathOnly);
+      resetScroll();
+
+      if (isHome) {
+        await runCount();
+      } else {
+        const held = Date.now() - t0;
+        if (held < MIN_COVER_MS) await sleep(MIN_COVER_MS - held);
+      }
+
+      await twoFrames();
+      await controls.start("reveal");
+      controls.set("hidden");
+    } finally {
+      window.clearTimeout(watchdog);
+      release();
     }
-
-    await twoFrames();
-    await controls.start("reveal");
-    controls.set("hidden");
-
-    lockScroll(false);
-    busy.current = false;
-    setActive(false);
-    setMode("curtain");
   }
 
   useEffect(() => {

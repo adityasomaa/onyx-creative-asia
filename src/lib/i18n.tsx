@@ -9,25 +9,121 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { DICT } from "./i18n-dict";
 
 /**
- * Currency preference for Onyx Creative Asia.
+ * Manual i18n for Onyx Creative Asia.
  *
- * The public site is English-only. This provider holds a single
- * preference: which currency to show prices in (IDR or USD). The
- * header toggle flips it; the choice persists in localStorage.
+ * The public site ships four languages: English (source), Bahasa
+ * Indonesia, Chinese, and Japanese. Translations are hand-written and
+ * live in `i18n-dict.ts`, keyed by the exact English source string. This
+ * replaces the old Google website-translate widget, so the copy reads
+ * casual-but-formal in every language instead of machine-translated.
  *
- * NOTE: this module used to host a Bahasa Indonesia translation layer.
- * That feature was removed. `useT` and `<T>` are kept as identity
- * pass-throughs so the many `t(...)` / `<T>...</T>` call sites across
- * the app keep compiling and simply render their English source. New
- * code should not add `t()` wrappers.
+ * Usage stays the same as before:
+ *   - `const t = useT(); t("Some text")` inside client components
+ *   - `<T>Some text</T>` inline (works inside server components too, since
+ *     T is itself a client component)
+ * Any string missing from the dictionary falls back to its English
+ * source, so partial coverage degrades gracefully (never a blank).
  */
+
+export type Locale = "en" | "id" | "zh" | "ja";
+
+export const LOCALES: ReadonlyArray<{
+  code: Locale;
+  label: string;
+  name: string;
+}> = [
+  { code: "en", label: "EN", name: "English" },
+  { code: "id", label: "ID", name: "Bahasa Indonesia" },
+  { code: "zh", label: "CN", name: "中文" },
+  { code: "ja", label: "JP", name: "日本語" },
+];
+
+const DEFAULT_LOCALE: Locale = "en";
+const LOCALE_KEY = "onyx_locale";
+
+function isLocale(v: unknown): v is Locale {
+  return v === "en" || v === "id" || v === "zh" || v === "ja";
+}
+
+/** Look up a source string for the active locale, falling back to English. */
+export function translate(source: string, locale: Locale): string {
+  if (locale === "en") return source;
+  const table = DICT[locale];
+  return (table && table[source]) || source;
+}
+
+const LocaleContext = createContext<{
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+}>({
+  locale: DEFAULT_LOCALE,
+  setLocale: () => {},
+});
+
+export function LocaleProvider({ children }: { children: ReactNode }) {
+  const [locale, setLocaleState] = useState<Locale>(DEFAULT_LOCALE);
+
+  // Hydrate from storage after first mount so SSR + first client paint
+  // both render English (no hydration mismatch), then switch.
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(LOCALE_KEY);
+      if (isLocale(stored)) setLocaleState(stored);
+    } catch {
+      /* storage unavailable, ignore */
+    }
+  }, []);
+
+  const setLocale = useCallback((next: Locale) => {
+    setLocaleState(next);
+    try {
+      localStorage.setItem(LOCALE_KEY, next);
+      document.cookie = `${LOCALE_KEY}=${next};path=/;max-age=31536000;samesite=lax`;
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const value = useMemo(() => ({ locale, setLocale }), [locale, setLocale]);
+
+  return (
+    <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
+  );
+}
+
+export function useLocale() {
+  return useContext(LocaleContext);
+}
+
+/**
+ * Translator hook for client components: `const t = useT(); t("Hello")`.
+ */
+export function useT() {
+  const { locale } = useLocale();
+  return useCallback((s: string) => translate(s, locale), [locale]);
+}
+
+/**
+ * Inline translated text. `<T>Hello</T>` renders the active-locale copy.
+ * Children must be a plain string (the dictionary key).
+ */
+export function T({ children }: { children: string }) {
+  const { locale } = useLocale();
+  return <>{translate(children, locale)}</>;
+}
+
+/* ============================================================
+ * Currency preference (IDR / USD) — independent of language, kept from
+ * the previous i18n module so pricing call sites keep working.
+ * ============================================================ */
 
 export type Currency = "idr" | "usd";
 
 const DEFAULT_CURRENCY: Currency = "idr";
-const STORAGE_KEY = "onyx_currency";
+const CURRENCY_KEY = "onyx_currency";
 
 const CurrencyContext = createContext<{
   currency: Currency;
@@ -40,21 +136,19 @@ const CurrencyContext = createContext<{
 export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [currency, setCurrencyState] = useState<Currency>(DEFAULT_CURRENCY);
 
-  // Hydrate from localStorage after first mount so SSR + first client
-  // paint match (no hydration mismatch).
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = localStorage.getItem(CURRENCY_KEY);
       if (stored === "idr" || stored === "usd") setCurrencyState(stored);
     } catch {
-      /* localStorage unavailable (private mode etc.), ignore */
+      /* ignore */
     }
   }, []);
 
   const setCurrency = useCallback((next: Currency) => {
     setCurrencyState(next);
     try {
-      localStorage.setItem(STORAGE_KEY, next);
+      localStorage.setItem(CURRENCY_KEY, next);
     } catch {
       /* ignore */
     }
@@ -74,20 +168,4 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
 export function useCurrency() {
   return useContext(CurrencyContext);
-}
-
-/**
- * Identity translator, kept for backward compatibility with existing
- * `const t = useT()` call sites. Always returns the source string.
- */
-export function useT() {
-  return (s: string) => s;
-}
-
-/**
- * Identity inline-text component, kept so existing `<T>...</T>` wraps in
- * server components keep working. Renders its children unchanged.
- */
-export function T({ children }: { children: string }) {
-  return <>{children}</>;
 }
