@@ -27,12 +27,91 @@ export type Project = {
   longDescription?: string;
 };
 
-// Photos chosen for high-contrast, monochrome-friendly editorial feel.
-// They render with grayscale + contrast filter; hover removes filter.
-const UNSPLASH = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=90`;
-
+// Covers are generated from the real sites: each one is a scroll-through of
+// the live home page, composited into desktop / tablet / phone mockups.
+// `cover` is the poster frame, `coverLoop` the moving version. Both are
+// produced by the capture pipeline (see .capture/) and live in public/works/.
 export const PROJECTS: Project[] = [
+  {
+    slug: "great-bali-villas",
+    title: "Villa Rental Surface",
+    client: "Great Bali Villas",
+    blurb: "Premium villa stays in Bali",
+    category: "Digital Presence",
+    year: "2025",
+    description:
+      "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp.",
+    cover: "/works/great-bali-villas.jpg",
+    coverLoop: "/works/great-bali-villas.mp4",
+    tags: ["Web", "Villas", "Booking"],
+    url: "https://greatbalivillas.com",
+    urlLabel: "Visit site",
+    services: ["Digital Presence"],
+    location: "Bali, Indonesia",
+    scope: [
+      "Villa catalog with area, size, and date filters",
+      "Full-bleed galleries and per-villa amenity breakdowns",
+      "Availability enquiry routed straight to WhatsApp",
+      "Responsive editorial layout with map context",
+      "SEO setup for high-intent villa searches",
+    ],
+    longDescription:
+      "Booking a villa in Bali usually means bouncing between listing sites, screenshots, and half-answered DMs. Great Bali Villas wanted the opposite: one calm surface where a guest can filter by the things that actually matter, area, size, and dates, see each villa properly, and reach a real person in one tap. We built the catalog, the galleries, and the enquiry flow to run straight to WhatsApp, Bali's real booking channel, so interest turns into a conversation without a form standing in the way.",
+  },
+  {
+    slug: "bhagawan-property",
+    title: "Property Advisory Platform",
+    client: "Bhagawan Property",
+    blurb: "Buyer-first property advisory in Bali",
+    category: "Digital Presence",
+    year: "2026",
+    description:
+      "A property advisory site built around trust rather than volume. Freehold and leasehold listings with real specs and pricing, editorial area guides across six Bali neighbourhoods, and a knowledge base that answers the questions buyers ask before they ever enquire.",
+    cover: "/works/bhagawan-property.jpg",
+    coverLoop: "/works/bhagawan-property.mp4",
+    tags: ["Web", "Property", "Advisory"],
+    url: "https://bhagawanproperty.com",
+    urlLabel: "Visit site",
+    services: ["Digital Presence", "Digital Marketing"],
+    location: "Bali, Indonesia",
+    scope: [
+      "Listing catalogue with freehold and leasehold tenure states",
+      "Per-property specs, pricing, and status badges",
+      "Editorial area guides for Uluwatu, Canggu, Sanur, Seminyak, Ubud, Pererenan",
+      "Knowledge base for buyer-education articles",
+      "Enquiry and WhatsApp routing to the advisory team",
+      "SEO setup for tenure and area searches",
+    ],
+    longDescription:
+      "Bali's property market is full of agencies listing everything and standing behind nothing. Bhagawan wanted the opposite position: fewer properties, each one inspected, and advice that stays on the buyer's side even when it costs the sale. The site had to make that stance legible in the first scroll, so the listings carry honest tenure and pricing up front, the area guides read like editorial rather than search bait, and the knowledge base answers the freehold-versus-leasehold questions buyers are usually left to work out alone. Enquiries route straight to the advisors with the property context attached.",
+  },
+  {
+    slug: "tammia-online",
+    title: "Beauty Tools Storefront",
+    client: "Tammia Online",
+    blurb: "Premium beauty tools retailer in Indonesia",
+    category: "Digital Presence",
+    year: "2026",
+    description:
+      "An e-commerce storefront for a premium beauty tools retailer. Eight product categories, weekly new arrivals, cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure which brush they need.",
+    cover: "/works/tammia-online.jpg",
+    coverLoop: "/works/tammia-online.mp4",
+    tags: ["Web", "E-commerce", "Beauty"],
+    url: "https://marshella-eunike.vercel.app/tammia-online/",
+    urlLabel: "Visit site",
+    services: ["Digital Presence", "Creative Studio"],
+    location: "Indonesia",
+    scope: [
+      "Storefront with eight product categories",
+      "New arrivals, ratings, and authenticity guarantee messaging",
+      "Slide-out cart and wishlist drawers",
+      "FAQ covering shipping, returns, and payment",
+      "WhatsApp beauty advisor for product questions",
+      "Responsive layout for mobile-first shoppers",
+    ],
+    longDescription:
+      "Beauty tools are a trust purchase: shoppers are looking for the real Real Techniques brush, not a convincing copy. The storefront leads with that, an authenticity guarantee and clear shipping thresholds sit above the fold, and every product carries a rating and a price in rupiah. Underneath, the catalogue is organised the way people actually shop, by what they need rather than by brand, with cart and wishlist drawers that never take you off the page. For anyone still unsure, a WhatsApp advisor is one tap away, which is how most of Indonesia prefers to ask.",
+  },
   {
     slug: "astungkare-spa",
     title: "Mobile Spa Booking Surface",
@@ -42,7 +121,8 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero.",
-    cover: UNSPLASH("photo-1540555700478-4be289fbecef"),
+    cover: "/works/astungkare-spa.jpg",
+    coverLoop: "/works/astungkare-spa.mp4",
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",
@@ -60,103 +140,6 @@ export const PROJECTS: Project[] = [
       "Bali's spa market is crowded with brick-and-mortar wellness brands competing for the same walk-in foot traffic. Astungkare took the opposite bet: the spa comes to you, 24 hours a day, across the island. The job was to make that promise feel as effortless online as it does in person, a hero that tells you the earliest tonight slot in real time, treatments priced and explained without spa-speak, a cancellation policy you can read before you book, and a single tap to WhatsApp the therapist directly. The brand is dark gold and serif-led, the kind of restraint that lets the service do the talking. Site, social, and paid media all run from the same studio so the voice and the offer stay aligned across every surface.",
   },
   {
-    slug: "aligna-hospitality",
-    title: "Hospitality Group Brand & Site",
-    client: "Aligna Hospitality",
-    blurb: "Hospitality group in Bali",
-    category: "Digital Presence",
-    year: "2026",
-    description:
-      "Brand and digital presence for a hospitality group, covering the group identity, the property pages, and the enquiry flow that routes guests and owners to the right team.",
-    cover: UNSPLASH("photo-1566073771259-6a8506099945"),
-    tags: ["Web", "Brand", "Hospitality"],
-    services: ["Digital Presence", "Creative Studio", "Digital Marketing"],
-    location: "Bali, Indonesia",
-    scope: [
-      "Group identity and visual system",
-      "Property and venue pages with photo-led layouts",
-      "Enquiry routing split between guests and owners",
-      "Content management for rates and availability",
-      "SEO setup across property pages",
-    ],
-    longDescription:
-      "A hospitality group manages more than one audience at once: guests looking for a stay, and owners looking for someone to run their property. The site had to speak to both without either feeling like an afterthought. We built the group identity first, then the property pages that sit under it, and split the enquiry flow so each audience reaches the right inbox with the context already attached.",
-  },
-  {
-    slug: "jalak-cargo-logistics",
-    title: "Logistics Site & Quote Flow",
-    client: "Jalak Cargo Logistics",
-    blurb: "Cargo and freight across Indonesia",
-    category: "Digital Presence",
-    year: "2026",
-    description:
-      "Digital presence for a cargo and freight operator, with service and route pages, a structured quote request, and tracking information kept where customers actually look for it.",
-    cover: UNSPLASH("photo-1494412574643-ff11b0a5c1c3"),
-    tags: ["Web", "Logistics", "Operations"],
-    services: ["Digital Presence", "Digital Marketing"],
-    location: "Indonesia",
-    scope: [
-      "Service and route pages for air, sea, and land freight",
-      "Structured quote request with cargo details",
-      "Tracking and shipment information surfaced up front",
-      "WhatsApp enquiry routing to the operations team",
-      "SEO setup for route and service searches",
-    ],
-    longDescription:
-      "Freight customers arrive with a specific question: can you move this, from here to there, by when, and for how much. The old surface made them dig for it. We rebuilt around that question, service and route pages that answer it directly, a quote request that captures cargo details up front so operations can reply with a real number, and tracking information placed where customers were already looking instead of buried a level down.",
-  },
-  {
-    slug: "radcruiters",
-    title: "Campaign Request Automation",
-    client: "RADcruiters",
-    blurb: "Recruitment-marketing agency in the EU",
-    category: "AI Automation",
-    year: "2026",
-    description:
-      "Self-routing intake for new campaign briefs. WordPress form to a Make.com pipeline that extracts the domain, matches the client in Airtable, queues a Trello task, and fires team and client emails, end to end in seconds.",
-    cover: UNSPLASH("photo-1521737711867-e3b97375f902"),
-    tags: ["Workflow", "Make.com", "WordPress"],
-    url: "https://onlineresults.radcruiters.com/campaign-request/",
-    urlLabel: "Visit site",
-    services: ["AI Automation", "Digital Presence"],
-    location: "Netherlands · EU",
-    scope: [
-      "WordPress intake form for client campaign briefs",
-      "Make.com pipeline (custom webhook → Trello → Airtable → Gmail)",
-      "Domain extraction + client matching from vacancy URL",
-      "Auto-create Trello task with full brief data",
-      "Team notification + client confirmation email",
-      "Always-on with execution history and error monitoring",
-    ],
-    longDescription:
-      "RADcruiters runs Meta-ads recruitment campaigns for staffing agencies, a high-touch service with high-volume intake. The campaign-request form had become the bottleneck: every brief pinged the team in Slack, someone manually parsed the URL, looked up the client, then created the Trello card. We rebuilt the intake as a self-routing pipeline. Submission to seconds to the right person seeing the right card with the right context, and the client gets an instant confirmation that says 'we have it.'",
-  },
-  {
-    slug: "great-bali-villas",
-    title: "Villa Rental Surface",
-    client: "Great Bali Villas",
-    blurb: "Premium villa stays in Bali",
-    category: "Digital Presence",
-    year: "2025",
-    description:
-      "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp.",
-    cover: UNSPLASH("photo-1613490493576-7fde63acd811"),
-    tags: ["Web", "Villas", "Booking"],
-    url: "https://greatbalivillas.com",
-    urlLabel: "Visit site",
-    services: ["Digital Presence"],
-    location: "Bali, Indonesia",
-    scope: [
-      "Villa catalog with area, size, and date filters",
-      "Full-bleed galleries and per-villa amenity breakdowns",
-      "Availability enquiry routed straight to WhatsApp",
-      "Responsive editorial layout with map context",
-      "SEO setup for high-intent villa searches",
-    ],
-    longDescription:
-      "Booking a villa in Bali usually means bouncing between listing sites, screenshots, and half-answered DMs. Great Bali Villas wanted the opposite: one calm surface where a guest can filter by the things that actually matter, area, size, and dates, see each villa properly, and reach a real person in one tap. We built the catalog, the galleries, and the enquiry flow to run straight to WhatsApp, Bali's real booking channel, so interest turns into a conversation without a form standing in the way.",
-  },
-  {
     slug: "the-hair-extensions-bali",
     title: "Salon Brand & Site",
     client: "The Hair Extensions Bali",
@@ -165,7 +148,8 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan, six application methods, an editorial gallery with method filters, and a video hero of the actual color wall.",
-    cover: UNSPLASH("photo-1560066984-138dadb4c035"),
+    cover: "/works/the-hair-extensions-bali.jpg",
+    coverLoop: "/works/the-hair-extensions-bali.mp4",
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",
@@ -569,10 +553,11 @@ export const STATS: ReadonlyArray<{ value: number; suffix: string; label: string
 ];
 
 export const CLIENTS = [
-  "GREAT BALI PROPERTIES",
-  "RADCRUITERS",
-  "THE HAIR EXTENSIONS BALI",
+  "GREAT BALI VILLAS",
+  "BHAGAWAN PROPERTY",
+  "TAMMIA ONLINE",
   "ASTUNGKARE SPA",
+  "THE HAIR EXTENSIONS BALI",
 ];
 
 export type Testimonial = {
@@ -600,11 +585,19 @@ export type Testimonial = {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "What used to take three Slack pings and a manual Trello card now happens in under a minute. The team is focused on the campaign, not the intake.",
-    author: "Koen Geytenbeek",
+      "Buyers arrive already knowing the difference between freehold and leasehold, because the site explained it before we ever spoke. The conversations start two steps further along than they used to.",
+    author: "Gede Bhagawan",
     role: "Founder",
-    client: "RADcruiters",
-    projectSlug: "radcruiters",
+    client: "Bhagawan Property",
+    projectSlug: "bhagawan-property",
+  },
+  {
+    quote:
+      "Customers used to ask 'is this original?' on every single order. Now the guarantee is the first thing they see, and the question mostly stopped coming. Checkout got noticeably smoother.",
+    author: "Marshella Eunike",
+    role: "Founder",
+    client: "Tammia Online",
+    projectSlug: "tammia-online",
   },
   {
     quote:
@@ -629,22 +622,6 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Founder",
     client: "Great Bali Villas",
     projectSlug: "great-bali-villas",
-  },
-  {
-    quote:
-      "The site finally speaks to guests and owners without either feeling like an afterthought. The team built the brand, the property pages, and the enquiry routing so every message lands with the right person.",
-    author: "Made Wirawan",
-    role: "Director",
-    client: "Aligna Hospitality",
-    projectSlug: "aligna-hospitality",
-  },
-  {
-    quote:
-      "Customers arrive with one question: can you move this, and for how much. The new quote flow captures the cargo details up front, so our team replies with a real number instead of a back-and-forth.",
-    author: "Rizal Pratama",
-    role: "Operations Lead",
-    client: "Jalak Cargo Logistics",
-    projectSlug: "jalak-cargo-logistics",
   },
 ];
 

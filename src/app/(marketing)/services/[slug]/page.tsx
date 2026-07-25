@@ -211,9 +211,17 @@ export default async function ServiceDetailPage({
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
             <T>Who this is for</T>
           </p>
-          <p className="text-3xl md:text-4xl lg:text-[2.75rem] font-light italic leading-[1.1] tracking-tight text-balance">
+          <p className="text-2xl md:text-3xl lg:text-[2rem] font-light leading-[1.15] tracking-tight text-balance">
             <T>{service.fitFor}</T>
           </p>
+          <p className="mt-8 text-lg md:text-xl font-medium tracking-tight">
+            <T>Sounds like you?</T>
+          </p>
+          <div className="mt-5">
+            <Button href="/contact" tone="dark">
+              Start a project
+            </Button>
+          </div>
         </Reveal>
       </section>
 

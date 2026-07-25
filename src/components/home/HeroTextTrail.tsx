@@ -4,9 +4,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
-const STEP = 90; // pointer travel between drops
+const STEP = 52; // pointer travel between drops (tighter = denser trail)
 const LIFETIME = 1000;
-const MAX_LIVE = 7;
+const MAX_LIVE = 9;
+const TRAIL_OPACITY = 0.5;
 
 // Detailed things we actually do, dropped one after another as the cursor
 // moves across the hero.
@@ -102,11 +103,11 @@ export default function HeroTextTrail() {
           <motion.span
             key={d.id}
             initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 0.55, y: 0 }}
+            animate={{ opacity: TRAIL_OPACITY, y: 0 }}
             exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.4, ease: EASE }}
             style={{ left: d.x, top: d.y }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-sm font-medium uppercase tracking-[0.14em] text-bone md:text-base"
+            className="absolute -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.14em] text-bone md:text-xs"
           >
             {d.text}
           </motion.span>

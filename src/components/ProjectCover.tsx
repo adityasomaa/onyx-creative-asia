@@ -61,6 +61,9 @@ export default function ProjectCover({
         sizes={sizes}
         priority={priority}
         quality={90}
+        // Next's optimiser flattens animated GIFs to a single frame, so any
+        // .gif cover has to bypass it to keep moving.
+        unoptimized={src.endsWith(".gif")}
         className={cn(
           "object-cover grayscale contrast-[1.05] transition-[filter,transform] duration-[1200ms] ease-out-expo group-hover:grayscale-0 group-hover:scale-[1.04]",
           className

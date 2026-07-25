@@ -49,3 +49,9 @@ next-env.d.ts
 /design/
 /social/
 /sigap-reels/
+.capture/
+
+# Works showcase GIFs: the site plays the .mp4 loops instead (same visual,
+# ~1/3 the bytes). The GIFs are deck/social deliverables and live in Drive
+# under works-showcase-2026-07, so they stay out of the deployed bundle.
+public/works/*.gif
