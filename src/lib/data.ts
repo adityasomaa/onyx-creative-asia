@@ -9,8 +9,12 @@ export type Project = {
   description: string;
   /** Still poster / image cover (always required, used as video poster too). */
   cover: string;
-  /** Optional looping video cover. Plays muted on top of the poster. */
+  /** Looping video cover for card-sized slots (720p60). Plays muted on top
+   *  of the poster. Five of these autoplay on the works grid, so this tier
+   *  is deliberately the lighter one. */
   coverLoop?: string;
+  /** Same loop at 1080p60, for the case-study hero where it renders large. */
+  coverLoopHd?: string;
   tags: string[];
   /** Live destination, domain for web projects, social URL for non-web.
    *  Optional: some projects are not publicly linkable. */
@@ -42,7 +46,8 @@ export const PROJECTS: Project[] = [
     description:
       "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp.",
     cover: "/works/great-bali-villas.jpg",
-    coverLoop: "/works/great-bali-villas.mp4",
+    coverLoop: "/works/great-bali-villas-card.mp4",
+    coverLoopHd: "/works/great-bali-villas.mp4",
     tags: ["Web", "Villas", "Booking"],
     url: "https://greatbalivillas.com",
     urlLabel: "Visit site",
@@ -68,7 +73,8 @@ export const PROJECTS: Project[] = [
     description:
       "A property advisory site built around trust rather than volume. Freehold and leasehold listings with real specs and pricing, editorial area guides across six Bali neighbourhoods, and a knowledge base that answers the questions buyers ask before they ever enquire.",
     cover: "/works/bhagawan-property.jpg",
-    coverLoop: "/works/bhagawan-property.mp4",
+    coverLoop: "/works/bhagawan-property-card.mp4",
+    coverLoopHd: "/works/bhagawan-property.mp4",
     tags: ["Web", "Property", "Advisory"],
     url: "https://bhagawanproperty.com",
     urlLabel: "Visit site",
@@ -95,7 +101,8 @@ export const PROJECTS: Project[] = [
     description:
       "An e-commerce storefront for a premium beauty tools retailer. Eight product categories, weekly new arrivals, cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure which brush they need.",
     cover: "/works/tammia-online.jpg",
-    coverLoop: "/works/tammia-online.mp4",
+    coverLoop: "/works/tammia-online-card.mp4",
+    coverLoopHd: "/works/tammia-online.mp4",
     tags: ["Web", "E-commerce", "Beauty"],
     url: "https://marshella-eunike.vercel.app/tammia-online/",
     urlLabel: "Visit site",
@@ -122,7 +129,8 @@ export const PROJECTS: Project[] = [
     description:
       "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero.",
     cover: "/works/astungkare-spa.jpg",
-    coverLoop: "/works/astungkare-spa.mp4",
+    coverLoop: "/works/astungkare-spa-card.mp4",
+    coverLoopHd: "/works/astungkare-spa.mp4",
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",
@@ -149,7 +157,8 @@ export const PROJECTS: Project[] = [
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan, six application methods, an editorial gallery with method filters, and a video hero of the actual color wall.",
     cover: "/works/the-hair-extensions-bali.jpg",
-    coverLoop: "/works/the-hair-extensions-bali.mp4",
+    coverLoop: "/works/the-hair-extensions-bali-card.mp4",
+    coverLoopHd: "/works/the-hair-extensions-bali.mp4",
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",

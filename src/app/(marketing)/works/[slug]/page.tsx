@@ -126,7 +126,7 @@ export default async function ProjectDetailPage({
           <div className="group relative aspect-[16/9] overflow-hidden rounded-3xl bg-ink">
             <ProjectCover
               src={project.cover}
-              loop={project.coverLoop}
+              loop={project.coverLoopHd ?? project.coverLoop}
               alt={`${project.client}, ${project.title}`}
               priority
               sizes="(min-width: 768px) 90vw, 100vw"
