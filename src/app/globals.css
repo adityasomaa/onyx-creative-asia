@@ -63,6 +63,18 @@
   --font-neue: "NeueMontreal", system-ui, -apple-system, "Segoe UI", sans-serif;
   --color-ink: #0e0e0e;
   --color-bone: #f4f1ec;
+
+  /* The enquiry form renders on two very different surfaces: a bone panel
+     in the footer and, on /contact, straight over the dark hero video.
+     These drive every colour it uses, so the same components work on both
+     without a tone prop threaded through six files.
+     --form-fg is the text colour, --form-bg is whatever sits behind it. */
+  --form-fg: #0e0e0e;
+  --form-bg: #f4f1ec;
+  /* Row alignment, so the same form can be left-aligned in the footer and
+     fully centred on /contact. */
+  --form-justify: flex-start;
+  --form-nav-justify: space-between;
 }
 
 @layer base {

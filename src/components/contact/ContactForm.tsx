@@ -74,13 +74,8 @@ function Tabs({
   const t = useT();
   return (
     <div role="tablist" aria-label="Inquiry type">
-      {/* Pills sit in normal container flow (no negative-margin bleed) so
-          their left edge lines up with the headline above and the form
-          fields below, on every breakpoint. A small negative left margin
-          equal to the first pill's horizontal padding pulls the first
-          LABEL flush to the container edge so it aligns with the headline
-          text too. */}
-      <div className="flex flex-wrap gap-2 sm:gap-3 -ml-4 sm:-ml-5">
+      {/* Centred at every width, matching the rest of the contact canvas. */}
+      <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
         {INQUIRY_TYPES.map((type) => {
           const isActive = active === type;
           return (
@@ -101,18 +96,18 @@ function Tabs({
                     stiffness: 380,
                     damping: 32,
                   }}
-                  className="absolute inset-0 rounded-full bg-ink"
+                  className="absolute inset-0 rounded-full bg-[var(--form-fg)]"
                   aria-hidden
                 />
               )}
               <span
                 className={`relative z-10 flex items-baseline gap-2 transition-colors duration-300 ${
-                  isActive ? "text-bone" : "text-ink/70 hover:text-ink"
+                  isActive ? "text-[var(--form-bg)]" : "text-[var(--form-fg)]/70 hover:text-[var(--form-fg)]"
                 }`}
               >
                 <span
                   className={`text-[10px] tracking-[0.22em] uppercase tabular-nums ${
-                    isActive ? "text-bone/60" : "text-ink/45"
+                    isActive ? "text-[var(--form-bg)]/60" : "text-[var(--form-fg)]/45"
                   }`}
                 >
                   {INQUIRY_KICKER[type]}
@@ -126,7 +121,7 @@ function Tabs({
       {/* Subtle helper text under the active tab, drawn from the same
           description map the old chooser screen used, so we don't lose
           the "what is this for" hint when the chooser goes away. */}
-      <div className="mt-5 max-w-2xl">
+      <div className="mt-5 max-w-2xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.p
             key={active}
@@ -134,7 +129,7 @@ function Tabs({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.25, ease: EASE }}
-            className="text-sm md:text-base text-ink/65 leading-relaxed"
+            className="text-sm md:text-base text-[var(--form-fg)]/65 leading-relaxed"
           >
             {t(INQUIRY_DESCRIPTION[active])}
           </motion.p>

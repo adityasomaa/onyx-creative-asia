@@ -86,7 +86,8 @@ export default async function ServiceDetailPage({
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: cap,
+          name: cap.title,
+          description: cap.detail,
         },
       })),
     },
@@ -138,35 +139,31 @@ export default async function ServiceDetailPage({
 
       {/* ───────────────────── CAPABILITIES ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
-          <Reveal className="md:col-span-4">
-            <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
-              <T>What is included</T>
-            </p>
-            <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
-              <T>What we cover.</T>
-            </h2>
-            <p className="mt-6 text-sm opacity-65 max-w-xs italic">
-              <T>
-                Mix and match. Most engagements pull from three or four; a few
-                pull all of them.
-              </T>
-            </p>
-          </Reveal>
-          <Reveal className="md:col-span-8 md:col-start-6" delay={0.1}>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 border-t border-hairline">
-              {service.capabilities.map((c) => (
-                <li
-                  key={c}
-                  className="border-b border-hairline py-4 flex items-baseline gap-3 text-base"
-                >
-                  <span className="text-xs opacity-50 tabular-nums">→</span>
-                  <span><T>{c}</T></span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-        </div>
+        <Reveal>
+          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-3">
+            <T>What is included</T>
+          </p>
+          <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight">
+            <T>What we cover.</T>
+          </h2>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <ul className="mt-10 md:mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {service.capabilities.map((c) => (
+              <li
+                key={c.title}
+                className="rounded-2xl border border-hairline p-6 transition-colors duration-500 hover:bg-ink/[0.03]"
+              >
+                <h3 className="text-lg md:text-xl font-medium tracking-tight leading-snug">
+                  <T>{c.title}</T>
+                </h3>
+                <p className="mt-2.5 text-sm leading-relaxed text-ink/65">
+                  <T>{c.detail}</T>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
       </section>
 
       {/* ───────────────────── PROCESS ───────────────────── */}
@@ -207,7 +204,7 @@ export default async function ServiceDetailPage({
 
       {/* ───────────────────── WHO THIS IS FOR ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
-        <Reveal className="max-w-6xl">
+        <Reveal className="mx-auto max-w-4xl text-center">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
             <T>Who this is for</T>
           </p>
@@ -217,7 +214,7 @@ export default async function ServiceDetailPage({
           <p className="mt-8 text-lg md:text-xl font-medium tracking-tight">
             <T>Sounds like you?</T>
           </p>
-          <div className="mt-5">
+          <div className="mt-5 flex justify-center">
             <Button href="/contact" tone="dark">
               Start a project
             </Button>

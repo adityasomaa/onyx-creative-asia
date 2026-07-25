@@ -28,7 +28,7 @@ type ServiceTx = {
   description: Tri;
   intro: Tri;
   narrative: Tri[];
-  capabilities: Tri[];
+  capabilities: { title: Tri; detail?: Tri }[];
   process: { title: Tri; detail: Tri }[];
   fitFor: Tri;
   cta: { problem: Tri; solution: Tri };
@@ -50,9 +50,8 @@ type InsightTx = {
   title?: Tri;
   tag?: Tri;
   excerpt?: Tri;
-  /** One entry per body block, in order. For a quote block, translates
-   *  the quote text. */
-  body?: Tri[];
+  /** Index-aligned to the article's `sections`. */
+  sections?: { heading?: Tri; paragraphs?: Tri[] }[];
 };
 
 /* ============================================================
@@ -362,12 +361,30 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
       { id: "Hosting, domain, dan penyiapan SEO menjadi bagian dari paket, bukan item terpisah. Setelah situs aktif, kami terus memperbaruinya, menjaga kontennya tetap segar, dan menambahkan bagian baru seiring perubahan bisnis Anda.", zh: "托管、域名和 SEO 设置都包含在方案之内，而非另行计费的项目。网站上线后，我们会持续更新、保持内容常新，并随着业务的变化增添新的板块。", ja: "ホスティング、ドメイン、SEO の設定は別料金の項目ではなく、パッケージの一部です。サイトが公開された後も、私たちは更新を続け、コンテンツを最新に保ち、ビジネスの変化に合わせて新しいセクションを追加します。" }
     ],
     capabilities: [
-      { id: "Desain dan pembuatan website", zh: "网站设计与搭建", ja: "ウェブサイトの設計・構築" },
-      { id: "Software custom dan aplikasi web", zh: "定制软件与 Web 应用", ja: "カスタムソフトウェアと Web アプリ" },
-      { id: "Hosting dan domain", zh: "托管与域名", ja: "ホスティングとドメイン" },
-      { id: "Pemeliharaan berkelanjutan", zh: "持续维护", ja: "継続的なメンテナンス" },
-      { id: "Penyiapan dan optimasi SEO", zh: "SEO 设置与优化", ja: "SEO の設定と最適化" },
-      { id: "Manajemen konten", zh: "内容管理", ja: "コンテンツ管理" }
+      {
+        title: { id: "Desain dan pembuatan website", zh: "网站设计与搭建", ja: "ウェブサイトの設計・構築" },
+        detail: { id: "Layout, halaman, dan front end-nya, didesain dan dibangun oleh tim yang sama.", zh: "版面、页面和前端，全部由同一个团队设计并开发。", ja: "レイアウトもページもフロントエンドも、同じチームが設計して作ります。" },
+      },
+      {
+        title: { id: "Software custom dan aplikasi web", zh: "定制软件与 Web 应用", ja: "カスタムソフトウェアと Web アプリ" },
+        detail: { id: "Alur booking, portal, dashboard, apa pun yang tidak bisa dilakukan tool siap pakai.", zh: "预订流程、客户门户、数据看板，现成工具做不到的都能做。", ja: "予約フロー、ポータル、ダッシュボードなど、既製ツールでは無理なものを。" },
+      },
+      {
+        title: { id: "Hosting dan domain", zh: "托管与域名", ja: "ホスティングとドメイン" },
+        detail: { id: "Tempat website-nya tinggal dan alamat yang dipakai, dua-duanya kami urus.", zh: "网站放在哪里、用什么网址访问，两件事我们都管。", ja: "サイトを置く場所も、アクセスする住所も、まとめてこちらで。" },
+      },
+      {
+        title: { id: "Pemeliharaan berkelanjutan", zh: "持续维护", ja: "継続的なメンテナンス" },
+        detail: { id: "Update, perbaikan, dan perubahan kecil, dikerjakan begitu muncul.", zh: "更新、修复和小改动，出现了就直接处理。", ja: "アップデートも修正も細かな変更も、出てきたそのつど対応します。" },
+      },
+      {
+        title: { id: "Penyiapan dan optimasi SEO", zh: "SEO 设置与优化", ja: "SEO の設定と最適化" },
+        detail: { id: "Struktur, metadata, dan kecepatan, supaya mesin pencari bisa membaca website Anda.", zh: "结构、元数据和速度都调好，让搜索引擎读得懂这个网站。", ja: "構造、メタデータ、表示速度を整えて、検索エンジンが読める状態に。" },
+      },
+      {
+        title: { id: "Manajemen konten", zh: "内容管理", ja: "コンテンツ管理" },
+        detail: { id: "Anda ganti sendiri teks dan gambarnya, tanpa harus menunggu kami.", zh: "文字和图片您自己就能改，不用等我们。", ja: "テキストも画像もご自身で編集でき、こちらの手を待つ必要はありません。" },
+      }
     ],
     process: [
       { title: { id: "Ruang lingkup dan struktur", zh: "梳理范围与结构", ja: "範囲と構成の整理" }, detail: { id: "Kami memetakan halaman, konten yang sudah Anda miliki, dan apa yang masih perlu ditulis atau difoto.", zh: "我们梳理出各个页面、您现有的内容，以及仍需撰写或拍摄的部分。", ja: "ページ構成、すでにお持ちのコンテンツ、そして今後執筆や撮影が必要な部分を洗い出します。" } },
@@ -391,12 +408,30 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
       { id: "Pekerjaannya mencakup produksi, bukan sekadar strategi. Kami menulis copy, membuat konten, menyiapkan kampanye, memublikasikan sesuai jadwal, dan melaporkan apa yang terjadi setiap bulan.", zh: "这项工作不只是策略，还包括实际制作。我们撰写文案、制作内容、搭建广告活动、按计划发布，并每月汇报进展。", ja: "この仕事には戦略だけでなく制作も含まれます。私たちはコピーを書き、コンテンツを制作し、キャンペーンを設定し、スケジュール通りに公開し、毎月その成果を報告します。" }
     ],
     capabilities: [
-      { id: "SEO", zh: "SEO", ja: "SEO" },
-      { id: "Pengelolaan media sosial", zh: "社交媒体管理", ja: "ソーシャルメディア運用" },
-      { id: "Pemasaran konten", zh: "内容营销", ja: "コンテンツマーケティング" },
-      { id: "Pemasaran email", zh: "邮件营销", ja: "メールマーケティング" },
-      { id: "Iklan berbayar (Google, Meta, TikTok)", zh: "付费广告（Google、Meta、TikTok）", ja: "有料広告（Google、Meta、TikTok）" },
-      { id: "Laporan bulanan", zh: "月度报告", ja: "月次レポート" }
+      {
+        title: { id: "SEO", zh: "SEO", ja: "SEO" },
+        detail: { id: "Muncul di pencarian yang benar-benar diketik calon pembeli Anda.", zh: "让您出现在买家真正会搜的那些词上。", ja: "お客さまが実際に打ち込む検索ワードで、ちゃんと出てくるように。" },
+      },
+      {
+        title: { id: "Pengelolaan media sosial", zh: "社交媒体管理", ja: "ソーシャルメディア運用" },
+        detail: { id: "Merencanakan, posting, dan membalas, dengan jadwal yang benar-benar jalan.", zh: "规划、发布、回复留言，按一个真能坚持下去的节奏来。", ja: "企画して、投稿して、返信する。無理なく続く運用ペースで。" },
+      },
+      {
+        title: { id: "Pemasaran konten", zh: "内容营销", ja: "コンテンツマーケティング" },
+        detail: { id: "Artikel dan konten yang menjawab pertanyaan yang muncul sebelum orang membeli.", zh: "用文章和素材，回答客户下单之前一定会问的问题。", ja: "購入前に必ず出てくる疑問に答える記事やコンテンツを。" },
+      },
+      {
+        title: { id: "Pemasaran email", zh: "邮件营销", ja: "メールマーケティング" },
+        detail: { id: "Newsletter dan rangkaian email yang menjaga Anda tetap ada di inbox mereka.", zh: "定期邮件和自动化邮件序列，让您一直待在客户的收件箱里。", ja: "ニュースレターや自動配信で、受信箱の中に居続けます。" },
+      },
+      {
+        title: { id: "Iklan berbayar (Google, Meta, TikTok)", zh: "付费广告（Google、Meta、TikTok）", ja: "有料広告（Google、Meta、TikTok）" },
+        detail: { id: "Kampanye dibuat, dijalankan, lalu disesuaikan berdasarkan angka yang nyata.", zh: "广告投放从搭建、上线到调整，全部照着真实数据走。", ja: "キャンペーンを組んで走らせ、実際の数字を見ながら調整します。" },
+      },
+      {
+        title: { id: "Laporan bulanan", zh: "月度报告", ja: "月次レポート" },
+        detail: { id: "Apa yang terjadi, berapa biayanya, dan apa yang kami ubah berikutnya.", zh: "发生了什么、花了多少钱、下一步我们要改什么。", ja: "何が起きて、いくらかかって、次に何を変えるのか。" },
+      }
     ],
     process: [
       { title: { id: "Audit", zh: "审查", ja: "監査" }, detail: { id: "Kami meninjau apa yang sedang Anda jalankan, apa yang sudah disiapkan dengan benar, dan di mana celahnya.", zh: "我们审视您当前正在运作的内容、哪些设置得当，以及缺口在哪里。", ja: "現在運用しているもの、正しく設定されている部分、そして不足している箇所を確認します。" } },
@@ -420,12 +455,30 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
       { id: "Fotografi, video, dan motion diproduksi secara in-house sebagai bagian dari sistem yang sama, sehingga apa yang Anda rekam selaras dengan apa yang kami desain, dan Anda berakhir dengan pustaka aset yang benar-benar Anda miliki.", zh: "摄影、视频和动态影像都作为同一套体系的一部分在内部完成，因此您拍摄的内容与我们设计的风格保持一致，最终您将拥有一整套真正属于自己的素材库。", ja: "写真、動画、モーションは同じシステムの一部として社内で制作されるため、撮影したものが私たちのデザインと調和し、最終的に本当にあなたのものと言えるアセットのライブラリが手に入ります。" }
     ],
     capabilities: [
-      { id: "Branding dan identitas", zh: "品牌塑造与识别", ja: "ブランディングとアイデンティティ" },
-      { id: "Desain grafis", zh: "平面设计", ja: "グラフィックデザイン" },
-      { id: "Fotografi", zh: "摄影", ja: "写真撮影" },
-      { id: "Videografi", zh: "视频摄制", ja: "映像撮影" },
-      { id: "Motion graphics", zh: "动态图形", ja: "モーショングラフィックス" },
-      { id: "Aset kreatif", zh: "创意素材", ja: "クリエイティブアセット" }
+      {
+        title: { id: "Branding dan identitas", zh: "品牌塑造与识别", ja: "ブランディングとアイデンティティ" },
+        detail: { id: "Logo, tipografi, warna, dan aturan yang menjaga semuanya tetap konsisten.", zh: "标志、字体、色彩，以及让它们保持一致的一套规则。", ja: "ロゴ、書体、色、そしてそれを一貫させるためのルール。" },
+      },
+      {
+        title: { id: "Desain grafis", zh: "平面设计", ja: "グラフィックデザイン" },
+        detail: { id: "Deck, kemasan, signage, dan semua yang dicetak atau diposting.", zh: "提案文件、包装、招牌，以及所有要印出来或发出去的东西。", ja: "資料、パッケージ、サイン計画、印刷物から投稿物まで一通り。" },
+      },
+      {
+        title: { id: "Fotografi", zh: "摄影", ja: "写真撮影" },
+        detail: { id: "Foto produk, tempat, dan tim, diarahkan dan diambil sendiri oleh tim kami.", zh: "产品、空间、团队的照片，从导演到拍摄都由我们自己来。", ja: "商品、空間、チームの撮影を、ディレクションから撮影まで自社で。" },
+      },
+      {
+        title: { id: "Videografi", zh: "视频摄制", ja: "映像撮影" },
+        detail: { id: "Video pendek dan cut untuk social, dari brief sampai grading akhir.", zh: "短片和社交平台剪辑版，从需求沟通一直做到最终调色。", ja: "短編映像もソーシャル用の尺も、ブリーフから最終グレーディングまで。" },
+      },
+      {
+        title: { id: "Motion graphics", zh: "动态图形", ja: "モーショングラフィックス" },
+        detail: { id: "Animasi logo, title, dan aset bergerak untuk semua kanal.", zh: "标志动画、字幕条，以及各个渠道都能用的动态素材。", ja: "ロゴアニメーション、タイトル、各チャネル向けの動くアセット。" },
+      },
+      {
+        title: { id: "Aset kreatif", zh: "创意素材", ja: "クリエイティブアセット" },
+        detail: { id: "Template dan file mentah yang jadi milik Anda dan bisa dipakai lagi tanpa kami.", zh: "模板和源文件都归您，以后不用找我们也能接着用。", ja: "テンプレートもソースファイルもお渡しするので、こちら抜きでも使い回せます。" },
+      }
     ],
     process: [
       { title: { id: "Penggalian", zh: "探索", ja: "ディスカバリー" }, detail: { id: "Kami menentukan apa yang perlu dikomunikasikan brand, dan kepada siapa, sebelum menggambar apa pun.", zh: "在动笔之前，我们先厘清品牌需要传达什么、传达给谁。", ja: "何かを描き始める前に、ブランドが何を、誰に伝えるべきかを明らかにします。" } },
@@ -449,12 +502,30 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
       { id: "Dari sana, cakupannya meluas ke chatbot yang menjawab pelanggan, otomatisasi CRM yang menjaga data tetap mutakhir, dan AI agent yang menyusun draf, mengklasifikasikan, atau meringkas. Semuanya terhubung ke alat yang sudah Anda gunakan, bukan menggantikannya.", zh: "在此基础上，还会延伸到回复客户的聊天机器人、让记录保持最新的 CRM 自动化，以及负责起草、分类或摘要的 AI 智能体。所有这些都与您现有的工具相连，而非取而代之。", ja: "そこから、顧客に応対するチャットボット、記録を最新に保つ CRM 自動化、下書き・分類・要約を行う AI エージェントへと広がります。すべては既存のツールを置き換えるのではなく、それらと連携します。" }
     ],
     capabilities: [
-      { id: "Otomatisasi alur kerja", zh: "工作流自动化", ja: "ワークフローの自動化" },
-      { id: "Chatbot", zh: "聊天机器人", ja: "チャットボット" },
-      { id: "Otomatisasi CRM", zh: "CRM 自动化", ja: "CRM 自動化" },
-      { id: "AI agent", zh: "AI 智能体", ja: "AI エージェント" },
-      { id: "Integrasi sistem", zh: "系统集成", ja: "システム連携" },
-      { id: "AI untuk operasional bisnis", zh: "面向业务运营的 AI", ja: "業務運用のための AI" }
+      {
+        title: { id: "Otomatisasi alur kerja", zh: "工作流自动化", ja: "ワークフローの自動化" },
+        detail: { id: "Langkah-langkah berulang di antara tool Anda, jalan otomatis lewat trigger.", zh: "工具与工具之间那些重复动作，交给触发器自动跑。", ja: "ツールとツールの間で繰り返している作業を、トリガーで自動的に。" },
+      },
+      {
+        title: { id: "Chatbot", zh: "聊天机器人", ja: "チャットボット" },
+        detail: { id: "Jawaban untuk pertanyaan yang itu-itu saja, yang tiap hari diketik ulang tim Anda.", zh: "那些团队每天手动重复回答的问题，交给它来答。", ja: "チームが毎日手で打ち直している質問に、代わりに答えます。" },
+      },
+      {
+        title: { id: "Otomatisasi CRM", zh: "CRM 自动化", ja: "CRM 自動化" },
+        detail: { id: "Data yang memperbarui dirinya sendiri saat deal benar-benar bergerak.", zh: "商机往前推进时，记录自己就更新好了。", ja: "商談が動けば、記録のほうが勝手に更新されます。" },
+      },
+      {
+        title: { id: "AI agent", zh: "AI 智能体", ja: "AI エージェント" },
+        detail: { id: "Menyusun draf, mengelompokkan, dan meringkas, diam-diam di belakang layar.", zh: "起草、分类、总结，都在后台悄悄完成。", ja: "下書き、仕分け、要約を、裏側で静かに片づけます。" },
+      },
+      {
+        title: { id: "Integrasi sistem", zh: "系统集成", ja: "システム連携" },
+        detail: { id: "Tool yang sudah Anda pakai dihubungkan, supaya data berhenti diketik ulang.", zh: "把您现有的工具连起来，数据不用再来回手动录入。", ja: "今お使いのツールをつなげて、同じデータの打ち直しをなくします。" },
+      },
+      {
+        title: { id: "AI untuk operasional bisnis", zh: "面向业务运营的 AI", ja: "業務運用のための AI" },
+        detail: { id: "Cara pikir yang sama, diterapkan ke apa pun yang bikin bisnis Anda melambat.", zh: "同样的思路，用在任何拖慢业务的环节上。", ja: "同じ考え方を、ビジネスの足を引っぱっている部分にそのまま。" },
+      }
     ],
     process: [
       { title: { id: "Amati alur kerja", zh: "跟踪观察流程", ja: "業務の流れを観察する" }, detail: { id: "Kami mengamati bagaimana pekerjaan dilakukan sekarang, langkah demi langkah, sebelum memutuskan apa yang akan diotomatiskan.", zh: "在决定要自动化什么之前，我们先一步步观察当前的工作是如何完成的。", ja: "何を自動化するかを決める前に、今どのように作業が行われているかを一つひとつ観察します。" } },
@@ -478,11 +549,26 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
       { id: "Itu menyuplai dashboard yang bisa Anda buka kapan saja, laporan bulanan yang ditulis dengan bahasa sederhana, dan daftar berjalan berisi hal-hal yang layak diuji atau diubah pada halaman yang paling penting.", zh: "这些数据会汇入一个您随时可以打开的看板、一份用通俗语言撰写的月度报告，以及一份不断更新的清单，列出最重要的页面上值得测试或调整的地方。", ja: "それが、いつでも開けるダッシュボード、分かりやすい言葉で書かれた月次レポート、そして最も重要なページで試したり変えたりする価値のある項目の随時更新リストに反映されます。" }
     ],
     capabilities: [
-      { id: "Penyiapan tracking", zh: "追踪配置", ja: "トラッキングの設定" },
-      { id: "Dashboard", zh: "数据看板", ja: "ダッシュボード" },
-      { id: "Pelaporan", zh: "报告", ja: "レポーティング" },
-      { id: "Optimasi konversi", zh: "转化优化", ja: "コンバージョン最適化" },
-      { id: "Tinjauan performa", zh: "绩效评估", ja: "パフォーマンスレビュー" }
+      {
+        title: { id: "Penyiapan tracking", zh: "追踪配置", ja: "トラッキングの設定" },
+        detail: { id: "Analytics, event, dan goal disetel supaya angkanya benar-benar berarti.", zh: "配置好分析工具、事件和目标，让数字真的有意义。", ja: "アナリティクス、イベント、ゴールを設定して、数字に意味を持たせます。" },
+      },
+      {
+        title: { id: "Dashboard", zh: "数据看板", ja: "ダッシュボード" },
+        detail: { id: "Satu tempat yang tinggal dibuka kalau Anda ingin tahu situasinya.", zh: "想知道现在情况如何，打开这一个地方就够了。", ja: "今どうなっているか知りたいとき、開く場所はここ一つ。" },
+      },
+      {
+        title: { id: "Pelaporan", zh: "报告", ja: "レポーティング" },
+        detail: { id: "Ulasan tertulis tiap bulan dengan bahasa yang jelas, bukan tumpukan data.", zh: "每月一份用大白话写的解读，而不是一堆数据。", ja: "毎月、わかる言葉で書いた読み解きを。数字の羅列ではなく。" },
+      },
+      {
+        title: { id: "Optimasi konversi", zh: "转化优化", ja: "コンバージョン最適化" },
+        detail: { id: "Perubahan di halaman-halaman yang menentukan orang jadi bertindak atau tidak.", zh: "在那些决定客户会不会行动的页面上做改动。", ja: "行動するかどうかを左右するページに、手を入れていきます。" },
+      },
+      {
+        title: { id: "Tinjauan performa", zh: "绩效评估", ja: "パフォーマンスレビュー" },
+        detail: { id: "Duduk bareng melihat angkanya, lalu menyepakati langkah berikutnya.", zh: "坐下来一起看数字，把下一步定下来。", ja: "数字を前に一緒に座って、次の一手を決めます。" },
+      }
     ],
     process: [
       { title: { id: "Audit tracking", zh: "追踪审查", ja: "トラッキング監査" }, detail: { id: "Kami memeriksa apa yang sedang diukur saat ini, dan apa yang tercatat secara keliru.", zh: "我们检查当前正在衡量哪些指标，以及哪些数据记录有误。", ja: "現在何が計測されているか、そして何が誤って記録されているかを確認します。" } },
@@ -506,13 +592,34 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
       { id: "Itu berarti pembaruan dan backup terjadwal, pemantauan uptime dan keamanan dengan peringatan, serta seseorang untuk dihubungi saat ada masalah, bukan mencari bantuan dari awal setiap kali.", zh: "这意味着定期的更新与备份、带告警的正常运行时间及安全监控，以及出现问题时有专人可以联系，而不必每次都从头去找人帮忙。", ja: "つまり、定期的な更新とバックアップ、通知付きの稼働状況・セキュリティ監視、そして問題が起きたときに毎回助けを探し始めるのではなく、連絡できる担当者がいるということです。" }
     ],
     capabilities: [
-      { id: "Pemeliharaan web", zh: "网站维护", ja: "Web の保守" },
-      { id: "Pengelolaan server", zh: "服务器管理", ja: "サーバー管理" },
-      { id: "Keamanan", zh: "安全防护", ja: "セキュリティ" },
-      { id: "Pembaruan", zh: "更新", ja: "アップデート" },
-      { id: "Pemantauan", zh: "监控", ja: "モニタリング" },
-      { id: "Backup", zh: "备份", ja: "バックアップ" },
-      { id: "Dukungan teknis", zh: "技术支持", ja: "テクニカルサポート" }
+      {
+        title: { id: "Pemeliharaan web", zh: "网站维护", ja: "Web の保守" },
+        detail: { id: "Update dan perbaikan berjalan sesuai jadwal, bukan pas sudah panik.", zh: "更新和修复按计划来，而不是等出事了才手忙脚乱。", ja: "アップデートも修正も、慌ててではなく決まった周期で。" },
+      },
+      {
+        title: { id: "Pengelolaan server", zh: "服务器管理", ja: "サーバー管理" },
+        detail: { id: "Server tempat website Anda jalan, dijaga tetap update dan sehat.", zh: "支撑网站运行的那台服务器，保持更新、保持健康。", ja: "サイトが動いているサーバーを、最新で健全な状態に保ちます。" },
+      },
+      {
+        title: { id: "Keamanan", zh: "安全防护", ja: "セキュリティ" },
+        detail: { id: "Sertifikat, patch, dan pengamanan, dipantau terus-menerus.", zh: "证书、补丁和安全加固，持续盯着。", ja: "証明書、パッチ、堅牢化まで、ずっと見張っています。" },
+      },
+      {
+        title: { id: "Pembaruan", zh: "更新", ja: "アップデート" },
+        detail: { id: "Software selalu dijaga di versi terbaru, biar tidak diam-diam jadi rusak.", zh: "软件始终保持最新，免得哪天悄无声息地坏掉。", ja: "ソフトウェアを常に最新に保ち、気づかないうちに壊れるのを防ぎます。" },
+      },
+      {
+        title: { id: "Pemantauan", zh: "监控", ja: "モニタリング" },
+        detail: { id: "Uptime dan performa dicek 24 jam, alert-nya masuk ke kami.", zh: "全天候检查可用性和性能，告警直接发到我们这边。", ja: "稼働状況とパフォーマンスを24時間チェックし、アラートは私たちへ。" },
+      },
+      {
+        title: { id: "Backup", zh: "备份", ja: "バックアップ" },
+        detail: { id: "Backup rutin yang benar-benar diuji, supaya hari buruk tetap jadi masalah kecil.", zh: "定期备份并实测能恢复，让倒霉的一天只是小事一桩。", ja: "定期的なバックアップを、復元テストまで。最悪の日も小事で済みます。" },
+      },
+      {
+        title: { id: "Dukungan teknis", zh: "技术支持", ja: "テクニカルサポート" },
+        detail: { id: "Jalur langsung kalau ada yang rusak atau Anda butuh perubahan.", zh: "出问题或者要改东西，有一条直接找到人的通道。", ja: "何か壊れたときも、変更が必要なときも、直接つながる窓口を。" },
+      }
     ],
     process: [
       { title: { id: "Ambil alih", zh: "接手", ja: "引き継ぎ" }, detail: { id: "Kami mengaudit apa yang ada, memperoleh akses yang tepat, dan mendokumentasikan bagaimana semuanya disiapkan saat ini.", zh: "我们审查现有内容，取得适当的访问权限，并记录当前的配置情况。", ja: "既存のものを監査し、適切なアクセス権を得て、現在の設定内容を文書化します。" } },
@@ -534,6 +641,36 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
  * translation to the wrong project when that happens.
  */
 const PROJECT_TX: Record<string, ProjectTx> = {
+  "radcruiters": {
+    title: { id: "Otomasi Permintaan Kampanye", zh: "活动申请自动化", ja: "キャンペーン申請の自動化" },
+    blurb: { id: "Agensi pemasaran rekrutmen di EU", zh: "位于 EU 的招聘营销代理机构", ja: "EU の採用マーケティングエージェンシー" },
+    category: { id: "Otomatisasi AI", zh: "AI 自动化", ja: "AI 自動化" },
+    description: {
+      id: "Intake yang mengarahkan dirinya sendiri untuk brief kampanye baru. Sebuah form WordPress memicu pipeline Make.com yang mengekstrak domain, mencocokkan klien di Airtable, mengantrekan task Trello, lalu mengirim email ke tim dan klien, tuntas dalam hitungan detik.",
+      zh: "新活动简报的自动分流受理。WordPress 表单接入 Make.com 流程，自动提取域名、在 Airtable 中匹配客户、在 Trello 中排入任务，并向团队和客户发送邮件，整个过程几秒内完成。",
+      ja: "新しいキャンペーンブリーフを自動で振り分けて受け付けます。WordPress のフォームが Make.com のパイプラインを起動し、ドメインを抽出し、Airtable でクライアントを照合し、Trello にタスクを積み、チームとクライアントへメールを送信。すべてが数秒で完結します。"
+    },
+    longDescription: {
+      id: "RADcruiters menjalankan kampanye rekrutmen berbasis Meta-ads untuk agensi penyedia tenaga kerja, layanan yang sangat personal dengan volume intake tinggi. Form permintaan kampanye sudah jadi penghambat: setiap brief memberi notifikasi ke tim di Slack, seseorang mengurai URL secara manual, mencari kliennya, lalu membuat kartu Trello. Kami membangun ulang intake-nya sebagai pipeline yang mengarahkan dirinya sendiri. Dari kiriman, dalam hitungan detik, ke orang yang tepat yang melihat kartu yang tepat dengan konteks yang tepat, dan klien langsung mendapat konfirmasi yang berbunyi 'kami sudah menerimanya.'",
+      zh: "RADcruiters 为人力中介机构运营基于 Meta 广告的招聘活动，这是一项高频受理、需要大量人工跟进的服务。活动申请表单一度成了瓶颈：每份简报都会在 Slack 里通知团队，得有人手动解析 URL、查找客户，再创建 Trello 卡片。我们把整个受理流程重建为自动分流的管线。从提交到正确的人看到带有正确背景信息的正确卡片，只需几秒，客户也会立刻收到一条确认——「我们已经收到了」。",
+      ja: "RADcruiters は人材紹介会社向けに Meta 広告の採用キャンペーンを運用しており、手厚い対応と大量の受付を伴うサービスです。キャンペーン申請フォームはボトルネックになっていました。ブリーフが届くたびに Slack でチームに通知が飛び、誰かが手作業で URL を解析し、クライアントを調べ、Trello カードを作成する。私たちはこの受付を、自動で振り分けるパイプラインとして作り直しました。送信から数秒で、適切な担当者が適切な文脈のついた適切なカードを目にし、クライアントには「受け取りました」という確認が即座に届きます。"
+    },
+    scope: [
+      { id: "Form intake WordPress untuk brief kampanye klien", zh: "用于接收客户活动简报的 WordPress 表单", ja: "クライアントのキャンペーンブリーフを受け付ける WordPress フォーム" },
+      { id: "Pipeline Make.com (webhook khusus → Trello → Airtable → Gmail)", zh: "Make.com 流程（自定义 webhook → Trello → Airtable → Gmail）", ja: "Make.com のパイプライン（カスタム webhook → Trello → Airtable → Gmail）" },
+      { id: "Ekstraksi domain + pencocokan klien dari URL lowongan", zh: "从职位空缺 URL 中提取域名并匹配客户", ja: "求人 URL からのドメイン抽出とクライアント照合" },
+      { id: "Pembuatan otomatis task Trello lengkap dengan data brief", zh: "自动创建包含完整简报数据的 Trello 任务", ja: "ブリーフの全データを含む Trello タスクを自動作成" },
+      { id: "Notifikasi tim + email konfirmasi klien", zh: "团队通知 + 客户确认邮件", ja: "チームへの通知 + クライアントへの確認メール" },
+      { id: "Selalu aktif dengan riwayat eksekusi dan pemantauan error", zh: "全天候运行，附带执行历史与错误监控", ja: "実行履歴とエラー監視を備えた常時稼働" }
+    ],
+    location: { id: "Netherlands · EU", zh: "Netherlands · EU", ja: "Netherlands · EU" },
+    tags: [
+      { id: "Alur Kerja", zh: "工作流", ja: "ワークフロー" },
+      { id: "Make.com", zh: "Make.com", ja: "Make.com" },
+      { id: "WordPress", zh: "WordPress", ja: "WordPress" }
+    ],
+    urlLabel: { id: "Kunjungi situs", zh: "访问网站", ja: "サイトを見る" }
+  },
   "great-bali-villas": {
     title: { id: "Antarmuka Sewa Vila", zh: "别墅租赁页面", ja: "ヴィラレンタルのサイト" },
     blurb: { id: "Menginap di vila premium di Bali", zh: "Bali 的高端别墅住宿", ja: "Bali のプレミアムなヴィラステイ" },
@@ -689,207 +826,178 @@ const PROJECT_TX: Record<string, ProjectTx> = {
   },
 };
 
-const INSIGHT_TX: Array<InsightTx | undefined> = [
-  {
-    title: {
-      id: "Mendesain untuk sorotan panggung, bukan brosur",
-      zh: "为聚光灯而设计，而非为宣传册",
-      ja: "パンフレットではなく、スポットライトのためにデザインする"
-    },
-    tag: {
-      id: "Web · Motion",
-      zh: "网页 · 动效",
-      ja: "Web · モーション"
-    },
-    excerpt: {
-      id: "Kebanyakan situs marketing dibangun seperti brosur, setiap layanan digelar di halaman depan, tanpa satu pun yang benar-benar mengundang klik. Tugas sebuah homepage bukanlah mencantumkan segalanya. Tugasnya adalah menahan perhatian selama empat detik berikutnya.",
-      zh: "大多数营销网站都做得像宣传册，每一项服务都摊在首页上，却没有一项能真正赢得点击。首页的任务不是把一切都罗列出来，而是在接下来的四秒里留住注意力。",
-      ja: "多くのマーケティングサイトはパンフレットのように作られている。あらゆるサービスがトップページに並べられ、そのどれもがクリックを勝ち取れていない。ホームページの仕事は、すべてを並べ立てることではない。次の四秒間、注意を引きとめることだ。"
-    },
-    body: [
+/** Keyed by insight slug, for the same reason as PROJECT_TX. */
+const INSIGHT_TX: Record<string, InsightTx> = {
+  "designing-for-the-spotlight-not-the-brochure": {
+    title: { id: "Kenapa homepage kamu sebaiknya bilang satu hal, bukan sepuluh", zh: "首页只说一件事，而不是十件事", ja: "homepage で伝えるのは、10個ではなく1つでいい" },
+    tag: { id: "Web · Motion", zh: "Web · Motion", ja: "Web · Motion" },
+    excerpt: { id: "Kebanyakan website bisnis menaruh semua layanan di halaman depan, dan tidak ada satu pun yang bikin orang klik. Homepage cuma punya sekitar empat detik untuk menahan orang, jadi butuh satu janji yang jelas dan satu langkah berikutnya yang gampang ditebak.", zh: "大多数企业网站把所有服务都堆在首页，结果没有一项能换来点击。homepage 大概只有四秒钟留住一个人，所以它需要一个清楚的承诺，和一个显而易见的下一步。", ja: "多くの企業サイトは全サービスをトップに並べるが、どれもクリックにつながらない。homepage が人をつなぎ止められるのは4秒ほど。だから必要なのは、はっきりした約束ひとつと、迷わない次の一歩ひとつだけだ。" },
+    sections: [
       {
-        id: "Buka sepuluh homepage agensi dan Anda akan melihat arsitektur yang sama. Sebuah hero, daftar layanan, grid klien, deretan penghargaan, pernyataan misi, formulir kontak. Informasinya ada, tetapi situsnya tidak terbaca seperti sebuah panggung. Ia terbaca seperti brosur yang ditempel seseorang di dinding.",
-        zh: "随便打开十家代理商的首页，你会看到相同的结构。一个 hero、一列服务、一格格客户 logo、一排奖项、一段使命宣言、一个联系表单。信息都在，但整个网站读起来不像一座舞台，而像有人钉在墙上的一张宣传册。",
-        ja: "エージェンシーのホームページを十個開いてみれば、同じ構造が見えてくる。hero があり、サービスの一覧、クライアントのグリッド、受賞歴の列、ミッションステートメント、問い合わせフォーム。情報はそろっている。だがそのサイトはステージのようには読めない。誰かが壁にピン留めしたパンフレットのように読める。"
+        heading: { id: "Semua website kelihatan mirip", zh: "所有网站长得都差不多", ja: "どのサイトも同じに見える" },
+        paragraphs: [
+          { id: "Buka sepuluh homepage agency, strukturnya akan sama persis. Hero, daftar layanan, grid klien, deretan penghargaan, mission statement, contact form. Informasinya lengkap, tapi halamannya tidak terbaca seperti panggung. Terbacanya seperti brosur yang ditempel di dinding.", zh: "随便打开十个 agency 的 homepage，结构都是一样的。一个 hero、一串服务、一格客户 logo、一排奖项、一段愿景、一个 contact form。信息都在，但整个页面读起来不像一个舞台，更像钉在墙上的一张宣传单。", ja: "エージェンシーの homepage を10個開いてみると、構造はどれも同じだ。hero、サービス一覧、クライアントのグリッド、受賞歴の列、ミッションステートメント、問い合わせフォーム。情報は揃っている。ただ、そのページは舞台には見えない。壁に貼られたパンフレットに見える。" },
+        ],
       },
       {
-        id: "Brosur tidak perlu merebut perhatian. Pembacanya sudah memegang kertas itu. Situs web berbeda. Pengunjung datang dengan pertanyaan yang belum utuh dan pergi begitu halaman berhenti menjawabnya. Memperlakukan homepage seperti brosur, setiap layanan, setiap kapabilitas, setiap penghargaan digelar rata, menjamin bahwa scroll pertama adalah yang terakhir.",
-        zh: "宣传册不必去争取注意力，读者本来就已经把纸拿在手里。网站不一样。访客带着一个还没成形的问题到来，一旦页面不再回答它，他们就离开。把首页当成宣传册来做，把每一项服务、每一种能力、每一个荣誉都平铺开来，几乎注定了第一次滚动就是最后一次。",
-        ja: "パンフレットは注意を勝ち取る必要がない。読者はすでに紙を手にしている。ウェブサイトは違う。訪問者は半ば形になりかけた問いを抱えてやって来て、ページがそれに答えるのをやめた瞬間に去っていく。ホームページをパンフレットのように扱い、あらゆるサービス、あらゆる能力、あらゆる栄誉を平らに並べてしまえば、最初のスクロールが最後のスクロールになることは約束されたようなものだ。"
+        heading: { id: "Website harus merebut perhatian", zh: "网站得自己挣来注意力", ja: "サイトは注目を勝ち取るしかない" },
+        paragraphs: [
+          { id: "Brosur tidak perlu merebut perhatian. Orangnya sudah memegang kertasnya. Website beda. Pengunjung datang dengan pertanyaan yang belum utuh, dan langsung pergi begitu halamannya berhenti menjawab.", zh: "宣传单不需要挣注意力，读的人已经把它拿在手上了。网站不一样。访客带着一个还没成形的问题进来，页面一旦不再回答它，人就走了。", ja: "パンフレットは注目を勝ち取る必要がない。読み手はもう紙を手にしているからだ。サイトは違う。訪問者は半分だけ形になった疑問を抱えてやってきて、ページがそれに答えなくなった瞬間に去る。" },
+          { id: "Kalau homepage diperlakukan seperti brosur, semua layanan, semua kemampuan, semua penghargaan dijejer rata, hampir pasti scroll pertama juga jadi scroll terakhir. Brosur membuktikan kamu ada. Homepage harus membuktikan kamu layak di-scroll.", zh: "把 homepage 当宣传单来做，把每项服务、每种能力、每个奖项平铺出来，基本上就保证了第一次 scroll 也是最后一次。宣传单只证明你存在，homepage 得证明你值得往下看。", ja: "homepage をパンフレットのように扱い、全サービス、全機能、全実績を平らに並べれば、最初の scroll が最後の scroll になるのはほぼ確実だ。パンフレットは存在を証明する。homepage は scroll する価値があることを証明しないといけない。" },
+        ],
       },
       {
-        id: "Kami mendesain dengan cara sebaliknya. Homepage bukanlah brosur. Ia adalah sorotan panggung. Tahan selama empat detik: satu pernyataan, satu gerak yang membuat orang berhenti sejenak, satu arah yang bisa dituju pengunjung berikutnya. Selebihnya berada di hilir, halaman layanan, studi kasus, kontak, dan semua itu ada karena homepage-lah yang membuka pintunya.",
-        zh: "我们的做法恰恰相反。首页不是宣传册，而是聚光灯。把它撑住四秒：一句宣言，一段值得让人停下来的动效，一个访客接下来可以前往的方向。其余的一切都在下游，服务页、案例研究、联系方式，它们之所以存在，是因为首页先替它们打开了门。",
-        ja: "私たちは逆のやり方でデザインする。ホームページはパンフレットではない。スポットライトだ。それを四秒間、保ちきる。ひとつの宣言、立ち止まる価値のあるひとつのモーション、訪問者が次に進める一つの方向。それ以外はすべて下流にある。サービスページ、ケーススタディ、問い合わせ。それらが存在できるのは、ホームページが先に扉を開いたからだ。"
+        heading: { id: "Satu janji, satu arah", zh: "一个承诺，一个方向", ja: "約束はひとつ、進む先もひとつ" },
+        paragraphs: [
+          { id: "Kami mendesain dengan cara sebaliknya. Homepage bukan brosur, tapi sorotan lampu. Tahan orang selama empat detik dengan satu pernyataan, satu gerakan yang pantas bikin berhenti, dan satu arah yang bisa diambil pengunjung berikutnya.", zh: "我们的做法正好相反。homepage 不是宣传单，是聚光灯。用一句宣言、一段值得停顿的动效、一个明确的下一步，把人留住四秒。", ja: "私たちは逆から設計する。homepage はパンフレットではなくスポットライトだ。ひとつの宣言、立ち止まる価値のあるモーション、そして次に進める方向をひとつ。それで4秒つかむ。" },
+          { id: "Sisanya ditaruh di bawah. Halaman layanan, case study, dan kontak tetap ada, dan justru dibaca karena homepage sudah membuka pintunya.", zh: "其他内容都放在后面。服务页、案例、联系方式都还在，而且正因为 homepage 先把门打开了，它们才真的会被人读。", ja: "残りはすべてその下に置く。サービスページも事例も問い合わせも消えたりしない。むしろ homepage が扉を開けたからこそ読まれる。" },
+        ],
       },
       {
-        id: "Brosur membuktikan Anda ada. Homepage membuktikan Anda layak untuk di-scroll.",
-        zh: "宣传册证明你存在，首页证明你值得被继续往下滚。",
-        ja: "パンフレットはあなたが存在することを証明する。ホームページはあなたがスクロールする価値があることを証明する。"
+        heading: { id: "Motion itu pengali", zh: "动效是放大器", ja: "モーションが効きを何倍にもする" },
+        paragraphs: [
+          { id: "Hero diam cuma bilang ke pengunjung bahwa kamu ada. Hero yang loop, tiga detik tekstur, proses kerja, cahaya yang bergerak di dalam frame, bilang ke mereka rasanya seperti apa kerja bareng kamu. Itu bedanya antara membuktikan kamu ada dan membuktikan kamu layak dilihat dua kali.", zh: "静止的 hero 只是告诉访客：你在这儿。而一段 loop 的 hero，三秒的质感、进行中的工作、光在画面里移动，告诉他们跟你合作是什么感觉。这就是「证明你存在」和「证明你值得再看一眼」的差别。", ja: "静止した hero が伝えるのは「ここにいます」だけだ。loop する hero、3秒の質感、進行中の仕事、フレームを横切る光は、一緒に働くとどんな感じかを伝える。存在の証明と、もう一度見る価値の証明の差はそこにある。" },
+        ],
       },
       {
-        id: "Motion adalah pengalinya. Hero yang diam berkata \"inilah kami.\" Hero yang berulang, tiga detik tekstur, proses yang sedang berjalan, cahaya yang bergerak melintasi bingkai, berkata \"beginilah rasanya bekerja dengan kami.\" Perbedaan antara keduanya adalah perbedaan antara membuktikan Anda ada dan membuktikan Anda layak untuk di-scroll.",
-        zh: "动效是那个放大器。静止的 hero 说的是「我们在这儿」。而循环播放的 hero，三秒的质感、进行中的工作、光在画面里移动，说的是「和我们合作是什么感觉」。两者之间的差别，正是证明你存在与证明你值得被往下滚之间的差别。",
-        ja: "モーションは倍率を生む。静止した hero は「ここに私たちがいます」と言う。ループする hero は、三秒間のテクスチャ、進行中の仕事、フレームを横切って動く光をもって、「私たちと働くとはこういう感覚です」と言う。両者の違いは、あなたが存在することを証明するのと、スクロールする価値があることを証明するのとの違いだ。"
+        heading: { id: "Bagaimana kami bikin punya sendiri", zh: "我们自己是怎么做的", ja: "自分たちの場合はこうした" },
+        paragraphs: [
+          { id: "Di onyxcreative.asia, hero-nya loop enam detik, bukan foto diam. Halamannya cuma bikin satu janji, studio independen dengan empat disiplin untuk tim yang ambisius, lalu memberi pengunjung ruang untuk bernapas. Tambah apa pun lagi di layar pertama pasti bikin efeknya mati.", zh: "在 onyxcreative.asia 上，hero 是一段六秒的 loop，而不是一张静态照片。整页只给一个承诺：一家四个专业方向、服务有野心团队的独立工作室，然后就让访客喘口气。第一屏再多放任何东西，这个效果就没了。", ja: "onyxcreative.asia の hero は静止写真ではなく6秒の loop だ。ページが掲げる約束はひとつ、4つの専門領域を持つ独立系スタジオが、野心のあるチームと組む。それだけ言ったら、あとは訪問者に呼吸させる。ファーストビューにこれ以上足したら台無しだった。" },
+        ],
       },
-      {
-        id: "Ketika kami membangun onyxcreative.asia, heronya adalah loop enam detik, bukan foto statis. Halaman itu membuat satu janji, studio independen, empat disiplin, tim yang ambisius, dan membiarkan pengunjung bernapas. Apa pun tambahan di slide pertama akan mematikannya.",
-        zh: "我们在做 onyxcreative.asia 时，hero 是一段六秒的循环，而不是一张静态照片。这个页面只许下一个承诺，独立工作室、四门专业、志向远大的团队，然后让访客有空间喘口气。第一屏上再多加任何东西，都会把它毁掉。",
-        ja: "onyxcreative.asia を作ったとき、hero は静止画ではなく六秒のループにした。ページはひとつの約束だけを掲げる。独立系スタジオ、四つの専門領域、野心的なチーム。そして訪問者に息をつく余白を与える。最初のスライドにそれ以上を載せていたら、すべてを台無しにしていただろう。"
-      }
-    ]
+    ],
   },
-  {
-    title: {
-      id: "Ketika agen AI benar-benar layak duduk di meja",
-      zh: "当 AI 代理真正赢得一席之地",
-      ja: "AI エージェントが会議の席を勝ち取るとき"
-    },
-    tag: {
-      id: "Sistem AI",
-      zh: "AI 系统",
-      ja: "AI システム"
-    },
-    excerpt: {
-      id: "Sebagian besar \"AI\" yang dijual ke brand hanyalah chatbot yang ditempelkan pada formulir kontak. AI yang sesungguhnya merebut tempatnya dengan menghapus pekerjaan yang tak seorang pun mau lakukan, diam-diam, di latar belakang, tanpa meminta pujian.",
-      zh: "卖给品牌的大多数所谓「AI」，不过是拴在联系表单上的一个聊天机器人。真正的 AI 靠的是替人清除那些没人愿意做的工作来赢得自己的位置，安静地、在后台、不求任何功劳。",
-      ja: "ブランドに売り込まれる「AI」の多くは、問い合わせフォームに取り付けられたチャットボットにすぎない。本物の AI は、誰もやりたがらなかった仕事を取り除くことでその席を勝ち取る。静かに、裏側で、手柄を求めることもなく。"
-    },
-    body: [
+  "when-ai-agents-earn-their-seat-at-the-table": {
+    title: { id: "AI yang berguna itu menghapus kerjaan, bukan menambah chatbot", zh: "有用的 AI 是减掉工作，不是加个 chatbot", ja: "役に立つ AI は仕事を減らす。chatbot を足すことではない" },
+    tag: { id: "AI Systems", zh: "AI Systems", ja: "AI Systems" },
+    excerpt: { id: "Kebanyakan AI yang dijual ke bisnis cuma chat widget yang ditempel di contact form. Versi yang layak dibayar justru jalan di belakang layar, mengangkat kerjaan admin dari tim kamu, dan tidak pernah minta diperhatikan.", zh: "卖给企业的 AI，大多只是贴在 contact form 上的一个聊天 widget。真正值得花钱的那种跑在后台，把行政杂活从团队手里拿走，而且从不要求被看见。", ja: "企業に売られている AI の多くは、contact form に貼り付けた chat widget にすぎない。お金を払う価値があるのは裏側で動き、チームから事務作業を取り上げ、存在を主張しないほうだ。" },
+    sections: [
       {
-        id: "Ada versi AI yang berisik. Sebuah widget di sudut halaman, avatar yang memantul-mantul, sapaan ramah yang tak diminta siapa pun. AI jenis ini mengumumkan dirinya sendiri. Ia ingin digunakan. Nyatanya jarang.",
-        zh: "有一种 AI 是喧闹的。页面角落里的一个小挂件、一个蹦跳的头像、一句没人要求过的友好问候。这类 AI 大声宣告自己的存在，它渴望被使用，却极少真的被用到。",
-        ja: "騒がしいタイプの AI がある。ページの隅のウィジェット、跳ねまわるアバター、誰も頼んでいない親しげな挨拶。この種の AI は自分の存在を大々的に告げる。使われたがっている。だが、めったに使われない。"
+        heading: { id: "Yang berisik", zh: "吵闹的那种", ja: "うるさいほう" },
+        paragraphs: [
+          { id: "Ada versi AI yang berisik. Widget di pojok halaman, avatar yang memantul, sapaan ramah yang tidak diminta siapa pun. AI jenis ini mengumumkan dirinya. Dia ingin dipakai. Jarang banget kejadian.", zh: "有一种 AI 很吵。页面角落的 widget、蹦跳的头像、没人要求过的热情问候。这种 AI 忙着宣告自己的存在，它想被用，而它很少被用。", ja: "うるさいタイプの AI がある。画面の隅の widget、跳ねるアバター、誰も頼んでいない親しげな挨拶。この手の AI は自分の存在を宣言する。使われたがっている。そしてたいてい使われない。" },
+        ],
       },
       {
-        id: "Versi yang lain bersifat senyap. Sebuah pipeline yang menerima kiriman formulir, mencari data klien, membuat kartu yang tepat di tool yang tepat, memicu notifikasi yang tepat, semuanya dalam hitungan detik, semuanya tanpa ada orang yang menyadari ia berjalan. AI jenis ini layak duduk di meja karena menyingkirkan pekerjaan repetitif. Tak ada yang membicarakannya, karena memang bukan itu intinya.",
-        zh: "另一种 AI 是安静的。一条流水线接收一次表单提交，查出对应的客户，在正确的工具里创建正确的卡片，触发正确的通知，一切都在几秒内完成，全程没有人察觉它运行过。这类 AI 靠清除琐碎杂务赢得桌上的一席之地。没人谈论它，因为它本就不是重点。",
-        ja: "もう一つのタイプは静かだ。フォームの送信を受け取り、クライアントを照合し、適切なツールに適切なカードを作り、適切な通知を送る。すべて数秒のうちに、誰にも動いたと気づかれることなく。この種の AI は、雑務を取り除くことで会議の席を勝ち取る。誰もそれを話題にしないのは、それが主役ではないからだ。"
+        heading: { id: "Yang diam-diam", zh: "安静的那种", ja: "静かなほう" },
+        paragraphs: [
+          { id: "Versi satunya diam. Sebuah pipeline mengambil kiriman form, mencari datanya klien, membuat kartu yang tepat di tool yang tepat, lalu menembakkan notifikasi yang tepat, semuanya dalam hitungan detik, tanpa ada yang sadar dia jalan.", zh: "另一种很安静。一条 pipeline 接住表单提交，查出对应客户，在对的工具里建对的卡片，再发出对的通知，几秒之内全部完成，没人察觉它跑过。", ja: "もうひとつは静かだ。pipeline がフォーム送信を受け取り、クライアントを照合し、正しいツールに正しいカードを作り、正しい通知を飛ばす。数秒で終わり、動いたことに誰も気づかない。" },
+          { id: "AI jenis ini pantas ada karena dia menghapus kerjaan remeh. Tidak ada yang membicarakannya, karena dibicarakan memang bukan tujuannya. Sistem terbaik adalah yang tidak pernah disadari pelanggan kamu, masalah mereka tahu-tahu sudah selesai.", zh: "这种 AI 靠消灭杂活挣到自己的位置。没人谈论它，因为被谈论本来就不是目的。最好的系统是客户从来没注意到的那种，他们的问题就是解决了。", ja: "こちらの AI は雑務を消すことで居場所を得る。話題にならないのは、話題になることが目的ではないからだ。最良のシステムは顧客が気づかないもので、問題だけが片づいている。" },
+        ],
       },
       {
-        id: "Ketika kami membangun otomasi permintaan kampanye untuk RADcruiters, briefnya tampak sederhana. Ganti satu formulir. Kenyataannya, satu formulir itu diam-diam telah menjadi penyumbat bagi sebuah agensi recruitment-marketing. Setiap brief mengirim notifikasi ke tim di Slack. Seseorang mengurai URL secara manual, mencari klien di Airtable, membuat kartu Trello, menyusun draf email konfirmasi. Formulirnya tidak rusak. Serah-terimanya yang bermasalah.",
-        zh: "我们为 RADcruiters 搭建活动申请自动化时，需求看起来很简单，替换掉一个表单。而现实是，这一个表单已经悄然成为这家招聘营销代理商的瓶颈。每一份需求都会在 Slack 里提醒团队。有人手动解析 URL，在 Airtable 里查客户，做一张 Trello 卡片，起草一封确认邮件。表单本身没坏，坏在中间的交接环节。",
-        ja: "RADcruiters のキャンペーン申請の自動化を作ったとき、要件は単純に見えた。フォームをひとつ置き換えるだけ。だが実際には、そのひとつのフォームが、ある採用マーケティング代理店にとって静かにボトルネックになっていた。要件が届くたびに Slack でチームに通知が飛ぶ。誰かが手作業で URL を読み解き、Airtable でクライアントを調べ、Trello のカードを作り、確認メールの下書きを書く。壊れていたのはフォームではない。受け渡しの部分だった。"
+        heading: { id: "Yang sebenarnya dibutuhkan RADcruiters", zh: "RADcruiters 真正需要的是什么", ja: "RADcruiters が本当に必要としていたもの" },
+        paragraphs: [
+          { id: "Waktu kami bikin otomasi campaign request untuk RADcruiters, brief-nya kelihatan sederhana. Ganti satu form. Kenyataannya, satu form ini diam-diam sudah jadi bottleneck buat agensi recruitment marketing.", zh: "我们给 RADcruiters 做 campaign 需求自动化时，brief 看起来很简单：换掉一个表单。实际情况是，这一个表单早就悄悄变成了这家招聘营销 agency 的瓶颈。", ja: "RADcruiters の campaign リクエスト自動化を作ったとき、brief は単純に見えた。フォームをひとつ置き換えるだけ。実際には、そのフォームが採用マーケティング会社のボトルネックになっていた。" },
+          { id: "Tiap brief masuk nge-ping tim di Slack. Ada yang mesti baca URL-nya manual, cari kliennya di Airtable, bikin kartu Trello, lalu menulis email konfirmasi. Form-nya sendiri tidak rusak. Yang rusak itu operan antar orangnya.", zh: "每份 brief 都会在 Slack 上 ping 团队。有人手动解析 URL，在 Airtable 里找客户，建一张 Trello 卡片，再写一封确认 email。表单本身没坏，坏的是中间这些交接。", ja: "brief が届くたびに Slack でチームに通知が飛ぶ。誰かが URL を手作業で読み取り、Airtable でクライアントを探し、Trello のカードを作り、確認メールを書く。フォームが壊れていたわけではない。壊れていたのは受け渡しのほうだ。" },
+        ],
       },
       {
-        id: "Sistem AI terbaik adalah yang tak pernah disadari pelanggan Anda, masalah mereka begitu saja terselesaikan.",
-        zh: "最好的 AI 系统，是那种你的客户根本察觉不到的系统，他们的问题就那么被解决了。",
-        ja: "最良の AI システムとは、顧客がまったく気づかないもの。彼らの問題は、いつのまにか解決されている。"
+        heading: { id: "Yang kami bangun sebagai gantinya", zh: "我们改成做了什么", ja: "代わりに作ったもの" },
+        paragraphs: [
+          { id: "Kami bangun ulang intake-nya jadi pipeline. Submission dari WordPress memicu webhook. Webhook-nya menarik URL lowongan, mencocokkan klien di Airtable, mengantre task Trello lengkap dengan brief-nya, lalu menembakkan alert ke tim dan konfirmasi ke klien. Ujung ke ujung dalam hitungan detik.", zh: "我们把接单流程重做成一条 pipeline。WordPress 的提交触发一个 webhook，webhook 提取职位 URL、在 Airtable 里匹配客户、把带完整 brief 的任务排进 Trello，然后发出团队提醒和客户确认。全程几秒钟。", ja: "受付をまるごと pipeline に作り直した。WordPress の送信が webhook を起動し、webhook が求人 URL を抜き出し、Airtable でクライアントを照合し、brief 付きの Trello タスクを積み、チームへのアラートとクライアントへの確認を飛ばす。端から端まで数秒だ。" },
+          { id: "Dari luar, form-nya kelihatan sama persis. Kerjaan di belakangnya yang hilang.", zh: "从外面看，表单一模一样。消失的是它背后的那些活。", ja: "外から見えるフォームは以前と同じ。消えたのはその裏の作業だ。" },
+        ],
       },
       {
-        id: "Kami membangun ulang proses intake sebagai sebuah pipeline. Kiriman WordPress memicu webhook. Webhook mengekstrak URL lowongan, mencocokkan klien di Airtable, mengantrikan tugas Trello lengkap dengan briefnya, memicu peringatan untuk tim dan konfirmasi untuk klien. Dari ujung ke ujung dalam hitungan detik. Formulirnya tampak sama persis. Pekerjaan di baliknya lenyap.",
-        zh: "我们把这套接收流程重建成了一条流水线。WordPress 的提交触发一个 webhook。webhook 提取职位 URL，在 Airtable 里匹配客户，把带有完整需求的 Trello 任务排入队列，触发一条团队提醒和一条客户确认。端到端，几秒之内完成。表单看上去一模一样，它背后的工作却消失了。",
-        ja: "私たちは受付の流れをパイプラインとして作り直した。WordPress の送信が webhook を発火させる。webhook は求人の URL を抽出し、Airtable でクライアントを照合し、完全な要件を添えた Trello のタスクをキューに入れ、チームへのアラートとクライアントへの確認を送る。端から端まで数秒で。フォームの見た目はまったく同じ。その裏側の作業は消えた。"
+        heading: { id: "Tes sederhana", zh: "一个简单的判断", ja: "簡単なテスト" },
+        paragraphs: [
+          { id: "Itu tes yang layak dipakai buat apa pun yang dijual ke kamu dengan label AI. Kalau tampilannya tetap sama dan kerjaannya jadi lebih cepat, sistemnya bekerja. Kalau tampilannya nambah avatar memantul dan kecepatan kerjanya sama persis, kamu baru saja beli chatbot.", zh: "任何打着 AI 名义卖给你的东西，都可以用这个判断。如果表面没变而事情跑得更快，这套系统就做到了它该做的。如果表面多了个蹦跳的头像而速度分毫未变，你买的是一个 chatbot。", ja: "AI という名前で売られてくるものには、この物差しを当てればいい。見た目が変わらず仕事が速くなったなら、そのシステムは役目を果たしている。見た目に跳ねるアバターが増えて速度が変わらないなら、買ったのは chatbot だ。" },
+        ],
       },
-      {
-        id: "Itulah ujiannya. Jika permukaan yang terlihat tetap sama dan pekerjaannya menjadi lebih cepat, AI itu telah menjalankan tugasnya. Jika permukaan yang terlihat justru mendapat avatar memantul yang baru dan pekerjaannya berjalan sama lambatnya, berarti Anda membeli sebuah chatbot.",
-        zh: "这就是检验标准。如果可见的表层看起来没变，而工作变快了，那 AI 就尽到了本分。如果可见的表层多了一个蹦跳的新头像，而工作速度还是老样子，那你买到的只是一个聊天机器人。",
-        ja: "それが試金石だ。表に見える部分は変わらないのに仕事が速くなったなら、AI は役割を果たした。表に見える部分に跳ねるアバターが新しく増えただけで、仕事の速さが変わらないなら、あなたが買ったのはチャットボットだ。"
-      }
-    ]
+    ],
   },
-  {
-    title: {
-      id: "Kreatif performance bukanlah bahasa yang berbeda. Ini bahasa yang sama, hanya lebih cepat.",
-      zh: "效果广告创意并不是另一种语言，它是同一种语言，只是更快。",
-      ja: "パフォーマンス向けのクリエイティブは、別の言語ではない。同じ言語を、より速く話すだけだ。"
-    },
-    tag: {
-      id: "Media Berbayar",
-      zh: "付费媒体",
-      ja: "有料メディア"
-    },
-    excerpt: {
-      id: "Ada mitos bahwa kreatif berbayar adalah disiplin tersendiri. Bukan. Tim yang membangun brand seharusnya juga yang menjalankan iklan berbayar, keahlian yang sama, suara yang sama, hanya dengan siklus yang lebih rapat dan metrik keberhasilan yang berbeda.",
-      zh: "有一种迷思，认为付费广告创意是一门自成一体的专业。并非如此。打造品牌的那支团队，就应该来做付费投放，同样的手艺，同样的语气，只是循环更紧凑、衡量成败的指标不同而已。",
-      ja: "有料広告のクリエイティブは独立した専門分野だ、という思い込みがある。そうではない。ブランドを築くチームこそが有料広告も回すべきだ。同じ技巧、同じ声、ただループがより短く、成功を測る指標が違うだけだ。"
-    },
-    body: [
+  "performance-creative-isnt-a-different-language": {
+    title: { id: "Iklan dan brand kamu sebaiknya datang dari tim yang sama", zh: "你的广告和你的 brand，应该出自同一个团队", ja: "広告と brand は、同じチームから出したほうがいい" },
+    tag: { id: "Paid Media", zh: "Paid Media", ja: "Paid Media" },
+    excerpt: { id: "Banyak studio memperlakukan paid creative sebagai keahlian terpisah dengan standar yang lebih rendah. Padahal tidak. Orang yang membangun brand kamu seharusnya yang menjalankan iklannya, dengan tempo lebih cepat dan ukuran keberhasilan yang berbeda.", zh: "不少工作室把 paid creative 当成另一门手艺，还配上更低的标准。其实不是。建你 brand 的那批人，就该来跑你的广告，只是节奏更快、衡量方式不同。", ja: "paid creative を別の職能として、しかも低い基準で扱うスタジオは多い。そんなことはない。brand を作る人がそのまま広告を回すべきで、変わるのは速度と評価軸だけだ。" },
+    sections: [
       {
-        id: "Sebagian besar studio memisahkan brand dan performance ke dalam dua ruangan. Desainer brand mengerjakan karya yang lambat dan penuh pertimbangan. Desainer performance mengerjakan karya yang cepat dan sekali pakai. Kedua tim memakai tool yang berbeda, referensi yang berbeda, dan, di suatu titik, standar estetika yang berbeda pula.",
-        zh: "大多数工作室把品牌和效果分进两个房间。品牌设计师做的是慢工出细活、深思熟虑的作品，效果设计师做的是快速、用完即弃的作品。两个团队用着不同的工具、不同的参考，而且不知不觉间，还有了不同的审美标准。",
-        ja: "多くのスタジオは、ブランドとパフォーマンスを二つの部屋に分けてしまう。ブランドのデザイナーは、じっくり時間をかけた作品を作る。パフォーマンスのデザイナーは、速くて使い捨ての作品を作る。二つのチームは違うツール、違うリファレンスを使い、そしていつのまにか、違う美的基準まで持つようになる。"
+        heading: { id: "Masalah dua ruangan", zh: "两个房间的问题", ja: "部屋がふたつある問題" },
+        paragraphs: [
+          { id: "Kebanyakan studio memisahkan brand dan performance ke dua ruangan. Desainer brand mengerjakan yang lambat dan penuh pertimbangan. Desainer performance mengerjakan yang cepat dan sekali pakai. Lama-lama dua tim ini pakai tool berbeda, referensi berbeda, dan diam-diam, standar yang berbeda juga.", zh: "多数工作室把 brand 和 performance 分进两个房间。brand 设计师做慢工细活，performance 设计师做快节奏的一次性素材。时间久了，两个团队用的工具不同、参考不同，还悄悄地，标准也不同了。", ja: "多くのスタジオは brand と performance を別々の部屋に分ける。brand のデザイナーはじっくり練る仕事を、performance のデザイナーは速くて使い捨ての仕事をする。やがて両者は違うツール、違うリファレンス、そして気づかないうちに違う基準を使うようになる。" },
+        ],
       },
       {
-        id: "Itu pemisahan yang keliru. Audiens tidak tahu dari ruangan mana sebuah karya berasal. Mereka scroll. Iklan itu entah berhasil merebut dua detik berikutnya atau tidak. Apakah ia dibuat oleh tim brand atau tim performance sama sekali tidak relevan.",
-        zh: "这是一种虚假的划分。观众并不知道一件作品出自哪个房间。他们只是往下滑。那条广告要么赢得接下来的两秒，要么赢不到。它是品牌团队做的还是效果团队做的，无关紧要。",
-        ja: "それは誤った線引きだ。観客は、その一枚がどの部屋から来たのかを知らない。ただスクロールするだけだ。広告は次の二秒を勝ち取るか、勝ち取れないかのどちらかでしかない。それをブランドチームが作ったのか、パフォーマンスチームが作ったのかは、どうでもいい。"
+        heading: { id: "Penonton tidak bisa membedakan", zh: "观众根本分不出来", ja: "見る側には区別がつかない" },
+        paragraphs: [
+          { id: "Pemisahan itu palsu. Penonton sama sekali tidak tahu satu materi datang dari ruangan yang mana. Mereka scroll. Iklannya entah berhasil merebut dua detik berikutnya, atau tidak. Siapa yang bikin cuma penting buat bagan organisasi.", zh: "这个划分是假的。观众根本不知道一条素材出自哪个房间。他们只是 scroll，广告要么换来接下来那两秒，要么换不来。谁做的，只有组织架构图在乎。", ja: "この線引きは実体がない。見る側はその素材がどちらの部屋から出たかなど知らない。ただ scroll する。広告は次の2秒を勝ち取るか、取れないかのどちらかだ。誰が作ったかを気にするのは組織図だけだ。" },
+        ],
       },
       {
-        id: "Yang memang berubah antara karya brand dan karya performance adalah kadensinya. Kampanye brand diluncurkan sekali dalam satu kuartal. Kampanye berbayar meluncurkan empat puluh varian dalam seminggu. Keahliannya harus dipadatkan. Tetapi memadatkan tidak sama dengan berkompromi. Desainer yang sama, yang mampu menjaga garis brand selama setahun, mampu menjaganya di empat puluh varian iklan, asalkan sistemnya mendukung mereka.",
-        zh: "在品牌工作和效果工作之间，真正改变的是节奏。品牌活动每个季度上一次，付费活动一周就要上四十个版本。手艺必须被压缩。但压缩不等于将就。那个能把品牌调性守住一整年的设计师，同样能把它守在四十个广告版本里，只要有系统在背后支撑他们。",
-        ja: "ブランドの仕事とパフォーマンスの仕事のあいだで実際に変わるのは、リズムだ。ブランドキャンペーンは四半期に一度立ち上がる。有料キャンペーンは一週間で四十のバリエーションを出す。技巧は圧縮しなければならない。だが、圧縮することは妥協することと同じではない。一年間ブランドの筋を通せるデザイナーは、四十の広告バリエーションにわたってもそれを通せる。システムが支えてくれさえすれば。"
+        heading: { id: "Yang benar-benar berubah", zh: "真正变的是什么", ja: "実際に変わるところ" },
+        paragraphs: [
+          { id: "Beda nyata antara kerjaan brand dan kerjaan performance itu ritmenya. Campaign brand jalan sekali per kuartal. Campaign paid melempar empat puluh varian dalam seminggu, jadi craft-nya harus dipadatkan.", zh: "brand 工作和 performance 工作真正的差别是节奏。一个 brand campaign 一个季度上一次；一个 paid campaign 一周就要上四十个版本，所以手艺必须被压缩。", ja: "brand の仕事と performance の仕事の本当の違いは頻度だ。brand campaign は四半期に一度立ち上がる。paid campaign は一週間で40パターン出す。だから作り込みを圧縮するしかない。" },
+          { id: "Dipadatkan bukan berarti dikompromikan. Desainer yang bisa menjaga garis brand selama setahun juga bisa menjaganya di empat puluh varian iklan, asal sistemnya mendukung.", zh: "压缩不等于妥协。能把 brand 调性守一年的设计师，一样能在四十个广告版本里守住，前提是系统撑得住他们。", ja: "圧縮は妥協とは違う。1年間 brand の線を守れるデザイナーは、40本の広告でも守れる。支える仕組みさえあればの話だ。" },
+        ],
       },
       {
-        id: "Belanja yang terus berbunga bukan taktik anggaran. Itu taktik kreatif.",
-        zh: "会复利增长的投放，靠的不是预算策略，而是创意策略。",
-        ja: "複利で効いてくる出稿は、予算の戦術ではない。クリエイティブの戦術だ。"
+        heading: { id: "Sistemnya yang bekerja", zh: "干活的是系统", ja: "仕事をするのは仕組みのほう" },
+        paragraphs: [
+          { id: "Sistem itulah yang bikin performance creative bagus jadi mungkin. Lockup tipografi yang konsisten, pola headline yang sudah teruji, dan pustaka kecil elemen bergerak yang bisa dikombinasikan ulang.", zh: "正是这套系统，让好的 performance creative 成为可能。一套稳定的字体锁版、一个被验证过的标题结构、一小组可以重新组合的动态元素。", ja: "良い performance creative を可能にするのはその仕組みだ。一貫したタイポのロックアップ、検証済みの見出しパターン、組み替えられる動きの素材を少しだけ揃えておく。" },
+          { id: "Tanpa itu, tiap iklan baru selalu mulai dari nol dan timnya habis di minggu ketiga. Dengan itu, iklan keempat puluh punya integritas brand yang sama dengan materi cetak pertamanya, dan kemungkinan besar konversinya malah lebih bagus.", zh: "没有它，每条新广告都是从头开始，团队撑到第三周就烧干了。有了它，第四十条广告和最初那件印刷品一样守得住 brand，而且转化多半还更好。", ja: "これがないと、新しい広告はいつも白紙からで、チームは3週目で燃え尽きる。あれば、40本目の広告も最初の印刷物と同じ brand の芯を保てるし、たぶんコンバージョンも上になる。" },
+        ],
       },
       {
-        id: "Sistemlah yang membuat kreatif performance menjadi mungkin. Kombinasi tipografi yang konsisten, pola headline yang telah teruji, sebuah pustaka kecil berisi elemen bergerak yang bisa dirangkai ulang. Tanpa itu, setiap iklan baru adalah mulai dari nol, dan tim kreatif kehabisan tenaga di minggu ketiga. Dengan itu, iklan nomor empat puluh punya integritas brand yang sama dengan materi cetak aslinya, dan kemungkinan besar berkonversi lebih baik.",
-        zh: "让效果创意成为可能的，正是那套系统。一个稳定统一的字体组合、一套经过验证的标题模式、一个由可重新组合的动态元素构成的小素材库。没有它，每一条新广告都是从零开始，创意团队撑到第三周就会燃尽。有了它，第四十条广告与最初那件印刷作品拥有同样的品牌完整度，而且转化率大概还更高。",
-        ja: "パフォーマンスのクリエイティブを可能にするのは、システムだ。一貫した書体の組み合わせ、検証済みの見出しのパターン、組み替えられる動く要素の小さなライブラリ。それがなければ、新しい広告は毎回ゼロからのスタートになり、クリエイティブチームは三週目で燃え尽きる。それがあれば、四十本目の広告も最初の印刷物と同じブランドの一貫性を保ち、しかもおそらくコンバージョンはより高い。"
+        heading: { id: "Cara kami menjalankan paid", zh: "我们是怎么跑 paid 的", ja: "私たちの paid の回し方" },
+        paragraphs: [
+          { id: "Waktu kami menjalankan paid untuk klien, sistem kreatifnya sudah termasuk dalam kerja samanya, bukan sesuatu yang dibeli terpisah. Tim iklan dan tim brand adalah tim yang sama. Yang berubah cuma ukuran suksesnya, ROAS bukan awareness, sementara craft-nya identik. Belanja iklan yang berbunga bukan cuma taktik budget, itu juga soal kreatif.", zh: "我们给客户跑 paid 时，创意系统本来就包含在合作里，不是另外买的东西。广告团队和 brand 团队是同一批人。变的只有成功的衡量方式：ROAS 而不是 awareness，手艺完全一样。会滚雪球的投放不只是预算策略，也是创意策略。", ja: "クライアントの paid を回すとき、クリエイティブの仕組みは契約の一部で、別売りではない。広告チームと brand チームは同じチームだ。変わるのは成功の測り方だけで、awareness ではなく ROAS になる。作り込みは変わらない。積み上がる出稿は予算の話であると同時に、クリエイティブの話でもある。" },
+        ],
       },
-      {
-        id: "Ketika kami menjalankan iklan berbayar untuk klien, sistem kreatif adalah bagian dari kerja sama itu, bukan sesuatu yang terpisah. Tim iklan dan tim brand adalah tim yang sama. Yang berubah hanyalah metrik keberhasilannya, ROAS alih-alih awareness, tetapi keahliannya identik. Belanja yang terus berbunga bukan sekadar taktik anggaran. Itu taktik kreatif.",
-        zh: "当我们为客户做付费投放时，创意系统是这份合作的一部分，而不是与之分开的东西。广告团队和品牌团队是同一支团队。改变的只是衡量成败的指标，用 ROAS 取代认知度，但手艺是一模一样的。会复利增长的投放，不只是一种预算策略，更是一种创意策略。",
-        ja: "クライアントの有料広告を回すとき、クリエイティブのシステムはその契約の一部であって、切り離されたものではない。広告チームとブランドチームは同じチームだ。変わるのは成功の指標だけ、認知度ではなく ROAS、だが技巧はまったく同じだ。複利で効いてくる出稿は、単なる予算の戦術ではない。クリエイティブの戦術でもある。"
-      }
-    ]
+    ],
   },
-  {
-    title: {
-      id: "Mengapa kami memberikan hero video, bukan hero image",
-      zh: "为什么我们交付的是 hero 视频，而不是 hero 图片",
-      ja: "なぜ私たちは hero 画像ではなく hero 動画を届けたのか"
-    },
-    tag: {
-      id: "Web · Merek",
-      zh: "网页 · 品牌",
-      ja: "Web · ブランド"
-    },
-    excerpt: {
-      id: "Hero image adalah sebuah kartu pos. Hero video adalah sebuah momen. Viewport pertama pada sebuah homepage bukanlah tempat untuk berhemat, melainkan tempat untuk menetapkan suhu bagi seluruh sisa kunjungan.",
-      zh: "hero 图片是一张明信片，hero 视频是一个瞬间。首页的第一屏不是讲求效率的地方，而是为接下来整段访问定下温度的地方。",
-      ja: "hero 画像は絵はがきだ。hero 動画は一つの瞬間だ。ホームページの最初のビューポートは、効率を求める場所ではない。訪問の残り全体の温度を決める場所だ。"
-    },
-    body: [
+  "why-we-shipped-a-hero-video-instead-of-a-hero-image": {
+    title: { id: "Kenapa homepage kami dibuka dengan video pendek, bukan foto", zh: "为什么我们的 homepage 开场是一小段视频，不是照片", ja: "homepage の冒頭を写真ではなく短い動画にした理由" },
+    tag: { id: "Web · Brand", zh: "Web · Brand", ja: "Web · Brand" },
+    excerpt: { id: "Foto cuma memberi tahu pengunjung bahwa halamannya sudah termuat. Beberapa detik gerakan memberi mereka alasan untuk bertahan. Ini biaya sebuah hero loop dalam waktu muat, dan cara kami menjaga halamannya tetap cepat.", zh: "一张照片只告诉访客页面加载好了，几秒钟的动态才给他们留下来的理由。这里说说一个 hero loop 在加载时间上的代价，以及我们怎么让页面照样快。", ja: "写真が伝えるのは「ページが読み込まれた」ことだけ。数秒の動きは、留まる理由になる。hero の loop が読み込み時間にどれだけのコストを払わせるか、それでもページを速く保つ方法を書いておく。" },
+    sections: [
       {
-        id: "Hero image adalah pilihan default. Ia memuat dengan cepat, mudah diarahkan secara artistik, dan bisa ditukar per kampanye tanpa perlu membangun ulang apa pun. Ia juga sangat buruk dalam menyampaikan atmosfer. Sebuah foto menahan perhatian pembaca hanya selama mata mereka mencatatnya. Setelah itu, scroll pun berlanjut.",
-        zh: "hero 图片是默认选项。它加载快、易于做艺术指导，还能按不同活动随时替换，而不用重建任何东西。可它在传达氛围这件事上做得很糟。一张照片留住读者注意力的时间，只够眼睛把它认出来那么久，然后滚动就继续了。",
-        ja: "hero 画像はデフォルトの選択肢だ。読み込みが速く、アートディレクションもしやすく、何も作り直さずにキャンペーンごとに差し替えられる。だが、雰囲気を伝えるという点では、ひどく不出来だ。写真が読者の注意を引きとめられるのは、目がそれを認識するのにかかるあいだだけ。そして、スクロールは続いていく。"
+        heading: { id: "Kenapa gambar jadi pilihan default", zh: "为什么图片是默认选择", ja: "画像がデフォルトになる理由" },
+        paragraphs: [
+          { id: "Hero berupa gambar itu pilihan aman. Loading-nya cepat, gampang diarahkan secara visual, dan bisa diganti per campaign tanpa bongkar apa pun.", zh: "hero 用图片是稳妥选择。加载快、好做视觉把控，而且可以按 campaign 随时替换，不用重做任何东西。", ja: "hero を画像にするのは安全な選択だ。読み込みが速く、アートディレクションもしやすく、campaign ごとに差し替えても何も作り直さなくていい。" },
+          { id: "Tapi gambar payah dalam menyampaikan atmosfer. Sebuah foto menahan perhatian kira-kira selama mata butuh untuk mengenalinya. Setelah itu scroll jalan lagi.", zh: "但图片很不擅长传递氛围。一张照片留住注意力的时间，差不多就是眼睛认出它所需要的时间。然后 scroll 就继续了。", ja: "一方で、画像は空気を伝えるのが下手だ。写真が注意を保つのは、目がそれを認識するのにかかる時間くらい。そのあと scroll は再開する。" },
+        ],
       },
       {
-        id: "Sebuah loop berbeda. Enam detik tekstur, cahaya yang bergerak di dinding, tipografi yang menyusun dirinya sendiri, sebuah tangan di tengah gerakan, memberi pengunjung sesuatu untuk didiami. Halaman itu menjadi sebuah tempat, bukan selebaran. Pembaca bahkan tidak menyadari mengapa mereka berhenti sejenak; mereka hanya berhenti.",
-        zh: "循环则不同。六秒的质感，光在墙上移动，字体自行拼合，一只手停在动作中途，给了访客一个可以安顿下来的地方。页面于是成了一处场所，而不是一张传单。读者甚至没意识到自己为何停了下来，他们就是停下了。",
-        ja: "ループは違う。六秒間のテクスチャ、壁を移ろう光、文字がひとりでに組み上がっていく様子、動作の途中で止まった手。それらは訪問者に、腰を落ち着ける何かを与える。ページはチラシではなく、一つの場所になる。読者は、自分がなぜ立ち止まったのかにさえ気づかない。ただ立ち止まっているのだ。"
+        heading: { id: "Apa yang beda dari sebuah loop", zh: "loop 不一样在哪", ja: "loop だと何が違うのか" },
+        paragraphs: [
+          { id: "Loop bekerja dengan cara lain. Enam detik tekstur, cahaya bergerak di dinding, huruf yang menyusun dirinya sendiri, tangan di tengah gerakan, memberi pengunjung sesuatu untuk ditinggali sebentar. Halamannya jadi tempat, bukan selebaran. Kebanyakan pembaca tidak pernah tahu kenapa mereka berhenti. Mereka cuma berhenti.", zh: "loop 的工作方式不一样。六秒的质感、光在墙上移动、字自己拼起来、一只手停在动作中间，给了访客一个可以待一会儿的地方。页面变成了一个空间，而不是一张传单。大多数人从来没弄明白自己为什么停下，他们就是停下了。", ja: "loop の効き方は違う。6秒の質感、壁を流れる光、組み上がっていく文字、動作の途中の手。訪問者はそこに少し腰を落ち着けられる。ページはチラシではなく場所になる。多くの読者はなぜ止まったのか分からないままだ。ただ止まる。" },
+        ],
       },
       {
-        id: "Ada harga yang nyata untuk itu. Video lebih berat daripada gambar, dan hosting yang malas akan menjatuhkan Core Web Vitals kalau Anda tidak berhati-hati. Kami menyiasatinya dengan cara yang jelas: sebuah poster image dimuat lebih dulu (cepat, di-decode inline), video mulai diputar begitu selesai di-buffer, dan sebuah fallback webm menyasar browser yang tidak sanggup menangani ukuran encode-nya. Pengunjung melihat hero yang diam dalam 200 ms dan hero yang bergerak setengah detik kemudian.",
-        zh: "这是有实实在在代价的。视频比图片重，如果托管做得草率，一不小心就会把 Core Web Vitals 拖垮。我们用最直接的方式来缓解：先加载一张 poster 图片（快，内联解码），视频一缓冲好就开始播放，再用一个 webm 备选去应对那些扛不住编码体积的浏览器。访客在 200 ms 内看到静止的 hero，半秒后再看到会动的那个。",
-        ja: "そこには実際のコストがある。動画は画像より重く、ホスティングがずさんだと、油断すれば Core Web Vitals を台無しにしかねない。私たちは当たり前のやり方でそれを和らげる。まず poster 画像を読み込み（速く、インラインでデコードされる）、バッファが済み次第、動画の再生を始め、エンコードのサイズを扱えないブラウザには webm のフォールバックを当てる。訪問者は 200 ミリ秒で静止した hero を目にし、その半秒後に動く hero を目にする。"
+        heading: { id: "Menjaga halaman tetap cepat", zh: "让页面保持快", ja: "ページを速いままにする" },
+        paragraphs: [
+          { id: "Ada harga nyata yang mesti dibayar. Video lebih berat dari gambar, dan hosting yang malas akan menyeret Core Web Vitals kalau kamu ceroboh.", zh: "这是有实际代价的。视频比图片重，托管不用心的话，一不小心就会把 Core Web Vitals 拖下去。", ja: "これには実際のコストがある。動画は画像より重いし、ホスティングが雑なら不用意に Core Web Vitals を落とす。" },
+          { id: "Kami menanganinya dengan cara yang jelas. Poster image dimuat lebih dulu dan di-decode inline, videonya mulai begitu buffer-nya cukup, dan fallback webm menutup browser yang tidak sanggup dengan ukuran encode-nya. Pengunjung melihat hero diam sekitar 200 ms, dan versi bergeraknya setengah detik kemudian.", zh: "我们的处理方式很直白。poster 图先加载并 inline 解码，视频缓冲够了就开始播，再用一个 webm fallback 覆盖吃不下这个编码体积的浏览器。访客大约 200 毫秒看到静止 hero，半秒之后看到动起来的那版。", ja: "対処は素直だ。まず poster 画像を読み込んでインラインでデコードし、バッファが溜まり次第 video を再生する。エンコードサイズを扱えないブラウザは webm の fallback で拾う。訪問者は約200msで静止した hero を見て、その半秒後に動く hero を見る。" },
+        ],
       },
       {
-        id: "Hero image membuktikan halaman telah dimuat. Hero loop membuktikan halaman itu layak dilirik untuk kedua kalinya.",
-        zh: "hero 图片证明页面加载好了，hero 循环证明这个页面值得再看一眼。",
-        ja: "hero 画像はページが読み込まれたことを証明する。hero ループはページがもう一度見る価値があることを証明する。"
+        heading: { id: "Isi loop-nya apa", zh: "loop 里放什么", ja: "loop に何を入れるか" },
+        paragraphs: [
+          { id: "Apa yang kamu taruh di dalam loop jauh lebih penting daripada fakta bahwa dia nge-loop. Sinematografi stok akan terbaca persis sebagai stok, dan efeknya langsung hilang.", zh: "放什么进 loop，远比「它在循环」这件事重要。素材库的镜头一眼就能被认出来，效果瞬间就没了。", ja: "loop に何を入れるかは、loop していること自体よりずっと重要だ。ストック映像はストック映像として一発で見抜かれ、効果はその場で消える。" },
+          { id: "Klip di onyxcreative.asia adalah still life enam detik tentang pekerjaan yang sedang berjalan: tekstur, huruf, dan ruang kerja studio kami sendiri. Itu potret diri, yang jalan satu frame per detik perhatian.", zh: "onyxcreative.asia 上那段素材，是一支六秒的「进行中的工作」静物：质感、字体，还有我们自己的工作台。那是一张自画像，以每秒一帧的注意力播放。", ja: "onyxcreative.asia のクリップは、進行中の仕事を撮った6秒の静物だ。質感、文字、そしてスタジオ自身の作業机。要するに自画像で、注目1秒あたり1フレームで流れている。" },
+        ],
       },
       {
-        id: "Apa yang Anda masukkan ke dalam loop lebih penting daripada fakta bahwa ia berulang. Sinematografi stok akan terbaca persis seperti itu. Klip di onyxcreative.asia adalah still life enam detik tentang proses yang sedang berjalan: tekstur, tipografi, ruang kerja studio itu sendiri. Ia adalah potret diri pada kecepatan satu frame per detik perhatian.",
-        zh: "你往循环里放什么，比它会循环这件事本身更重要。素材库里的影像看上去就是素材库的样子。onyxcreative.asia 上的那段片子，是一幅六秒的进行中静物：质感、字体、工作室自己的工作空间。它是一幅以每秒一帧的注意力拍成的自画像。",
-        ja: "ループに何を入れるかは、それがループするという事実よりも重要だ。ストックの映像は、まさにストックそのものとして読まれてしまう。onyxcreative.asia のクリップは、進行中の仕事を六秒間で切り取った静物画だ。テクスチャ、文字、スタジオ自身の作業場。それは、一秒あたり一フレームの注意で撮られた自画像だ。"
+        heading: { id: "Menetapkan suhunya", zh: "定下温度", ja: "温度を決める" },
+        paragraphs: [
+          { id: "Begitu loop-nya selesai, pembaca sudah memutuskan mau lanjut scroll atau tidak. Kalau hero-nya sudah bekerja, sisa homepage tidak perlu meyakinkan siapa pun soal apa pun. Dia cuma perlu menepati suhu yang sudah ditetapkan layar pertama.", zh: "loop 播完的时候，读者其实已经决定要不要继续往下 scroll 了。如果 hero 做到了它该做的，homepage 剩下的部分就不必再说服谁。它只要兑现第一屏定下的那个温度就行。", ja: "loop が終わる頃には、読者はもう scroll を続けるかどうか決めている。hero が仕事をしていれば、homepage の残りは誰かを説得する必要はない。ファーストビューが決めた温度に応えるだけでいい。" },
+        ],
       },
-      {
-        id: "Ketika loop itu berakhir, pembaca sudah memutuskan apakah akan terus scroll atau tidak. Jika kami mengerjakannya dengan benar, sisa homepage tidak perlu meyakinkan siapa pun akan apa pun, ia hanya perlu menepati suhu yang telah ditetapkan oleh hero.",
-        zh: "当循环结束时，读者其实早已决定要不要继续往下滚。如果我们把活儿干对了，首页余下的部分就不必再去说服谁相信什么，它只需兑现 hero 定下的那个温度。",
-        ja: "ループが終わるころには、読者はスクロールを続けるかどうかをすでに決めている。私たちが仕事を正しくやれていれば、ホームページの残りの部分は、誰かに何かを納得させる必要などない。ただ hero が定めた温度に応えればいい。"
-      }
-    ]
-  }
-];
+    ],
+  },
+};
 
 /** Keyed by the testimonial's projectSlug, for the same reason as PROJECT_TX. */
 const TESTIMONIAL_TX: Record<string, { quote?: Tri; role?: Tri }> = {
+  "radcruiters": {
+    quote: {
+      id: "Yang dulu butuh tiga kali ping di Slack dan satu kartu Trello manual, sekarang selesai dalam waktu kurang dari semenit. Tim bisa fokus ke kampanyenya, bukan ke proses masuknya.",
+      zh: "过去要在 Slack 里催三次、再手动建一张 Trello 卡片的事，现在不到一分钟就完成了。团队可以专注在活动本身，而不是接收流程上。",
+      ja: "以前は Slack で三回声をかけ、Trello のカードを手作業で作っていた作業が、今では一分もかかりません。チームは受付ではなく、キャンペーンそのものに集中できています。"
+    },
+    role: { id: "Founder", zh: "创始人", ja: "創業者" }
+  },
   "bhagawan-property": {
     quote: {
       id: "Pembeli datang sudah paham bedanya freehold dan leasehold, karena situsnya menjelaskan itu bahkan sebelum kami bicara. Percakapannya kini dimulai dua langkah lebih maju dari sebelumnya.",
@@ -967,7 +1075,10 @@ function build(): Maps {
     put(m, s.description, t.description);
     put(m, s.intro, t.intro);
     s.narrative.forEach((p, j) => put(m, p, t.narrative?.[j]));
-    s.capabilities.forEach((c, j) => put(m, c, t.capabilities?.[j]));
+    s.capabilities.forEach((c, j) => {
+      put(m, c.title, t.capabilities?.[j]?.title);
+      put(m, c.detail, t.capabilities?.[j]?.detail);
+    });
     s.process.forEach((pr, j) => {
       put(m, pr.title, t.process?.[j]?.title);
       put(m, pr.detail, t.process?.[j]?.detail);
@@ -991,15 +1102,17 @@ function build(): Maps {
     (p.tags ?? []).forEach((tg, j) => put(m, tg, t.tags?.[j]));
   });
 
-  INSIGHTS.forEach((ins, i) => {
-    const t = INSIGHT_TX[i];
+  INSIGHTS.forEach((ins) => {
+    const t = INSIGHT_TX[ins.slug];
     if (!t) return;
     put(m, ins.title, t.title);
     put(m, ins.tag, t.tag);
     put(m, ins.excerpt, t.excerpt);
-    ins.body.forEach((block, j) => {
-      const en = typeof block === "string" ? block : block.text;
-      put(m, en, t.body?.[j]);
+    ins.sections.forEach((sec, j) => {
+      put(m, sec.heading, t.sections?.[j]?.heading);
+      sec.paragraphs.forEach((para, k) =>
+        put(m, para, t.sections?.[j]?.paragraphs?.[k]),
+      );
     });
   });
 

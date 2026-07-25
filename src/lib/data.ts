@@ -175,6 +175,36 @@ export const PROJECTS: Project[] = [
     longDescription:
       "The studio is in Kerobokan, by appointment. They wanted a digital surface that matched the experience in person, quiet, warm, dressed in dark tones, with the kind of editorial gallery you'd expect in a print magazine. Six service methods, a filterable gallery, a video hero of the actual color wall, and direct-to-WhatsApp booking with IDR pricing visible up front. The wordmark earns the rest of the page: a serif title with a hand-drawn 'Bali,' the kind of small detail that signals the work happens by hand.",
   },
+  {
+    slug: "radcruiters",
+    title: "Campaign Request Automation",
+    client: "RADcruiters",
+    blurb: "Recruitment-marketing agency in the EU",
+    category: "AI Automation",
+    year: "2026",
+    description:
+      "Self-routing intake for new campaign briefs. A WordPress form feeds a Make.com pipeline that extracts the domain, matches the client in Airtable, queues a Trello task, and fires team and client emails, end to end in seconds.",
+    // This one has no site to scroll through: the work is the pipeline, so
+    // the cover is a diagram of it, with the packet running the route.
+    cover: "/works/radcruiters.jpg",
+    coverLoop: "/works/radcruiters-card.mp4",
+    coverLoopHd: "/works/radcruiters.mp4",
+    tags: ["Workflow", "Make.com", "WordPress"],
+    url: "https://onlineresults.radcruiters.com/campaign-request/",
+    urlLabel: "Visit site",
+    services: ["AI Automation", "Digital Presence"],
+    location: "Netherlands · EU",
+    scope: [
+      "WordPress intake form for client campaign briefs",
+      "Make.com pipeline (custom webhook → Trello → Airtable → Gmail)",
+      "Domain extraction + client matching from vacancy URL",
+      "Auto-create Trello task with full brief data",
+      "Team notification + client confirmation email",
+      "Always-on with execution history and error monitoring",
+    ],
+    longDescription:
+      "RADcruiters runs Meta-ads recruitment campaigns for staffing agencies, a high-touch service with high-volume intake. The campaign-request form had become the bottleneck: every brief pinged the team in Slack, someone manually parsed the URL, looked up the client, then created the Trello card. We rebuilt the intake as a self-routing pipeline. Submission to seconds to the right person seeing the right card with the right context, and the client gets an instant confirmation that says 'we have it.'",
+  },
 ];
 
 /** Projects that used a given service, matched on the service's title. */
@@ -220,6 +250,12 @@ export type ServiceProcessStep = {
   detail: string;
 };
 
+/** One thing a service covers, rendered as a card on the service page. */
+export type Capability = {
+  title: string;
+  detail: string;
+};
+
 export type ServiceCta = {
   /** Problem question used as the CTA heading. */
   problem: string;
@@ -233,7 +269,7 @@ export type Service = {
   title: string;
   short: string;
   description: string;
-  capabilities: string[];
+  capabilities: Capability[];
   // Fields used on the dedicated /services/[slug] detail page.
   // Voice is descriptive, not promotional: explain what the service
   // includes, its scope, and who it fits. No outcome/result promises.
@@ -254,12 +290,12 @@ export const SERVICES: Service[] = [
     description:
       "We build your business a website that turns visitors into inquiries, then host it, maintain it, and keep it found on Google, all in one package.",
     capabilities: [
-      "Website design and build",
-      "Custom software and web apps",
-      "Hosting and domains",
-      "Ongoing maintenance",
-      "SEO setup and optimisation",
-      "Content management",
+      { title: "Website design and build", detail: "Layouts, pages, and the front end, designed and built by the same team." },
+      { title: "Custom software and web apps", detail: "Booking flows, portals, dashboards, whatever off-the-shelf cannot do." },
+      { title: "Hosting and domains", detail: "Where the site lives and the address it answers to, both handled." },
+      { title: "Ongoing maintenance", detail: "Updates, fixes, and small changes dealt with as they come up." },
+      { title: "SEO setup and optimisation", detail: "Structure, metadata, and speed, so search engines can read the site." },
+      { title: "Content management", detail: "You edit your own text and images, without waiting on us." },
     ],
     intro:
       "Your website, the software behind it, and everything needed to keep it online, handled by one team.",
@@ -305,12 +341,12 @@ export const SERVICES: Service[] = [
     description:
       "We get your business in front of the right people and bring them back, across search, social, content, email, and paid ads, run as one plan.",
     capabilities: [
-      "SEO",
-      "Social media management",
-      "Content marketing",
-      "Email marketing",
-      "Paid ads (Google, Meta, TikTok)",
-      "Monthly reporting",
+      { title: "SEO", detail: "Showing up for the searches your buyers are actually typing." },
+      { title: "Social media management", detail: "Planning, posting, and replying, on a schedule that holds." },
+      { title: "Content marketing", detail: "Articles and assets that answer the questions that precede a sale." },
+      { title: "Email marketing", detail: "Newsletters and sequences that keep you in the inbox." },
+      { title: "Paid ads (Google, Meta, TikTok)", detail: "Campaigns built, launched, and adjusted against real numbers." },
+      { title: "Monthly reporting", detail: "What happened, what it cost, and what we are changing next." },
     ],
     intro:
       "The channels that bring people to your business, planned, produced, and managed in one place.",
@@ -356,12 +392,12 @@ export const SERVICES: Service[] = [
     description:
       "We give your business a look people remember, from the brand identity to the photos, videos, and assets you use every day.",
     capabilities: [
-      "Branding and identity",
-      "Graphic design",
-      "Photography",
-      "Videography",
-      "Motion graphics",
-      "Creative assets",
+      { title: "Branding and identity", detail: "Logo, type, colour, and the rules that keep them consistent." },
+      { title: "Graphic design", detail: "Decks, packaging, signage, and everything else printed or posted." },
+      { title: "Photography", detail: "Product, space, and team shots, directed and shot in-house." },
+      { title: "Videography", detail: "Short films and social cuts, from brief through to final grade." },
+      { title: "Motion graphics", detail: "Logo animations, titles, and moving assets for every channel." },
+      { title: "Creative assets", detail: "Templates and source files you own and can reuse without us." },
     ],
     intro:
       "The visual side of the business: how it looks, how it sounds, and the assets you use day to day.",
@@ -407,12 +443,12 @@ export const SERVICES: Service[] = [
     description:
       "We take the repetitive, manual work off your team and hand it to software that runs it quietly in the background.",
     capabilities: [
-      "Workflow automation",
-      "Chatbots",
-      "CRM automation",
-      "AI agents",
-      "System integration",
-      "AI for business operations",
+      { title: "Workflow automation", detail: "The repetitive steps between your tools, running on a trigger." },
+      { title: "Chatbots", detail: "Answers to the questions your team keeps retyping by hand." },
+      { title: "CRM automation", detail: "Records that update themselves as deals actually move." },
+      { title: "AI agents", detail: "Drafting, classifying, and summarising, quietly in the background." },
+      { title: "System integration", detail: "Your existing tools connected, so data stops being retyped." },
+      { title: "AI for business operations", detail: "The same thinking applied to whatever is slowing the business down." },
     ],
     intro:
       "The repetitive, manual parts of running a business, handed over to software that does them quietly in the background.",
@@ -458,11 +494,11 @@ export const SERVICES: Service[] = [
     description:
       "We make your numbers make sense, tracking what actually happens, reporting it in plain language, and improving what matters.",
     capabilities: [
-      "Tracking setup",
-      "Dashboards",
-      "Reporting",
-      "Conversion optimisation",
-      "Performance review",
+      { title: "Tracking setup", detail: "Analytics, events, and goals configured so the numbers mean something." },
+      { title: "Dashboards", detail: "One place to open when you want to know how things are going." },
+      { title: "Reporting", detail: "A monthly written read in plain language, not a data dump." },
+      { title: "Conversion optimisation", detail: "Changes to the pages that decide whether people act." },
+      { title: "Performance review", detail: "Sitting down with the numbers and agreeing what happens next." },
     ],
     intro:
       "The measurement layer: what to track, where it shows up, and what it means for the next decision.",
@@ -508,13 +544,13 @@ export const SERVICES: Service[] = [
     description:
       "We keep everything you have already built running, updated, secure, and monitored, so it never quietly breaks.",
     capabilities: [
-      "Web maintenance",
-      "Server management",
-      "Security",
-      "Updates",
-      "Monitoring",
-      "Backups",
-      "Technical support",
+      { title: "Web maintenance", detail: "Updates and fixes on a schedule, rather than in a panic." },
+      { title: "Server management", detail: "The machine your site runs on, kept current and healthy." },
+      { title: "Security", detail: "Certificates, patches, and hardening, watched continuously." },
+      { title: "Updates", detail: "Software kept current so nothing quietly drifts into breaking." },
+      { title: "Monitoring", detail: "Uptime and performance checked around the clock, alerts routed to us." },
+      { title: "Backups", detail: "Regular copies, tested, so a bad day stays a small one." },
+      { title: "Technical support", detail: "A direct line when something breaks or you need a change." },
     ],
     intro:
       "The ongoing care for everything already live: the site, the server, and the systems behind them.",
@@ -594,8 +630,16 @@ export type Testimonial = {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
+      "What used to take three Slack pings and a manual Trello card now happens in under a minute. The team is focused on the campaign, not the intake.",
+    author: "Koen Geytenbeek",
+    role: "Founder",
+    client: "RADcruiters",
+    projectSlug: "radcruiters",
+  },
+  {
+    quote:
       "Buyers arrive already knowing the difference between freehold and leasehold, because the site explained it before we ever spoke. The conversations start two steps further along than they used to.",
-    author: "Gede Bhagawan",
+    author: "Joseph Prawira",
     role: "Founder",
     client: "Bhagawan Property",
     projectSlug: "bhagawan-property",

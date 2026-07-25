@@ -1,24 +1,35 @@
-import type { MetadataRoute } from "next";
-import { PROJECTS } from "@/lib/data";
+import { PROJECTS, SERVICES } from "@/lib/data";
 import { INSIGHTS } from "@/lib/insights";
 
 const BASE = "https://onyxcreative.asia";
 
 /**
- * Dynamic sitemap. Static marketing routes + per-project case study pages
- * + per-insight article pages. Update priorities and change frequency as
- * new content lands.
+ * XML sitemap for crawlers.
+ *
+ * This is a plain route handler rather than Next's `app/sitemap.ts`
+ * convention: that convention claims the whole `/sitemap` path, which
+ * collides with the human-readable sitemap page at /sitemap. Serving the
+ * XML from an explicit `sitemap.xml` segment leaves that path free.
  */
-export default function sitemap(): MetadataRoute.Sitemap {
+
+type Entry = {
+  url: string;
+  lastModified: Date;
+  changeFrequency: string;
+  priority: number;
+};
+
+function buildEntries(): Entry[] {
   const now = new Date();
 
-  const staticRoutes: MetadataRoute.Sitemap = [
+  const staticRoutes: Entry[] = [
     { url: `${BASE}/`,         lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
     { url: `${BASE}/works`,    lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/about`,    lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/insights`, lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
     { url: `${BASE}/contact`,  lastModified: now, changeFrequency: "yearly",  priority: 0.7 },
+    { url: `${BASE}/sitemap`,  lastModified: now, changeFrequency: "monthly", priority: 0.4 },
     { url: `${BASE}/privacy`,  lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
     { url: `${BASE}/terms`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
     // Generative Engine Optimization (GEO) landings — answer-engine-
@@ -28,19 +39,49 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/best-digital-marketing-indonesia`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
   ];
 
-  const projectRoutes: MetadataRoute.Sitemap = PROJECTS.map((p) => ({
+  const serviceRoutes: Entry[] = SERVICES.map((s) => ({
+    url: `${BASE}/services/${s.id}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.8,
+  }));
+
+  const projectRoutes: Entry[] = PROJECTS.map((p) => ({
     url: `${BASE}/works/${p.slug}`,
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  const insightRoutes: MetadataRoute.Sitemap = INSIGHTS.map((i) => ({
+  const insightRoutes: Entry[] = INSIGHTS.map((i) => ({
     url: `${BASE}/insights/${i.slug}`,
     lastModified: new Date(i.publishedAt),
     changeFrequency: "yearly",
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...projectRoutes, ...insightRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...projectRoutes, ...insightRoutes];
+}
+
+export function GET() {
+  const body = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${buildEntries()
+  .map(
+    (e) => `  <url>
+    <loc>${e.url}</loc>
+    <lastmod>${e.lastModified.toISOString()}</lastmod>
+    <changefreq>${e.changeFrequency}</changefreq>
+    <priority>${e.priority.toFixed(2)}</priority>
+  </url>`,
+  )
+  .join("\n")}
+</urlset>`;
+
+  return new Response(body, {
+    headers: {
+      "Content-Type": "application/xml",
+      "Cache-Control": "public, max-age=0, s-maxage=3600",
+    },
+  });
 }

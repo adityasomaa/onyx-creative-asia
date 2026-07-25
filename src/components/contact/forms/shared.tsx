@@ -46,7 +46,7 @@ export function Group({
         className="md:col-span-3 col-span-12 text-xs uppercase tracking-[0.25em] opacity-60 flex items-center gap-3"
       >
         <span className="tabular-nums">{number}</span>
-        <span className="h-px w-6 bg-ink/30" />
+        <span className="h-px w-6 bg-[var(--form-fg)] opacity-30" />
         <span>{t(label)}</span>
       </p>
       <div className="md:col-span-9 col-span-12 space-y-6">{children}</div>
@@ -71,7 +71,7 @@ export function SubmitRow({
 }) {
   const t = useT();
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pt-6 border-t border-hairline">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pt-6 border-t border-[var(--form-fg)]/12">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 max-w-sm">
         {t(caption)}
       </p>
@@ -79,7 +79,7 @@ export function SubmitRow({
         type="submit"
         disabled={submitting}
         className={cn(
-          "group inline-flex items-center gap-4 rounded-full bg-ink px-8 py-4 text-bone transition-transform duration-500 ease-out-expo w-fit",
+          "group inline-flex items-center gap-4 rounded-full bg-[var(--form-fg)] px-8 py-4 text-[var(--form-bg)] transition-transform duration-500 ease-out-expo w-fit",
           submitting ? "opacity-80 cursor-wait" : "hover:scale-[1.03]"
         )}
       >
@@ -218,7 +218,10 @@ export function PillSet({
       ? Array.isArray(selected) && selected.includes(v)
       : selected === v;
   return (
-    <div className="flex flex-wrap gap-2">
+    <div
+      className="flex flex-wrap gap-2"
+      style={{ justifyContent: "var(--form-justify)" }}
+    >
       {options.map((o) => {
         const active = isSelected(o);
         return (
@@ -231,8 +234,8 @@ export function PillSet({
             className={cn(
               "rounded-full border px-4 py-2 text-sm transition-all duration-300 ease-out-expo disabled:opacity-50 disabled:cursor-not-allowed",
               active
-                ? "bg-ink text-bone border-ink"
-                : "border-ink/25 hover:border-ink hover:-translate-y-0.5"
+                ? "bg-[var(--form-fg)] text-[var(--form-bg)] border-[var(--form-fg)]"
+                : "border-[var(--form-fg)]/25 hover:border-[var(--form-fg)] hover:-translate-y-0.5"
             )}
           >
             {o}
@@ -255,19 +258,21 @@ export function FormStyles() {
         width: 100%;
         background: transparent;
         border: 0;
-        border-bottom: 1px solid rgba(14, 14, 14, 0.2);
+        border-bottom: 1px solid
+          color-mix(in srgb, var(--form-fg) 24%, transparent);
         padding: 0.85rem 0;
         font-size: 1.125rem;
         font-family: var(--font-neue);
-        color: #0e0e0e;
+        color: var(--form-fg);
         outline: none;
+        text-align: inherit;
         transition: border-color 300ms ease, opacity 300ms ease;
       }
       .input::placeholder {
-        color: rgba(14, 14, 14, 0.35);
+        color: color-mix(in srgb, var(--form-fg) 45%, transparent);
       }
       .input:focus {
-        border-color: #0e0e0e;
+        border-color: var(--form-fg);
       }
       .input:disabled {
         opacity: 0.55;

@@ -9,15 +9,6 @@ import { T, useT } from "@/lib/i18n";
 
 const EASE = [0.25, 1, 0.5, 1] as const;
 
-// Themed dummy images (verified Unsplash), one per article by index.
-const IMAGES = [
-  "photo-1497215728101-856f4ea42174",
-  "photo-1552664730-d307ca884978",
-  "photo-1521737711867-e3b97375f902",
-  "photo-1519823551278-64ac92734fb1",
-];
-const imgUrl = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
 
 const DATE_FMT = new Intl.DateTimeFormat("en-GB", {
   day: "numeric",
@@ -33,12 +24,6 @@ export default function InsightsBrowser() {
     () => Array.from(new Set(INSIGHTS.map((p) => primary(p.tag)))),
     [],
   );
-  const imageFor = useMemo(() => {
-    const m: Record<string, string> = {};
-    INSIGHTS.forEach((p, i) => (m[p.slug] = IMAGES[i % IMAGES.length]));
-    return m;
-  }, []);
-
   const [active, setActive] = useState<string | null>(null);
   const items = active
     ? INSIGHTS.filter((p) => primary(p.tag) === active)
@@ -97,7 +82,7 @@ export default function InsightsBrowser() {
                 >
                   <div className="relative aspect-[3/2] overflow-hidden rounded-2xl bg-ink">
                     <Image
-                      src={imgUrl(imageFor[piece.slug])}
+                      src={piece.cover}
                       alt=""
                       fill
                       sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

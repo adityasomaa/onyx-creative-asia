@@ -223,7 +223,7 @@ export default async function ProjectDetailPage({
             <T>(Client words)</T>
           </p>
           <Reveal>
-            <blockquote className="text-display-sm font-medium leading-[1.05] tracking-tight max-w-4xl text-balance">
+            <blockquote className="text-xl sm:text-2xl md:text-display-sm font-medium leading-[1.2] md:leading-[1.05] tracking-tight max-w-4xl text-balance">
               <span className="opacity-40 mr-1">&ldquo;</span>
               <T>{testimonial.quote}</T>
               <span className="opacity-40 ml-0.5">&rdquo;</span>

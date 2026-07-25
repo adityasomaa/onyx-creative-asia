@@ -23,9 +23,10 @@ const SERVICES_LINKS = SERVICES.map((s) => ({
   href: `/services/${s.id}`,
 }));
 
-const LEGAL = [
+const EXTRA = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms of Use", href: "/terms" },
+  { label: "Sitemap", href: "/sitemap" },
 ];
 
 export default function Footer() {
@@ -152,10 +153,10 @@ export default function Footer() {
 
         <div className="md:col-span-2">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            {t("Legal")}
+            {t("Extra")}
           </p>
           <ul className="space-y-2">
-            {LEGAL.map((l) => (
+            {EXTRA.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="hover:opacity-60 transition-opacity">
                   {t(l.label)}

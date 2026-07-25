@@ -81,9 +81,9 @@ export function StepForm({
         <span className="text-xs uppercase tracking-[0.25em] tabular-nums opacity-60">
           {step.number} / {String(steps.length).padStart(2, "0")}
         </span>
-        <div className="h-px flex-1 overflow-hidden bg-ink/15">
+        <div className="h-px flex-1 overflow-hidden bg-[var(--form-fg)]/15">
           <motion.div
-            className="h-full origin-left bg-ink"
+            className="h-full origin-left bg-[var(--form-fg)]"
             initial={false}
             animate={{ scaleX: (i + 1) / steps.length }}
             transition={{ duration: 0.4, ease: EASE }}
@@ -116,12 +116,15 @@ export function StepForm({
       </div>
 
       {/* Footer nav */}
-      <div className="flex items-center justify-between gap-4 border-t border-hairline pt-5">
+      <div
+        className="flex items-center gap-6 border-t border-[var(--form-fg)]/12 pt-5"
+        style={{ justifyContent: "var(--form-nav-justify)" }}
+      >
         <button
           type="button"
           onClick={back}
           disabled={i === 0 || submitting}
-          className="text-sm tracking-tight text-ink/60 transition-opacity hover:text-ink disabled:pointer-events-none disabled:opacity-30"
+          className="text-sm tracking-tight text-[var(--form-fg)]/60 transition-opacity hover:text-[var(--form-fg)] disabled:pointer-events-none disabled:opacity-30"
         >
           ← {t("Back")}
         </button>
@@ -129,7 +132,7 @@ export function StepForm({
           type="submit"
           disabled={submitting}
           className={cn(
-            "group inline-flex items-center gap-3 rounded-full bg-ink px-7 py-3.5 text-bone transition-transform duration-500 ease-out-expo",
+            "group inline-flex items-center gap-3 rounded-full bg-[var(--form-fg)] px-7 py-3.5 text-[var(--form-bg)] transition-transform duration-500 ease-out-expo",
             submitting ? "cursor-wait opacity-80" : "hover:scale-[1.03]",
           )}
         >

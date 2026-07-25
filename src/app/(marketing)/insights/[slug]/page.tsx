@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { findInsight, INSIGHTS } from "@/lib/insights";
-import { RevealText } from "@/components/Reveal";
+import Image from "next/image";
+import Reveal, { RevealText } from "@/components/Reveal";
 import Button from "@/components/ui/Button";
 import { T } from "@/lib/i18n";
 
@@ -95,8 +96,10 @@ export default async function InsightPage({
       />
 
       <article className="container-x pt-40 md:pt-52 pb-20 md:pb-28">
-        <div className="max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 flex items-center gap-3 flex-wrap">
+        {/* Everything on this page is centred: meta, headline, cover,
+            and the body sections below it. */}
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 flex items-center justify-center gap-3 flex-wrap">
             <Link
               href="/insights"
               className="hover:opacity-70 transition-opacity"
@@ -119,37 +122,48 @@ export default async function InsightPage({
             <RevealText text={piece.title} />
           </h1>
 
-          <p className="mt-10 text-xl md:text-2xl text-ink/70 leading-relaxed font-normal italic max-w-2xl">
+          <p className="mx-auto mt-8 max-w-2xl text-lg md:text-xl text-ink/70 leading-relaxed">
             <T>{piece.excerpt}</T>
           </p>
         </div>
 
-        <div className="mt-16 md:mt-20 max-w-2xl">
-          {piece.body.map((block, i) =>
-            typeof block === "string" ? (
-              <p
-                key={i}
-                className="text-lg md:text-xl leading-[1.7] text-ink/85 mb-7"
-              >
-                <T>{block}</T>
-              </p>
-            ) : (
-              <blockquote
-                key={i}
-                className="my-10 md:my-12 border-l-2 border-ink pl-6 md:pl-8"
-              >
-                <p className="text-2xl md:text-3xl font-medium leading-[1.25] tracking-tight text-ink italic">
-                  &ldquo;<T>{block.text}</T>&rdquo;
+        {/* Cover */}
+        <Reveal amount={0.1}>
+          <div className="relative mt-12 md:mt-16 aspect-[16/9] overflow-hidden rounded-3xl bg-ink">
+            <Image
+              src={piece.cover}
+              alt=""
+              fill
+              priority
+              sizes="(min-width: 768px) 90vw, 100vw"
+              className="object-cover grayscale contrast-[1.05]"
+            />
+          </div>
+        </Reveal>
+
+        {/* Thin rule closes the header block off from the article body. */}
+        <div className="mx-auto mt-12 md:mt-16 h-px w-full max-w-3xl bg-ink/12" />
+
+        <div className="mx-auto mt-12 md:mt-16 max-w-2xl text-center">
+          {piece.sections.map((sec) => (
+            <section key={sec.heading} className="mb-12 md:mb-14 last:mb-0">
+              <h2 className="text-2xl md:text-3xl font-medium tracking-tight leading-snug">
+                <T>{sec.heading}</T>
+              </h2>
+              {sec.paragraphs.map((para, j) => (
+                <p
+                  key={j}
+                  className="mt-5 text-lg md:text-xl leading-[1.7] text-ink/85"
+                >
+                  <T>{para}</T>
                 </p>
-                {block.attribution && (
-                  <p className="mt-4 text-sm uppercase tracking-[0.18em] opacity-60">
-                   , {block.attribution}
-                  </p>
-                )}
-              </blockquote>
-            )
-          )}
+              ))}
+            </section>
+          ))}
         </div>
+
+        {/* And another after the content. */}
+        <div className="mx-auto mt-14 md:mt-16 h-px w-full max-w-3xl bg-ink/12" />
       </article>
 
       {otherInsights.length > 0 && (

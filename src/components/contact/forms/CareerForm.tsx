@@ -275,7 +275,7 @@ const FileField = forwardRef<
   return (
     <label
       className={
-        "flex items-center justify-between gap-4 border border-dashed border-ink/30 hover:border-ink/60 rounded-xl px-4 py-3.5 cursor-pointer transition-colors " +
+        "flex items-center justify-between gap-4 border border-dashed border-[var(--form-fg)]/30 hover:border-[var(--form-fg)]/60 rounded-xl px-4 py-3.5 cursor-pointer transition-colors " +
         (disabled ? "opacity-55 cursor-not-allowed" : "")
       }
     >

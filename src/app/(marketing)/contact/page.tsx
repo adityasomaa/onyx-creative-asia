@@ -41,8 +41,22 @@ export default function ContactPage() {
         />
       </Link>
 
+      {/* No panel behind the form: it sits straight on the video in bone
+          text, centred at every width. */}
       <div className="relative z-10 w-full max-w-2xl">
-        <div className="flex h-[600px] max-h-[calc(100svh-6rem)] flex-col rounded-3xl bg-bone p-6 text-ink shadow-[0_40px_120px_-40px_rgba(0,0,0,0.7)] md:h-[640px] md:p-9">
+        <div
+          className="flex h-[600px] max-h-[calc(100svh-6rem)] flex-col p-2 text-center text-bone md:h-[640px] md:p-4"
+          style={
+            {
+              // Bone on ink, fully centred: the form's own palette and
+              // alignment for this surface (see --form-* in globals.css).
+              "--form-fg": "#F4F1EC",
+              "--form-bg": "#0E0E0E",
+              "--form-justify": "center",
+              "--form-nav-justify": "center",
+            } as React.CSSProperties
+          }
+        >
           <Suspense fallback={null}>
             <ContactForm />
           </Suspense>

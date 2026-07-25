@@ -2,14 +2,16 @@
  * Studio insights, long-form essays on the work. Voice: editorial,
  * restrained, opinionated. Real specifics over hype. No hand-waving.
  *
- * Body is an ordered list of blocks. Each block is either a paragraph
- * (string) or a pull-quote (object). The reader page renders them
- * directly, no markdown parser, no runtime weight.
+ * Each article is a list of sections, and every section carries a short
+ * heading plus its paragraphs. The reader page renders them directly, no
+ * markdown parser, no runtime weight.
  */
 
-export type InsightBlock =
-  | string
-  | { type: "quote"; text: string; attribution?: string };
+export type InsightSection = {
+  /** Two to five words, plain language. */
+  heading: string;
+  paragraphs: string[];
+};
 
 export type Insight = {
   slug: string;
@@ -19,88 +21,191 @@ export type Insight = {
   /** ISO date string (YYYY-MM-DD). */
   publishedAt: string;
   readingTimeMin: number;
-  body: InsightBlock[];
+  /** Cover image, shown on the card and at the top of the article. */
+  cover: string;
+  sections: InsightSection[];
 };
+
+const UNSPLASH = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=80`;
 
 export const INSIGHTS: Insight[] = [
   {
     slug: "designing-for-the-spotlight-not-the-brochure",
-    title: "Designing for the spotlight, not the brochure",
+    title: "Why your homepage should say one thing, not ten",
     tag: "Web · Motion",
     excerpt:
-      "Most marketing sites are built like brochures, every service spread on the front page, none of them earning the click. The job of a homepage isn't to list everything. It's to hold attention for the next four seconds.",
+      "Most business sites put every service on the front page, and none of them earn the click. A homepage has about four seconds to hold someone, so it needs one clear promise and one obvious next step.",
     publishedAt: "2026-05-08",
     readingTimeMin: 4,
-    body: [
-      "Open ten agency homepages and you'll see the same architecture. A hero, a list of services, a grid of clients, a row of awards, a mission statement, a contact form. The information is there, but the site doesn't read like a stage. It reads like a brochure that someone pinned to a wall.",
-      "Brochures don't have to earn attention. The reader is already holding the paper. Websites do. The visitor arrives with a half-formed question and leaves the moment the page stops answering it. Treating the homepage like a brochure, every service, every capability, every accolade laid out flat, guarantees that the first scroll is the last one.",
-      "We design the opposite way. The homepage isn't a brochure. It's the spotlight. Hold it for four seconds: one declaration, one piece of motion that earns the pause, one direction the visitor can move next. Everything else is downstream, services pages, case studies, contact, and they exist because the homepage opened the door.",
+    cover: UNSPLASH("photo-1497215728101-856f4ea42174"),
+    sections: [
       {
-        type: "quote",
-        text: "A brochure proves you exist. A homepage proves you're worth the scroll.",
+        heading: "Every site looks the same",
+        paragraphs: [
+          "Open ten agency homepages and you will see the same architecture. A hero, a list of services, a grid of clients, a row of awards, a mission statement, a contact form. The information is all there, but the page does not read like a stage. It reads like a brochure someone pinned to a wall.",
+        ],
       },
-      "Motion is the multiplier. A still hero says \"here we are.\" A looping hero, three seconds of texture, of work-in-progress, of light moving across a frame, says \"here is what it feels like to work with us.\" The difference between the two is the difference between proving you exist and proving you're worth the scroll.",
-      "When we built onyxcreative.asia, the hero is a six-second loop, not a static photo. The page makes one promise, independent studio, four disciplines, ambitious teams, and lets the visitor breathe. Anything more on slide one would have killed it.",
+      {
+        heading: "A website has to earn attention",
+        paragraphs: [
+          "Brochures do not have to earn attention. The reader is already holding the paper. Websites do. A visitor arrives with a half formed question and leaves the moment the page stops answering it.",
+          "Treating the homepage like a brochure, with every service, every capability and every accolade laid out flat, almost guarantees that the first scroll is also the last one. A brochure proves you exist. A homepage has to prove you are worth the scroll.",
+        ],
+      },
+      {
+        heading: "One promise, one direction",
+        paragraphs: [
+          "We design the opposite way. The homepage is not a brochure, it is the spotlight. Hold it for four seconds with one declaration, one piece of motion that earns the pause, and one direction the visitor can move next.",
+          "Everything else sits downstream. Service pages, case studies and contact all still exist, and they get read precisely because the homepage opened the door.",
+        ],
+      },
+      {
+        heading: "Motion is the multiplier",
+        paragraphs: [
+          "A still hero tells a visitor that you are here. A looping hero, three seconds of texture, of work in progress, of light moving across a frame, tells them what it feels like to work with you. That is the difference between proving you exist and proving you are worth a second look.",
+        ],
+      },
+      {
+        heading: "How we built our own",
+        paragraphs: [
+          "On onyxcreative.asia the hero is a six second loop rather than a static photo. The page makes a single promise, an independent studio with four disciplines serving ambitious teams, and then lets the visitor breathe. Anything more on the first screen would have killed it.",
+        ],
+      },
     ],
   },
   {
     slug: "when-ai-agents-earn-their-seat-at-the-table",
-    title: "When AI agents earn their seat at the table",
+    title: "Useful AI removes work. It doesn't add a chatbot.",
     tag: "AI Systems",
     excerpt:
-      "Most \"AI\" sold to brands is a chatbot bolted onto a contact form. Real AI earns its seat by removing the work nobody wanted to do, quietly, in the background, without asking for credit.",
+      "Most AI sold to businesses is a chat widget bolted onto a contact form. The version worth paying for runs in the background, takes the admin off your team's plate, and never asks to be noticed.",
     publishedAt: "2026-05-08",
     readingTimeMin: 5,
-    body: [
-      "There's a version of AI that's loud. A widget in the corner of the page, a bouncing avatar, a friendly greeting that no one asked for. This kind of AI announces itself. It wants to be used. It rarely is.",
-      "The other version is quiet. A pipeline that takes a form submission, looks up the client, creates the right card in the right tool, fires the right notification, all in seconds, all without a person noticing it ran. This kind of AI earns its seat at the table by removing busywork. Nobody talks about it because it's not the point.",
-      "When we built RADcruiters' campaign-request automation, the brief looked simple. Replace one form. The reality was that one form had quietly become the bottleneck for a recruitment-marketing agency. Every brief pinged the team in Slack. Someone hand-parsed the URL, looked up the client in Airtable, made a Trello card, drafted a confirmation email. The form wasn't broken. The handoffs were.",
+    cover: UNSPLASH("photo-1552664730-d307ca884978"),
+    sections: [
       {
-        type: "quote",
-        text: "The best AI system is the one your customer never notices, their problem just got solved.",
+        heading: "The loud kind",
+        paragraphs: [
+          "There is a version of AI that is loud. A widget in the corner of the page, a bouncing avatar, a friendly greeting nobody asked for. This kind of AI announces itself. It wants to be used. It rarely is.",
+        ],
       },
-      "We rebuilt the intake as a pipeline. WordPress submission triggers a webhook. The webhook extracts the vacancy URL, matches the client in Airtable, queues a Trello task with the full brief, fires a team alert and a client confirmation. End-to-end in seconds. The form looks identical. The work behind it disappeared.",
-      "That's the test. If the visible surface looks the same and the work goes faster, the AI did its job. If the visible surface gets a new bouncing avatar and the work goes the same speed, you bought a chatbot.",
+      {
+        heading: "The quiet kind",
+        paragraphs: [
+          "The other version is quiet. A pipeline takes a form submission, looks up the client, creates the right card in the right tool, and fires the right notification, all in seconds, all without anyone noticing it ran.",
+          "This kind of AI earns its place by removing busywork. Nobody talks about it, because being talked about was never the point. The best system is the one your customer never notices, their problem just got solved.",
+        ],
+      },
+      {
+        heading: "What RADcruiters actually needed",
+        paragraphs: [
+          "When we built the campaign request automation for RADcruiters, the brief looked simple. Replace one form. The reality was that this one form had quietly become the bottleneck for a recruitment marketing agency.",
+          "Every brief pinged the team in Slack. Someone hand parsed the URL, looked up the client in Airtable, made a Trello card, then drafted a confirmation email. The form was not broken. The handoffs were.",
+        ],
+      },
+      {
+        heading: "What we built instead",
+        paragraphs: [
+          "We rebuilt the intake as a pipeline. A WordPress submission triggers a webhook. The webhook extracts the vacancy URL, matches the client in Airtable, queues a Trello task with the full brief, then fires a team alert and a client confirmation. End to end in seconds.",
+          "The form looks identical from the outside. The work behind it disappeared.",
+        ],
+      },
+      {
+        heading: "A simple test",
+        paragraphs: [
+          "That is the test worth applying to anything sold to you as AI. If the visible surface looks the same and the work goes faster, the system did its job. If the visible surface gains a bouncing avatar and the work goes at exactly the same speed, you bought a chatbot.",
+        ],
+      },
     ],
   },
   {
     slug: "performance-creative-isnt-a-different-language",
-    title: "Performance creative isn't a different language. It's the same one, faster.",
+    title: "Your ads and your brand should come from the same team",
     tag: "Paid Media",
     excerpt:
-      "There's a myth that paid creative is its own discipline. It isn't. The team that builds brand should run paid, same craft, same voice, just a tighter loop and a different success metric.",
+      "Plenty of studios treat paid creative as a separate craft with lower standards. It isn't. The people who build your brand should run your ads, working faster and measured differently.",
     publishedAt: "2026-05-08",
     readingTimeMin: 4,
-    body: [
-      "Most studios split brand and performance into two rooms. Brand designers make the slow, considered work. Performance designers make the fast, disposable work. The two teams use different tools, different references, and, somewhere along the way, different aesthetic standards.",
-      "It's a false split. The audience doesn't know which room a piece came from. They scroll. The ad either earns the next two seconds or it doesn't. Whether it was made by the brand team or the performance team is irrelevant.",
-      "What does change between brand work and performance work is cadence. A brand campaign launches once a quarter. A paid campaign launches forty variants in a week. The craft has to compress. But compress isn't the same as compromise. The same designer who can hold a brand line for a year can hold it across forty ad variants, if the system supports them.",
+    cover: UNSPLASH("photo-1521737711867-e3b97375f902"),
+    sections: [
       {
-        type: "quote",
-        text: "Spend that compounds isn't a budget tactic. It's a creative one.",
+        heading: "The two room problem",
+        paragraphs: [
+          "Most studios split brand and performance into two rooms. Brand designers make the slow, considered work. Performance designers make the fast, disposable work. Over time the two teams end up using different tools, different references and, quietly, different standards.",
+        ],
       },
-      "The system is what makes performance creative possible. A consistent type lockup, a tested headline pattern, a small library of moving elements that can recombine. Without it, every new ad is a fresh start, and the creative team burns out by week three. With it, ad number forty has the same brand integrity as the original print piece, and probably converts better.",
-      "When we run paid for clients, the creative system is part of the engagement, not separate from it. The ad team and the brand team are the same team. The metric for success is what changes, ROAS instead of awareness, but the craft is identical. Spend that compounds isn't only a budget tactic. It's a creative one.",
+      {
+        heading: "The audience cannot tell",
+        paragraphs: [
+          "It is a false split. The audience has no idea which room a piece came from. They scroll. The ad either earns the next two seconds or it does not. Which team made it is irrelevant to everyone except the org chart.",
+        ],
+      },
+      {
+        heading: "What actually changes",
+        paragraphs: [
+          "The real difference between brand work and performance work is cadence. A brand campaign launches once a quarter. A paid campaign launches forty variants in a week, so the craft has to compress.",
+          "Compressing is not the same as compromising. The designer who can hold a brand line for a year can hold it across forty ad variants, as long as the system supports them.",
+        ],
+      },
+      {
+        heading: "The system does the work",
+        paragraphs: [
+          "That system is what makes good performance creative possible. A consistent type lockup, a tested headline pattern, a small library of moving elements that recombine.",
+          "Without it, every new ad is a fresh start and the team burns out by week three. With it, ad number forty carries the same brand integrity as the original print piece, and it probably converts better too.",
+        ],
+      },
+      {
+        heading: "How we run paid",
+        paragraphs: [
+          "When we run paid for clients, the creative system is part of the engagement rather than something bought separately. The ad team and the brand team are the same team. What changes is the measure of success, ROAS instead of awareness, while the craft stays identical. Spend that compounds is not only a budget tactic, it is a creative one.",
+        ],
+      },
     ],
   },
   {
     slug: "why-we-shipped-a-hero-video-instead-of-a-hero-image",
-    title: "Why we delivered a hero video instead of a hero image",
+    title: "Why our homepage opens with a short video, not a photo",
     tag: "Web · Brand",
     excerpt:
-      "A hero image is a postcard. A hero video is a moment. The first viewport on a homepage isn't the place to be efficient, it's the place to set the temperature for the rest of the visit.",
+      "A photo tells a visitor the page loaded. A few seconds of movement gives them a reason to stay. Here is what a hero loop costs in load time, and how we keep the page fast anyway.",
     publishedAt: "2026-05-08",
     readingTimeMin: 4,
-    body: [
-      "Hero images are the default. They load fast, they're easy to art-direct, and you can swap them per campaign without rebuilding anything. They also do a terrible job of communicating atmosphere. A photograph holds the reader's attention for as long as their eye takes to register it. Then the scroll continues.",
-      "A loop is different. Six seconds of texture, light moving across a wall, type assembling itself, a hand mid-gesture, gives the visitor something to settle into. The page becomes a place instead of a flyer. The reader doesn't even notice why they paused; they just paused.",
-      "There's a real cost. The video is heavier than the image, and lazy hosting will tank Core Web Vitals if you're not careful. We mitigate the obvious way: a poster image loads first (fast, decoded inline), the video starts playing as soon as it's buffered, and a webm fallback hits browsers that can't handle the encode size. The visitor sees a still hero in 200 ms and a moving one a half-second later.",
+    cover: UNSPLASH("photo-1519823551278-64ac92734fb1"),
+    sections: [
       {
-        type: "quote",
-        text: "A hero image proves the page loaded. A hero loop proves the page is worth a second look.",
+        heading: "Why images are the default",
+        paragraphs: [
+          "Hero images are the safe choice. They load fast, they are easy to art direct, and you can swap them per campaign without rebuilding anything.",
+          "They also do a poor job of communicating atmosphere. A photograph holds attention for about as long as the eye takes to register it. Then the scroll continues.",
+        ],
       },
-      "What you put in the loop matters more than the fact that it loops. Stock cinematography reads as exactly that. The clip on onyxcreative.asia is a six-second still life of work-in-progress: textures, type, the studio's own workspace. It's a self-portrait at one frame per second of attention.",
-      "When the loop ends, the reader has already decided whether to keep scrolling. If we did the work right, the rest of the homepage doesn't have to convince anyone of anything, it just has to deliver on the temperature the hero set.",
+      {
+        heading: "What a loop does differently",
+        paragraphs: [
+          "A loop behaves differently. Six seconds of texture, light moving across a wall, type assembling itself, a hand mid gesture, gives a visitor something to settle into. The page becomes a place rather than a flyer. Most readers never work out why they paused. They just paused.",
+        ],
+      },
+      {
+        heading: "Keeping the page fast",
+        paragraphs: [
+          "There is a real cost to this. Video is heavier than an image, and lazy hosting will drag down Core Web Vitals if you are careless.",
+          "We handle it the obvious way. A poster image loads first and decodes inline, the video starts as soon as it has buffered, and a webm fallback covers browsers that cannot handle the encode size. The visitor sees a still hero in about 200 ms and a moving one half a second later.",
+        ],
+      },
+      {
+        heading: "What goes in the loop",
+        paragraphs: [
+          "What you put in the loop matters far more than the fact that it loops at all. Stock cinematography reads as exactly that, and it undoes the effect instantly.",
+          "The clip on onyxcreative.asia is a six second still life of work in progress: textures, type and the studio's own workspace. It is a self portrait, running at one frame per second of attention.",
+        ],
+      },
+      {
+        heading: "Setting the temperature",
+        paragraphs: [
+          "By the time the loop ends, the reader has already decided whether to keep scrolling. If the hero did its job, the rest of the homepage does not have to convince anyone of anything. It only has to deliver on the temperature the first screen set.",
+        ],
+      },
     ],
   },
 ];

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { T } from "@/lib/i18n";
 
 const STEPS = [
@@ -32,23 +29,17 @@ export default function ProcessFlow() {
       {/* ─── Desktop: horizontal row ─── */}
       <div className="container-x mt-14 hidden md:mt-20 md:block">
         <div className="relative mx-auto max-w-5xl px-2">
-          {/* Connecting line */}
-          <div className="absolute left-2 right-2 top-[7px] h-px -translate-y-1/2 bg-bone/15" />
-          {/* Travelling light — thin, soft, sitting right on the line so it
-              reads as the line brightening as it passes, not a bar on top. */}
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute top-[7px] h-[2px] w-40 -translate-y-1/2 rounded-full bg-gradient-to-r from-transparent via-bone to-transparent blur-[0.5px]"
-            style={{ boxShadow: "0 0 10px 1px rgba(244,241,236,0.35)" }}
-            initial={{ left: "-12%" }}
-            animate={{ left: ["-12%", "100%"] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-          />
+          {/* The line simply gains opacity from first step to last: the
+              progression is the point, so it does not need a moving light. */}
+          <div className="absolute left-2 right-2 top-[7px] h-px -translate-y-1/2 bg-gradient-to-r from-bone/10 to-bone/60" />
 
           <div className="grid grid-cols-5 gap-4">
             {STEPS.map((s, i) => (
               <div key={s.t} className="px-2 text-center">
-                <span className="mx-auto mb-6 block h-3.5 w-3.5 rounded-full bg-bone" />
+                <span
+                  className="mx-auto mb-6 block h-3.5 w-3.5 rounded-full bg-bone"
+                  style={{ opacity: 0.35 + (0.65 * i) / (STEPS.length - 1) }}
+                />
                 <p className="mb-2 text-[10px] uppercase tracking-[0.25em] tabular-nums opacity-45">
                   {String(i + 1).padStart(2, "0")}
                 </p>
@@ -67,22 +58,25 @@ export default function ProcessFlow() {
       {/* ─── Mobile: vertical timeline ─── */}
       <div className="container-x mt-12 md:hidden">
         <ol className="relative mx-auto max-w-md">
-          {/* Travelling light — glides top to bottom along the dot column. */}
-          <motion.span
-            aria-hidden
-            className="pointer-events-none absolute left-[7px] top-0 h-20 w-[2px] -translate-x-1/2 rounded-full bg-gradient-to-b from-transparent via-bone to-transparent blur-[0.5px]"
-            style={{ boxShadow: "0 0 10px 1px rgba(244,241,236,0.35)" }}
-            initial={{ top: "-12%" }}
-            animate={{ top: ["-12%", "100%"] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-          />
-          {STEPS.map((s, i) => (
+          {STEPS.map((s, i) => {
+            // Same idea as desktop, read top to bottom instead of left to right.
+            const from = 0.35 + (0.65 * i) / (STEPS.length - 1);
+            const to = 0.35 + (0.65 * (i + 1)) / (STEPS.length - 1);
+            return (
             <li key={s.t} className="relative flex gap-5">
               {/* Dot column: dot on top, connector filling down to the next */}
               <div className="relative flex flex-col items-center">
-                <span className="z-10 mt-1 block h-3.5 w-3.5 shrink-0 rounded-full bg-bone" />
+                <span
+                  className="z-10 mt-1 block h-3.5 w-3.5 shrink-0 rounded-full bg-bone"
+                  style={{ opacity: from }}
+                />
                 {i < STEPS.length - 1 && (
-                  <span className="mt-1 w-px flex-1 bg-bone/15" />
+                  <span
+                    className="mt-1 w-px flex-1 bg-gradient-to-b from-bone to-bone"
+                    style={{
+                      backgroundImage: `linear-gradient(to bottom, rgba(244,241,236,${from}), rgba(244,241,236,${to}))`,
+                    }}
+                  />
                 )}
               </div>
               <div className="flex-1 pb-9">
@@ -97,7 +91,8 @@ export default function ProcessFlow() {
                 </p>
               </div>
             </li>
-          ))}
+            );
+          })}
         </ol>
       </div>
     </section>
