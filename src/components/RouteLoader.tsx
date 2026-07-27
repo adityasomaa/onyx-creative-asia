@@ -2,6 +2,7 @@
 
 import { usePathname, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
+import { useT } from "@/lib/i18n";
 
 /**
  * Global navigation loader.
@@ -30,6 +31,7 @@ export default function RouteLoader() {
 const SAFETY_TIMEOUT_MS = 1500;
 
 function RouteLoaderInner() {
+  const t = useT();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [loading, setLoading] = useState(false);
@@ -145,7 +147,7 @@ function RouteLoaderInner() {
     <div
       role="status"
       aria-live="polite"
-      aria-label="Loading"
+      aria-label={t("Loading")}
       className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
     >
       <div className="absolute inset-0 bg-ink/40 backdrop-blur-[2px] route-loader-fade-in" />

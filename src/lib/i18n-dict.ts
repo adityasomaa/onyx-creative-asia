@@ -343,6 +343,264 @@ const UI: Array<[string, Tri]> = [
   ["Thanks for applying. We'll", { id: "Terima kasih sudah melamar. Kami akan", zh: "感谢您的申请。我们会", ja: "ご応募ありがとうございます。私たちは" }],
   ["read every word.", { id: "membaca setiap katanya.", zh: "认真读完每一个字。", ja: "一言一句、しっかり読みます。" }],
   ["thanks.", { id: "terima kasih.", zh: "谢谢。", ja: "ありがとうございます。" }],
+
+  /* Contact forms, works case studies, and the sitemap page. */
+  [
+    "Loading",
+    { id: "Memuat", zh: "加载中", ja: "読み込み中" },
+  ],
+  [
+    "Change language",
+    { id: "Ganti bahasa", zh: "切换语言", ja: "言語を切り替える" },
+  ],
+  [
+    "Cookie preferences",
+    { id: "Preferensi cookie", zh: "Cookie 偏好设置", ja: "Cookie の設定" },
+  ],
+  [
+    "Everything, in one place",
+    { id: "Semuanya, dalam satu tempat", zh: "全部内容，都在这里", ja: "すべてを、ひとつの場所に" },
+  ],
+  [
+    "Inquiry type",
+    { id: "Jenis pertanyaan", zh: "咨询类型", ja: "お問い合わせの種類" },
+  ],
+  [
+    "(Question received)",
+    { id: "(Pertanyaan diterima)", zh: "（问题已收到）", ja: "（ご質問を受け付けました）" },
+  ],
+  [
+    "(Application received)",
+    { id: "(Lamaran diterima)", zh: "（申请已收到）", ja: "（ご応募を受け付けました）" },
+  ],
+  [
+    "(Partnership proposal received)",
+    { id: "(Proposal partnership diterima)", zh: "（合作提案已收到）", ja: "（パートナーシップのご提案を受け付けました）" },
+  ],
+  [
+    "(Brief sent, confirmation on its way)",
+    { id: "(Brief terkirim, konfirmasi sedang menuju ke Anda)", zh: "（简报已发送，确认信正在路上）", ja: "（ブリーフを送信しました。確認をお送りします）" },
+  ],
+  [
+    "Send question",
+    { id: "Kirim pertanyaan", zh: "发送问题", ja: "質問を送る" },
+  ],
+  [
+    "Send application",
+    { id: "Kirim lamaran", zh: "提交申请", ja: "応募する" },
+  ],
+  [
+    "Send proposal",
+    { id: "Kirim proposal", zh: "发送提案", ja: "提案を送る" },
+  ],
+  [
+    "Send the brief",
+    { id: "Kirim brief-nya", zh: "发送简报", ja: "ブリーフを送る" },
+  ],
+  [
+    "What's your name?",
+    { id: "Nama Anda siapa?", zh: "怎么称呼您？", ja: "お名前は？" },
+  ],
+  [
+    "Where can we reach you?",
+    { id: "Kami bisa menghubungi Anda di mana?", zh: "我们可以怎么联系您？", ja: "ご連絡先を教えてください" },
+  ],
+  [
+    "Which team do you want to join?",
+    { id: "Anda ingin gabung ke tim mana?", zh: "您想加入哪个团队？", ja: "どのチームに参加したいですか？" },
+  ],
+  [
+    "Portfolio and CV",
+    { id: "Portfolio dan CV", zh: "作品集与简历", ja: "ポートフォリオと履歴書" },
+  ],
+  [
+    "Why Onyx?",
+    { id: "Kenapa Onyx?", zh: "为什么选择 Onyx？", ja: "なぜ Onyx なのか" },
+  ],
+  [
+    "What's on your mind?",
+    { id: "Apa yang ingin Anda sampaikan?", zh: "您想聊点什么？", ja: "どんなご用件でしょうか" },
+  ],
+  [
+    "Who's reaching out?",
+    { id: "Siapa yang menghubungi kami?", zh: "是谁在联系我们？", ja: "どなたからのご連絡ですか？" },
+  ],
+  [
+    "How do we reach you?",
+    { id: "Bagaimana kami menghubungi Anda?", zh: "我们该怎么找到您？", ja: "ご連絡はどちらへ？" },
+  ],
+  [
+    "What kind of partnership?",
+    { id: "Partnership seperti apa?", zh: "想谈哪一类合作？", ja: "どんなパートナーシップですか？" },
+  ],
+  [
+    "Outline the proposal.",
+    { id: "Jelaskan garis besar proposalnya.", zh: "说说提案的大致内容。", ja: "提案の概要を教えてください。" },
+  ],
+  [
+    "Who are we talking to?",
+    { id: "Kami sedang bicara dengan siapa?", zh: "请问怎么称呼您？", ja: "どなたとお話ししていますか？" },
+  ],
+  [
+    "What do you need?",
+    { id: "Apa yang Anda butuhkan?", zh: "您需要什么？", ja: "何が必要ですか？" },
+  ],
+  [
+    "Budget in mind?",
+    { id: "Ada budget di kepala?", zh: "心里有预算范围吗？", ja: "ご予算の目安は？" },
+  ],
+  [
+    "Tell us about the project.",
+    { id: "Ceritakan tentang project-nya.", zh: "跟我们说说这个项目。", ja: "プロジェクトについて教えてください。" },
+  ],
+  [
+    "What are you proposing, what's in it for both sides, and what would the first 30 days look like?",
+    { id: "Apa yang Anda tawarkan, apa untungnya untuk kedua pihak, dan 30 hari pertamanya seperti apa?", zh: "您想提议什么？双方各能得到什么？头 30 天会是什么样？", ja: "どんなご提案で、双方にどんな利点があり、最初の30日はどう進みますか？" },
+  ],
+  [
+    "What kind of work do you want to make next? Anything we should look at first?",
+    { id: "Karya seperti apa yang ingin Anda buat berikutnya? Ada yang sebaiknya kami lihat duluan?", zh: "接下来您想做什么样的作品？有什么是我们该先看的？", ja: "次はどんな仕事をつくりたいですか？先に見ておくべきものはありますか？" },
+  ],
+  [
+    "https://your-portfolio.com (optional)",
+    { id: "https://portfolio-anda.com (opsional)", zh: "https://your-portfolio.com（选填）", ja: "https://your-portfolio.com（任意）" },
+  ],
+  [
+    "https://company.com (optional)",
+    { id: "https://perusahaan-anda.com (opsional)", zh: "https://company.com（选填）", ja: "https://company.com（任意）" },
+  ],
+  [
+    "A copy of your message is in your inbox now, keep an eye on it (and check spam, just in case).",
+    { id: "Salinan pesan Anda sudah masuk ke inbox, coba dicek (lihat folder spam juga, untuk berjaga-jaga).", zh: "留言副本已经发到您的邮箱了，记得留意一下（顺便也看看垃圾邮件）。", ja: "メッセージの控えを受信トレイにお送りしました。ご確認ください（念のため迷惑メールフォルダも）。" },
+  ],
+  [
+    "Your application is with us. If we want to move forward, we'll send a short async exercise, no panel interviews, no whiteboards.",
+    { id: "Lamaran Anda sudah di tangan kami. Kalau kami ingin lanjut, kami kirim satu exercise singkat yang bisa dikerjakan kapan saja, tanpa interview panel, tanpa whiteboard.", zh: "我们已收到您的申请。如果想继续推进，我们会发一份简短的异步小练习，没有面试小组，也不用上白板。", ja: "ご応募をお預かりしました。次に進む場合は、短い非同期の課題をお送りします。パネル面接もホワイトボードもありません。" },
+  ],
+  [
+    "Your brief is on its way to us, we opened a WhatsApp chat so you can keep it going there too.",
+    { id: "Brief Anda sedang menuju ke kami, dan kami sudah membuka chat WhatsApp supaya obrolannya bisa lanjut di sana juga.", zh: "您的项目简报正在送到我们这边，我们也开了一个 WhatsApp 对话，方便您在那边继续聊。", ja: "ブリーフはこちらに向かっています。WhatsApp のチャットも開いたので、そちらでも続けられます。" },
+  ],
+  [
+    "Your question is on its way to us, we opened a WhatsApp chat so you can keep it going there too.",
+    { id: "Pertanyaan Anda sedang menuju ke kami, dan kami sudah membuka chat WhatsApp supaya obrolannya bisa lanjut di sana juga.", zh: "您的问题正在送到我们这边，我们也开了一个 WhatsApp 对话，方便您在那边继续聊。", ja: "ご質問はこちらに向かっています。WhatsApp のチャットも開いたので、そちらでも続けられます。" },
+  ],
+  [
+    "Your proposal is with us. If the fit is clear, we move fast.",
+    { id: "Proposal Anda sudah di tangan kami. Kalau cocoknya jelas, kami bergerak cepat.", zh: "您的提案已经在我们这里。如果契合度足够清楚，我们会推进得很快。", ja: "ご提案をお預かりしました。相性がはっきりしていれば、私たちは速く動きます。" },
+  ],
+  [
+    "General Question",
+    { id: "Pertanyaan Umum", zh: "一般咨询", ja: "一般のお問い合わせ" },
+  ],
+  [
+    "Project Brief",
+    { id: "Brief Project", zh: "项目简报", ja: "プロジェクトのご相談" },
+  ],
+  [
+    "Career",
+    { id: "Karier", zh: "加入我们", ja: "採用" },
+  ],
+  [
+    "Partnership",
+    { id: "Partnership", zh: "合作", ja: "パートナーシップ" },
+  ],
+  [
+    "Quick question, a hello, or anything that doesn't fit the others.",
+    { id: "Pertanyaan singkat, sekadar menyapa, atau apa pun yang tidak masuk kategori lain.", zh: "一个小问题、打声招呼，或者任何不属于其他类别的事。", ja: "ちょっとした質問、ごあいさつ、他に当てはまらないこと何でも。" },
+  ],
+  [
+    "You want us to design, build, or scale something for you.",
+    { id: "Anda ingin kami mendesain, membangun, atau mengembangkan sesuatu untuk Anda.", zh: "您希望我们为您设计、搭建，或者把某件事做得更大。", ja: "設計・構築・スケールを私たちに任せたい方へ。" },
+  ],
+  [
+    "You want to work with us. We're a senior, opinionated team.",
+    { id: "Anda ingin bekerja bersama kami. Tim kami senior dan punya pendirian.", zh: "您想加入我们。我们是一支资深、有主见的团队。", ja: "私たちと一緒に働きたい方へ。シニアで、意見のあるチームです。" },
+  ],
+  [
+    "You run a studio, agency, or platform and you're proposing a collab.",
+    { id: "Anda menjalankan studio, agency, atau platform dan ingin mengajak kolaborasi.", zh: "您经营着工作室、代理商或平台，想提议一次合作。", ja: "スタジオ・エージェンシー・プラットフォームを運営していて、協業をご提案いただける方へ。" },
+  ],
+  [
+    "Web Development",
+    { id: "Web Development", zh: "网站开发", ja: "ウェブ開発" },
+  ],
+  [
+    "Paid Media",
+    { id: "Paid Media", zh: "付费媒体", ja: "ペイドメディア" },
+  ],
+  [
+    "Social Media",
+    { id: "Social Media", zh: "社交媒体", ja: "ソーシャルメディア" },
+  ],
+  [
+    "AI Systems",
+    { id: "AI Systems", zh: "AI 系统", ja: "AI システム" },
+  ],
+  [
+    "Brand & Design",
+    { id: "Brand & Design", zh: "品牌与设计", ja: "ブランド＆デザイン" },
+  ],
+  [
+    "Operations",
+    { id: "Operations", zh: "运营", ja: "オペレーション" },
+  ],
+  [
+    "Open application",
+    { id: "Lamaran terbuka", zh: "自由申请", ja: "自由応募" },
+  ],
+  [
+    "Co-production",
+    { id: "Co-production", zh: "联合制作", ja: "共同制作" },
+  ],
+  [
+    "White-label",
+    { id: "White-label", zh: "白标合作", ja: "ホワイトレーベル" },
+  ],
+  [
+    "Reseller",
+    { id: "Reseller", zh: "分销合作", ja: "リセラー" },
+  ],
+  [
+    "Affiliate / referral",
+    { id: "Affiliate / referral", zh: "联盟 / 推荐", ja: "アフィリエイト / 紹介" },
+  ],
+  [
+    "Strategic alliance",
+    { id: "Aliansi strategis", zh: "战略联盟", ja: "戦略的提携" },
+  ],
+  [
+    "Other",
+    { id: "Lainnya", zh: "其他", ja: "その他" },
+  ],
+  [
+    "Not sure yet",
+    { id: "Belum tahu", zh: "还不确定", ja: "まだ未定" },
+  ],
+  [
+    "Overview",
+    { id: "Gambaran umum", zh: "概览", ja: "概要" },
+  ],
+  [
+    "What needed to change",
+    { id: "Apa yang perlu berubah", zh: "需要改变的地方", ja: "変えるべきだったこと" },
+  ],
+  [
+    "What we did",
+    { id: "Apa yang kami kerjakan", zh: "我们做了什么", ja: "私たちがやったこと" },
+  ],
+  [
+    "What changed",
+    { id: "Apa yang berubah", zh: "改变了什么", ja: "変わったこと" },
+  ],
+  [
+    "Extra",
+    { id: "Lainnya", zh: "其他", ja: "その他" },
+  ],
+  [
+    "Every page on this site, grouped so you can find what you came for.",
+    { id: "Semua halaman di situs ini, dikelompokkan supaya Anda cepat menemukan yang dicari.", zh: "本站的所有页面都归好类了，方便您找到想找的东西。", ja: "このサイトの全ページを、目的のものが見つけやすいようにまとめました。" },
+  ],
 ];
 
 /* ============================================================

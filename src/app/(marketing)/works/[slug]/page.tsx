@@ -100,22 +100,25 @@ export default async function ProjectDetailPage({
     <>
       {/* Top, caption + headline */}
       <section className="container-x pt-40 md:pt-52 pb-12 md:pb-16">
+        {/* Just position and year: the discipline is listed further down
+            under Discipline, so repeating it here only added noise. */}
         <div className="flex items-center gap-4 text-xs uppercase tracking-[0.25em] opacity-60 mb-8">
           <span className="tabular-nums">
             {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
           </span>
           <span className="h-px flex-1 bg-ink/20 max-w-24" />
-          <span><T>{project.category}</T></span>
-          <span className="opacity-50">·</span>
           <span>{project.year}</span>
         </div>
 
         <h1 className="text-display-md font-medium leading-[0.92] tracking-tight max-w-5xl text-balance">
-          <RevealText text={project.client} />{" "}
-          <span className="font-light italic">
-            <RevealText text={project.title.toLowerCase() + "."} delay={0.15} />
-          </span>
+          <RevealText text={project.client} />
         </h1>
+
+        {project.blurb && (
+          <p className="mt-6 max-w-2xl text-xl md:text-2xl leading-snug text-ink/70 text-balance">
+            <T>{project.blurb}</T>
+          </p>
+        )}
       </section>
 
       {/* Hero cover (image + optional looping video) */}
@@ -152,60 +155,27 @@ export default async function ProjectDetailPage({
         )}
       </section>
 
-      {/* Long description */}
-      {project.longDescription && (
-        <section className="container-x pb-20 md:pb-28 border-t border-hairline pt-12 md:pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
-            <Reveal className="md:col-span-3">
-              <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                <T>(The work)</T>
-              </p>
-            </Reveal>
-            <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
-              <p className="text-xl md:text-2xl leading-snug text-ink/85 max-w-3xl text-balance">
-                <T>{project.longDescription}</T>
-              </p>
-            </Reveal>
-          </div>
-        </section>
-      )}
+      {/* Case study: what it is, what was wrong, what we built, what changed */}
+      {project.study && (
+        <>
+          <CaseSection label="Overview">
+            <p className="text-xl md:text-2xl leading-snug text-ink/85 max-w-3xl text-balance">
+              <T>{project.study.overview}</T>
+            </p>
+          </CaseSection>
 
-      {/* Scope */}
-      {project.scope && project.scope.length > 0 && (
-        <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-12 md:pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
-            <Reveal className="md:col-span-3">
-              <p className="text-xs uppercase tracking-[0.25em] opacity-60">
-                <T>(Scope)</T>
-              </p>
-            </Reveal>
-            <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
-              <ul className="border-t border-hairline">
-                {project.scope.map((s, i) => (
-                  <li
-                    key={s}
-                    className="border-b border-hairline py-5 flex items-baseline gap-6 text-base md:text-lg"
-                  >
-                    <span className="text-xs opacity-50 tabular-nums w-6 shrink-0">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span><T>{s}</T></span>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-8 flex flex-wrap gap-2">
-                {project.tags.map((t) => (
-                  <span
-                    key={t}
-                    className="text-xs uppercase tracking-[0.18em] border border-ink/20 rounded-full px-3 py-1"
-                  >
-                    <T>{t}</T>
-                  </span>
-                ))}
-              </div>
-            </Reveal>
-          </div>
-        </section>
+          <CaseSection label="What needed to change">
+            <PointList items={project.study.needed} />
+          </CaseSection>
+
+          <CaseSection label="What we did">
+            <PointList items={project.study.did} />
+          </CaseSection>
+
+          <CaseSection label="What changed">
+            <PointList items={project.study.changed} />
+          </CaseSection>
+        </>
       )}
 
       {/* Client testimonial, only when one exists for this project */}
@@ -220,7 +190,7 @@ export default async function ProjectDetailPage({
             />
           )}
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-            <T>(Client words)</T>
+            <T>What they say about us</T>
           </p>
           <Reveal>
             <blockquote className="text-xl sm:text-2xl md:text-display-sm font-medium leading-[1.2] md:leading-[1.05] tracking-tight max-w-4xl text-balance">
@@ -276,6 +246,50 @@ export default async function ProjectDetailPage({
         </div>
       </section>
     </>
+  );
+}
+
+/** One numbered case-study beat: label on the left, content on the right. */
+function CaseSection({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="container-x pb-20 md:pb-28 border-t border-hairline pt-12 md:pt-16">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+        <Reveal className="md:col-span-3">
+          <h2 className="text-xs uppercase tracking-[0.25em] opacity-60">
+            <T>{label}</T>
+          </h2>
+        </Reveal>
+        <Reveal className="md:col-span-8 md:col-start-5" delay={0.1}>
+          {children}
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+function PointList({ items }: { items: string[] }) {
+  return (
+    <ul className="border-t border-hairline max-w-3xl">
+      {items.map((item, i) => (
+        <li
+          key={item}
+          className="border-b border-hairline py-5 flex items-baseline gap-6 text-base md:text-lg"
+        >
+          <span className="text-xs opacity-45 tabular-nums w-6 shrink-0">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+          <span className="leading-relaxed">
+            <T>{item}</T>
+          </span>
+        </li>
+      ))}
+    </ul>
   );
 }
 

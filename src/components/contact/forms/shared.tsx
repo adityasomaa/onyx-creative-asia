@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { cn } from "@/lib/cn";
 import { getWaNumber } from "@/lib/wa-number";
-import { useT } from "@/lib/i18n";
+import { useT, T } from "@/lib/i18n";
 
 /**
  * Shared bits across every sub-form: numbered field group, success
@@ -238,7 +238,7 @@ export function PillSet({
                 : "border-[var(--form-fg)]/25 hover:border-[var(--form-fg)] hover:-translate-y-0.5"
             )}
           >
-            {o}
+            <T>{o}</T>
           </button>
         );
       })}

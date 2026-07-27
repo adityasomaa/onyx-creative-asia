@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { LOCALES, useLocale } from "@/lib/i18n";
+import { LOCALES, useLocale, useT } from "@/lib/i18n";
 
 /**
  * Floating language switcher (bottom-left). EN is the default; picking
@@ -13,6 +13,7 @@ import { LOCALES, useLocale } from "@/lib/i18n";
 const EASE = [0.25, 1, 0.5, 1] as const;
 
 export default function LanguageSwitcher() {
+  const t = useT();
   const { locale, setLocale } = useLocale();
   const [open, setOpen] = useState(false);
   const current = LOCALES.find((l) => l.code === locale) ?? LOCALES[0];
@@ -59,7 +60,7 @@ export default function LanguageSwitcher() {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        aria-label="Change language"
+        aria-label={t("Change language")}
         aria-expanded={open}
         className="inline-flex items-center gap-2 rounded-full border border-ink/10 bg-bone/90 px-4 py-2.5 text-sm font-medium text-ink shadow-[0_10px_30px_-10px_rgba(14,14,14,0.4)] backdrop-blur-xl transition-transform duration-500 ease-out-expo hover:-translate-y-0.5"
       >

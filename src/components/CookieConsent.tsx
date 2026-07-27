@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useT } from "@/lib/i18n";
 
 const STORAGE_KEY = "onyx-cookie-consent";
 const EASE = [0.76, 0, 0.24, 1] as const;
@@ -10,6 +11,7 @@ const EASE = [0.76, 0, 0.24, 1] as const;
 type Consent = "accepted" | "declined" | null;
 
 export default function CookieConsent() {
+  const t = useT();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -40,7 +42,7 @@ export default function CookieConsent() {
           key="cookie-banner"
           role="dialog"
           aria-live="polite"
-          aria-label="Cookie preferences"
+          aria-label={t("Cookie preferences")}
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
