@@ -44,6 +44,13 @@ type ProjectTx = {
   location?: Tri;
   tags?: Tri[];
   urlLabel?: Tri;
+  /** The case-study body, which is what /works/[slug] actually renders. */
+  study?: {
+    overview: Tri;
+    needed: Tri[];
+    did: Tri[];
+    changed: Tri[];
+  };
 };
 
 type InsightTx = {
@@ -899,7 +906,71 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
  * translation to the wrong project when that happens.
  */
 const PROJECT_TX: Record<string, ProjectTx> = {
+  "jalak-cargo-logistics": {
+    title: { id: "Program Sosial & Konten", zh: "社交与内容运营", ja: "ソーシャル＆コンテンツ運用" },
+    blurb: { id: "Freight forwarder di Bali dan Jakarta", zh: "巴厘岛与雅加达的货运代理", ja: "バリとジャカルタのフレイトフォワーダー" },
+    description: { id: "Program sosial always-on untuk sebuah freight forwarder Indonesia. Tiap posting menjawab satu pertanyaan pengiriman yang nyata, dalam satu sistem visual, terbit sesuai jadwal, sementara situsnya dijaga tetap terkini di sampingnya.", zh: "为一家印尼货运代理做的持续社交运营。每一条内容回答一个真实的物流问题，统一在一套视觉体系里，按计划发布，同时把网站一起维护到最新。", ja: "インドネシアのフレイトフォワーダーのための、常時稼働のソーシャル運用です。すべての投稿が実際の輸送の疑問に一つ答え、一つのビジュアルシステムのなかで、決まった間隔で公開されます。そのかたわらでサイトも最新に保ちます。" },
+    longDescription: { id: "Jalak Kargo Logistik mengangkut kargo lewat laut, udara, dan darat dari Bali, Jakarta, Semarang, dan Yogyakarta. Berdiri sejak 2019, mereka menjual sebelas layanan ke dua audiens yang sangat berbeda: eksportir yang tahu persis apa itu LCL consolidation, dan pengirim pertama kali yang belum tahu. Onyx menjalankan sisi sosialnya: feed di mana tiap posting mengambil satu pertanyaan yang benar-benar ditanyakan pelanggan, menjawabnya dengan lugas, dan terlihat berasal dari perusahaan yang sama dengan posting sebelumnya.", zh: "Jalak Kargo Logistik 从巴厘岛、雅加达、三宝垄和日惹发出，经海、空、陆运送货物。公司成立于 2019 年，把十一项服务卖给两类完全不同的人：清楚知道什么叫拼箱拼柜的出口商，和第一次发货、什么都还不懂的人。Onyx 负责其中的社交这一块：一条内容拿起一个客户真的会问的问题，直白地答完，并且看上去和上一条出自同一家公司。", ja: "Jalak Kargo Logistik は、バリ、ジャカルタ、スマラン、ジョグジャカルタから海・空・陸で貨物を運びます。2019 年の創業以来、十一のサービスをまったく異なる二つの層に提供してきました。LCL コンソリデーションが何かを正確に知っている輸出業者と、そうでない初めての荷主です。Onyx はそのソーシャル側を担っています。一つの投稿が、顧客が実際に尋ねる問いを一つ取り上げ、率直に答え、前の投稿と同じ会社から来たものに見える。そういうフィードです。" },
+    location: { id: "Bali · Jakarta · Indonesia", zh: "巴厘岛 · 雅加达 · 印尼", ja: "バリ · ジャカルタ · インドネシア" },
+    scope: [
+      { id: "Program Instagram always-on di @jalakkargo", zh: "在 @jalakkargo 上的持续 Instagram 运营", ja: "@jalakkargo での常時稼働の Instagram 運用" },
+      { id: "Sistem desain posting untuk seluruh rangkaian layanan", zh: "覆盖全部服务的贴文设计体系", ja: "全サービスをカバーする投稿デザインシステム" },
+      { id: "Produksi konten foto dan video di gudang dan pelabuhan", zh: "在仓库和港口拍摄图片与视频内容", ja: "倉庫と港での写真・動画コンテンツ制作" },
+      { id: "Kalender editorial dan jadwal penerbitan", zh: "内容日历与发布排期", ja: "編集カレンダーと公開スケジュール" },
+      { id: "Pemeliharaan website, pembaruan, dan perawatan konten", zh: "网站维护、更新与内容保养", ja: "サイトの保守・更新・コンテンツの手入れ" },
+      { id: "Pelaporan performa untuk jangkauan dan pertanyaan masuk", zh: "触达与咨询量的效果报告", ja: "リーチと問い合わせのパフォーマンスレポート" },
+    ],
+    tags: [
+      { id: "Instagram", zh: "Instagram", ja: "Instagram" },
+      { id: "Konten", zh: "内容", ja: "コンテンツ" },
+      { id: "Pemeliharaan", zh: "维护", ja: "メンテナンス" },
+    ],
+    study: {
+      overview: { id: "Jalak Cargo Logistics adalah freight forwarder yang berkantor pusat di Bali dengan cabang di Jakarta, Semarang, dan Yogyakarta, mengangkut kargo lewat laut, udara, dan darat sejak 2019. Onyx menjalankan Instagram mereka, memproduksi konten foto dan video di baliknya, dan menjaga websitenya tetap terkini. Feed-nya jadi pintu depan: sebelas layanan dijelaskan satu pertanyaan per posting, terjadwal, dalam satu sistem visual.", zh: "Jalak Cargo Logistics 是一家总部在巴厘岛的货运代理公司，在雅加达、三宝垄和日惹设有分部，自 2019 年起经营海运、空运和陆运。Onyx 负责运营他们的 Instagram、拍摄背后的图片与视频内容，并让网站保持更新。这个动态就是他们的正门：十一项服务，一条内容回答一个问题，按计划发布，统一在一套视觉体系里。", ja: "Jalak Cargo Logistics はバリに本社を置くフレイトフォワーダーで、ジャカルタ、スマラン、ジョグジャカルタに支店を持ち、2019 年から海・空・陸の輸送を手がけています。Onyx は同社の Instagram を運用し、その背後にある写真と動画を制作し、ウェブサイトを最新に保っています。フィードは正面玄関です。十一のサービスを、一投稿につき一つの問いで、決まった間隔で、一つのビジュアルシステムのなかで説明していきます。" },
+      needed: [
+        { id: "Sebelas layanan, dan tidak ada penjelasan berbahasa sederhana untuk satu pun, di mana pun yang bisa diakses publik.", zh: "十一项服务，却没有一项在公开的地方有一句人话解释。", ja: "十一のサービスがあるのに、そのどれについても平易な説明が公開された場所にありませんでした。" },
+        { id: "Pengirim pertama kali menanyakan hal yang sama sebelum tiap penawaran: FCL atau LCL, laut atau udara, CBM itu apa.", zh: "第一次发货的人，每次报价前都问同样的问题：整柜还是拼箱、走海运还是空运、CBM 到底是什么。", ja: "初めて発送する人は見積もりのたびに同じことを尋ねました。FCL か LCL か、海か空か、CBM とは何か。" },
+        { id: "Posting keluar saat ada yang sempat, jadi feed-nya tidak punya ritme dan tampilannya tidak konsisten.", zh: "谁有空谁就发，所以动态既没有节奏，看起来也不统一。", ja: "誰かの手が空いたときに投稿していたので、フィードにリズムがなく、見た目も揃っていませんでした。" },
+        { id: "Gudang, pelabuhan, dan pengerjaan crating tidak pernah difoto, jadi tidak ada yang menunjukkan bagaimana kargo benar-benar ditangani.", zh: "仓库、港口和打木箱的过程从没被拍下来，所以没有任何东西能说明货究竟是怎么被处理的。", ja: "倉庫も港も木枠づくりの作業も撮影されておらず、貨物が実際どう扱われているかを示すものがありませんでした。" },
+      ],
+      did: [
+        { id: "Membangun sistem posting yang membawa brand-nya ke tiap layanan, jadi grid-nya terbaca sebagai satu perusahaan.", zh: "做了一套贴文体系，把品牌带进每一项服务，让整个九宫格看起来是同一家公司。", ja: "すべてのサービスにブランドを行き渡らせる投稿システムを構築し、グリッドが一つの会社として読めるように。" },
+        { id: "Menulis feed-nya berdasarkan pertanyaan yang benar-benar ditanyakan pelanggan, satu per posting.", zh: "按客户真正会问的问题来写内容，一条一个问题。", ja: "顧客が実際に尋ねる問いを軸にフィードを設計。一投稿につき一つ。" },
+        { id: "Memproduksi konten foto dan video di lokasi: gudang, crating, forklift, pelabuhan.", zh: "在现场拍摄图片和视频：仓库、打包、叉车、码头。", ja: "現場で写真と動画を制作。倉庫、木枠づくり、フォークリフト、港。" },
+        { id: "Menaruh seluruh rangkaian layanan di kalender editorial dan menerbitkannya sesuai jadwal.", zh: "把全部服务排进内容日历，按计划发布。", ja: "サービス全体を編集カレンダーに載せ、スケジュール通りに公開。" },
+        { id: "Mengambil alih pemeliharaan website dan pembaruan kontennya supaya situs dan feed-nya tetap sejalan.", zh: "接手网站维护和内容更新，让网站和动态保持同步。", ja: "サイト保守とコンテンツ更新を引き受け、サイトとフィードの歩調を揃えました。" },
+      ],
+      changed: [
+        { id: "Feed-nya menjawab pertanyaan sebelum penawaran, bahkan sebelum ada yang perlu bertanya.", zh: "在报价之前会被问到的问题，动态已经先答完了，不用谁开口。", ja: "見積もり前に出る疑問に、誰かが尋ねる前からフィードが答えています。" },
+        { id: "Tiap layanan sekarang punya penjelasan publik dalam bahasa yang sederhana.", zh: "现在每一项服务都有一段公开的、说人话的解释。", ja: "いまはどのサービスにも、平易な言葉の公開された説明があります。" },
+        { id: "Grid-nya terlihat seperti satu perusahaan, bukan folder berisi unggahan yang tak berhubungan.", zh: "九宫格看起来像同一家公司，而不是一堆互不相关的上传。", ja: "グリッドは、脈絡のないアップロードの寄せ集めではなく、一つの会社に見えます。" },
+        { id: "Situs dan sosialnya membawa penawaran yang sama, karena studio yang menjalankannya sama.", zh: "网站和社交传达的是同一套东西，因为跑它们的是同一家工作室。", ja: "サイトとソーシャルが同じ提供内容を伝えます。運用しているスタジオが同じだからです。" },
+      ],
+    },
+  },
   "radcruiters": {
+    study: {
+      overview: { id: "RADcruiters adalah agensi recruitment marketing di Belanda yang menjalankan kampanye Meta ads untuk agensi staffing. Klien mengirim brief kampanye baru lewat form WordPress. Di balik form itu ada pipeline Make.com yang membaca brief-nya, mengenali kliennya, membuat item kerjanya, menyusun kampanyenya, lalu melaporkan balik lewat dashboard yang memang dipakai para recruiter.", zh: "RADcruiters 是荷兰一家招聘营销代理商，为人力公司投放 Meta 广告。客户通过一个 WordPress 表单提交新的活动简报。表单背后是一条 Make.com 流水线：读简报、认出客户、建好工单、搭起活动，再通过招聘顾问真正会用的看板反馈回来。", ja: "RADcruiters は、人材紹介会社向けに Meta 広告キャンペーンを運用するオランダの採用マーケティングエージェンシーです。クライアントは WordPress のフォームから新しいキャンペーンのブリーフを送ります。そのフォームの裏には Make.com のパイプラインがあり、ブリーフを読み、クライアントを特定し、作業項目を作り、キャンペーンを組み立て、リクルーターが実際に使うダッシュボードへ結果を返します。" },
+      needed: [
+        { id: "Tiap brief kampanye datang sebagai ping di Slack yang harus ada orang tangkap.", zh: "每一份活动简报都是 Slack 上的一声提醒，得有人接住。", ja: "キャンペーンのブリーフは毎回 Slack の通知として届き、誰かが拾う必要がありました。" },
+        { id: "URL lowongannya diurai manual untuk mencari tahu domainnya.", zh: "职位链接要靠人手拆开，才能看出是哪个域名。", ja: "求人 URL は手作業で解析し、ドメインを割り出していました。" },
+        { id: "Kliennya harus dicari manual sebelum pekerjaan bisa dimulai.", zh: "开工之前，还得先手动查出是哪个客户。", ja: "作業を始める前に、クライアントを手で調べる必要がありました。" },
+        { id: "Kartu Trello dibuat manual, jadi brief menunggu sampai ada orang yang senggang.", zh: "Trello 卡片是手动建的，所以简报只能等到有人腾出手。", ja: "Trello のカードは手作業で作られ、ブリーフは誰かの手が空くのを待っていました。" },
+      ],
+      did: [
+        { id: "Membangun form intake WordPress untuk brief kampanye dari klien.", zh: "搭建了 WordPress 上的活动简报接收表单。", ja: "クライアントのキャンペーンブリーフを受け付ける WordPress フォームを構築。" },
+        { id: "Membangun pipeline Make.com: custom webhook ke Trello ke Airtable ke Gmail.", zh: "搭好 Make.com 流水线：自定义 webhook 到 Trello 到 Airtable 再到 Gmail。", ja: "Make.com のパイプラインを構築。カスタム Webhook から Trello、Airtable、Gmail へ。" },
+        { id: "Menambahkan ekstraksi domain dan pencocokan klien dari URL lowongan yang dikirim.", zh: "加上了从提交的职位链接里提取域名并匹配客户的步骤。", ja: "送信された求人 URL からドメインを抽出し、クライアントを照合する処理を追加。" },
+        { id: "Mengotomatiskan pembuatan kampanye Meta langsung dari brief yang masuk.", zh: "把 Meta 活动的创建直接自动接到提交进来的简报上。", ja: "届いたブリーフからそのまま Meta キャンペーンを自動生成。" },
+        { id: "Membangun dashboard recruiter untuk pelacakan kandidat dan pelaporan, lengkap dengan riwayat eksekusi dan pemantauan error.", zh: "做了招聘顾问用的看板，跟踪候选人、出报表，还带执行记录和错误监控。", ja: "候補者の追跡とレポーティングのためのリクルーター向けダッシュボードを、実行履歴とエラー監視つきで構築。" },
+      ],
+      changed: [
+        { id: "Dari submit sampai kartu yang tepat di depan orang yang tepat, hitungan detik.", zh: "从提交到正确的卡片摆在正确的人面前，只要几秒。", ja: "送信から、適切なカードが適切な人の前に出るまで、数秒です。" },
+        { id: "Tidak ada lagi yang mengurai URL atau mencari klien secara manual.", zh: "再也没有人需要手动拆链接或者查客户。", ja: "URL を解析したりクライアントを調べたりする手作業は、もうありません。" },
+        { id: "Kampanye tersusun dari brief-nya tanpa perlu langkah setup terpisah.", zh: "活动直接从简报里搭起来，不用再单独走一遍设置。", ja: "キャンペーンはブリーフからそのまま組み上がり、別途セットアップの手順は要りません。" },
+        { id: "Recruiter melihat kandidat dan laporannya di satu dashboard, bukan mengejar update.", zh: "招聘顾问在一个看板里就能看到候选人和报表，不用再追着要进度。", ja: "リクルーターは候補者もレポートも一つのダッシュボードで見られ、進捗を追いかける必要がなくなりました。" },
+      ],
+    },
     title: { id: "Otomasi Permintaan Kampanye", zh: "活动申请自动化", ja: "キャンペーン申請の自動化" },
     blurb: { id: "Agensi pemasaran rekrutmen di EU", zh: "位于 EU 的招聘营销代理机构", ja: "EU の採用マーケティングエージェンシー" },
     category: { id: "Otomatisasi AI", zh: "AI 自动化", ja: "AI 自動化" },
@@ -930,6 +1001,28 @@ const PROJECT_TX: Record<string, ProjectTx> = {
     urlLabel: { id: "Kunjungi situs", zh: "访问网站", ja: "サイトを見る" }
   },
   "great-bali-villas": {
+    study: {
+      overview: { id: "Great Bali Villas menyewakan villa premium di seluruh Bali. Situsnya jadi satu tempat untuk booking: tamu menyaring katalog berdasarkan area, ukuran, dan tanggal, melihat galeri full-bleed dan rincian fasilitas tiap villa, lalu menanyakan ketersediaan. Pertanyaannya langsung masuk ke tim lewat WhatsApp, karena begitulah booking villa di Bali benar-benar terjadi.", zh: "Great Bali Villas 在全巴厘岛出租高端别墅。这个网站就是一个完整的预订入口：客人按区域、面积和日期筛选房源，浏览满版图集和每栋别墅的设施明细，然后询问档期。咨询直接进到团队的 WhatsApp，因为巴厘岛的别墅预订本来就是这么谈成的。", ja: "Great Bali Villas はバリ島全域でプレミアムヴィラを貸し出しています。サイトは予約のための一つの入口です。エリア・広さ・日程でカタログを絞り込み、フルブリードのギャラリーとヴィラごとの設備一覧を見て、空き状況を尋ねる。問い合わせは WhatsApp でチームに直接届きます。バリのヴィラ予約は、実際そうやって決まるからです。" },
+      needed: [
+        { id: "Tamu harus menyusun sendiri gambaran villa dari situs listing, screenshot, dan DM yang dijawab setengah-setengah.", zh: "客人只能自己从各种房源网站、截图和回了一半的私信里拼出别墅的样子。", ja: "ゲストは掲載サイトとスクリーンショット、半分しか返ってこない DM から、自分でヴィラ像を組み立てるしかありませんでした。" },
+        { id: "Tidak ada cara menyaring hal-hal yang menentukan pilihan menginap: area, ukuran, tanggal.", zh: "没有办法按真正决定一次入住的条件筛选：区域、面积、日期。", ja: "滞在を決める条件——エリア、広さ、日程——で絞り込む手段がありませんでした。" },
+        { id: "Villa tidak pernah ditampilkan utuh, jadi galeri dan fasilitasnya tercecer di mana-mana.", zh: "别墅从来没有被完整呈现过，图集和设施信息散落在各处。", ja: "ヴィラが丸ごと見せられることはなく、ギャラリーも設備情報もばらばらに散っていました。" },
+        { id: "Minat dari calon tamu tidak punya jalur langsung ke orang sungguhan di tim.", zh: "有意向的客人，没有一条能直接找到团队里真人的路。", ja: "興味を持った人が、チームの実在する誰かに直接たどり着く道がありませんでした。" },
+      ],
+      did: [
+        { id: "Membangun katalog villa dengan filter area, ukuran, dan tanggal.", zh: "搭建了带区域、面积和日期筛选的别墅目录。", ja: "エリア・広さ・日程で絞り込めるヴィラカタログを構築。" },
+        { id: "Membuat galeri full-bleed dan rincian fasilitas untuk tiap villa.", zh: "制作了满版图集和每栋别墅的设施明细。", ja: "フルブリードのギャラリーと、ヴィラごとの設備一覧を制作。" },
+        { id: "Mengarahkan pertanyaan ketersediaan langsung ke WhatsApp, bukan ke contact form.", zh: "把档期咨询直接接到 WhatsApp，而不是丢进联系表单。", ja: "空き状況の問い合わせを、フォームではなく WhatsApp へ直接つなぐ設計に。" },
+        { id: "Menyusun situs editorial yang responsif, lengkap dengan konteks peta untuk tiap area.", zh: "做成一个响应式的编辑型网站，每个区域都配上地图上下文。", ja: "各エリアに地図のコンテクストを添えた、レスポンシブなエディトリアルサイトを設計。" },
+        { id: "Menyiapkan SEO untuk pencarian villa dengan intensi tinggi.", zh: "针对高意向的别墅搜索做了 SEO 设置。", ja: "成約に近い検索意図に向けた SEO を設定。" },
+      ],
+      changed: [
+        { id: "Satu tempat yang tenang, menggantikan tiga situs listing dan satu thread DM.", zh: "一个清爽的入口，取代了三个房源网站和一串私信。", ja: "掲載サイト三つと DM のやり取りが、落ち着いた一つの入口に変わりました。" },
+        { id: "Tamu sudah menyaring area, ukuran, dan tanggal bahkan sebelum bertanya.", zh: "客人在开口询问之前，就已经按区域、面积和日期筛好了。", ja: "ゲストは問い合わせる前に、エリア・広さ・日程で絞り込めるようになりました。" },
+        { id: "Pertanyaan masuk ke WhatsApp dengan villa-nya sudah jelas sejak awal.", zh: "咨询进到 WhatsApp 时，已经带着具体是哪栋别墅。", ja: "問い合わせは、どのヴィラの話かが分かった状態で WhatsApp に届きます。" },
+        { id: "Tiap villa sudah dilihat dengan benar sebelum obrolan dimulai, jadi pertanyaan yang masuk lebih matang.", zh: "在对话开始之前，每栋别墅都已经被好好看过一遍，所以进来的咨询更成熟。", ja: "会話が始まる前に、どのヴィラもきちんと見られている。だから届く問い合わせの質が上がりました。" },
+      ],
+    },
     title: { id: "Antarmuka Sewa Vila", zh: "别墅租赁页面", ja: "ヴィラレンタルのサイト" },
     blurb: { id: "Menginap di vila premium di Bali", zh: "Bali 的高端别墅住宿", ja: "Bali のプレミアムなヴィラステイ" },
     category: { id: "Kehadiran Digital", zh: "数字形象", ja: "デジタルプレゼンス" },
@@ -960,6 +1053,28 @@ const PROJECT_TX: Record<string, ProjectTx> = {
   },
 
   "bhagawan-property": {
+    study: {
+      overview: { id: "Bhagawan Property adalah property advisory di Bali yang berpihak pada pembeli. Listing-nya lebih sedikit tapi sudah diinspeksi, bukan semua yang ada di pasar. Mereka menerbitkan panduan editorial untuk enam kawasan dan menjalankan knowledge base untuk orang yang sedang mencoba memahami cara membeli properti di sini. Pertanyaan masuk ke tim advisory lengkap dengan propertinya.", zh: "Bhagawan Property 是巴厘岛一家站在买方一侧的房产顾问公司。他们只放实地看过的房源，而不是市面上的全部。他们为六个片区写了长文指南，还建了一个知识库，给那些正想弄明白在这里怎么买房的人看。咨询会连同具体房源一起进到顾问团队。", ja: "Bhagawan Property は、買い手側に立つバリの不動産アドバイザリーです。市場の全物件ではなく、実際に確認した少数の物件だけを扱います。六つのエリアについてエディトリアルなガイドを公開し、ここでの購入の仕組みを理解しようとする人のためのナレッジベースも運営しています。問い合わせは物件情報とともにアドバイザリーチームへ届きます。" },
+      needed: [
+        { id: "Status kepemilikan dan harga jarang disebut di awal, di mana pun di pasar ini.", zh: "在这个市场里，产权状态和价格几乎没人愿意一开始就讲清楚。", ja: "権利形態と価格を最初に明示することは、この市場ではほとんどありませんでした。" },
+        { id: "Pembeli dibiarkan sendiri memahami beda freehold dan leasehold.", zh: "买家只能自己去搞懂永久产权和租赁产权的区别。", ja: "フリーホールドとリースホールドの違いは、買い手が自力で理解するしかありませんでした。" },
+        { id: "Pengetahuan soal kawasan ada di kepala agen, bukan di tempat yang bisa dibaca pembeli.", zh: "片区知识都装在中介脑子里，不在买家能读到的地方。", ja: "エリアの知識はエージェントの頭の中にあり、買い手が読める場所にはありませんでした。" },
+        { id: "Posisi sebagai advisory sulit dibedakan dari agensi listing yang mengejar volume.", zh: "顾问式的定位，很难和追求成交量的挂牌中介区分开。", ja: "アドバイザリーとしての立ち位置が、数を追う仲介業者と見分けがつきにくい状態でした。" },
+      ],
+      did: [
+        { id: "Membangun katalog listing yang menampilkan status freehold dan leasehold secara terbuka.", zh: "搭建了一个把永久产权与租赁产权状态公开写明的房源目录。", ja: "フリーホールドとリースホールドの権利形態をはっきり示す物件カタログを構築。" },
+        { id: "Menaruh spesifikasi, harga, dan status badge di tiap properti.", zh: "在每套房源上都标出规格、价格和状态标签。", ja: "すべての物件に仕様・価格・ステータスバッジを表示。" },
+        { id: "Menulis panduan kawasan untuk Uluwatu, Canggu, Sanur, Seminyak, Ubud, dan Pererenan.", zh: "为 Uluwatu、Canggu、Sanur、Seminyak、Ubud 和 Pererenan 撰写了片区指南。", ja: "ウルワツ、チャングー、サヌール、スミニャック、ウブド、プレレナンのエリアガイドを執筆。" },
+        { id: "Membangun knowledge base untuk artikel edukasi pembeli, termasuk soal status kepemilikan.", zh: "建了一个知识库，放买家教育类文章，也包括产权这类问题。", ja: "権利形態の話も含む、買い手向け解説記事のためのナレッジベースを構築。" },
+        { id: "Menyiapkan alur enquiry dan WhatsApp ke advisor, plus SEO untuk pencarian status kepemilikan dan kawasan.", zh: "把咨询和 WhatsApp 都接到顾问那里，并针对产权和片区的搜索做了 SEO。", ja: "問い合わせと WhatsApp をアドバイザーへつなぎ、権利形態とエリアの検索に向けた SEO も設定。" },
+      ],
+      changed: [
+        { id: "Status kepemilikan dan harga terbaca di scroll pertama, bukan setelah diminta.", zh: "产权和价格在第一屏就看得到，不用开口要。", ja: "権利形態と価格は、頼まなくても最初のスクロールで読み取れます。" },
+        { id: "Pembeli datang sudah paham beda freehold dan leasehold.", zh: "买家来的时候，已经明白永久产权和租赁产权的差别。", ja: "買い手は、フリーホールドとリースホールドの違いを理解した状態で来ます。" },
+        { id: "Obrolan mulai dari titik yang lebih jauh, karena situsnya sudah menjelaskan duluan.", zh: "对话从更靠后的地方开始，因为网站已经先把话讲明白了。", ja: "サイトが先に説明を済ませているので、会話はより先の地点から始まります。" },
+        { id: "Pertanyaan sampai ke tim advisory lengkap dengan konteks propertinya.", zh: "咨询到顾问团队手里时，已经带着房源的完整背景。", ja: "問い合わせは物件のコンテクスト付きでアドバイザリーチームに届きます。" },
+      ],
+    },
     title: { id: "Platform Konsultasi Properti", zh: "房产顾问平台", ja: "不動産アドバイザリー・プラットフォーム" },
     blurb: { id: "Konsultan properti di Bali yang berpihak pada pembeli", zh: "Bali 以买家为先的房产顾问", ja: "買い手本位の Bali 不動産アドバイザリー" },
     category: { id: "Kehadiran Digital", zh: "数字形象", ja: "デジタルプレゼンス" },
@@ -991,6 +1106,28 @@ const PROJECT_TX: Record<string, ProjectTx> = {
   },
 
   "tammia-online": {
+    study: {
+      overview: { id: "Tammia Online adalah retailer beauty tools premium di Indonesia, menjual brush dan tools yang asli, bukan tiruan yang mirip. Storefront-nya punya delapan kategori produk dengan new arrivals mingguan, rating dan harga rupiah di tiap item, cart dan wishlist drawer yang muncul dari samping, plus beauty advisor lewat WhatsApp untuk pembeli yang belum yakin butuh apa.", zh: "Tammia Online 是印尼一家高端美妆工具零售商，卖的是正品刷具和工具，不是做得很像的仿品。店面分八个产品类目，每周上新，每件商品都有评分和印尼盾定价，购物车和心愿单以侧边抽屉呈现，还有 WhatsApp 上的美妆顾问，给还没想好要买什么的人。", ja: "Tammia Online はインドネシアのプレミアム美容ツール専門店です。よく似た模倣品ではなく、本物のブラシとツールを扱います。ストアは八つのカテゴリーで構成され、毎週新商品が入り、すべての商品に評価とルピア表示の価格が付きます。カートとウィッシュリストはスライドインのドロワーで、何が必要か迷う人のために WhatsApp のビューティーアドバイザーも用意しています。" },
+      needed: [
+        { id: "Pembeli tidak bisa membedakan brush asli dari tiruan yang meyakinkan.", zh: "买家分不出正品刷具和做得很像的仿品。", ja: "買い手には、本物のブラシと精巧な模倣品の区別がつきませんでした。" },
+        { id: "Pertanyaan yang sama datang di tiap order: ini asli atau bukan?", zh: "每一单都会冒出同一个问题：这个是正品吗？", ja: "注文のたびに同じ質問が来ていました。これは本物ですか、と。" },
+        { id: "Ketentuan pengiriman, retur, dan pembayaran tidak tertulis di tempat yang jelas.", zh: "配送、退换和付款的条款，没写在任何显眼的地方。", ja: "配送・返品・支払いの条件が、目につく場所に書かれていませんでした。" },
+        { id: "Tidak ada cara cepat untuk bertanya soal produk sebelum memutuskan beli.", zh: "在决定下单之前，没有一条能快速问清产品的路。", ja: "購入を決める前に、商品について手早く尋ねる手段がありませんでした。" },
+      ],
+      did: [
+        { id: "Membangun storefront dengan delapan kategori produk dan new arrivals mingguan.", zh: "搭建了分八个类目、每周上新的店面。", ja: "八つの商品カテゴリーと毎週の新着を備えたストアを構築。" },
+        { id: "Menaruh garansi keaslian, rating, dan batas gratis ongkir di atas lipatan.", zh: "把正品保证、评分和包邮门槛都放到首屏。", ja: "正規品保証・評価・送料無料のしきい値をファーストビューに配置。" },
+        { id: "Menambahkan cart dan wishlist drawer supaya pembeli tetap di halaman yang sama.", zh: "加了购物车和心愿单侧边抽屉，让买家不用离开当前页面。", ja: "同じページに留まれるよう、カートとウィッシュリストのドロワーを追加。" },
+        { id: "Menulis FAQ yang mencakup pengiriman, retur, dan pembayaran.", zh: "写了覆盖配送、退换和付款的常见问题。", ja: "配送・返品・支払いをカバーする FAQ を執筆。" },
+        { id: "Menghubungkan beauty advisor lewat WhatsApp untuk pertanyaan produk, di layout yang mobile-first.", zh: "在移动优先的版面里，把 WhatsApp 美妆顾问接进来回答产品问题。", ja: "モバイルファーストのレイアウトで、商品の質問に答える WhatsApp のビューティーアドバイザーを接続。" },
+      ],
+      changed: [
+        { id: "Garansi keaslian jadi hal pertama yang dilihat pembeli.", zh: "正品保证成了买家看到的第一件事。", ja: "正規品保証が、買い手が最初に目にするものになりました。" },
+        { id: "Tiap produk punya rating dan harga dalam rupiah.", zh: "每件商品都有评分，也都标了印尼盾价格。", ja: "すべての商品に評価と、ルピア表示の価格が付いています。" },
+        { id: "Katalognya disusun berdasarkan kebutuhan orang, bukan berdasarkan brand.", zh: "目录按人的需求来组织，而不是按品牌。", ja: "カタログはブランド別ではなく、人が必要とするもの別に整理されています。" },
+        { id: "Pembeli yang ragu bisa sampai ke advisor lewat WhatsApp dalam satu ketukan.", zh: "还在犹豫的买家，一下就能点到 WhatsApp 上的顾问。", ja: "迷っている買い手は、ワンタップで WhatsApp のアドバイザーにつながります。" },
+      ],
+    },
     title: { id: "Etalase Beauty Tools", zh: "美妆工具商店", ja: "ビューティーツールのストアフロント" },
     blurb: { id: "Retailer beauty tools premium di Indonesia", zh: "Indonesia 的高端美妆工具零售商", ja: "Indonesia のプレミアム・ビューティーツール専門店" },
     category: { id: "Kehadiran Digital", zh: "数字形象", ja: "デジタルプレゼンス" },
@@ -1022,6 +1159,28 @@ const PROJECT_TX: Record<string, ProjectTx> = {
   },
 
   "astungkare-spa": {
+    study: {
+      overview: { id: "Astungkare Spa adalah mobile spa 24 jam yang melayani seluruh Bali. Terapis terlatih datang ke villa tamu membawa oil dan linen, dipesan lewat WhatsApp, dengan area layanan mencakup Canggu, Seminyak, Ubud, dan sisa pulau. Onyx menangani brand, situs, feed sosialnya, sekaligus paid media-nya.", zh: "Astungkare Spa 是一家 24 小时上门的移动 spa，服务范围覆盖整个巴厘岛。受过训练的理疗师带着精油和布巾到客人的别墅，通过 WhatsApp 预约，服务区域包含 Canggu、Seminyak、Ubud 以及岛上其他地方。Onyx 负责品牌、网站、社交内容，以及付费投放。", ja: "Astungkare Spa はバリ全域に出張する 24 時間対応のモバイルスパです。訓練を受けたセラピストがオイルとリネンを持ってゲストのヴィラを訪ね、予約は WhatsApp で受け付けます。対応エリアはチャングー、スミニャック、ウブド、そして島の他の地域まで。Onyx はブランド、サイト、ソーシャルの運用、そしてペイドメディアまでを担当しています。" },
+      needed: [
+        { id: "Janji layanan mobile spa lebih sulit dijelaskan online daripada saat bertemu langsung.", zh: "上门 spa 这件事，在线上比当面更难讲清楚。", ja: "出張スパという提供のかたちは、対面よりもオンラインで説明するほうが難しいものでした。" },
+        { id: "Tidak ada cara menunjukkan ke tamu slot paling awal yang tersedia malam ini.", zh: "没有办法告诉客人今晚最早还有哪个时段。", ja: "今夜いちばん早く空いている枠を、ゲストに示す方法がありませんでした。" },
+        { id: "Daftar treatment dan kebijakan pembatalan tidak tertulis di mana pun yang bisa dibaca.", zh: "疗程内容和取消政策，没有写在任何能读到的地方。", ja: "トリートメントの一覧もキャンセル規定も、読める場所に書かれていませんでした。" },
+        { id: "Tidak ada yang menyatukan brand, feed sosial, dan iklannya dalam satu suara.", zh: "品牌、社交内容和广告，没有任何东西把它们统一到同一个口吻上。", ja: "ブランドとソーシャルと広告を一つの声にまとめるものが、何もありませんでした。" },
+      ],
+      did: [
+        { id: "Membangun situs custom di atas sistem editorial serif dengan nuansa dark gold.", zh: "在深金色调、以衬线字体为主的编辑型系统上，搭建了一个定制网站。", ja: "ダークゴールドでセリフ主体のエディトリアルシステムの上に、カスタムサイトを構築。" },
+        { id: "Menaruh indikator ketersediaan paling awal secara live di hero.", zh: "把最早可预约时段做成实时指示器，放在首屏。", ja: "最短の空き状況をリアルタイムで示すインジケーターをヒーローに配置。" },
+        { id: "Menyiapkan booking yang mengutamakan WhatsApp, dengan komitmen balas di bawah lima menit.", zh: "把预约做成 WhatsApp 优先，并承诺五分钟内回复。", ja: "WhatsApp を起点にした予約導線を用意し、五分以内の返信を約束。" },
+        { id: "Menulis katalog treatment lengkap dengan logistik mobile spa, kebijakan pembatalan, dan halaman area layanan.", zh: "写了完整的疗程目录，涵盖上门流程、取消政策，以及服务区域页面。", ja: "出張の段取り、キャンセル規定、対応エリアのページまで含めたトリートメントカタログを執筆。" },
+        { id: "Menjalankan feed sosial always-on bersama pengelolaan iklan Meta dan Google.", zh: "持续运营社交内容，同时管理 Meta 和 Google 的广告投放。", ja: "常時稼働のソーシャル運用を、Meta と Google の広告運用と並走で実施。" },
+      ],
+      changed: [
+        { id: "Tamu bisa melihat slot paling awal malam ini sebelum menghubungi siapa pun.", zh: "客人在联系任何人之前，就能看到今晚最早的时段。", ja: "ゲストは誰かに連絡する前に、今夜いちばん早い枠を確認できます。" },
+        { id: "Booking cukup satu ketukan ke WhatsApp, bukan isi form lalu menunggu.", zh: "预约只要点一下 WhatsApp，不用填完表单再等。", ja: "予約はフォームを埋めて待つのではなく、WhatsApp へのワンタップになりました。" },
+        { id: "Harga, logistik, dan ketentuan pembatalan bisa dibaca sebelum siapa pun berkomitmen.", zh: "价格、上门流程和取消条款，在任何人做决定之前就能读到。", ja: "価格も段取りもキャンセル条件も、誰かが決める前に読めます。" },
+        { id: "Situs, sosial, dan iklan dijalankan satu studio, jadi penawarannya tetap sejalan.", zh: "网站、社交和广告都由同一家工作室在跑，所以对外的说法始终一致。", ja: "サイトもソーシャルも広告も一つのスタジオが運用するので、提供内容がぶれません。" },
+      ],
+    },
     title: { id: "Antarmuka Pemesanan Spa Keliling", zh: "上门 SPA 预约页面", ja: "出張スパ予約サイト" },
     blurb: { id: "Spa keliling 24 jam di seluruh Bali", zh: "遍布 Bali 的 24 小时上门 SPA", ja: "Bali 全域で対応する24時間出張スパ" },
     category: { id: "Kehadiran Digital", zh: "数字形象", ja: "デジタルプレゼンス" },
@@ -1053,6 +1212,28 @@ const PROJECT_TX: Record<string, ProjectTx> = {
   },
 
   "the-hair-extensions-bali": {
+    study: {
+      overview: { id: "The Hair Extensions Bali adalah studio hair extensions by-appointment di Kerobokan. Mereka menawarkan enam metode pemasangan, masing-masing dengan penjelasan dan harga IDR sendiri, dan bekerja dari color wall di studio yang dipilih klien langsung di tempat. Situsnya membawa brand-nya, galeri pekerjaan sebelumnya, dan jalur booking-nya.", zh: "The Hair Extensions Bali 是 Kerobokan 一家需要预约的接发工作室。他们提供六种接发方式，每一种都有各自的说明和印尼盾定价，客人到店后从工作室的色板墙上挑颜色。网站承载了品牌、过往作品图集，以及预约入口。", ja: "The Hair Extensions Bali は、クロボカンにある予約制のヘアエクステンション専門スタジオです。六つの装着方法があり、それぞれに説明と IDR 表示の価格が付きます。カラーはスタジオのカラーウォールから、来店時に選んでもらいます。サイトはブランド、これまでの施術ギャラリー、そして予約導線を担っています。" },
+      needed: [
+        { id: "Studio ini belum punya wajah digital yang terasa sama dengan aslinya.", zh: "这家工作室在线上，还没有一张能对得上它现场感觉的脸。", ja: "実際に足を運んだときの感じに見合う、デジタル上の顔がありませんでした。" },
+        { id: "Enam metode pemasangan sulit dibedakan tanpa ada stylist yang menjelaskan.", zh: "六种接发方式，没有发型师在旁边讲，根本分不清。", ja: "六つの装着方法は、スタイリストの説明なしでは違いが分かりませんでした。" },
+        { id: "Hasil pekerjaan sebelumnya cuma ada di feed, bukan di galeri yang bisa disaring klien.", zh: "过往作品只散在动态里，没有一个客人能筛选的图集。", ja: "これまでの施術はフィードにあるだけで、絞り込めるギャラリーにはなっていませんでした。" },
+        { id: "Harga baru kelihatan setelah ada yang menanyakannya.", zh: "价格要等到有人开口问，才会露面。", ja: "価格は、誰かが尋ねて初めて見えるものでした。" },
+      ],
+      did: [
+        { id: "Menggambar wordmark-nya: HAIR EXTENSIONS berserif dengan Bali tulisan tangan.", zh: "画了字标：衬线体的 HAIR EXTENSIONS，配上手写的 Bali。", ja: "ワードマークを作図。セリフ体の HAIR EXTENSIONS に、手描きの Bali を添えて。" },
+        { id: "Membangun situs multi-halaman: Home, Products, Tips, Gallery, dan Book.", zh: "搭建了多页面网站：首页、产品、技巧、图集、预约。", ja: "Home、Products、Tips、Gallery、Book の複数ページサイトを構築。" },
+        { id: "Menyunting video hero yang menampilkan color wall studio yang sebenarnya.", zh: "剪了一支首屏视频，拍的是工作室真实的色板墙。", ja: "実際のスタジオのカラーウォールを映したヒーロー映像を編集。" },
+        { id: "Membangun galeri yang bisa disaring: transformasi, produk dan warna, serta studio.", zh: "做了可筛选的图集：改造前后、产品与颜色、工作室。", ja: "変化、商品とカラー、スタジオで絞り込めるギャラリーを構築。" },
+        { id: "Menulis enam metode layanan lengkap dengan penjelasan dan harga IDR, booking langsung ke WhatsApp.", zh: "写了六种服务方式的完整说明和印尼盾定价，预约直接进 WhatsApp。", ja: "六つの施術方法を説明と IDR 価格つきで執筆し、予約は WhatsApp へ直結。" },
+      ],
+      changed: [
+        { id: "Brand-nya sekarang terasa sama dengan suasana salonnya saat didatangi.", zh: "品牌现在的感觉，和走进这家店时是一致的。", ja: "ブランドの印象が、店に入ったときの感覚と揃いました。" },
+        { id: "Klien bisa membandingkan enam metode dan melihat harga IDR sebelum booking.", zh: "客人能在预约前比较六种方式，也能看到印尼盾价格。", ja: "予約の前に六つの方法を比べ、IDR の価格まで確認できます。" },
+        { id: "Galerinya bisa disaring sampai ke pekerjaan yang memang ingin dilihat.", zh: "图集可以一路筛到客人真正想看的那种作品。", ja: "ギャラリーは、その人が見に来た施術まで絞り込めます。" },
+        { id: "Booking berjalan langsung lewat WhatsApp, bahasa janji temu di Bali.", zh: "预约直接走 WhatsApp，那是巴厘岛约时间的通用语言。", ja: "予約は WhatsApp へ直接。バリでの約束は、その言葉で交わされます。" },
+      ],
+    },
     title: { id: "Brand & Situs Salon", zh: "沙龙品牌与网站", ja: "サロンのブランドとサイト" },
     blurb: { id: "Studio hair extensions di Kerobokan", zh: "位于 Kerobokan 的接发工作室", ja: "Kerobokan のヘアエクステンションスタジオ" },
     category: { id: "Studio Kreatif", zh: "创意工作室", ja: "クリエイティブスタジオ" },
@@ -1358,6 +1539,12 @@ function build(): Maps {
     put(m, p.urlLabel, t.urlLabel);
     (p.scope ?? []).forEach((sc, j) => put(m, sc, t.scope?.[j]));
     (p.tags ?? []).forEach((tg, j) => put(m, tg, t.tags?.[j]));
+    if (p.study && t.study) {
+      put(m, p.study.overview, t.study.overview);
+      p.study.needed.forEach((x, j) => put(m, x, t.study?.needed?.[j]));
+      p.study.did.forEach((x, j) => put(m, x, t.study?.did?.[j]));
+      p.study.changed.forEach((x, j) => put(m, x, t.study?.changed?.[j]));
+    }
   });
 
   INSIGHTS.forEach((ins) => {

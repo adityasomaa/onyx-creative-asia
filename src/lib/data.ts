@@ -345,6 +345,60 @@ export const PROJECTS: Project[] = [
       ],
     },
   },
+  {
+    slug: "jalak-cargo-logistics",
+    title: "Social & Content Programme",
+    client: "Jalak Cargo Logistics",
+    blurb: "Freight forwarder in Bali and Jakarta",
+    category: "Creative Studio",
+    year: "2026",
+    description:
+      "An always-on social programme for an Indonesian freight forwarder. Every post answers one real shipping question, in one visual system, published on a schedule, with the live site kept current alongside it.",
+    // Not a build: Onyx runs the feed, the content, and site upkeep. So the
+    // cover pairs the live site with the actual feed instead of putting the
+    // site in device mockups.
+    cover: "/works/jalak-cargo-logistics.jpg",
+    coverLoop: "/works/jalak-cargo-logistics-card.mp4",
+    coverLoopHd: "/works/jalak-cargo-logistics.mp4",
+    tags: ["Instagram", "Content", "Maintenance"],
+    url: "https://jalakkargologistik.id",
+    urlLabel: "Visit site",
+    services: ["Creative Studio", "Digital Marketing", "Growth & Analytics", "Managed Services"],
+    location: "Bali · Jakarta · Indonesia",
+    scope: [
+      "Always-on Instagram programme on @jalakkargo",
+      "Post design system across the full service range",
+      "Photo and video content production in the warehouse and at port",
+      "Editorial calendar and publishing schedule",
+      "Website maintenance, updates, and content upkeep",
+      "Performance reporting on reach and enquiries",
+    ],
+    longDescription:
+      "Jalak Kargo Logistik moves cargo by sea, air, and land out of Bali, Jakarta, Semarang, and Yogyakarta. Founded in 2019, it sells eleven services to two very different audiences: exporters who know exactly what an LCL consolidation is, and first-time shippers who do not. Onyx runs the social side of that: a feed where each post takes one question a real customer asks, answers it plainly, and looks like it came from the same company as the one before it.",
+    study: {
+      overview:
+        "Jalak Cargo Logistics is a freight forwarder headquartered in Bali with branches in Jakarta, Semarang, and Yogyakarta, moving cargo by sea, air, and land since 2019. Onyx runs their Instagram, produces the photo and video content behind it, and keeps the website current. The feed is the front door: eleven services explained one question at a time, on a schedule, in one visual system.",
+      needed: [
+        "Eleven services, and no plain-language explanation of any of them anywhere public.",
+        "First-time shippers asked the same questions before every quote: FCL or LCL, sea or air, what CBM means.",
+        "Posts went out when someone had time, so the feed had no rhythm and no consistent look.",
+        "The warehouse, the port, and the crating work were never photographed, so nothing showed how cargo is actually handled.",
+      ],
+      did: [
+        "Built a post system that carries the brand across every service, so the grid reads as one company.",
+        "Wrote the feed around the questions customers actually ask, one per post.",
+        "Produced the photo and video content on site: warehouse, crating, forklift, port.",
+        "Put the whole service range on an editorial calendar and published to schedule.",
+        "Took over website maintenance and content updates so the site and the feed stay in step.",
+      ],
+      changed: [
+        "The feed answers the pre-quote questions before anyone has to ask them.",
+        "Every service now has a public explanation in plain language.",
+        "The grid looks like one company instead of a folder of unrelated uploads.",
+        "Site and social carry the same offer, because the same studio runs both.",
+      ],
+    },
+  },
 ];
 
 /** Projects that used a given service, matched on the service's title. */

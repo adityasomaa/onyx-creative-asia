@@ -142,9 +142,22 @@ export default async function ProjectDetailPage({
       <section className="container-x pb-20 md:pb-28 grid grid-cols-2 md:grid-cols-12 gap-y-8 gap-x-8 border-t border-hairline pt-10 md:pt-14">
         <Meta label="Year" value={project.year} />
         {project.location && <Meta label="Location" value={project.location} />}
+        {/* Joining first would make one composite string the dictionary can
+            never match, so each discipline is translated on its own. */}
         <Meta
           label="Discipline"
-          value={(project.services && project.services.join(" · ")) || project.category}
+          value={
+            project.services?.length ? (
+              project.services.map((s, i) => (
+                <span key={s}>
+                  {i > 0 && <span className="opacity-50"> · </span>}
+                  <T>{s}</T>
+                </span>
+              ))
+            ) : (
+              <T>{project.category}</T>
+            )
+          }
         />
         {project.url && ctaLabel && (
           <div className="col-span-2 md:col-span-6 md:col-start-7 flex md:justify-end items-end">
@@ -293,7 +306,7 @@ function PointList({ items }: { items: string[] }) {
   );
 }
 
-function Meta({ label, value }: { label: string; value: string }) {
+function Meta({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="col-span-1 md:col-span-2">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-2">
