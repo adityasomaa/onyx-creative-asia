@@ -51,7 +51,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Villas", "Booking"],
     url: "https://greatbalivillas.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence"],
+    services: ["Digital Presence", "Growth & Analytics", "Managed Services"],
     location: "Bali, Indonesia",
     scope: [
       "Villa catalog with area, size, and date filters",
@@ -78,7 +78,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Property", "Advisory"],
     url: "https://bhagawanproperty.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Digital Marketing"],
+    services: ["Digital Presence", "Digital Marketing", "Growth & Analytics", "Managed Services"],
     location: "Bali, Indonesia",
     scope: [
       "Listing catalogue with freehold and leasehold tenure states",
@@ -106,7 +106,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "E-commerce", "Beauty"],
     url: "https://marshella-eunike.vercel.app/tammia-online/",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Creative Studio"],
+    services: ["Digital Presence", "Creative Studio", "Growth & Analytics", "Managed Services"],
     location: "Indonesia",
     scope: [
       "Storefront with eight product categories",
@@ -134,7 +134,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Digital Marketing", "Creative Studio"],
+    services: ["Digital Presence", "Digital Marketing", "Creative Studio", "Growth & Analytics", "Managed Services"],
     location: "Bali, Indonesia",
     scope: [
       "Custom website with editorial dark-gold visual system",
@@ -162,7 +162,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",
-    services: ["Creative Studio", "Digital Presence"],
+    services: ["Creative Studio", "Digital Presence", "Growth & Analytics", "Managed Services"],
     location: "Kerobokan, Bali",
     scope: [
       "Wordmark: serif 'HAIR EXTENSIONS' + hand-drawn 'Bali'",
@@ -192,7 +192,7 @@ export const PROJECTS: Project[] = [
     tags: ["Workflow", "Make.com", "WordPress"],
     url: "https://onlineresults.radcruiters.com/campaign-request/",
     urlLabel: "Visit site",
-    services: ["AI Automation", "Digital Presence"],
+    services: ["AI Automation", "Digital Presence", "Growth & Analytics", "Managed Services"],
     location: "Netherlands · EU",
     scope: [
       "WordPress intake form for client campaign briefs",

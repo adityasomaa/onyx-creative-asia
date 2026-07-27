@@ -74,7 +74,7 @@ export function StepForm({
         if (!submitting) advance();
       }}
       noValidate
-      className="flex h-full flex-col"
+      className="flex min-h-0 flex-col"
     >
       {/* Progress */}
       <div className="flex items-center gap-4">
@@ -92,7 +92,7 @@ export function StepForm({
       </div>
 
       {/* Step body, the only flexible region */}
-      <div className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto py-6 md:py-9">
+      <div className="flex min-h-0 flex-col justify-center overflow-y-auto py-6 md:py-8">
         <AnimatePresence mode="wait" custom={dir}>
           <motion.div
             key={step.number}
@@ -117,7 +117,7 @@ export function StepForm({
 
       {/* Footer nav */}
       <div
-        className="flex items-center gap-6 border-t border-[var(--form-fg)]/12 pt-5"
+        className="flex items-center gap-6"
         style={{ justifyContent: "var(--form-nav-justify)" }}
       >
         <button

@@ -116,9 +116,6 @@ export default function Nav() {
     };
   }, [open]);
 
-  // /contact is a chrome-less canvas: no header there.
-  if (pathname === "/contact") return null;
-
   return (
     <>
       <motion.header
