@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { findInsight, INSIGHTS } from "@/lib/insights";
+import { categorySlug, findInsight, INSIGHTS } from "@/lib/insights";
 import Image from "next/image";
 import Reveal, { RevealText } from "@/components/Reveal";
 import Button from "@/components/ui/Button";
@@ -31,6 +31,7 @@ export async function generateMetadata({
   return {
     title: piece.title,
     description: piece.excerpt,
+    keywords: [piece.category, ...piece.topics],
     alternates: { canonical: url },
     openGraph: {
       title: piece.title,
@@ -39,7 +40,8 @@ export async function generateMetadata({
       type: "article",
       publishedTime: piece.publishedAt,
       authors: ["Onyx Creative Asia"],
-      tags: piece.tag.split("·").map((t) => t.trim()),
+      section: piece.category,
+      tags: piece.topics,
     },
     twitter: {
       card: "summary_large_image",
@@ -60,10 +62,34 @@ export default async function InsightPage({
 
   const otherInsights = INSIGHTS.filter((i) => i.slug !== piece.slug).slice(0, 3);
 
-  // JSON-LD article schema for richer search results.
+  // Answer engines quote a passage and cite the page it came from, so the
+  // article ships the things that make it quotable: an explicit section,
+  // the subjects it covers, a word count, and a speakable summary. The
+  // breadcrumb gives both Google and an LLM the path back to the category.
+  const wordCount = piece.sections.reduce(
+    (n, sec) => n + sec.paragraphs.join(" ").split(/\s+/).length,
+    0,
+  );
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://onyxcreative.asia" },
+      { "@type": "ListItem", position: 2, name: "Insights", item: "https://onyxcreative.asia/insights" },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: piece.category,
+        item: `https://onyxcreative.asia/insights/category/${categorySlug(piece.category)}`,
+      },
+      { "@type": "ListItem", position: 4, name: piece.title },
+    ],
+  };
+
   const articleJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: piece.title,
     description: piece.excerpt,
     datePublished: piece.publishedAt,
@@ -85,7 +111,18 @@ export default async function InsightPage({
       "@type": "WebPage",
       "@id": `https://onyxcreative.asia/insights/${piece.slug}`,
     },
-    keywords: piece.tag,
+    keywords: [piece.category, ...piece.topics].join(", "),
+    articleSection: piece.category,
+    about: piece.topics.map((t) => ({ "@type": "Thing", name: t })),
+    wordCount,
+    timeRequired: `PT${piece.readingTimeMin}M`,
+    inLanguage: "en",
+    isAccessibleForFree: true,
+    image: [piece.cover],
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "[data-speakable]"],
+    },
   };
 
   return (
@@ -93,6 +130,10 @@ export default async function InsightPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <article className="container-x pt-40 md:pt-52 pb-20 md:pb-28">
@@ -107,7 +148,12 @@ export default async function InsightPage({
               ← <T>Insights</T>
             </Link>
             <span aria-hidden>·</span>
-            <span><T>{piece.tag}</T></span>
+            <Link
+              href={`/insights/category/${categorySlug(piece.category)}`}
+              className="hover:opacity-70 transition-opacity"
+            >
+              <T>{piece.category}</T>
+            </Link>
             <span aria-hidden>·</span>
             <span>
               {piece.readingTimeMin} <T>min read</T>
@@ -179,7 +225,7 @@ export default async function InsightPage({
                   className="group block border-t border-ink pt-6 transition-opacity duration-300 hover:opacity-80"
                 >
                   <p className="text-xs uppercase tracking-[0.18em] opacity-60 mb-3">
-                    <T>{other.tag}</T>
+                    <T>{other.category}</T>
                   </p>
                   <p className="text-lg md:text-xl font-medium tracking-tight leading-snug">
                     <T>{other.title}</T>

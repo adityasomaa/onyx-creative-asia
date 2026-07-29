@@ -93,8 +93,24 @@ export default async function ServiceDetailPage({
     },
   };
 
+  // Breadcrumbs give Google the sitelink path and give an answer engine an
+  // explicit parent for the page it is about to quote.
+  const BREADCRUMB_JSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://onyxcreative.asia" },
+      { "@type": "ListItem", position: 2, name: "Services", item: "https://onyxcreative.asia/services" },
+      { "@type": "ListItem", position: 3, name: service.title },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_JSON_LD) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SERVICE_JSON_LD) }}

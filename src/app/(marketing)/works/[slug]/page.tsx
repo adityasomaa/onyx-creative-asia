@@ -96,8 +96,24 @@ export default async function ProjectDetailPage({
       }
     : null;
 
+  // Breadcrumbs give Google the sitelink path and give an answer engine an
+  // explicit parent for the page it is about to quote.
+  const BREADCRUMB_JSON_LD = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://onyxcreative.asia" },
+      { "@type": "ListItem", position: 2, name: "Works", item: "https://onyxcreative.asia/works" },
+      { "@type": "ListItem", position: 3, name: project.client },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_JSON_LD) }}
+      />
       {/* Top, caption + headline */}
       <section className="container-x pt-40 md:pt-52 pb-12 md:pb-16">
         {/* Just position and year: the discipline is listed further down

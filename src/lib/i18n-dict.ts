@@ -55,7 +55,6 @@ type ProjectTx = {
 
 type InsightTx = {
   title?: Tri;
-  tag?: Tri;
   excerpt?: Tri;
   /** Index-aligned to the article's `sections`. */
   sections?: { heading?: Tri; paragraphs?: Tri[] }[];
@@ -160,7 +159,7 @@ const UI: Array<[string, Tri]> = [
   ],
 
   // ── Footer ──
-  ["#1 Digital Marketing in Asia", { id: "#1 Digital Marketing di Asia", zh: "Asia 领先的数字营销团队", ja: "Asia でトップクラスのデジタルマーケティング" }],
+  ["#1 Digital Business Development Agency in Asia", { id: "#1 Digital Business Development Agency di Asia", zh: "Asia 领先的数字业务发展机构", ja: "Asia でトップクラスのデジタルビジネス開発エージェンシー" }],
   [
     "Your one stop business development digital solution",
     {
@@ -350,6 +349,48 @@ const UI: Array<[string, Tri]> = [
   ["Thanks for applying. We'll", { id: "Terima kasih sudah melamar. Kami akan", zh: "感谢您的申请。我们会", ja: "ご応募ありがとうございます。私たちは" }],
   ["read every word.", { id: "membaca setiap katanya.", zh: "认真读完每一个字。", ja: "一言一句、しっかり読みます。" }],
   ["thanks.", { id: "terima kasih.", zh: "谢谢。", ja: "ありがとうございます。" }],
+
+  /* Insight taxonomy: the four categories and their blurbs. */
+  [
+    "Onyx Creative Asia, home",
+    { id: "Onyx Creative Asia, beranda", zh: "Onyx Creative Asia，首页", ja: "Onyx Creative Asia、ホーム" },
+  ],
+  [
+    "Market",
+    { id: "Pasar", zh: "市场", ja: "マーケット" },
+  ],
+  [
+    "Tech",
+    { id: "Teknologi", zh: "技术", ja: "テクノロジー" },
+  ],
+  [
+    "Happening",
+    { id: "Terkini", zh: "动态", ja: "いま起きていること" },
+  ],
+  [
+    "Guide",
+    { id: "Panduan", zh: "指南", ja: "ガイド" },
+  ],
+  [
+    "articles",
+    { id: "artikel", zh: "篇文章", ja: "本の記事" },
+  ],
+  [
+    "How the market moves: what clients are buying, what it costs, and where the demand is going.",
+    { id: "Ke mana pasar bergerak: apa yang dibeli klien, berapa harganya, dan permintaannya menuju ke mana.", zh: "市场往哪儿走：客户在买什么、要花多少钱，以及需求正流向哪里。", ja: "市場の動き方。クライアントが何を買い、いくらかかり、需要がどこへ向かっているのか。" },
+  ],
+  [
+    "The stack and the craft: AI systems, performance, and the build decisions behind the work.",
+    { id: "Stack dan kerajinannya: sistem AI, performa, dan keputusan teknis di balik pekerjaannya.", zh: "技术栈与手艺：AI 系统、性能，以及作品背后的那些取舍。", ja: "スタックと手ざわり。AI システム、パフォーマンス、そして制作の裏にある判断。" },
+  ],
+  [
+    "Dated news: platform changes, launches, and the shifts worth reacting to.",
+    { id: "Kabar bertanggal: perubahan platform, peluncuran, dan pergeseran yang layak direspons.", zh: "带日期的消息：平台变动、上线，以及值得马上反应的变化。", ja: "日付のあるニュース。プラットフォームの変更、ローンチ、反応する価値のある変化。" },
+  ],
+  [
+    "Practical how-to you can act on this week, written from work we have actually shipped.",
+    { id: "Panduan praktis yang bisa Anda jalankan minggu ini, ditulis dari pekerjaan yang benar-benar kami kirim.", zh: "这周就能照着做的实操指南，全部写自我们真正交付过的项目。", ja: "今週から実行できる実践的な手引き。実際に納品した仕事から書いています。" },
+  ],
 
   /* Contact forms, works case studies, and the sitemap page. */
   [
@@ -1267,9 +1308,165 @@ const PROJECT_TX: Record<string, ProjectTx> = {
 
 /** Keyed by insight slug, for the same reason as PROJECT_TX. */
 const INSIGHT_TX: Record<string, InsightTx> = {
+  "how-to-brief-a-website-so-it-ships": {
+    title: { id: "Cara menulis brief website supaya benar-benar jadi", zh: "怎么写一份能真的把网站做出来的需求说明", ja: "ちゃんと形になるウェブサイトのブリーフの書き方" },
+    excerpt: { id: "Kebanyakan proyek yang telat bukan salah bangunannya. Brief-nya yang buruk, dan telatnya muncul di minggu kelima sebagai pertanyaan yang seharusnya sudah beres di minggu pertama. Enam hal yang perlu diputuskan sebelum ada yang membuka design tool.", zh: "大多数延期的项目不是做得不好，是需求没写好，然后延期在第五周以一个本该第一周就定下来的问题的形式冒出来。在有人打开设计软件之前，先定这六件事。", ja: "遅れるプロジェクトの多くは、作りが悪かったのではありません。ブリーフが悪く、その遅れは五週目に、一週目に決めておくべきだった問いとして現れます。誰かがデザインツールを開く前に決めるべき六つのこと。" },
+    sections: [
+      {
+        heading: { id: "Keterlambatan hampir selalu ada di hulu", zh: "延期几乎总是发生在上游", ja: "遅れはほぼ必ず上流にある" },
+        paragraphs: [
+          { id: "Ketika sebuah build telat, penyebab yang terlihat biasanya satu ronde revisi atau aset yang belum ada. Penyebab sebenarnya lebih tua: keputusan yang tidak dibuat siapa pun di awal, yang tetap tak terlihat sampai pekerjaannya sampai ke titik di mana ia tidak bisa dihindari lagi.", zh: "一个项目延期时，看得见的原因通常是又一轮修改，或者某个素材还没到。真正的原因更早：一开始没人做的一个决定，一直藏着，直到工作推进到再也绕不开它的那一刻。", ja: "構築が遅れるとき、目に見える原因はたいてい修正ラウンドか、届いていない素材です。本当の原因はもっと前にあります。最初に誰も下さなかった判断が、避けようのない地点まで作業が進むまで見えないままなのです。" },
+          { id: "Brief bukan dokumen administratif. Ia adalah daftar keputusan yang Anda pilih untuk dibuat sekarang alih-alih di minggu kelima.", zh: "需求说明不是走流程的文件。它是一张清单，列着你选择现在就做、而不是拖到第五周才做的决定。", ja: "ブリーフは事務書類ではありません。五週目ではなく、いま下すと決めた判断のリストです。" },
+        ],
+      },
+      {
+        heading: { id: "Sebutkan satu hal yang harus dilakukan situsnya", zh: "说清楚网站必须完成的那一件事", ja: "サイトがすべき一つのことを名指しする" },
+        paragraphs: [
+          { id: "Bukan tiga hal. Satu. Booking treatment, minta penawaran, melamar posisi, membeli produk. Yang lain boleh ada, tapi aksi utamanya adalah yang layout-nya disusun mengelilinginya.", zh: "不是三件事。一件。预约疗程、索取报价、投递简历、购买产品。其他的都可以存在，但版面是围着这个主要动作排的。", ja: "三つではなく、一つです。施術を予約する、見積もりを依頼する、職に応募する、商品を買う。ほかも存在してよいのですが、レイアウトはその主要な行動を中心に組まれます。" },
+          { id: "Kalau jawaban jujurnya lebih dari satu, situsnya punya lebih dari satu audiens. Itu fakta struktural yang layak diketahui sebelum halaman pertamanya digambar, bukan sesudah.", zh: "如果老实说不止一件，那这个网站就有不止一类受众。这是个结构性的事实，值得在第一页被画出来之前就知道，而不是之后。", ja: "正直な答えが一つより多いなら、そのサイトには複数の対象がいます。それは最初のページが描かれる前に知っておく価値のある構造的な事実で、あとからではありません。" },
+        ],
+      },
+      {
+        heading: { id: "Selesaikan urusan copy lebih dulu", zh: "先把文案这件事定下来", ja: "まずコピーの問題を片づける" },
+        paragraphs: [
+          { id: "Putuskan siapa yang menulis kata-katanya dan kapan tenggatnya. Ini alasan paling umum sebuah proyek duduk di sembilan puluh persen selesai selama sebulan.", zh: "定下谁来写字、什么时候交。这是一个项目在“完成 90%”上坐一个月的最常见原因。", ja: "誰が言葉を書き、いつまでに出すのかを決めてください。プロジェクトが九割完成のまま一ヶ月停まる、最も多い理由がこれです。" },
+          { id: "Desain terhadap copy asli sebisa mungkin. Layout yang diuji dengan placeholder akan patah pertama kali sebuah headline sungguhan jadi tiga baris, bukan satu.", zh: "尽量拿真实文案来做设计。用占位文字试出来的版面，第一次遇到真标题变成三行而不是一行时就会塌。", ja: "できるかぎり実際のコピーに対して設計してください。ダミーテキストで検証したレイアウトは、本物の見出しが一行ではなく三行になった瞬間に崩れます。" },
+        ],
+      },
+      {
+        heading: { id: "Bawa asetnya, atau anggarkan", zh: "把素材带来，或者给它留预算", ja: "素材を用意するか、予算を取る" },
+        paragraphs: [
+          { id: "File logo dalam vektor, fotografi resolusi penuh, aturan brand apa pun yang sudah ada. Kalau ada yang belum ada tidak apa-apa, tapi ia perlu satu baris di anggaran dan satu tanggal, bukan asumsi bahwa nanti muncul sendiri.", zh: "矢量的 logo 文件、全分辨率的照片、已经存在的任何品牌规范。缺了也没关系，但它需要预算里的一行和一个日期，而不是“到时候应该会有”。", ja: "ベクターのロゴファイル、フル解像度の写真、すでにあるブランドの決めごと。欠けていても構いませんが、それには予算の一行と日付が必要で、そのうち出てくるだろうという前提ではいけません。" },
+        ],
+      },
+      {
+        heading: { id: "Tulis apa yang tidak Anda kerjakan", zh: "把不做的事也写下来", ja: "やらないことを書き出す" },
+        paragraphs: [
+          { id: "Daftar pendek berisi apa yang secara eksplisit di luar scope mencegah sebagian besar percakapan canggung nanti. Multi-bahasa, e-commerce, blog, login klien. Menyebutnya sebagai di luar bukan penolakan, itu fase dua.", zh: "一份简短的“明确不在范围内”的清单，能挡掉之后大部分尴尬的对话。多语言、电商、博客、客户登录。把它们写成不做，不是拒绝，是第二期。", ja: "明確にスコープ外だと書いた短いリストは、後の気まずい会話の大半を防ぎます。多言語、EC、ブログ、クライアントログイン。外だと明記するのは拒否ではなく、フェーズ二です。" },
+        ],
+      },
+      {
+        heading: { id: "Sepakati bagaimana feedback datang", zh: "约好反馈怎么给", ja: "フィードバックの届き方を決める" },
+        paragraphs: [
+          { id: "Satu orang merangkum komentarnya, di satu tempat, pada hari yang disepakati. Feedback yang datang dari empat orang lewat tiga kanal selama dua minggu bukan empat kali input, itu empat kali kalender.", zh: "由一个人汇总意见，放在一个地方，在约定的那天给。四个人通过三个渠道在两周里陆续给的反馈，不是四倍的信息量，是四倍的日历。", ja: "一人がコメントをまとめ、一か所に、決めた日までに。四人が三つの経路から二週間かけて送るフィードバックは、四倍の情報ではなく、四倍のカレンダーです。" },
+          { id: "Satu baris itu di dalam brief cenderung menghemat lebih banyak waktu daripada semua baris lainnya digabung.", zh: "需求里的这一行，省下的时间往往比其他所有行加起来还多。", ja: "ブリーフのその一行は、ほかのすべての行を合わせたより多くの時間を節約する傾向があります。" },
+        ],
+      },
+    ],
+  },
+  "what-a-website-actually-costs-in-bali": {
+    title: { id: "Berapa sebenarnya biaya website di Bali, dan kenapa penawarannya bisa sejauh itu bedanya", zh: "在巴厘岛做个网站到底要多少钱，以及为什么报价能差这么远", ja: "バリでウェブサイトは実際いくらかかるのか。そして、なぜ見積もりがこれほど開くのか" },
+    excerpt: { id: "Brief yang sama kembali dengan angka 8 juta dari satu tempat dan 90 juta dari tempat lain. Selisihnya bukan margin. Itu scope yang tidak pernah ditulis, jadi ini isi sebenarnya dari angka itu.", zh: "同一份需求，一家报 800 万印尼盾，另一家报 9000 万。差的不是利润，是没人写下来的范围。所以这里把那个数字里面到底装了什么摊开讲。", ja: "同じブリーフが、ある会社からは 800 万ルピア、別の会社からは 9,000 万ルピアで返ってきます。差は利益率ではありません。誰も書き出さなかったスコープです。だから、その数字の中身を並べます。" },
+    sections: [
+      {
+        heading: { id: "Angka yang tidak ada yang publikasikan", zh: "没人愿意公开的那个数字", ja: "誰も公表しない数字" },
+        paragraphs: [
+          { id: "Tanya lima studio di Bali berapa biaya website dan Anda akan dapat lima ajakan discovery call. Sebagian keengganannya wajar, karena pekerjaannya memang bervariasi. Efeknya tetap: pemilik bisnis tidak bisa menyusun anggaran tanpa memesan empat rapat lebih dulu.", zh: "问巴厘岛的五家工作室做个网站多少钱，你会收到五份“先约个沟通会”。这种回避有合理的部分，因为工作确实差别很大。但结果是：一个老板得先约四场会，才能开始做预算。", ja: "バリのスタジオ五社にサイトの費用を尋ねれば、五通のディスカバリーコールの誘いが返ってきます。ためらいには正当な部分もあります。仕事は本当に幅があるからです。それでも結果は同じで、経営者は先に四つの打ち合わせを入れないと予算が組めません。" },
+          { id: "Jadi ini versi jawaban kami, dengan rentangnya ditulis. Rupiah, pertengahan 2026, untuk pekerjaan yang dikerjakan tim, bukan satu freelancer.", zh: "所以这是我们的版本，区间直接写出来。印尼盾，2026 年年中，按团队交付计算，不是单个自由职业者。", ja: "そこで私たちの答えを、幅ごと書き出します。ルピア、2026 年半ば、フリーランス一人ではなくチームで納品する場合の数字です。" },
+        ],
+      },
+      {
+        heading: { id: "Di mana rentangnya sebenarnya berada", zh: "区间实际落在哪里", ja: "実際の相場はどこにあるか" },
+        paragraphs: [
+          { id: "Build template di WordPress atau site builder, dengan copy dan foto sudah di tangan, berkisar 8 sampai 20 juta. Ini pilihan tepat kalau Anda perlu ada online bulan ini dan situsnya adalah kartu nama.", zh: "用 WordPress 或建站工具做模板站，文案和照片都已经有了，大约 800 万到 2000 万。如果你这个月就得上线，而网站的作用相当于一张名片，这就是对的选择。", ja: "WordPress やサイトビルダーでのテンプレート構築は、コピーと写真が手元にあれば 800 万から 2,000 万ほど。今月中にオンラインに存在する必要があり、サイトが名刺の役割なら、これが正解です。" },
+          { id: "Situs marketing custom, lima sampai sepuluh halaman, didesain dan dibangun alih-alih dirakit, berkisar 25 sampai 70 juta. Kebanyakan bisnis mapan mendarat di pita ini.", zh: "定制的营销网站，五到十页，是设计并开发出来的而不是拼装的，大约 2500 万到 7000 万。大多数成熟的生意都落在这一档。", ja: "五から十ページのカスタム marketing サイトは、組み立てではなく設計して構築するもので、2,500 万から 7,000 万ほど。確立したビジネスの多くはこの帯に入ります。" },
+          { id: "Apa pun yang ada software-nya di belakang, alur booking, katalog berfilter, portal klien, mulai sekitar 60 juta dan naik mengikuti logikanya, bukan jumlah halamannya.", zh: "背后带软件的，比如预订流程、带筛选的目录、客户门户，从 6000 万起，往上走看的是逻辑的复杂度，不是页数。", ja: "背後にソフトウェアがあるもの、予約フロー、絞り込みのあるカタログ、クライアントポータルは 6,000 万あたりから始まり、ページ数ではなくロジックに応じて上がります。" },
+        ],
+      },
+      {
+        heading: { id: "Yang benar-benar menggerakkan angkanya", zh: "真正让数字动起来的东西", ja: "数字を動かしているもの" },
+        paragraphs: [
+          { id: "Copy adalah variabel terbesar dan yang paling sering didiamkan penawaran. Kalau kata-katanya belum ada, seseorang harus menulisnya, dan itu item biaya nyata, bukan pembulatan.", zh: "文案是最大的变量，也是报价里最常闭口不谈的一项。如果字还没有，就得有人来写，那是一条真实的费用，不是可以四舍五入掉的零头。", ja: "コピーは最大の変数であり、見積もりが最も黙っている項目です。言葉がまだ存在しないなら、誰かが書かねばならず、それは端数ではなく実費です。" },
+          { id: "Fotografi kedua. Situs yang didesain di sekitar imaji yang tidak Anda punya akan tertunda atau diisi stock, dan keduanya lebih mahal daripada memotretnya sekali dengan benar.", zh: "摄影是第二个。围绕你并不拥有的画面去设计的网站，要么被拖，要么塞满图库图，两条路都比一次拍好更贵。", ja: "二つ目は写真です。手元にないビジュアルを前提に設計されたサイトは、遅れるかストック写真で埋まります。どちらも、一度きちんと撮るより高くつきます。" },
+          { id: "Ketiga integrasi. Menyambungkan situs ke tool yang sudah dijalankan bisnisnya, CRM, sistem inventori, alur WhatsApp, adalah tempat build dua minggu berubah jadi enam.", zh: "第三是集成。把网站接到生意本来就在用的工具上，CRM、库存系统、WhatsApp 流程，这正是两周的活变成六周的地方。", ja: "三つ目は連携です。CRM、在庫システム、WhatsApp のフローなど、すでに動いているツールにサイトをつなぐ作業。二週間の構築が六週間になるのはここです。" },
+        ],
+      },
+      {
+        heading: { id: "Murah tidak sama dengan mubazir", zh: "便宜不等于浪费", ja: "安いことと、無駄なことは違う" },
+        paragraphs: [
+          { id: "Build template adalah keputusan sehat untuk bisnis yang butuh hadir dan belum tahu apa yang mengonversi. Menghabiskan 70 juta untuk mencari tahu itu adalah kesalahannya. Menghabiskan 12 juta bukan.", zh: "对于一门需要先有存在感、又还不知道什么能转化的生意来说，模板站是个明智的决定。花 7000 万去弄清这件事才是错的，花 1200 万不是。", ja: "存在が必要で、まだ何が成約につながるか分からないビジネスにとって、テンプレート構築は健全な判断です。それを確かめるために 7,000 万を使うのが間違いで、1,200 万を使うのは間違いではありません。" },
+          { id: "Pemborosan yang paling sering kami lihat justru duduk di tengah: harga custom dibayar untuk situs yang, pada akhirnya, tetap dirakit dari template. Tanyakan apa yang didesain dan apa yang dikonfigurasi. Pertanyaan itu memisahkan kedua pita dengan bersih.", zh: "我们见得最多的浪费恰恰在中间：付了定制的价钱，最后拿到的还是一个从模板拼出来的网站。问清楚哪些是设计的、哪些是配置的。这一个问题就能把两档干净地分开。", ja: "いちばんよく見る無駄は、むしろ真ん中にあります。カスタムの価格を払ったのに、結局はテンプレートから組み立てられたサイトだった、という形です。何を設計し、何を設定するのかを尋ねてください。その一問で二つの帯はきれいに分かれます。" },
+        ],
+      },
+      {
+        heading: { id: "Tiga pertanyaan sebelum Anda tanda tangan", zh: "签字之前问三个问题", ja: "契約前に尋ねる三つの問い" },
+        paragraphs: [
+          { id: "Tanyakan siapa yang menulis copy-nya. Tanyakan siapa yang memiliki hosting dan domainnya setelah peluncuran. Tanyakan apa yang terjadi kalau Anda mau section baru enam bulan lagi, dan apakah itu termasuk atau ditagih lagi.", zh: "问谁写文案。问上线之后主机和域名归谁。问半年后你想加一个新板块会怎样，是包含在内还是另外报价。", ja: "コピーを誰が書くのかを尋ねてください。公開後にホスティングとドメインを誰が持つのかを尋ねてください。半年後に新しいセクションが欲しくなったらどうなるのか、それは含まれているのか別途見積もりなのかを尋ねてください。" },
+          { id: "Jawaban dari ketiganya menjelaskan sebagian besar jarak antara dua penawaran mana pun yang sedang Anda pegang.", zh: "这三个问题的答案，基本就解释了你手上任意两份报价之间的大部分差距。", ja: "その三つの答えが、いま手元にあるどの二つの見積もりの差も、ほとんど説明します。" },
+        ],
+      },
+    ],
+  },
+  "instagram-grid-went-portrait-and-most-feeds-broke": {
+    title: { id: "Grid Instagram berubah jadi potret. Kebanyakan feed brand masih kepotong.", zh: "Instagram 的九宫格变成竖版了。大多数品牌的动态还是裁错的。", ja: "Instagram のグリッドが縦になりました。ブランドのフィードの多くは、いまも切れたままです。" },
+    excerpt: { id: "Grid profil berhenti jadi persegi. Feed yang dibangun di atas art persegi kini duduk dalam bingkai yang lebih tinggi, headline-nya kepotong dan logonya melayang keluar frame. Perbaikannya singkat per template, dan hampir tidak ada yang melakukannya.", zh: "个人主页的九宫格不再是正方形了。基于方形素材做的动态，现在被塞进更高的框里，标题被切掉、logo 飘出画面。每套模板改一下就好，但几乎没人动过。", ja: "プロフィールのグリッドは正方形をやめました。スクエアで作られたフィードは背の高い枠に収まり、見出しは切れ、ロゴは画面の外へ流れます。テンプレートごとの短い修正で済むのに、ほとんど誰も手をつけていません。" },
+    sections: [
+      {
+        heading: { id: "Kebiasaan persegi di grid potret", zh: "竖版格子里的方形习惯", ja: "縦のグリッドに残る、スクエアの習慣" },
+        paragraphs: [
+          { id: "Feed brand dibangun persegi karena grid-nya persegi. Template menaruh headline dekat tepi atas, logo dekat bawah, dan percaya keduanya akan selamat dari crop.", zh: "品牌动态是按方形做的，因为格子本来就是方的。模板把标题放在靠上的位置、logo 放在靠下，然后相信这两样都能扛过裁切。", ja: "グリッドが正方形だったから、ブランドのフィードもスクエアで作られました。テンプレートは見出しを上端近くに、ロゴを下端近くに置き、どちらもトリミングを生き延びると信じていたのです。" },
+          { id: "Grid-nya sekarang lebih tinggi. Post persegi yang ditaruh di sel potret akan di-pad atau di-scale, dan safe zone yang digambar terhadap crop lama tidak lagi cocok dengan apa yang benar-benar dilihat pengunjung di profil.", zh: "现在格子更高了。方形的帖子放进竖版格子里，要么补边要么缩放，而当初照着旧裁切画的安全区，跟访客在主页上真正看到的已经对不上了。", ja: "いまのグリッドは背が高い。スクエアの投稿は縦のセルの中で余白を足されるか、拡大されます。旧いトリミングに合わせて引いたセーフゾーンは、プロフィールで実際に見える範囲とずれてしまいました。" },
+        ],
+      },
+      {
+        heading: { id: "Yang sebenarnya hilang", zh: "真正丢掉的是什么", ja: "実際に失われるもの" },
+        paragraphs: [
+          { id: "Kerusakannya tidak dramatis, justru karena itulah ia luput. Headline kehilangan baris pertamanya. Logo duduk separuh keluar frame. Call to action mendarat di bawah bagian sel yang terlihat.", zh: "损坏一点都不戏剧化，正因为如此才没人注意。标题少了第一行。logo 有一半在画面外。行动号召落在格子可见范围的下面。", ja: "被害は劇的ではありません。だからこそ見過ごされます。見出しは一行目を失い、ロゴは半分フレームの外に出て、行動喚起はセルの見える範囲の下に落ちます。" },
+          { id: "Tidak ada yang terlihat cukup rusak untuk dilaporkan. Tapi grid-nya berhenti terbaca sebagai satu sistem, dan grid itu satu-satunya tampilan yang dilihat kebanyakan orang sebelum memutuskan follow atau tidak.", zh: "没有一处坏到值得报修。但九宫格不再像一套完整的东西了，而在决定要不要关注之前，大多数人看到的就只有这个九宫格。", ja: "報告するほど壊れて見えるものは何もありません。ただ、グリッドは一つのシステムとして読めなくなります。そしてフォローするかどうかを決める前に、ほとんどの人が見るのはそのグリッドだけです。" },
+        ],
+      },
+      {
+        heading: { id: "Perbaikannya ganti template, bukan foto ulang", zh: "要改的是模板，不是重拍", ja: "直すのはテンプレートで、撮り直しではない" },
+        paragraphs: [
+          { id: "Desain post-nya di rasio yang lebih tinggi dan taruh semua yang harus selamat di dalam pita aman di tengah. Elemen dekoratif boleh tinggal di luarnya. Post penuhnya tetap tampil di feed; crop grid-nya saja yang berhenti memakan pesannya.", zh: "直接按更高的比例设计，把所有必须保住的内容放进居中的安全带里。装饰性的东西可以留在外面。完整的帖子在信息流里还是完整的，只是九宫格的裁切不再吃掉你的信息。", ja: "投稿を背の高い比率で設計し、生き残らせるものはすべて中央のセーフバンドに収めます。装飾はその外にいて構いません。フィードでは投稿の全体が出るので、グリッドのトリミングがメッセージを食べるのをやめるだけです。" },
+          { id: "Post lama tidak perlu dihapus. Recrop yang masih punya bobot, tinggalkan sisanya, dan biarkan template baru membawa feed-nya maju dari sini.", zh: "旧帖子不用删。把还有分量的重新裁一下，其余的留着，让新模板从这里开始带着动态往前走。", ja: "古い投稿を消す必要はありません。まだ効いているものだけ切り直し、残りはそのままに。ここから先は新しいテンプレートがフィードを運びます。" },
+        ],
+      },
+      {
+        heading: { id: "Kenapa kami menaruh ini sebagai kabar", zh: "为什么我们把这件事归到“动态”", ja: "これをニュースとして扱う理由" },
+        paragraphs: [
+          { id: "Perubahan geometri platform itu senyap dan sering. Tidak ada yang mengirim memo. Sebuah feed cuma terlihat sedikit lebih buruk minggu itu, lalu bertahan begitu selama setahun.", zh: "平台的画幅变动既安静又频繁。没有人会发通知。某个动态只是从某一周开始看起来稍微差了一点，然后就这么维持了一年。", ja: "プラットフォームの寸法変更は静かで、しかも頻繁です。誰も通達を出しません。フィードはある週から少しだけ見栄えが悪くなり、そのまま一年続きます。" },
+          { id: "Harus ada yang mengawasinya. Itu bagian besar dari apa arti menjalankan sebuah feed, dan ia tidak kelihatan saat dikerjakan serta sangat kelihatan saat tidak.", zh: "总得有人盯着。这其实是“运营一个账号”里很大的一部分，做到了没人看得见，没做到一眼就看得见。", ja: "誰かが見ている必要があります。それはフィードを運用するということの大きな部分で、やっているときは見えず、やっていないときにだけはっきり見えます。" },
+        ],
+      },
+    ],
+  },
+  "answer-engines-changed-how-businesses-get-found": {
+    title: { id: "Pencarian kini menjawab sendiri pertanyaannya. Situs Anda harus jadi yang dikutipnya.", zh: "搜索结果现在自己就把问题答了。你的网站得成为它引用的那个来源。", ja: "検索がみずから答えを返すようになりました。あなたのサイトは、その引用元になる必要があります。" },
+    excerpt: { id: "Google, ChatGPT, dan Perplexity makin sering menjawab langsung alih-alih menyodorkan sepuluh tautan biru. Itu tidak menghapus kebutuhan akan website. Yang berubah adalah apa yang harus ada di dalamnya.", zh: "Google、ChatGPT 和 Perplexity 越来越倾向于直接给出答案，而不是丢给你十条蓝色链接。这并没有让网站变得多余，改变的是网站里必须写着什么。", ja: "Google も ChatGPT も Perplexity も、十本の青いリンクを渡す代わりに、その場で答えを返すことが増えました。ウェブサイトが不要になったのではありません。何を載せるべきかが変わったのです。" },
+    sections: [
+      {
+        heading: { id: "Klik bukan lagi bawaan", zh: "点击不再是默认路径", ja: "クリックはもはや既定ではない" },
+        paragraphs: [
+          { id: "Selama dua puluh tahun tugas sebuah halaman adalah memenangkan klik. Masuk peringkat atas, tulis judul yang ingin dibuka orang, lalu kunjungannya menyusul. Mekanik itu masih jalan, tapi bukan lagi satu-satunya, dan untuk makin banyak pertanyaan ia bukan yang pertama.", zh: "二十年来，一个页面的任务就是赢得点击。排进前几名，写个让人想打开的标题，访问自然就来了。这套机制现在依然有效，但它不再是唯一的一条路，而且对越来越多的问题来说，它已经不是第一条。", ja: "二十年のあいだ、ページの仕事はクリックを勝ち取ることでした。上位に入り、開きたくなる見出しを書けば、訪問はついてくる。その仕組みはいまも働きますが、もう唯一ではなく、多くの問いにとって最初の経路でもありません。" },
+          { id: "Orang yang bertanya berapa biaya website villa di Bali, atau apakah mereka butuh freehold atau leasehold, kini sering mendapat jawaban tertulis sebelum tautan apa pun muncul. Jawaban itu disusun dari halaman-halaman yang dipercaya mesinnya. Kalau halaman Anda bukan salah satunya, Anda tidak ada dalam percakapan itu, apa pun kata peringkat Anda.", zh: "有人问在巴厘岛做一个别墅网站要多少钱，或者该选永久产权还是租赁产权，现在往往在任何链接出现之前就先拿到一段文字答案。那段答案，是从引擎信任的那些页面里拼出来的。如果你的页面不在其中，你就不在这场对话里，排名说什么都没用。", ja: "バリでヴィラのサイトはいくらか、フリーホールドとリースホールドのどちらが要るのか。そう尋ねた人は、いまやリンクより先に文章の答えを受け取ります。その答えは、エンジンが信頼するページから組み立てられます。あなたのページがそこに入っていなければ、順位が何位でも、その会話の外にいます。" },
+        ],
+      },
+      {
+        heading: { id: "Answer engine mengutip, bukan menjelajah", zh: "答案引擎是在引用，而不是在浏览", ja: "アンサーエンジンは閲覧せず、引用する" },
+        paragraphs: [
+          { id: "Answer engine tidak membaca homepage Anda seperti pengunjung. Ia mencari klaim yang bisa diangkat, diatribusikan, dan dipertahankan. Bahasa marketing tidak memberinya apa pun untuk diangkat. Pernyataan spesifik yang bisa dicek, memberi.", zh: "答案引擎读你的首页，和访客读的方式不一样。它在找一句可以摘出来、能标注来源、又扛得住追问的话。营销腔给不了它任何可摘的东西，一句具体、可核对的陈述才可以。", ja: "アンサーエンジンは、訪問者のようにホームページを読みません。持ち出せて、出典を示せて、擁護できる主張を探しています。マーケティングの言い回しは、持ち出せるものを何も与えません。具体的で確かめられる一文が与えるのです。" },
+          { id: "“Kami memberikan solusi digital kelas dunia” tidak bisa dikutip. “Situs marketing lima halaman di Bali berkisar 25 sampai 70 juta rupiah, dan copy adalah variabel terbesarnya” bisa. Yang satu adalah pose. Yang satu lagi adalah jawaban.", zh: "“我们提供世界级的数字解决方案”没法被引用。“在巴厘岛做一个五页的营销网站，大约 2500 万到 7000 万印尼盾，其中文案是最大的变量”可以。前者是姿态，后者是答案。", ja: "「世界水準のデジタルソリューションを提供します」は引用できません。「バリの五ページの marketing サイトは 2,500 万から 7,000 万ルピア、最大の変数はコピーです」は引用できます。前者は姿勢で、後者は答えです。" },
+        ],
+      },
+      {
+        heading: { id: "Yang kami ubah di situs kami sendiri", zh: "我们在自己网站上改了什么", ja: "自分たちのサイトで変えたこと" },
+        paragraphs: [
+          { id: "Kami menuliskan pertanyaannya sebagai heading dan menjawabnya langsung di bawahnya, dengan kata-kata yang dipakai klien, bukan kata-kata yang dipakai agensi. Kami menaruh rentang harga secara terbuka. Kami menandai layanan, lokasi, dan review sebagai structured data supaya tidak ada yang perlu ditebak dari layout.", zh: "我们把问题直接写成标题，答案就放在下面，用客户会说的话，而不是代理商会说的话。我们把价格区间公开写出来。我们把服务、地点和评价都标成结构化数据，这样就没有什么需要从版式里去猜。", ja: "問いをそのまま見出しにして、その下で直接答える。エージェンシーの言葉ではなく、クライアントの言葉で。価格の幅も公開しました。サービス、所在地、レビューは構造化データとして記述し、レイアウトから推測させないようにしています。" },
+          { id: "Kami juga menyimpan llms.txt di root: ringkasan teks polos tentang siapa kami, apa yang kami kerjakan, dan di mana jawaban kanoniknya berada. Biayanya nol dan itu menghapus tebak-tebakan untuk crawler mana pun yang menghormatinya.", zh: "我们还在根目录放了一个 llms.txt：一份纯文本的说明，写清我们是谁、做什么、权威答案在哪里。它不花一分钱，却帮任何尊重它的爬虫省掉了猜测。", ja: "ルートに llms.txt も置いています。私たちが何者で、何をしていて、正典となる答えがどこにあるかを記したプレーンテキストです。費用はかからず、それを尊重するクローラーから推測を取り除きます。" },
+        ],
+      },
+      {
+        heading: { id: "Ini bukan hal terpisah dari SEO", zh: "这跟 SEO 不是两回事", ja: "これは SEO と別のものではない" },
+        paragraphs: [
+          { id: "Tidak ada satu pun dari itu yang bertukar dengan peringkat. Heading yang jelas, spesifik yang nyata, halaman cepat, dan structured data yang benar adalah hal-hal yang sejak dulu membantu di pencarian klasik. Answer engine cuma menaikkan hukuman untuk kekaburan.", zh: "上面这些没有一样是在拿排名去换。清楚的标题、真实的细节、快的页面、正确的结构化数据，本来就是传统搜索里一直有用的东西。答案引擎只是把含糊的代价抬高了。", ja: "どれも順位と引き換えではありません。明快な見出し、具体的な事実、速いページ、正しい構造化データは、従来の検索でもずっと効いてきたものです。アンサーエンジンは、曖昧さの罰則を重くしただけです。" },
+          { id: "Tesnya pendek. Ambil lima pertanyaan yang ditanyakan klien sebelum mereka menyewa Anda. Kalau jawabannya tidak tertulis di suatu tempat di situs Anda dalam bahasa yang lugas, maka tidak ada apa pun untuk dikutip.", zh: "检验方法很短。把客户在决定合作前会问的五个问题列出来。如果答案没有用大白话写在你网站的某个地方，那就没有任何东西可以被引用。", ja: "テストは短いものです。契約前にクライアントが尋ねる五つの問いを挙げてください。その答えが平易な言葉でサイトのどこかに書かれていなければ、引用されるものは存在しません。" },
+        ],
+      },
+    ],
+  },
   "designing-for-the-spotlight-not-the-brochure": {
     title: { id: "Kenapa homepage kamu sebaiknya bilang satu hal, bukan sepuluh", zh: "首页只说一件事，而不是十件事", ja: "homepage で伝えるのは、10個ではなく1つでいい" },
-    tag: { id: "Web · Motion", zh: "Web · Motion", ja: "Web · Motion" },
     excerpt: { id: "Kebanyakan website bisnis menaruh semua layanan di halaman depan, dan tidak ada satu pun yang bikin orang klik. Homepage cuma punya sekitar empat detik untuk menahan orang, jadi butuh satu janji yang jelas dan satu langkah berikutnya yang gampang ditebak.", zh: "大多数企业网站把所有服务都堆在首页，结果没有一项能换来点击。homepage 大概只有四秒钟留住一个人，所以它需要一个清楚的承诺，和一个显而易见的下一步。", ja: "多くの企業サイトは全サービスをトップに並べるが、どれもクリックにつながらない。homepage が人をつなぎ止められるのは4秒ほど。だから必要なのは、はっきりした約束ひとつと、迷わない次の一歩ひとつだけだ。" },
     sections: [
       {
@@ -1308,7 +1505,6 @@ const INSIGHT_TX: Record<string, InsightTx> = {
   },
   "when-ai-agents-earn-their-seat-at-the-table": {
     title: { id: "AI yang berguna itu menghapus kerjaan, bukan menambah chatbot", zh: "有用的 AI 是减掉工作，不是加个 chatbot", ja: "役に立つ AI は仕事を減らす。chatbot を足すことではない" },
-    tag: { id: "AI Systems", zh: "AI Systems", ja: "AI Systems" },
     excerpt: { id: "Kebanyakan AI yang dijual ke bisnis cuma chat widget yang ditempel di contact form. Versi yang layak dibayar justru jalan di belakang layar, mengangkat kerjaan admin dari tim kamu, dan tidak pernah minta diperhatikan.", zh: "卖给企业的 AI，大多只是贴在 contact form 上的一个聊天 widget。真正值得花钱的那种跑在后台，把行政杂活从团队手里拿走，而且从不要求被看见。", ja: "企業に売られている AI の多くは、contact form に貼り付けた chat widget にすぎない。お金を払う価値があるのは裏側で動き、チームから事務作業を取り上げ、存在を主張しないほうだ。" },
     sections: [
       {
@@ -1348,7 +1544,6 @@ const INSIGHT_TX: Record<string, InsightTx> = {
   },
   "performance-creative-isnt-a-different-language": {
     title: { id: "Iklan dan brand kamu sebaiknya datang dari tim yang sama", zh: "你的广告和你的 brand，应该出自同一个团队", ja: "広告と brand は、同じチームから出したほうがいい" },
-    tag: { id: "Paid Media", zh: "Paid Media", ja: "Paid Media" },
     excerpt: { id: "Banyak studio memperlakukan paid creative sebagai keahlian terpisah dengan standar yang lebih rendah. Padahal tidak. Orang yang membangun brand kamu seharusnya yang menjalankan iklannya, dengan tempo lebih cepat dan ukuran keberhasilan yang berbeda.", zh: "不少工作室把 paid creative 当成另一门手艺，还配上更低的标准。其实不是。建你 brand 的那批人，就该来跑你的广告，只是节奏更快、衡量方式不同。", ja: "paid creative を別の職能として、しかも低い基準で扱うスタジオは多い。そんなことはない。brand を作る人がそのまま広告を回すべきで、変わるのは速度と評価軸だけだ。" },
     sections: [
       {
@@ -1387,7 +1582,6 @@ const INSIGHT_TX: Record<string, InsightTx> = {
   },
   "why-we-shipped-a-hero-video-instead-of-a-hero-image": {
     title: { id: "Kenapa homepage kami dibuka dengan video pendek, bukan foto", zh: "为什么我们的 homepage 开场是一小段视频，不是照片", ja: "homepage の冒頭を写真ではなく短い動画にした理由" },
-    tag: { id: "Web · Brand", zh: "Web · Brand", ja: "Web · Brand" },
     excerpt: { id: "Foto cuma memberi tahu pengunjung bahwa halamannya sudah termuat. Beberapa detik gerakan memberi mereka alasan untuk bertahan. Ini biaya sebuah hero loop dalam waktu muat, dan cara kami menjaga halamannya tetap cepat.", zh: "一张照片只告诉访客页面加载好了，几秒钟的动态才给他们留下来的理由。这里说说一个 hero loop 在加载时间上的代价，以及我们怎么让页面照样快。", ja: "写真が伝えるのは「ページが読み込まれた」ことだけ。数秒の動きは、留まる理由になる。hero の loop が読み込み時間にどれだけのコストを払わせるか、それでもページを速く保つ方法を書いておく。" },
     sections: [
       {
@@ -1551,7 +1745,6 @@ function build(): Maps {
     const t = INSIGHT_TX[ins.slug];
     if (!t) return;
     put(m, ins.title, t.title);
-    put(m, ins.tag, t.tag);
     put(m, ins.excerpt, t.excerpt);
     ins.sections.forEach((sec, j) => {
       put(m, sec.heading, t.sections?.[j]?.heading);

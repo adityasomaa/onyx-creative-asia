@@ -44,7 +44,9 @@ const EASE = [0.76, 0, 0.24, 1] as const;
 
 // Pages whose hero uses a dark background — nav should render in dark mode
 // (bone text on transparent) until the user scrolls past the fold.
-const DARK_HERO_PATHS = new Set(["/"]);
+// /contact is a full-bleed ink canvas that never scrolls, so it stays here
+// for the whole page: ink-on-ink made the header invisible.
+const DARK_HERO_PATHS = new Set(["/", "/contact"]);
 
 export default function Nav() {
   const pathname = usePathname();
@@ -137,7 +139,7 @@ export default function Nav() {
         <div className="container-x flex h-16 md:h-20 items-center justify-between">
           <Link
             href="/"
-            aria-label="Onyx Creative Asia, home"
+            aria-label={t("Onyx Creative Asia, home")}
             className="group flex items-center"
           >
             {/* ONYX Creative wordmark. Both color variants are stacked

@@ -1,5 +1,5 @@
 import { PROJECTS, SERVICES } from "@/lib/data";
-import { INSIGHTS } from "@/lib/insights";
+import { INSIGHTS, INSIGHT_CATEGORIES, categorySlug } from "@/lib/insights";
 
 const BASE = "https://onyxcreative.asia";
 
@@ -53,6 +53,16 @@ function buildEntries(): Entry[] {
     priority: 0.7,
   }));
 
+  // One entry per category. These are the pages a "market insight" or
+  // "how-to guide" query can actually land on; the filter row on /insights
+  // is client state and produces no URL of its own.
+  const categoryRoutes: Entry[] = INSIGHT_CATEGORIES.map((c) => ({
+    url: `${BASE}/insights/category/${categorySlug(c)}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
   const insightRoutes: Entry[] = INSIGHTS.map((i) => ({
     url: `${BASE}/insights/${i.slug}`,
     lastModified: new Date(i.publishedAt),
@@ -60,7 +70,13 @@ function buildEntries(): Entry[] {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...projectRoutes, ...insightRoutes];
+  return [
+    ...staticRoutes,
+    ...serviceRoutes,
+    ...projectRoutes,
+    ...categoryRoutes,
+    ...insightRoutes,
+  ];
 }
 
 export function GET() {

@@ -11,7 +11,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
   title: {
-    default: "Onyx Creative Asia | #1 Digital Marketing in Asia",
+    default: "Onyx Creative Asia | #1 Digital Business Development Agency in Asia",
     template: "%s | Onyx Creative Asia",
   },
   description:

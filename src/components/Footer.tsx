@@ -75,7 +75,7 @@ export default function Footer() {
             Onyx Creative Asia
           </p>
           <p className="mt-1 text-xs uppercase tracking-[0.22em] opacity-60">
-            {t("#1 Digital Marketing in Asia")}
+            {t("#1 Digital Business Development Agency in Asia")}
           </p>
           <p className="mt-4 max-w-xs leading-relaxed opacity-80">
             {t("Your one stop business development digital solution")}
