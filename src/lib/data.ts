@@ -819,6 +819,13 @@ export type Testimonial = {
   /** Optional: matches Project.slug so /works/[slug] can render the
    *  testimonial inline. Falls back to client-name slugify match. */
   projectSlug?: string;
+  /**
+   * A stand-in quote written by us, waiting on the client's real words.
+   * It still renders on the page, but it is kept out of the Review JSON-LD:
+   * that markup feeds Google's review rich results, and shipping an
+   * invented five-star review into it is exactly what the policy forbids.
+   */
+  placeholder?: boolean;
 };
 
 /**
@@ -841,6 +848,15 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Founder",
     client: "RADcruiters",
     projectSlug: "radcruiters",
+  },
+  {
+    quote:
+      "Customers used to ask what CBM meant before every quote. The feed has usually answered that before they message us now, so the conversation starts at the shipment instead of the vocabulary.",
+    author: "Operations Lead",
+    role: "Export Division",
+    client: "Jalak Cargo Logistics",
+    projectSlug: "jalak-cargo-logistics",
+    placeholder: true,
   },
   {
     quote:

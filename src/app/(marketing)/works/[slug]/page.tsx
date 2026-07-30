@@ -71,7 +71,7 @@ export default async function ProjectDetailPage({
   // results. Inline (not a standalone Review type), Schema.org allows
   // CreativeWork to carry review[], but for an agency case study the
   // cleanest is a top-level Review pointing back at our Organization.
-  const REVIEW_JSON_LD = testimonial
+  const REVIEW_JSON_LD = testimonial && !testimonial.placeholder
     ? {
         "@context": "https://schema.org",
         "@type": "Review",
@@ -230,7 +230,11 @@ export default async function ProjectDetailPage({
           </Reveal>
           <Reveal delay={0.1}>
             <figcaption className="mt-8 text-sm flex items-baseline gap-3 flex-wrap">
-              <span className="font-medium">{testimonial.author}</span>
+              {/* Real names have no dictionary entry and fall through unchanged;
+                  this only translates role-shaped attributions. */}
+              <span className="font-medium">
+                <T>{testimonial.author}</T>
+              </span>
               <span className="opacity-50">·</span>
               <span className="opacity-70"><T>{testimonial.role}</T></span>
               <span className="opacity-50">·</span>

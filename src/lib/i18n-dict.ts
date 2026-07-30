@@ -352,6 +352,10 @@ const UI: Array<[string, Tri]> = [
 
   /* Insight taxonomy: the four categories and their blurbs. */
   [
+    "Operations Lead",
+    { id: "Kepala Operasional", zh: "运营负责人", ja: "オペレーション責任者" },
+  ],
+  [
     "Onyx Creative Asia, home",
     { id: "Onyx Creative Asia, beranda", zh: "Onyx Creative Asia，首页", ja: "Onyx Creative Asia、ホーム" },
   ],
@@ -1623,6 +1627,14 @@ const INSIGHT_TX: Record<string, InsightTx> = {
 
 /** Keyed by the testimonial's projectSlug, for the same reason as PROJECT_TX. */
 const TESTIMONIAL_TX: Record<string, { quote?: Tri; role?: Tri }> = {
+  "jalak-cargo-logistics": {
+    quote: {
+      id: "Dulu pelanggan selalu bertanya apa itu CBM sebelum tiap penawaran. Sekarang feed-nya biasanya sudah menjawab itu sebelum mereka menghubungi kami, jadi obrolannya mulai dari kirimannya, bukan dari istilahnya.",
+      zh: "以前每次报价前，客户都要先问一句 CBM 是什么。现在他们来找我们之前，动态基本已经把这个答完了，所以对话直接从这批货开始，而不是从名词开始。",
+      ja: "以前は見積もりのたびに、CBM とは何かと尋ねられていました。いまは連絡が来る前にフィードがそれに答えているので、会話は用語ではなく貨物そのものから始まります。",
+    },
+    role: { id: "Divisi Ekspor", zh: "出口部", ja: "輸出部門" },
+  },
   "radcruiters": {
     quote: {
       id: "Yang dulu butuh tiga kali ping di Slack dan satu kartu Trello manual, sekarang selesai dalam waktu kurang dari semenit. Tim bisa fokus ke kampanyenya, bukan ke proses masuknya.",
