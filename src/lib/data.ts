@@ -399,6 +399,58 @@ export const PROJECTS: Project[] = [
       ],
     },
   },
+  {
+    slug: "my-day-gili",
+    title: "Fast Boat Booking Surface",
+    client: "My Day Gili",
+    blurb: "Fast boat tickets and day trips from Bali",
+    category: "Digital Presence",
+    year: "2026",
+    description:
+      "One booking surface for crossings to the Gili Islands and Lombok. Four operators, their real schedules, and their real fares, with every enquiry landing on WhatsApp already carrying the trip it came from.",
+    cover: "/works/my-day-gili.jpg",
+    coverLoop: "/works/my-day-gili-card.mp4",
+    coverLoopHd: "/works/my-day-gili.mp4",
+    tags: ["Travel", "Booking", "SEO"],
+    url: "https://mydaygili.com",
+    urlLabel: "Visit site",
+    services: ["Digital Presence", "Digital Marketing", "Growth & Analytics", "Managed Services"],
+    location: "Padang Bai · Bali · Indonesia",
+    scope: [
+      "Multi-page site: crossings, day trips, Bali tours, blog, contact",
+      "Operator comparison with live departure times and fares",
+      "Gili and Nusa Penida day-trip pages with inclusions",
+      "WhatsApp booking, each enquiry tagged with its own reference",
+      "FAQ answering the harbour, fee, and infant questions travellers ask",
+      "Product, LocalBusiness, and FAQ structured data for travel search",
+    ],
+    longDescription:
+      "My Day Gili has been moving travellers from Bali to the Gili Islands and Lombok since 2017. The hard part was never the boats, it was that a traveller comparing four operators had to open four tabs, none of which agreed on price, and then send a message that arrived with no context at all. The site puts the four crossings side by side with their real times and fares, adds the day trips and tours the team also runs, and routes every enquiry to WhatsApp carrying a reference for whatever the traveller was looking at.",
+    study: {
+      overview:
+        "My Day Gili sells fast boat tickets from Padang Bai to Gili Trawangan, Gili Air, Gili Meno, and Lombok, plus Gili and Nusa Penida day trips and Bali tours with private transfer. It runs on real fast ferries rather than small speedboats, works with four operators, and has been rated on TripAdvisor since 2017. Bookings happen on WhatsApp, which is how island crossings actually get booked.",
+      needed: [
+        "Four operators, four sets of times and fares, and no single place that compared them.",
+        "The difference between a large fast ferry and a small speedboat was the whole pitch, and it was nowhere on the page.",
+        "Harbour fees, infant rules, and which port to show up at were asked over and over in chat.",
+        "Enquiries arrived as bare messages, so the team had to work out which trip the traveller meant before answering.",
+      ],
+      did: [
+        "Built the multi-page site: crossings, day trips, Bali tours, blog, and contact.",
+        "Put the four operators side by side with their departure times and starting fares.",
+        "Wrote the day-trip and tour pages with what is actually included, pickup and gear among them.",
+        "Answered the recurring questions in a public FAQ instead of in chat, one at a time.",
+        "Tagged every WhatsApp enquiry with a reference so it arrives with the trip attached.",
+        "Marked up Product, LocalBusiness, and FAQ data so travel searches can read the fares.",
+      ],
+      changed: [
+        "A traveller compares four crossings on one page instead of across four tabs.",
+        "Fares are visible before anyone has to ask for them.",
+        "The questions that used to open every chat are answered before the chat starts.",
+        "Enquiries reach WhatsApp already carrying the trip they came from.",
+      ],
+    },
+  },
 ];
 
 /** Projects that used a given service, matched on the service's title. */
@@ -856,6 +908,15 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Export Division",
     client: "Jalak Cargo Logistics",
     projectSlug: "jalak-cargo-logistics",
+    placeholder: true,
+  },
+  {
+    quote:
+      "Travellers used to open with which boat, what time, and how much, and we answered the same four things every day. Now the message arrives naming the crossing they already picked.",
+    author: "Reservations Lead",
+    role: "Bookings Team",
+    client: "My Day Gili",
+    projectSlug: "my-day-gili",
     placeholder: true,
   },
   {

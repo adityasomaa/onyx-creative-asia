@@ -352,6 +352,10 @@ const UI: Array<[string, Tri]> = [
 
   /* Insight taxonomy: the four categories and their blurbs. */
   [
+    "Reservations Lead",
+    { id: "Kepala Reservasi", zh: "预订负责人", ja: "予約責任者" },
+  ],
+  [
     "Operations Lead",
     { id: "Kepala Operasional", zh: "运营负责人", ja: "オペレーション責任者" },
   ],
@@ -951,6 +955,49 @@ const SERVICE_TX: Array<ServiceTx | undefined> = [
  * translation to the wrong project when that happens.
  */
 const PROJECT_TX: Record<string, ProjectTx> = {
+  "my-day-gili": {
+    title: { id: "Tempat Booking Fast Boat", zh: "快船预订入口", ja: "ファストボート予約サーフェス" },
+    blurb: { id: "Tiket fast boat dan day trip dari Bali", zh: "从巴厘岛出发的快船船票与一日游", ja: "バリ発のファストボートのチケットと日帰りツアー" },
+    description: { id: "Satu tempat untuk booking penyeberangan ke Gili dan Lombok. Empat operator, jadwal dan tarif aslinya, dengan tiap pertanyaan mendarat di WhatsApp sudah membawa trip asalnya.", zh: "一个入口，搞定去 Gili 和龙目岛的所有船票。四家船公司、真实的班次和票价，而且每一条咨询进到 WhatsApp 时，都已经带着它来自哪一趟。", ja: "ギリ諸島とロンボクへの渡航を予約する、一つの窓口。四つの運航会社の実際の時刻と運賃を並べ、問い合わせはどの便から来たかを持ったまま WhatsApp に届きます。" },
+    longDescription: { id: "My Day Gili sudah mengantar traveler dari Bali ke Gili dan Lombok sejak 2017. Bagian sulitnya tidak pernah kapalnya, melainkan bahwa traveler yang membandingkan empat operator harus membuka empat tab, tidak ada satu pun yang sepakat soal harga, lalu mengirim pesan yang datang tanpa konteks sama sekali. Situsnya menaruh keempat penyeberangan berdampingan lengkap dengan jam dan tarif aslinya, menambahkan day trip dan tur yang juga dijalankan timnya, lalu mengarahkan tiap pertanyaan ke WhatsApp sambil membawa referensi apa pun yang sedang dilihat travelernya.", zh: "My Day Gili 从 2017 年起就在把旅客从巴厘岛送往 Gili 和龙目岛。难的从来不是船，而是：一个想比较四家船公司的旅客得开四个标签页，四个页面对价格的说法还不一致，然后发出一条完全没有上下文的消息。这个网站把四条航线并排放好，附上真实的班次和票价，再加上团队同时在做的一日游和包车，并让每一条咨询在进入 WhatsApp 时，都带着旅客当时正在看的那一项。", ja: "My Day Gili は 2017 年から、バリからギリ諸島とロンボクへ旅行者を送り出してきました。難しかったのは船ではありません。四つの運航会社を比べたい旅行者は四つのタブを開くはめになり、そのどれも価格が食い違い、結局まったく文脈のないメッセージを送ることになる。このサイトは四つの航路を実際の時刻と運賃つきで横並びにし、チームが手がける日帰りツアーやチャーターも加えたうえで、旅行者が見ていたものへの参照を持たせたまま問い合わせを WhatsApp へ届けます。" },
+    location: { id: "Padang Bai · Bali · Indonesia", zh: "帕当拜 · 巴厘岛 · 印尼", ja: "パダンバイ · バリ · インドネシア" },
+    scope: [
+      { id: "Situs multi-halaman: penyeberangan, day trip, tur Bali, blog, kontak", zh: "多页面网站：航线、一日游、巴厘岛行程、博客、联系", ja: "複数ページのサイト。航路、日帰りツアー、バリのツアー、ブログ、問い合わせ" },
+      { id: "Perbandingan operator lengkap dengan jam keberangkatan dan tarifnya", zh: "船公司对比，附上发船时间与票价", ja: "運航会社の比較。出発時刻と運賃つき" },
+      { id: "Halaman day trip Gili dan Nusa Penida beserta apa saja yang termasuk", zh: "Gili 与 Nusa Penida 一日游页面，写清都包含什么", ja: "ギリとヌサペニダの日帰りページ。含まれるものを明記" },
+      { id: "Booking lewat WhatsApp, tiap pertanyaan ditandai referensinya sendiri", zh: "通过 WhatsApp 预订，每条咨询都带自己的编号", ja: "WhatsApp での予約。問い合わせごとに固有の参照を付与" },
+      { id: "FAQ yang menjawab pertanyaan pelabuhan, biaya, dan bayi yang selalu ditanyakan", zh: "常见问题，回答港口、附加费和婴儿这些一定会被问到的事", ja: "港・追加費用・乳幼児など、必ず訊かれることに答える FAQ" },
+      { id: "Structured data Product, LocalBusiness, dan FAQ untuk pencarian travel", zh: "Product、LocalBusiness 和 FAQ 结构化数据，面向旅游搜索", ja: "旅行検索に向けた Product・LocalBusiness・FAQ の構造化データ" },
+    ],
+    tags: [
+      { id: "Travel", zh: "旅游", ja: "トラベル" },
+      { id: "Booking", zh: "预订", ja: "予約" },
+      { id: "SEO", zh: "SEO", ja: "SEO" },
+    ],
+    study: {
+      overview: { id: "My Day Gili menjual tiket fast boat dari Padang Bai ke Gili Trawangan, Gili Air, Gili Meno, dan Lombok, plus day trip Gili dan Nusa Penida serta tur Bali dengan transfer privat. Mereka memakai fast ferry sungguhan, bukan speedboat kecil, bekerja dengan empat operator, dan sudah dinilai di TripAdvisor sejak 2017. Booking-nya lewat WhatsApp, karena begitulah penyeberangan antar pulau benar-benar dipesan.", zh: "My Day Gili 卖的是从帕当拜出发去 Gili Trawangan、Gili Air、Gili Meno 和龙目岛的快船票，另外还有 Gili 与 Nusa Penida 一日游，以及带私人接送的巴厘岛行程。他们用的是真正的大型快船，不是小快艇，合作四家船公司，从 2017 年起就在 TripAdvisor 上有评分。预订走 WhatsApp，因为跨岛的船票本来就是这么订的。", ja: "My Day Gili は、パダンバイからギリ・トラワンガン、ギリ・アイル、ギリ・メノ、ロンボクへのファストボートのチケットを販売し、ギリとヌサペニダの日帰りツアー、プライベート送迎付きのバリツアーも扱います。小型のスピードボートではなく本物のファストフェリーを使い、四つの運航会社と組み、2017 年から TripAdvisor で評価されてきました。予約は WhatsApp。島の渡航は、実際そうやって決まるからです。" },
+      needed: [
+        { id: "Empat operator, empat set jam dan tarif, dan tidak ada satu tempat pun yang membandingkannya.", zh: "四家船公司、四套时间和价格，却没有一个地方能把它们放在一起比。", ja: "四つの運航会社、四通りの時刻と運賃。それを一か所で比べられる場所がありませんでした。" },
+        { id: "Beda antara fast ferry besar dan speedboat kecil adalah seluruh nilai jualnya, dan itu tidak ada di halamannya.", zh: "大型快船和小快艇的区别，本来就是他们最核心的卖点，可页面上一个字都没提。", ja: "大型ファストフェリーと小型スピードボートの違いこそが売りの核心なのに、それがページのどこにも書かれていませんでした。" },
+        { id: "Biaya pelabuhan, aturan bayi, dan harus muncul di dermaga mana, ditanyakan berulang-ulang di chat.", zh: "码头费、婴儿规定、到底该去哪个港口，这些在聊天里被一遍遍地问。", ja: "港の費用、乳幼児の扱い、どの港に行けばいいのか。同じ質問がチャットで何度も繰り返されていました。" },
+        { id: "Pertanyaan datang sebagai pesan kosong, jadi tim harus menebak dulu trip mana yang dimaksud sebelum menjawab.", zh: "咨询进来只是一条光秃秃的消息，团队得先猜出对方指的是哪一趟，才能回答。", ja: "問い合わせは中身のないメッセージとして届くので、チームはまずどの便のことか割り出してから答える必要がありました。" },
+      ],
+      did: [
+        { id: "Membangun situs multi-halamannya: penyeberangan, day trip, tur Bali, blog, dan kontak.", zh: "搭建了多页面网站：航线、一日游、巴厘岛行程、博客和联系页。", ja: "複数ページのサイトを構築。航路、日帰りツアー、バリのツアー、ブログ、問い合わせ。" },
+        { id: "Menaruh keempat operator berdampingan lengkap dengan jam keberangkatan dan tarif mulainya.", zh: "把四家船公司并排摆好，附上发船时间和起步价。", ja: "四つの運航会社を横並びにし、出発時刻と最低運賃を添えました。" },
+        { id: "Menulis halaman day trip dan tur dengan apa yang benar-benar termasuk, penjemputan dan alat snorkeling di antaranya.", zh: "写清一日游和行程页里到底包含什么，接送和浮潜装备也在内。", ja: "日帰りツアーとツアーのページに、送迎やシュノーケル用具を含め、実際に何が付くのかを書きました。" },
+        { id: "Menjawab pertanyaan berulangnya di FAQ publik, bukan di chat satu per satu.", zh: "把反复被问的问题放进公开的 FAQ 里回答，而不是在聊天里一条条答。", ja: "繰り返される質問を、チャットで一件ずつではなく公開の FAQ で答えるようにしました。" },
+        { id: "Menandai tiap pertanyaan WhatsApp dengan referensi supaya ia datang membawa trip-nya.", zh: "给每条 WhatsApp 咨询打上编号，让它带着自己的行程一起过来。", ja: "WhatsApp の問い合わせごとに参照を付け、どの便から来たかを持って届くようにしました。" },
+        { id: "Menandai data Product, LocalBusiness, dan FAQ supaya pencarian travel bisa membaca tarifnya.", zh: "标好 Product、LocalBusiness 和 FAQ 数据，让旅游搜索能读到票价。", ja: "Product・LocalBusiness・FAQ のデータを記述し、旅行検索が運賃を読めるようにしました。" },
+      ],
+      changed: [
+        { id: "Traveler membandingkan empat penyeberangan di satu halaman, bukan di empat tab.", zh: "旅客在一个页面上就能比较四条航线，不用开四个标签页。", ja: "旅行者は四つのタブではなく、一つのページで四つの航路を比べられます。" },
+        { id: "Tarifnya kelihatan sebelum ada yang perlu menanyakannya.", zh: "票价在有人开口问之前就已经看得到了。", ja: "運賃は、誰かが尋ねる前から見えています。" },
+        { id: "Pertanyaan yang dulu membuka tiap chat sekarang sudah terjawab sebelum chat-nya dimulai.", zh: "以前每次聊天开头都要问的那些问题，现在在聊天开始之前就答完了。", ja: "以前はどのチャットも最初に出ていた質問が、チャットが始まる前に答え終わっています。" },
+        { id: "Pertanyaan sampai ke WhatsApp sudah membawa trip asalnya.", zh: "咨询到 WhatsApp 时，已经带着它来自哪一趟。", ja: "問い合わせは、どの便から来たかを持ったまま WhatsApp に届きます。" },
+      ],
+    },
+  },
   "jalak-cargo-logistics": {
     title: { id: "Program Sosial & Konten", zh: "社交与内容运营", ja: "ソーシャル＆コンテンツ運用" },
     blurb: { id: "Freight forwarder di Bali dan Jakarta", zh: "巴厘岛与雅加达的货运代理", ja: "バリとジャカルタのフレイトフォワーダー" },
@@ -1627,6 +1674,14 @@ const INSIGHT_TX: Record<string, InsightTx> = {
 
 /** Keyed by the testimonial's projectSlug, for the same reason as PROJECT_TX. */
 const TESTIMONIAL_TX: Record<string, { quote?: Tri; role?: Tri }> = {
+  "my-day-gili": {
+    quote: {
+      id: "Dulu traveler membuka obrolan dengan kapal yang mana, jam berapa, dan berapa harganya, dan kami menjawab empat hal yang sama tiap hari. Sekarang pesannya datang sudah menyebut penyeberangan yang mereka pilih.",
+      zh: "以前旅客一上来就问哪条船、几点、多少钱，我们每天都在回答同样的四件事。现在消息进来时，已经写明了他们选好的那一趟。",
+      ja: "以前は旅行者がどの船か、何時か、いくらかと切り出し、私たちは毎日同じ四つのことに答えていました。いまは、すでに選んだ便を名指ししたメッセージが届きます。",
+    },
+    role: { id: "Tim Reservasi", zh: "预订团队", ja: "予約チーム" },
+  },
   "jalak-cargo-logistics": {
     quote: {
       id: "Dulu pelanggan selalu bertanya apa itu CBM sebelum tiap penawaran. Sekarang feed-nya biasanya sudah menjawab itu sebelum mereka menghubungi kami, jadi obrolannya mulai dari kirimannya, bukan dari istilahnya.",
