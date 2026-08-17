@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1045 665" fill="none" role="img" aria-label="Onyx Creative Asia">
+  <!--
+    Vector rebuild of the CA monogram.
+
+    The supplied logo is a 3D chrome render, which is the right asset for a
+    hero or a deck but turns to mush below about 80px: the soft shading and
+    the glow survive downscaling, the edges do not. This is the same mark
+    drawn as geometry so it stays sharp at favicon size and can take
+    currentColor.
+
+    Construction: a ring for the C, interrupted on its upper right where the
+    A's left leg passes through, and the A as a triangle with a counter.
+  -->
+  <g fill="currentColor" fill-rule="evenodd">
+    <!-- C: ring, open toward the upper right where the A crosses it -->
+    <path d="
+      M 332 0
+      A 332 332 0 1 0 332 664
+      A 332 332 0 0 0 616 505
+      L 470 434
+      A 200 200 0 1 1 470 230
+      Z
+    "/>
+    <!-- A: apex, two legs, and the counter cut out of it -->
+    <path d="
+      M 686 36
+      L 1045 665
+      L 892 665
+      L 686 305
+      L 560 527
+      L 748 527
+      L 826 665
+      L 396 665
+      Z
+    "/>
+  </g>
+</svg>

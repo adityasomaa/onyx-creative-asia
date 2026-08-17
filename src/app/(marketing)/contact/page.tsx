@@ -35,8 +35,8 @@ export default function ContactPage() {
               // Bone on ink for this surface; see --form-* in globals.css.
               // Fields centre, but the step nav stays split so Back sits at
               // the left edge of the field and Next at the right.
-              "--form-fg": "#F4F1EC",
-              "--form-bg": "#0E0E0E",
+              "--form-fg": "#FFFFFF",
+              "--form-bg": "#0A0A0A",
               "--form-justify": "center",
               "--form-nav-justify": "space-between",
             } as React.CSSProperties

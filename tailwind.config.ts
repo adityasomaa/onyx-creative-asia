@@ -5,28 +5,37 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Rebrand 2026: Onyx Black replaces the old near-black, and the
+        // warm cream "bone" becomes pure white. The token names are kept
+        // so the ~400 existing usages keep working; only the values moved.
         ink: {
-          DEFAULT: "#0E0E0E",
+          DEFAULT: "#0A0A0A",
           50: "#F7F7F5",
           100: "#EDEDEA",
           200: "#D6D6D2",
           300: "#A8A8A4",
           400: "#7A7A76",
           500: "#4D4D49",
-          600: "#2E2E2C",
-          700: "#1C1C1B",
-          800: "#141413",
-          900: "#0E0E0E",
-          950: "#080808",
+          600: "#333333",
+          700: "#1C1C1C",
+          800: "#121212",
+          900: "#0A0A0A",
+          950: "#050505",
         },
         bone: {
-          DEFAULT: "#F4F1EC",
-          50: "#FBFAF7",
-          100: "#F4F1EC",
-          200: "#EAE6DE",
-          300: "#D8D2C6",
-          400: "#BDB5A4",
+          DEFAULT: "#FFFFFF",
+          50: "#FFFFFF",
+          100: "#F7F7F7",
+          200: "#E5E5E5",
+          300: "#B8B8B8",
+          400: "#8A8A8A",
         },
+        // The greys from the brand guide, named so the palette can be used
+        // directly rather than through opacity guesses on ink/bone.
+        graphite: "#1C1C1C",
+        charcoal: "#333333",
+        silver: "#B8B8B8",
+        platinum: "#E5E5E5",
         // Sigap (sub-brand for budget-tier UMKM packages) — warm cream
         // + rust accent. Lives under local.onyxcreative.asia. Deliberately
         // distinct from the Onyx monochrome so a premium-tier visitor
