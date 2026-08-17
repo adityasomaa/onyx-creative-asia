@@ -14,7 +14,8 @@ export default function FeaturedWorks() {
   const t = useT();
 
   return (
-    <section className="container-x py-24 md:py-32 border-t border-hairline">
+    <section className="bg-ink text-bone">
+      <div className="container-x py-24 md:py-32 border-t border-hairline-light">
       <div className="flex items-end justify-between mb-12 md:mb-16 gap-6">
         <div className="max-w-2xl">
           <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
@@ -25,7 +26,7 @@ export default function FeaturedWorks() {
           <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight text-balance">
             <RevealText text="Brands we've grown" />
           </h2>
-          <p className="mt-5 text-base md:text-lg text-ink/70 leading-relaxed">
+          <p className="mt-5 text-base md:text-lg text-bone/70 leading-relaxed">
             {t(
               "A look at recent projects across websites, marketing, brand, and automation.",
             )}
@@ -67,6 +68,7 @@ export default function FeaturedWorks() {
           {t("All works")} →
         </Link>
       </div>
+    </div>
     </section>
   );
 }

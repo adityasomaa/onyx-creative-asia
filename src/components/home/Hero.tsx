@@ -32,7 +32,7 @@ export default function Hero() {
           transition={{ duration: 0.9, ease: EASE, delay: ENTER }}
           className="text-xs uppercase tracking-[0.3em] text-bone/70 md:text-sm"
         >
-          {t("Onyx Creative Asia")}
+          {t("Strategy. Creative. Technology. Growth.")}
         </motion.p>
 
         <motion.h1
@@ -41,7 +41,7 @@ export default function Hero() {
           transition={{ duration: 1, ease: EASE, delay: ENTER + 0.12 }}
           className="mt-6 max-w-5xl text-balance text-4xl font-medium leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
         >
-          {t("Your One Stop Business Development Digital Solution")}
+          {t("Onyx Creative Asia, the all in one digital marketing agency.")}
         </motion.h1>
 
         <motion.p
@@ -51,7 +51,7 @@ export default function Hero() {
           className="mt-8 max-w-2xl text-balance text-base leading-relaxed text-bone/80 md:text-lg"
         >
           {t(
-            "We help your business grow digitally, the correct way. Everything you need, everything you will ever look for to grow digitally, we have it all.",
+            "We help ambitious brands grow with data-driven strategy, creative that earns attention, and execution measured on what it returns. Everything your brand needs to grow, under one roof.",
           )}
         </motion.p>
 
@@ -62,10 +62,10 @@ export default function Hero() {
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
           <Button href="/contact" tone="light">
-            Start a project
+            Let&apos;s build your growth
           </Button>
-          <Button onClick={discover} tone="outlineLight" arrow={false}>
-            Discover
+          <Button href="/works" tone="outlineLight">
+            See our work
           </Button>
         </motion.div>
 

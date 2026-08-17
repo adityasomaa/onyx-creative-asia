@@ -131,7 +131,7 @@ const UI: Array<[string, Tri]> = [
   // ── Home sections ──
   ["What we do", { id: "Apa yang kami kerjakan", zh: "我们做什么", ja: "私たちができること" }],
   [
-    "Six services that cover everything your business needs to grow online, run by one team so nothing falls between the gaps.",
+    "Seven services that cover everything your business needs to grow online, run by one team so nothing falls between the gaps.",
     {
       id: "Enam layanan yang mencakup semua kebutuhan bisnis Anda untuk tumbuh online, dijalankan satu tim sehingga tidak ada yang terlewat.",
       zh: "六项服务，覆盖您的企业在线上成长所需的一切，由一个团队负责，不让任何环节掉队。",

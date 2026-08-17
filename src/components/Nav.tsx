@@ -71,8 +71,11 @@ export default function Nav() {
   // exactly as it was. When the mobile menu is open the full-screen overlay
   // behind the header is dark ink, so the header goes transparent with a
   // white logo and a white X — never a white bar.
-  const onLightSurface = scrolled && !open;
-  const dark = (DARK_HERO_PATHS.has(pathname) && !onLightSurface) || open;
+  // Rebrand 2026: the marketing site is dark end to end, so the scrolled
+  // header darkens rather than flipping to a white bar, and the nav
+  // never leaves its light-on-dark treatment.
+  const onLightSurface = false;
+  const dark = true;
 
   // Hover-coordination for the mega menu.
   // We open immediately on mouseenter of the Services trigger, and close on
@@ -130,7 +133,7 @@ export default function Nav() {
         className={cn(
           "fixed top-0 left-0 right-0 z-[120] transition-colors duration-500",
           onLightSurface
-            ? "bg-bone/95 backdrop-blur-md border-b border-hairline text-ink"
+            ? "bg-ink/95 backdrop-blur-md border-b border-hairline-light text-bone"
             : dark
               ? "bg-transparent text-bone"
               : "bg-transparent text-ink"
@@ -154,7 +157,6 @@ export default function Nav() {
                 width={256}
                 height={170}
                 priority
-                sizes="42px"
                 className={cn(
                   "h-6 w-auto md:h-7 transition-[filter] duration-500",
                   dark ? "" : "invert",

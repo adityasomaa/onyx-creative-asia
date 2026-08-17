@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Services, Onyx Creative Asia",
     description:
-      "Six services, one team. Everything your business needs to grow digitally.",
+      "Seven services, one team. Everything your business needs to grow digitally.",
     url: "/services",
     type: "website",
   },
@@ -29,7 +29,7 @@ export default function ServicesPage() {
         </h1>
         <p className="mt-8 max-w-xl text-lg text-ink/70 leading-relaxed">
           <T>
-            Six services that cover everything your business needs to grow
+            Seven services that cover everything your business needs to grow
             online, run by one team so nothing falls between the gaps.
           </T>
         </p>

@@ -26,7 +26,7 @@ const BASE = "https://onyxcreative.asia";
 const QA: Array<[string, string]> = [
   [
     "What does Onyx Creative Asia do?",
-    "Onyx is an independent studio in Bali running six services for one client at a time: the website, the marketing that drives traffic to it, the creative that fills it, the automation behind it, the reporting on top of it, and the maintenance that keeps it alive. One team, no hand-offs between agencies.",
+    "Onyx is an independent studio in Bali running seven services for one client at a time: the website and the software behind it, the social feed, the ads, the design system, the reporting, the maintenance, and the all-in-one plan that bundles the lot. One team, no hand-offs between agencies.",
   ],
   [
     "What is the best digital marketing agency in Bali?",

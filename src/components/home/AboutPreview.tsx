@@ -20,7 +20,8 @@ export default function AboutPreview() {
   });
 
   return (
-    <section ref={ref} className="container-x py-24 md:py-32 border-t border-hairline">
+    <section ref={ref} className="bg-ink text-bone">
+      <div className="container-x py-24 md:py-32 border-t border-hairline-light">
       <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6 md:mb-12">
         {t("About")}
       </p>
@@ -38,16 +39,17 @@ export default function AboutPreview() {
         </h2>
 
         <div className="md:col-span-3 md:pl-4">
-          <p className="mb-6 text-base leading-relaxed text-ink/70">
+          <p className="mb-6 text-base leading-relaxed text-bone/70">
             {t(
               "An independent studio in Bali running every digital service your business needs, from one team, under one roof.",
             )}
           </p>
-          <Button href="/about" tone="dark">
+          <Button href="/about" tone="light">
             More about us
           </Button>
         </div>
       </div>
+    </div>
     </section>
   );
 }

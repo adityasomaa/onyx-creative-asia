@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import { T } from "@/lib/i18n";
 
 /**
- * The six services as full-width sections. On desktop each one sticks at the
+ * The services as full-width sections. On desktop each one sticks at the
  * same offset with an opaque background, so scrolling covers the previous
  * service. On mobile the stacking is off: a phone viewport is too short for
  * the effect to read as anything but content jumping.

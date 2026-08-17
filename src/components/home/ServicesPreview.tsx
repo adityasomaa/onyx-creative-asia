@@ -24,7 +24,7 @@ export default function ServicesPreview() {
         </h2>
         <p className="mt-5 max-w-xl text-base md:text-lg text-bone/70 leading-relaxed">
           {t(
-            "Six services that cover everything your business needs to grow online, run by one team so nothing falls between the gaps.",
+            "Seven services that cover everything your business needs to grow online, run by one team so nothing falls between the gaps.",
           )}
         </p>
       </div>
