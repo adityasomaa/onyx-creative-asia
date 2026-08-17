@@ -43,7 +43,7 @@ export const PROJECTS: Project[] = [
     title: "Villa Rental Surface",
     client: "Great Bali Villas",
     blurb: "Premium villa stays in Bali",
-    category: "Digital Presence",
+    category: "Web & Software Development",
     year: "2025",
     description:
       "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp.",
@@ -53,7 +53,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Villas", "Booking"],
     url: "https://greatbalivillas.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Growth & Analytics", "Managed Services"],
+    services: ["Web & Software Development", "Growth & Analytics", "Maintenance Service"],
     location: "Bali, Indonesia",
     scope: [
       "Villa catalog with area, size, and date filters",
@@ -93,7 +93,7 @@ export const PROJECTS: Project[] = [
     title: "Property Advisory Platform",
     client: "Bhagawan Property",
     blurb: "Buyer-first property advisory in Bali",
-    category: "Digital Presence",
+    category: "Web & Software Development",
     year: "2026",
     description:
       "A property advisory site built around trust rather than volume. Freehold and leasehold listings with real specs and pricing, editorial area guides across six Bali neighbourhoods, and a knowledge base that answers the questions buyers ask before they ever enquire.",
@@ -103,7 +103,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Property", "Advisory"],
     url: "https://bhagawanproperty.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Digital Marketing", "Growth & Analytics", "Managed Services"],
+    services: ["Web & Software Development", "Ads Management", "Growth & Analytics", "Maintenance Service"],
     location: "Bali, Indonesia",
     scope: [
       "Listing catalogue with freehold and leasehold tenure states",
@@ -144,7 +144,7 @@ export const PROJECTS: Project[] = [
     title: "Beauty Tools Storefront",
     client: "Tammia Online",
     blurb: "Premium beauty tools retailer in Indonesia",
-    category: "Digital Presence",
+    category: "Web & Software Development",
     year: "2026",
     description:
       "An e-commerce storefront for a premium beauty tools retailer. Eight product categories, weekly new arrivals, cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure which brush they need.",
@@ -154,7 +154,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "E-commerce", "Beauty"],
     url: "https://marshella-eunike.vercel.app/tammia-online/",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Creative Studio", "Growth & Analytics", "Managed Services"],
+    services: ["Web & Software Development", "Graphic Design", "Growth & Analytics", "Maintenance Service"],
     location: "Indonesia",
     scope: [
       "Storefront with eight product categories",
@@ -195,7 +195,7 @@ export const PROJECTS: Project[] = [
     title: "Mobile Spa Booking Surface",
     client: "Astungkare Spa",
     blurb: "24-hour mobile spa across Bali",
-    category: "Digital Presence",
+    category: "All-in-One Digital Marketing",
     year: "2026",
     description:
       "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero.",
@@ -205,7 +205,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Digital Marketing", "Creative Studio", "Growth & Analytics", "Managed Services"],
+    services: ["All-in-One Digital Marketing", "Web & Software Development", "Social Media Management", "Ads Management", "Graphic Design", "Growth & Analytics", "Maintenance Service"],
     location: "Bali, Indonesia",
     scope: [
       "Custom website with editorial dark-gold visual system",
@@ -246,7 +246,7 @@ export const PROJECTS: Project[] = [
     title: "Salon Brand & Site",
     client: "The Hair Extensions Bali",
     blurb: "Hair extensions studio in Kerobokan",
-    category: "Creative Studio",
+    category: "Graphic Design",
     year: "2025",
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan, six application methods, an editorial gallery with method filters, and a video hero of the actual color wall.",
@@ -256,7 +256,7 @@ export const PROJECTS: Project[] = [
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",
-    services: ["Creative Studio", "Digital Presence", "Growth & Analytics", "Managed Services"],
+    services: ["Graphic Design", "Web & Software Development", "Growth & Analytics", "Maintenance Service"],
     location: "Kerobokan, Bali",
     scope: [
       "Wordmark: serif 'HAIR EXTENSIONS' + hand-drawn 'Bali'",
@@ -297,7 +297,7 @@ export const PROJECTS: Project[] = [
     title: "Campaign Request Automation",
     client: "RADcruiters",
     blurb: "Recruitment-marketing agency in the EU",
-    category: "AI Automation",
+    category: "Web & Software Development",
     year: "2026",
     description:
       "Self-routing intake for new campaign briefs. A WordPress form feeds a Make.com pipeline that extracts the domain, matches the client in Airtable, queues a Trello task, and fires team and client emails, end to end in seconds.",
@@ -309,7 +309,7 @@ export const PROJECTS: Project[] = [
     tags: ["Workflow", "Make.com", "WordPress"],
     url: "https://onlineresults.radcruiters.com/campaign-request/",
     urlLabel: "Visit site",
-    services: ["AI Automation", "Digital Presence", "Growth & Analytics", "Managed Services"],
+    services: ["Web & Software Development", "Growth & Analytics", "Maintenance Service"],
     location: "Netherlands · EU",
     scope: [
       "WordPress intake form for client campaign briefs",
@@ -350,7 +350,7 @@ export const PROJECTS: Project[] = [
     title: "Social & Content Programme",
     client: "Jalak Cargo Logistics",
     blurb: "Freight forwarder in Bali and Jakarta",
-    category: "Creative Studio",
+    category: "Social Media Management",
     year: "2026",
     description:
       "An always-on social programme for an Indonesian freight forwarder. Every post answers one real shipping question, in one visual system, published on a schedule, with the live site kept current alongside it.",
@@ -363,7 +363,7 @@ export const PROJECTS: Project[] = [
     tags: ["Instagram", "Content", "Maintenance"],
     url: "https://jalakkargologistik.id",
     urlLabel: "Visit site",
-    services: ["Creative Studio", "Digital Marketing", "Growth & Analytics", "Managed Services"],
+    services: ["Social Media Management", "Graphic Design", "Growth & Analytics", "Maintenance Service"],
     location: "Bali · Jakarta · Indonesia",
     scope: [
       "Always-on Instagram programme on @jalakkargo",
@@ -404,7 +404,7 @@ export const PROJECTS: Project[] = [
     title: "Fast Boat Booking Surface",
     client: "My Day Gili",
     blurb: "Fast boat tickets and day trips from Bali",
-    category: "Digital Presence",
+    category: "Web & Software Development",
     year: "2026",
     description:
       "One booking surface for crossings to the Gili Islands and Lombok. Four operators, their real schedules, and their real fares, with every enquiry landing on WhatsApp already carrying the trip it came from.",
@@ -414,7 +414,7 @@ export const PROJECTS: Project[] = [
     tags: ["Travel", "Booking", "SEO"],
     url: "https://mydaygili.com",
     urlLabel: "Visit site",
-    services: ["Digital Presence", "Digital Marketing", "Growth & Analytics", "Managed Services"],
+    services: ["Web & Software Development", "Ads Management", "Growth & Analytics", "Maintenance Service"],
     location: "Padang Bai · Bali · Indonesia",
     scope: [
       "Multi-page site: crossings, day trips, Bali tours, blog, contact",
@@ -541,25 +541,25 @@ export type Service = {
 
 export const SERVICES: Service[] = [
   {
-    id: "digital-presence",
+    id: "web-software-development",
     number: "01",
-    title: "Digital Presence",
-    short: "Everything your business needs to exist online.",
+    title: "Web & Software Development",
+    short: "The website and the software your business runs on.",
     description:
-      "We build your business a website that turns visitors into inquiries, then host it, maintain it, and keep it found on Google, all in one package.",
+      "We design and build your website, the software behind it, and the integrations that connect both to the tools you already use. One team scopes it, designs it, and ships it.",
     capabilities: [
       { title: "Website design and build", detail: "Layouts, pages, and the front end, designed and built by the same team." },
       { title: "Custom software and web apps", detail: "Booking flows, portals, dashboards, whatever off-the-shelf cannot do." },
+      { title: "Automation and internal tools", detail: "Pipelines that move a form, a lead, or a task without anyone retyping it." },
+      { title: "Integrations", detail: "Connecting the site to your CRM, inventory, payments, or WhatsApp." },
       { title: "Hosting and domains", detail: "Where the site lives and the address it answers to, both handled." },
-      { title: "Ongoing maintenance", detail: "Updates, fixes, and small changes dealt with as they come up." },
-      { title: "SEO setup and optimisation", detail: "Structure, metadata, and speed, so search engines can read the site." },
       { title: "Content management", detail: "You edit your own text and images, without waiting on us." },
     ],
     intro:
       "Your website, the software behind it, and everything needed to keep it online, handled by one team.",
     narrative: [
-      "This covers the full build: the design, the frontend, the backend, and the integrations that connect your site to the tools you already use. The same team that scopes and designs the work also builds it, so nothing gets lost in a hand-off.",
-      "Hosting, domains, and SEO setup are part of the package rather than separate line items. Once the site is live we keep it updated, keep the content current, and add new sections as the business changes.",
+      "This covers the full build: design, frontend, backend, and the integrations that connect your site to the tools you already run. The same team that scopes and designs the work also builds it, so nothing gets lost in a hand-off.",
+      "It also covers the software that is not a website. Booking flows, client portals, internal dashboards, and the automation that moves work between them. If a person is retyping something from one system into another, that is usually the first thing we remove.",
     ],
     process: [
       {
@@ -584,164 +584,164 @@ export const SERVICES: Service[] = [
       },
     ],
     fitFor:
-      "Businesses that need a proper website for the first time, or one that has outgrown a template and needs rebuilding and looking after.",
+      "Businesses that need a proper website for the first time, or one that has outgrown a template, and anyone whose team is doing work software should be doing.",
     cta: {
-      problem: "Does your business still not have a website that represents it properly?",
+      problem: "Is your team still doing by hand what your website should be doing for you?",
       solution:
-        "We design it, build it, host it, and keep it running. Contact us for a free consultation.",
+        "We design it, build it, and connect it to the tools you already use. Contact us for a free consultation.",
     },
   },
   {
-    id: "digital-marketing",
+    id: "social-media-management",
     number: "02",
-    title: "Digital Marketing",
-    short: "Getting your business in front of the right people.",
+    title: "Social Media Management",
+    short: "Your feed, run properly and on a schedule.",
     description:
-      "We get your business in front of the right people and bring them back, across search, social, content, email, and paid ads, run as one plan.",
+      "We plan, produce, and publish the content on your social accounts, and answer the people who reply to it. One visual system, one calendar, one team.",
     capabilities: [
-      { title: "SEO", detail: "Showing up for the searches your buyers are actually typing." },
-      { title: "Social media management", detail: "Planning, posting, and replying, on a schedule that holds." },
-      { title: "Content marketing", detail: "Articles and assets that answer the questions that precede a sale." },
-      { title: "Email marketing", detail: "Newsletters and sequences that keep you in the inbox." },
-      { title: "Paid ads (Google, Meta, TikTok)", detail: "Campaigns built, launched, and adjusted against real numbers." },
-      { title: "Monthly reporting", detail: "What happened, what it cost, and what we are changing next." },
+      { title: "Content calendar", detail: "What goes out, when, and why, agreed ahead of the month rather than the morning." },
+      { title: "Post design system", detail: "A template set that keeps every post recognisably yours across the whole grid." },
+      { title: "Photo and video production", detail: "Shot on site: the workshop, the room, the product, the people." },
+      { title: "Copywriting", detail: "Captions written around the questions your customers actually ask." },
+      { title: "Community management", detail: "Comments and DMs answered, so an interested person is not left waiting." },
+      { title: "Reporting", detail: "Reach, saves, and the enquiries that came out of it, monthly." },
     ],
     intro:
-      "The channels that bring people to your business, planned, produced, and managed in one place.",
+      "An always-on feed that looks like one company and goes out whether or not anyone had time this week.",
     narrative: [
-      "We handle the channels together rather than in isolation: search, social, content, email, and paid ads all run from the same plan, so the message stays consistent wherever someone finds you.",
-      "The work includes the production, not just the strategy. We write the copy, make the content, set up the campaigns, publish on schedule, and report on what happened each month.",
+      "Most business accounts do not fail on ideas, they fail on rhythm. Posts go out when someone remembers, the look drifts, and the grid stops reading as one brand. We take the whole thing: the plan, the production, the publishing, and the replies.",
+      "The content is built around what customers ask before they buy. One question per post, answered plainly, in a template system that holds across every service you offer.",
     ],
     process: [
       {
-        title: "Audit",
+        title: "Audit and plan",
         detail:
-          "We review what you are running now, what is set up correctly, and where the gaps are.",
+          "We look at what is there now, what performed, and what the account should be doing.",
       },
       {
-        title: "Plan",
+        title: "Build the system",
         detail:
-          "Channels, messaging, and a content calendar for the months ahead, agreed before anything ships.",
+          "Templates, tone, and a calendar covering your full range of services.",
       },
       {
         title: "Produce and publish",
         detail:
-          "We make the content, build the campaigns, and keep everything running on schedule.",
+          "Shooting, writing, scheduling, and posting to the agreed rhythm.",
       },
       {
-        title: "Report and adjust",
+        title: "Respond and report",
         detail:
-          "A monthly read on what happened, and what we are changing for the month ahead.",
+          "Comments and DMs handled, with a monthly read on what moved.",
       },
     ],
     fitFor:
-      "Businesses that want their marketing handled end to end, rather than briefing a different freelancer for every channel.",
+      "Businesses whose social account exists but goes quiet for weeks, and anyone whose feed no longer looks like the same company from post to post.",
     cta: {
-      problem: "Are you tired of managing your own marketing?",
+      problem: "Has your social account gone quiet because nobody has time to feed it?",
       solution:
-        "We plan it, produce it, and run it for you across every channel. Contact us for a free consultation.",
+        "We plan it, produce it, publish it, and answer the replies. Contact us for a free consultation.",
     },
   },
   {
-    id: "creative-studio",
+    id: "ads-management",
     number: "03",
-    title: "Creative Studio",
-    short: "The look, feel, and assets your brand runs on.",
+    title: "Ads Management",
+    short: "Paid campaigns, built and watched by the people who made the creative.",
     description:
-      "We give your business a look people remember, from the brand identity to the photos, videos, and assets you use every day.",
+      "We run your paid media across Meta, Google, and TikTok: the account structure, the audiences, the creative, and the weekly decisions about what to keep and what to cut.",
     capabilities: [
-      { title: "Branding and identity", detail: "Logo, type, colour, and the rules that keep them consistent." },
-      { title: "Graphic design", detail: "Decks, packaging, signage, and everything else printed or posted." },
-      { title: "Photography", detail: "Product, space, and team shots, directed and shot in-house." },
-      { title: "Videography", detail: "Short films and social cuts, from brief through to final grade." },
-      { title: "Motion graphics", detail: "Logo animations, titles, and moving assets for every channel." },
-      { title: "Creative assets", detail: "Templates and source files you own and can reuse without us." },
+      { title: "Meta Ads", detail: "Facebook and Instagram campaigns, from account structure to creative testing." },
+      { title: "Google Ads", detail: "Search, Performance Max, and YouTube, built around real search intent." },
+      { title: "TikTok Ads", detail: "Native-feeling creative rather than a repurposed square banner." },
+      { title: "Creative production", detail: "The ads themselves, made by the same team that runs the account." },
+      { title: "Audience and funnel setup", detail: "Who sees what, and what happens after they click." },
+      { title: "Tracking and attribution", detail: "Conversion tracking that survives the current privacy rules." },
     ],
     intro:
-      "The visual side of the business: how it looks, how it sounds, and the assets you use day to day.",
+      "Campaigns where the person choosing the audience and the person making the ad are on the same team.",
     narrative: [
-      "This starts with the identity, the logo, type, colour, and the rules for using them, then extends into everything made with it: social templates, decks, packaging, signage, and campaign artwork.",
-      "Photography, video, and motion are produced in-house as part of the same system, so what you shoot matches what we design, and you finish with a library of assets you actually own.",
+      "Paid media breaks most often at the seam between the media buyer and whoever made the creative. The buyer asks for three variants, the designer sends three colours of the same idea, and the test learns nothing. We do both, so a test can actually change the creative.",
+      "The work is weekly, not monthly. Budgets shift, creative gets cut, and the account structure changes as the data comes in. You get a plain read of what is working rather than a dashboard screenshot.",
+    ],
+    process: [
+      {
+        title: "Account and tracking audit",
+        detail:
+          "What exists, what is tracked, and what is quietly broken.",
+      },
+      {
+        title: "Structure and creative",
+        detail:
+          "Campaign architecture and the first round of ads, built together.",
+      },
+      {
+        title: "Launch and test",
+        detail:
+          "Live with a clear read on which variable each test is actually moving.",
+      },
+      {
+        title: "Weekly management",
+        detail:
+          "Budget shifts, new creative, and a monthly summary in plain language.",
+      },
+    ],
+    fitFor:
+      "Businesses already spending on ads without a clear read on what the spend is doing, and anyone about to start and wanting it set up properly the first time.",
+    cta: {
+      problem: "Are you spending on ads without a clear answer on what the spend is actually doing?",
+      solution:
+        "We build the campaigns, make the creative, and manage them weekly. Contact us for a free consultation.",
+    },
+  },
+  {
+    id: "graphic-design",
+    number: "04",
+    title: "Graphic Design",
+    short: "The look, the assets, and the system that holds them together.",
+    description:
+      "Brand identity, the design system underneath it, and the everyday assets your business needs: social templates, decks, menus, packaging, signage, and print.",
+    capabilities: [
+      { title: "Brand identity", detail: "Logo, type, colour, and the rules that keep them consistent." },
+      { title: "Design system", detail: "Templates and components so new material stays on brand without us." },
+      { title: "Social and campaign assets", detail: "Post sets, story frames, and ad creative built on the same system." },
+      { title: "Print and packaging", detail: "Menus, labels, signage, and anything that has to survive a printer." },
+      { title: "Presentations and documents", detail: "Decks and proposals that look like they came from the same company." },
+      { title: "Photo and video direction", detail: "Art direction for shoots, so the imagery matches the identity." },
+    ],
+    intro:
+      "One visual system, applied everywhere, so your business looks like one business.",
+    narrative: [
+      "Most brands do not lack design, they lack a system. A logo exists, but the deck, the menu, and the Instagram grid were each made by different people at different times, and none of them agree. We build the system first and then apply it.",
+      "That means the deliverable is not only the artwork. It is the templates and the rules that let your own team make the next poster without it drifting.",
     ],
     process: [
       {
         title: "Discovery",
         detail:
-          "We work out what the brand needs to communicate, and to whom, before drawing anything.",
+          "What the brand is, who it talks to, and what already exists.",
       },
       {
         title: "Direction",
         detail:
-          "Two or three visual routes, reviewed together, until one is clearly right.",
+          "Two or three visual routes, reviewed together before anything is built out.",
       },
       {
-        title: "Production",
+        title: "Build the system",
         detail:
-          "The identity, the shoot, and the assets, made out to a finished, usable state.",
+          "Identity, type, colour, and the templates that carry it.",
       },
       {
-        title: "Guidelines and hand over",
+        title: "Roll out",
         detail:
-          "You get the files, the templates, and a short guide on how to use them consistently.",
+          "Applying it to the assets you need first, and handing over the files.",
       },
     ],
     fitFor:
-      "Businesses starting from scratch, rebranding, or sitting on a mix of assets that no longer look like they belong together.",
+      "Businesses whose material was made piece by piece over the years, and new brands that want the system right before anything gets printed.",
     cta: {
-      problem: "Does your brand look different everywhere it appears?",
+      problem: "Does your business look like a different company on every platform?",
       solution:
-        "We build the identity and produce the assets to match. Contact us for a free consultation.",
-    },
-  },
-  {
-    id: "ai-automation",
-    number: "04",
-    title: "AI Automation",
-    short: "Letting software handle the repetitive work.",
-    description:
-      "We take the repetitive, manual work off your team and hand it to software that runs it quietly in the background.",
-    capabilities: [
-      { title: "Workflow automation", detail: "The repetitive steps between your tools, running on a trigger." },
-      { title: "Chatbots", detail: "Answers to the questions your team keeps retyping by hand." },
-      { title: "CRM automation", detail: "Records that update themselves as deals actually move." },
-      { title: "AI agents", detail: "Drafting, classifying, and summarising, quietly in the background." },
-      { title: "System integration", detail: "Your existing tools connected, so data stops being retyped." },
-      { title: "AI for business operations", detail: "The same thinking applied to whatever is slowing the business down." },
-    ],
-    intro:
-      "The repetitive, manual parts of running a business, handed over to software that does them quietly in the background.",
-    narrative: [
-      "We start with the tasks your team repeats every day: copying data between tools, chasing updates, answering the same questions, moving a lead from one system to the next. Those become automated workflows that run on a trigger or a schedule.",
-      "From there it extends to chatbots that answer customers, CRM automation that keeps records current, and AI agents that draft, classify, or summarise. Everything is connected to the tools you already use rather than replacing them.",
-    ],
-    process: [
-      {
-        title: "Shadow the workflow",
-        detail:
-          "We watch how the work is done now, step by step, before deciding what to automate.",
-      },
-      {
-        title: "Pick the first workflow",
-        detail:
-          "We start with one repetitive, well-defined process rather than everything at once.",
-      },
-      {
-        title: "Build and connect",
-        detail:
-          "We build the automation and wire it into your existing tools, with error alerts in place.",
-      },
-      {
-        title: "Hand over and extend",
-        detail:
-          "You get documentation and monitoring, then we add the next workflow once the first is steady.",
-      },
-    ],
-    fitFor:
-      "Teams doing the same manual steps every day, or business owners who want a process handled before hiring someone to do it.",
-    cta: {
-      problem: "Buried in repetitive, manual work?",
-      solution:
-        "We build automation that handles it quietly in the background. Contact us for a free consultation.",
+        "We build one visual system and apply it across the lot. Contact us for a free consultation.",
     },
   },
   {
@@ -750,100 +750,151 @@ export const SERVICES: Service[] = [
     title: "Growth & Analytics",
     short: "Knowing what is working, and what is not.",
     description:
-      "We make your numbers make sense, tracking what actually happens, reporting it in plain language, and improving what matters.",
+      "Tracking set up properly, reporting you can actually read, and the search and conversion work that follows from what the numbers say.",
     capabilities: [
-      { title: "Tracking setup", detail: "Analytics, events, and goals configured so the numbers mean something." },
-      { title: "Dashboards", detail: "One place to open when you want to know how things are going." },
-      { title: "Reporting", detail: "A monthly written read in plain language, not a data dump." },
-      { title: "Conversion optimisation", detail: "Changes to the pages that decide whether people act." },
-      { title: "Performance review", detail: "Sitting down with the numbers and agreeing what happens next." },
+      { title: "Analytics setup", detail: "GA4, Search Console, and event tracking that records what matters." },
+      { title: "Conversion tracking", detail: "Enquiries, bookings, and sales attributed to where they came from." },
+      { title: "SEO", detail: "Structure, content, and the technical work that makes a site findable." },
+      { title: "Answer engine optimisation", detail: "Being the source that AI search quotes, not just a blue link." },
+      { title: "Conversion rate work", detail: "Finding where people leave, and fixing that page first." },
+      { title: "Reporting", detail: "A monthly read in plain language, not a dashboard you never open." },
     ],
     intro:
-      "The measurement layer: what to track, where it shows up, and what it means for the next decision.",
+      "The measurement layer under everything else, so decisions come from data rather than instinct.",
     narrative: [
-      "Most businesses are already collecting data and not reading it. We set the tracking up properly first, analytics, events, and goals, so the numbers reflect what actually happens on your site and in your campaigns.",
-      "That feeds a dashboard you can open any time, a monthly report written in plain language, and a running list of things worth testing or changing on the pages that matter most.",
+      "Almost every account we inherit is either not tracking conversions at all or tracking them twice. Until that is fixed, every other decision is guesswork wearing a chart. So we start there.",
+      "Once the measurement is honest, the work follows it: the pages that leak, the searches you should rank for but do not, and the questions your site never answers.",
     ],
     process: [
       {
-        title: "Tracking audit",
+        title: "Audit",
         detail:
-          "We check what is currently being measured, and what is being recorded incorrectly.",
+          "What is being tracked, what is double counted, and what is missing entirely.",
       },
       {
-        title: "Set up measurement",
+        title: "Instrument",
         detail:
-          "Analytics, events, and goals configured so each number maps to something real.",
+          "Analytics, conversion events, and search tooling set up properly.",
       },
       {
-        title: "Dashboard and reporting",
+        title: "Read and prioritise",
         detail:
-          "One place to see performance, plus a monthly written read of what it says.",
+          "Where the traffic leaves and which fix is worth doing first.",
       },
       {
-        title: "Review and optimise",
+        title: "Improve and report",
         detail:
-          "We agree what to change or test next, then measure whether it made a difference.",
+          "The work itself, and a monthly summary you can act on.",
       },
     ],
     fitFor:
-      "Businesses already spending on marketing or a website who want to know what it is actually doing.",
+      "Businesses running marketing without a reliable read on it, and anyone whose reporting has never quite matched what they see in the bank.",
     cta: {
-      problem: "Not sure which part of your marketing is actually working?",
+      problem: "Do your marketing reports and your actual enquiries tell two different stories?",
       solution:
-        "We set up the tracking and report on it in plain language. Contact us for a free consultation.",
+        "We fix the measurement first, then work on what it shows. Contact us for a free consultation.",
     },
   },
   {
-    id: "managed-services",
+    id: "maintenance-service",
     number: "06",
-    title: "Managed Services",
+    title: "Maintenance Service",
     short: "Keeping everything running after launch.",
     description:
-      "We keep everything you have already built running, updated, secure, and monitored, so it never quietly breaks.",
+      "Hosting, updates, backups, security, and the small changes that come up every month, handled on an ongoing basis so nothing quietly breaks.",
     capabilities: [
-      { title: "Web maintenance", detail: "Updates and fixes on a schedule, rather than in a panic." },
-      { title: "Server management", detail: "The machine your site runs on, kept current and healthy." },
-      { title: "Security", detail: "Certificates, patches, and hardening, watched continuously." },
-      { title: "Updates", detail: "Software kept current so nothing quietly drifts into breaking." },
-      { title: "Monitoring", detail: "Uptime and performance checked around the clock, alerts routed to us." },
-      { title: "Backups", detail: "Regular copies, tested, so a bad day stays a small one." },
-      { title: "Technical support", detail: "A direct line when something breaks or you need a change." },
+      { title: "Hosting and uptime", detail: "Where it lives, monitored, with someone to call when it is down." },
+      { title: "Updates and patching", detail: "Platform and dependency updates applied before they become a problem." },
+      { title: "Backups and recovery", detail: "Regular backups, and a tested way to actually restore from them." },
+      { title: "Security", detail: "Certificates, access, and the hardening that stops the common attacks." },
+      { title: "Content updates", detail: "New sections, price changes, and swaps, done as they come up." },
+      { title: "Performance", detail: "Keeping load times where they were on launch day, not a year after." },
     ],
     intro:
-      "The ongoing care for everything already live: the site, the server, and the systems behind them.",
+      "The part nobody thinks about until the site is down on a Sunday.",
     narrative: [
-      "Launch is not the end of the work. Software needs updating, servers need watching, certificates expire, and things break at inconvenient times. This covers all of it on a standing basis.",
-      "That means scheduled updates and backups, uptime and security monitoring with alerts, and a person to contact when something is wrong, rather than starting a search for help each time.",
+      "A website is not finished at launch, it starts there. Platforms update, certificates expire, plugins break each other, and images pile up until the page loads half as fast as it did. None of that announces itself.",
+      "This is the retainer that keeps it boring: the updates applied, the backups tested, the small changes done in the week you ask rather than the quarter.",
     ],
     process: [
       {
         title: "Take over",
         detail:
-          "We audit what exists, get proper access, and document how it is currently set up.",
+          "We audit what is running, where it is hosted, and who holds the keys.",
       },
       {
         title: "Stabilise",
         detail:
-          "Updates, backups, and security brought current before anything else is scheduled.",
+          "Updates, backups, and monitoring brought to a known good state.",
       },
       {
-        title: "Monitor",
+        title: "Run",
         detail:
-          "Uptime, performance, and security watched continuously, with alerts routed to us.",
+          "Monthly upkeep plus the small changes you send through.",
       },
       {
-        title: "Support",
+        title: "Report",
         detail:
-          "A direct line for issues and requests, with a regular note on what was done.",
+          "What was done, what changed, and anything worth deciding on.",
       },
     ],
     fitFor:
-      "Businesses with a site or system already running and no one responsible for keeping it healthy.",
+      "Anyone with a live site and nobody responsible for it, and businesses whose developer finished the build and moved on.",
     cta: {
-      problem: "Is anyone actually looking after your website?",
+      problem: "If your site went down tonight, do you know who would fix it?",
       solution:
-        "We maintain, monitor, secure, and support it. Contact us for a free consultation.",
+        "We host it, patch it, back it up, and handle the changes. Contact us for a free consultation.",
+    },
+  },
+  {
+    id: "all-in-one-digital-marketing",
+    number: "07",
+    title: "All-in-One Digital Marketing",
+    short: "Every service above, run by one team, on one plan.",
+    description:
+      "The full programme: the website, the social, the ads, the design, the measurement, and the upkeep, on a single monthly scope with one team accountable for all of it.",
+    capabilities: [
+      { title: "Website and software", detail: "Built, hosted, and improved as the business changes." },
+      { title: "Social media management", detail: "Planned, produced, published, and answered." },
+      { title: "Ads management", detail: "Meta, Google, and TikTok, with creative from the same team." },
+      { title: "Graphic design", detail: "One visual system applied across every channel." },
+      { title: "Growth and analytics", detail: "Honest measurement, and the work that follows from it." },
+      { title: "Maintenance", detail: "Updates, backups, and changes handled without being chased." },
+    ],
+    intro:
+      "One agency, everything digital, on one plan and one invoice.",
+    narrative: [
+      "Running each of these separately means three vendors who each blame the other two. The ads agency says the site converts badly, the web agency says the traffic is wrong, and the designer was never in the room. Nobody owns the outcome.",
+      "This is the version where one team holds all of it. The people making the ads know what the site does, the people building the site see what the ads are learning, and the measurement covers the whole path rather than one segment of it.",
+    ],
+    process: [
+      {
+        title: "Scope the programme",
+        detail:
+          "Which parts you need now, which come later, and what it costs monthly.",
+      },
+      {
+        title: "Set the foundation",
+        detail:
+          "Measurement, brand system, and whatever is most broken, first.",
+      },
+      {
+        title: "Run the channels",
+        detail:
+          "Site, social, ads, and design moving together on one calendar.",
+      },
+      {
+        title: "Review monthly",
+        detail:
+          "One read across everything, and the plan for the next month.",
+      },
+    ],
+    fitFor:
+      "Businesses tired of coordinating three vendors, and anyone who wants the whole digital side handled without hiring a team for it.",
+    cta: {
+      problem: "Are you managing three vendors who each blame the other two?",
+      solution:
+        "One team takes the website, the social, the ads, the design, and the reporting. Contact us for a free consultation.",
     },
   },
 ];

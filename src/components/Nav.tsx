@@ -142,34 +142,35 @@ export default function Nav() {
             aria-label={t("Onyx Creative Asia, home")}
             className="group flex items-center"
           >
-            {/* ONYX Creative wordmark. Both color variants are stacked
-                and cross-faded by opacity so the logo flips instantly
-                with the dark/light nav state, no src swap flash.
-                Aspect ratio ~2:1 (trimmed master in design/brand). */}
-            <span className="relative block h-6 md:h-7 w-[48px] md:w-[56px] transition-transform duration-500 ease-out-expo group-hover:scale-[1.04]">
+            {/* Rebrand lockup: the CA mark plus the stacked wordmark.
+                One raster for the mark, set by height so the width
+                follows its 1.51:1 ratio. The mark is chrome, so on a
+                light scrolled header it is inverted rather than shipped
+                as a second file. */}
+            <span className="flex items-center gap-2.5 md:gap-3 transition-transform duration-500 ease-out-expo group-hover:scale-[1.03]">
               <Image
-                src="/onyx-logo-black.png"
+                src="/brand/ca-mark-tight-256.png"
                 alt="Onyx Creative Asia"
-                fill
+                width={256}
+                height={170}
                 priority
-                sizes="56px"
+                sizes="42px"
                 className={cn(
-                  "object-contain object-left transition-opacity duration-500",
-                  dark ? "opacity-0" : "opacity-100"
+                  "h-6 w-auto md:h-7 transition-[filter] duration-500",
+                  dark ? "" : "invert",
                 )}
               />
-              <Image
-                src="/onyx-logo-white.png"
-                alt=""
+              <span
                 aria-hidden
-                fill
-                priority
-                sizes="56px"
-                className={cn(
-                  "object-contain object-left transition-opacity duration-500",
-                  dark ? "opacity-100" : "opacity-0"
-                )}
-              />
+                className="hidden leading-none sm:block"
+              >
+                <span className="block text-[13px] md:text-[15px] font-medium tracking-[0.34em]">
+                  ONYX
+                </span>
+                <span className="mt-1 block text-[7px] md:text-[8px] tracking-[0.34em] opacity-70">
+                  CREATIVE ASIA
+                </span>
+              </span>
             </span>
           </Link>
 

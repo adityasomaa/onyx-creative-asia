@@ -14,15 +14,23 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // The service taxonomy was reorganised (4 disciplines -> 6 services).
-    // Old detail URLs were indexed, so point them at the closest new one
-    // instead of 404ing. Also covers the retired /pricing page and the
-    // removed Great Bali Properties case study.
+    // The service taxonomy has been reorganised twice: 4 disciplines -> 6
+    // services -> the 7 of the 2026 rebrand. Every generation of those
+    // URLs was indexed, so each one points at its closest current page
+    // rather than 404ing. Chains are collapsed to a single hop.
     return [
-      { source: "/services/web-development", destination: "/services/digital-presence", permanent: true },
-      { source: "/services/paid-media", destination: "/services/digital-marketing", permanent: true },
-      { source: "/services/social-media", destination: "/services/digital-marketing", permanent: true },
-      { source: "/services/ai-systems", destination: "/services/ai-automation", permanent: true },
+      // 2026 rebrand: 6 services -> 7
+      { source: "/services/digital-presence", destination: "/services/web-software-development", permanent: true },
+      { source: "/services/digital-marketing", destination: "/services/ads-management", permanent: true },
+      { source: "/services/creative-studio", destination: "/services/graphic-design", permanent: true },
+      // AI automation is now a capability of the build service, not a service.
+      { source: "/services/ai-automation", destination: "/services/web-software-development", permanent: true },
+      { source: "/services/managed-services", destination: "/services/maintenance-service", permanent: true },
+      // Original 4 disciplines, pointed straight at the current page.
+      { source: "/services/web-development", destination: "/services/web-software-development", permanent: true },
+      { source: "/services/paid-media", destination: "/services/ads-management", permanent: true },
+      { source: "/services/social-media", destination: "/services/social-media-management", permanent: true },
+      { source: "/services/ai-systems", destination: "/services/web-software-development", permanent: true },
       { source: "/pricing", destination: "/services", permanent: true },
       { source: "/works/great-bali-properties", destination: "/works", permanent: true },
     ];
