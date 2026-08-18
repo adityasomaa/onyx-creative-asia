@@ -43,7 +43,9 @@ export type Insight = {
 };
 
 const UNSPLASH = (id: string) =>
-  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=2000&q=80`;
+  // Width matters now that Next is not resizing these: 1200 covers the
+  // widest slot (the article hero) without shipping 2000px to a card.
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1200&q=80`;
 
 export const INSIGHTS: Insight[] = [
   {

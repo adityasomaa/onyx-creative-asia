@@ -5,6 +5,23 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["framer-motion"],
   },
   images: {
+    // Vercel's image optimizer is off.
+    //
+    // The Hobby plan's transformation quota ran out and every
+    // /_next/image request started returning 402
+    // (OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED), which broke every image
+    // on the site at once: the logo, the work covers, the article covers.
+    // Serving the files straight from public/ costs nothing and cannot
+    // hit a quota.
+    //
+    // The trade is no automatic AVIF/WebP or resizing, so source files
+    // have to be the right size themselves. They already are: the logos
+    // are ~60KB, the work posters are pre-rendered at their display size,
+    // and the Unsplash URLs request a width rather than the original.
+    //
+    // Turn this back on if the plan is upgraded; `formats` and
+    // `remotePatterns` are kept so it is a one-line revert.
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
