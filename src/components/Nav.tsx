@@ -142,11 +142,12 @@ export default function Nav() {
             aria-label={t("Onyx Creative Asia, home")}
             className="group flex items-center"
           >
-            {/* ONYX Creative wordmark. Both color variants are stacked
-                and cross-faded by opacity so the logo flips instantly
-                with the dark/light nav state, no src swap flash.
-                Aspect ratio ~2:1 (trimmed master in design/brand). */}
-            <span className="relative block h-6 md:h-7 w-[48px] md:w-[56px] transition-transform duration-500 ease-out-expo group-hover:scale-[1.04]">
+            {/* CA monogram. Both colour variants are stacked and
+                cross-faded by opacity so the logo flips instantly with the
+                dark/light nav state, no src swap flash. Both files are
+                written at one shared 850x512 box so the fade cannot shift
+                the mark. Box width follows that 1.66:1 ratio. */}
+            <span className="relative block h-6 w-10 md:h-7 md:w-[46px] transition-transform duration-500 ease-out-expo group-hover:scale-[1.04]">
               <Image
                 src="/onyx-logo-black.png"
                 alt="Onyx Creative Asia"

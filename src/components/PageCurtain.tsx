@@ -324,7 +324,7 @@ export default function PageCurtain() {
         </div>
       ) : (
         <div className="flex h-full w-full items-center justify-center">
-          <div className="relative h-7 w-[64px] md:h-8 md:w-[72px]">
+          <div className="relative h-7 w-[46px] md:h-8 md:w-[53px]">
             <Image
               src="/onyx-logo-white.png"
               alt=""
