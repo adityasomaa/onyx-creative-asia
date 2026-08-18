@@ -65,16 +65,15 @@ export default function Nav() {
   // until it has counted up and started lifting. Returning visitors (and
   // every client-side nav after) get the quick delay.
   const navDelay = introState === true ? 2.4 : 0.1;
-  // Header is treated as "on a light surface" only when it's scrolled and the
-  // mobile menu is closed. Opening the mega menu deliberately does NOT flip
-  // it, so hovering Services only reveals the panel and the header stays
-  // exactly as it was. When the mobile menu is open the full-screen overlay
-  // behind the header is dark ink, so the header goes transparent with a
-  // white logo and a white X — never a white bar.
-  // Rebrand 2026: the marketing site is dark end to end, so the scrolled
-  // header darkens rather than flipping to a white bar, and the nav
-  // never leaves its light-on-dark treatment.
-  const onLightSurface = false;
+  // Once scrolled, the header needs an opaque bar so the page does not run
+  // underneath the logo and the links. Opening the mega menu deliberately
+  // does NOT trigger it, so hovering Services only reveals the panel. With
+  // the mobile menu open the full-screen ink overlay is already behind the
+  // header, so it stays transparent rather than drawing a second bar.
+  //
+  // Rebrand 2026: that bar is ink rather than bone, and the nav never
+  // leaves its light-on-dark treatment, so `dark` is now constant.
+  const solidBar = scrolled && !open;
   const dark = true;
 
   // Hover-coordination for the mega menu.
@@ -132,11 +131,9 @@ export default function Nav() {
         onMouseLeave={closeMegaWithDelay}
         className={cn(
           "fixed top-0 left-0 right-0 z-[120] transition-colors duration-500",
-          onLightSurface
+          solidBar
             ? "bg-ink/95 backdrop-blur-md border-b border-hairline-light text-bone"
-            : dark
-              ? "bg-transparent text-bone"
-              : "bg-transparent text-ink"
+            : "bg-transparent text-bone"
         )}
       >
         <div className="container-x flex h-16 md:h-20 items-center justify-between">
