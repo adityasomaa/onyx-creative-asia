@@ -131,7 +131,7 @@ ${qa}
 - Sigap (UMKM tier): https://sigap.onyxcreative.asia
 - Email: hello@onyxcreative.asia
 - Instagram: https://www.instagram.com/onyxcreative.asia
-- Contact form: ${BASE}/contact
+- Contact form: ${BASE}/enquire
 
 ## Citation
 

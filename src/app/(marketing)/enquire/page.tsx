@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   title: "Start a project",
   description:
     "Tell us what you're working on. Project briefs, general questions, careers, or partnerships.",
-  alternates: { canonical: "/contact" },
+  alternates: { canonical: "/enquire" },
   openGraph: {
     title: "Start a project, Onyx Creative Asia",
     description: "Tell us what you're working on.",
-    url: "/contact",
+    url: "/enquire",
     type: "website",
   },
 };

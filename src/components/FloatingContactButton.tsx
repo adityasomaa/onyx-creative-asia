@@ -10,11 +10,11 @@ import { useT } from "@/lib/i18n";
  * Persistent contact CTA in the bottom-right corner.
  *
  * Hidden on:
- *   - /contact itself (you're already there)
+ *   - /enquire itself (you're already there)
  *   - the Loader's initial reveal (waits 1.2s after mount so the loader
  *     can finish its sequence without a button popping in mid-animation)
  *
- * Click → /contact. The actual chooser lives on the page so the button
+ * Click → /enquire. The actual chooser lives on the page so the button
  * doesn't need to carry any state.
  */
 
@@ -32,7 +32,7 @@ export default function FloatingContactButton() {
   }, []);
 
   // Suppress on the contact page itself.
-  const onContact = pathname === "/contact" || pathname?.startsWith("/contact?");
+  const onContact = pathname === "/enquire" || pathname?.startsWith("/enquire?");
 
   return (
     <AnimatePresence>
@@ -45,7 +45,7 @@ export default function FloatingContactButton() {
           className="fixed bottom-5 right-5 md:bottom-7 md:right-7 z-40"
         >
           <Link
-            href="/contact"
+            href="/enquire"
             aria-label="Get in touch"
             className="group inline-flex items-center gap-3 rounded-full bg-ink text-bone pl-5 pr-5 md:pr-6 py-3 md:py-3.5 shadow-[0_8px_30px_-8px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_40px_-10px_rgba(0,0,0,0.7)] transition-all duration-500 ease-out-expo hover:-translate-y-0.5"
           >

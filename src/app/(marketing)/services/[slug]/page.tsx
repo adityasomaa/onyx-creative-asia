@@ -231,7 +231,7 @@ export default async function ServiceDetailPage({
             <T>Sounds like you?</T>
           </p>
           <div className="mt-5 flex justify-center">
-            <Button href="/contact" tone="dark">
+            <Button href="/enquire" tone="dark">
               Start a project
             </Button>
           </div>
@@ -260,7 +260,7 @@ export default async function ServiceDetailPage({
             className="mt-10 md:mt-12 flex flex-wrap items-center gap-4"
             delay={0.1}
           >
-            <Button href="/contact" tone="light">
+            <Button href="/enquire" tone="light">
               Book a free consultation
             </Button>
             <Button href="/works" tone="outlineLight">

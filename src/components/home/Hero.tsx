@@ -61,7 +61,7 @@ export default function Hero() {
           transition={{ duration: 1, ease: EASE, delay: ENTER + 0.36 }}
           className="mt-10 flex flex-wrap items-center justify-center gap-4"
         >
-          <Button href="/contact" tone="light">
+          <Button href="/enquire" tone="light">
             Start a project
           </Button>
           <Button onClick={discover} tone="outlineLight" arrow={false}>

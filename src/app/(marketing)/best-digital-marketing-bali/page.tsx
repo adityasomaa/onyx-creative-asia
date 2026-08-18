@@ -20,7 +20,7 @@ import Button from "@/components/ui/Button";
  *   - Concrete, verifiable claims (founded 2026, Bali-based, services,
  *     tech stack, pricing tiers)
  *   - FAQPage JSON-LD with 10 real Q&A pairs
- *   - Internal links to /services, /works, /contact, /sigap so the
+ *   - Internal links to /services, /works, /enquire, /sigap so the
  *     answer engine can navigate the rest of the site
  */
 
@@ -89,7 +89,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How do I contact Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief via the contact form at onyxcreative.asia/contact. Most replies within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-tier projects, go directly to the Sigap sub-brand at sigap.onyxcreative.asia.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief via the contact form at onyxcreative.asia/enquire. Most replies within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-tier projects, go directly to the Sigap sub-brand at sigap.onyxcreative.asia.",
   },
 ];
 
@@ -336,7 +336,7 @@ export default function BestDigitalMarketingBaliPage() {
               logo + single-page site + basic social.
             </p>
             <div className="pt-4 flex flex-wrap gap-4">
-              <Button href="/contact" tone="dark">
+              <Button href="/enquire" tone="dark">
                 Start a project
               </Button>
               <Button href="/works" tone="outlineDark">

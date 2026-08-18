@@ -81,7 +81,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How do I get started with Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief at onyxcreative.asia/contact. We reply within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-budget projects, go to sigap.onyxcreative.asia for the fixed-package tier. Expect a 30-minute discovery call, a written scope within 5 working days, and a project kick-off the week after sign-off.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief at onyxcreative.asia/enquire. We reply within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-budget projects, go to sigap.onyxcreative.asia for the fixed-package tier. Expect a 30-minute discovery call, a written scope within 5 working days, and a project kick-off the week after sign-off.",
   },
 ];
 
@@ -306,7 +306,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
               scope creep, no surprise invoices.
             </p>
             <div className="pt-4 flex flex-wrap gap-4">
-              <Button href="/contact" tone="dark">
+              <Button href="/enquire" tone="dark">
                 Start a project
               </Button>
               <Button href="/works" tone="outlineDark">

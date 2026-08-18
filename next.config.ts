@@ -40,6 +40,8 @@ const nextConfig: NextConfig = {
       { source: "/services/paid-media", destination: "/services/digital-marketing", permanent: true },
       { source: "/services/social-media", destination: "/services/digital-marketing", permanent: true },
       { source: "/services/ai-systems", destination: "/services/ai-automation", permanent: true },
+      // The contact page moved to /enquire.
+      { source: "/contact", destination: "/enquire", permanent: true },
       { source: "/pricing", destination: "/services", permanent: true },
       { source: "/works/great-bali-properties", destination: "/works", permanent: true },
     ];

@@ -19,7 +19,7 @@ const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 /**
  * Marketing site layout, chrome (Loader, Nav, Footer, etc.) + JSON-LD
  * structured data. Wraps all public routes under the (marketing) route
- * group: /, /about, /contact, /services, /works, /insights, /privacy,
+ * group: /, /about, /enquire, /services, /works, /insights, /privacy,
  * /terms.
  *
  * The /agents dashboard lives outside this group with its own layout

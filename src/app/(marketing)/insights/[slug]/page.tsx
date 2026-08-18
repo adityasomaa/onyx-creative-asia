@@ -251,7 +251,7 @@ export default async function InsightPage({
             <p className="text-lg max-w-md text-ink/80 leading-relaxed">
               <T>Like the way we think? Tell us what you&apos;re trying to build.</T>
             </p>
-            <Button href="/contact" tone="dark">
+            <Button href="/enquire" tone="dark">
               Start a project
             </Button>
           </div>

@@ -28,7 +28,7 @@ export default function AboutHero() {
         )}
       </p>
       <div className="mt-10 flex flex-wrap items-center gap-4">
-        <Button href="/contact" tone="dark">
+        <Button href="/enquire" tone="dark">
           Start a project
         </Button>
         <Button onClick={discover} tone="outlineDark" arrow={false}>

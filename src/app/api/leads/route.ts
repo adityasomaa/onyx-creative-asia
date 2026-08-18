@@ -13,7 +13,7 @@ export const runtime = "nodejs";
  * POST /api/leads
  *
  * Single entry point for every kind of inquiry submitted from the
- * marketing site's /contact page. The visitor picks a type (general,
+ * marketing site's /enquire page. The visitor picks a type (general,
  * project, career, partnership) and the relevant sub-form posts here.
  *
  * Every submission:

@@ -37,16 +37,16 @@ const NAV_LINKS: ReadonlyArray<NavLink> = [
   },
   { href: "/works", label: "Works" },
   { href: "/insights", label: "Insights" },
-  { href: "/contact", label: "Contact" },
+  { href: "/enquire", label: "Contact" },
 ];
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
 // Pages whose hero uses a dark background — nav should render in dark mode
 // (bone text on transparent) until the user scrolls past the fold.
-// /contact is a full-bleed ink canvas that never scrolls, so it stays here
+// /enquire is a full-bleed ink canvas that never scrolls, so it stays here
 // for the whole page: ink-on-ink made the header invisible.
-const DARK_HERO_PATHS = new Set(["/", "/contact"]);
+const DARK_HERO_PATHS = new Set(["/", "/enquire"]);
 
 export default function Nav() {
   const pathname = usePathname();
@@ -213,7 +213,7 @@ export default function Nav() {
               className="hidden md:inline-flex"
             >
               <Button
-                href="/contact"
+                href="/enquire"
                 tone={dark ? "light" : "dark"}
                 className="px-5 py-2.5"
               >

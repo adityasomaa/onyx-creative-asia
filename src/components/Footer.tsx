@@ -15,7 +15,7 @@ const SITEMAP = [
   { label: "Services", href: "/services" },
   { label: "Works", href: "/works" },
   { label: "Insights", href: "/insights" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact", href: "/enquire" },
 ];
 
 const SERVICES_LINKS = SERVICES.map((s) => ({
@@ -32,8 +32,8 @@ const EXTRA = [
 export default function Footer() {
   const t = useT();
   const pathname = usePathname();
-  // /contact is a chrome-less canvas: no footer there.
-  if (pathname === "/contact") return null;
+  // /enquire is a chrome-less canvas: no footer there.
+  if (pathname === "/enquire") return null;
   return (
     <footer className="relative bg-ink text-bone overflow-hidden">
       {/* Big CTA + embedded project form */}
