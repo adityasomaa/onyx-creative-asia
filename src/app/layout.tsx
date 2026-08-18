@@ -1,5 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
+
+/**
+ * Rebrand 2026: the brand guide specifies Montserrat. Loading it through
+ * next/font means it is self-hosted and preloaded rather than fetched from
+ * Google at runtime, so there is no third-party request and no FOUT.
+ */
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-brand",
+  weight: ["300", "400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
 
 /**
  * Root layout — minimal. Holds <html>, <body>, the grain texture, and
@@ -77,7 +91,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={montserrat.variable}>
       <body className="antialiased grain">
         {children}
       </body>

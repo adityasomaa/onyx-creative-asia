@@ -1,69 +1,57 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useState } from "react";
 import { SERVICES } from "@/lib/data";
-import { RevealText } from "@/components/Reveal";
-import { useT } from "@/lib/i18n";
+import Reveal from "@/components/Reveal";
+import ServiceIcon from "./ServiceIcon";
+import { T } from "@/lib/i18n";
 
-const EASE = [0.25, 1, 0.5, 1] as const;
-
+/**
+ * Rebrand 2026: the services row from the reference. Centred kicker and
+ * headline, then one bordered card per service on a graphite panel.
+ *
+ * Seven cards do not divide evenly into a 6-up row, so the grid runs
+ * 2 / 4 / 7 and the last card is allowed to span on the middle step
+ * rather than leaving a ragged hole.
+ */
 export default function ServicesPreview() {
-  const [active, setActive] = useState<string | null>(null);
-  const t = useT();
-
   return (
-    <section className="bg-ink text-bone py-24 md:py-32 overflow-hidden">
-      <div className="container-x">
-        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-          {t("Services")}
-        </p>
-        <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight max-w-3xl text-balance">
-          <RevealText text="What we do" />
-        </h2>
-        <p className="mt-5 max-w-xl text-base md:text-lg text-bone/70 leading-relaxed">
-          {t(
-            "Seven services that cover everything your business needs to grow online, run by one team so nothing falls between the gaps.",
-          )}
-        </p>
-      </div>
+    <section className="bg-ink text-bone">
+      <div className="container-x py-24 md:py-32">
+        <Reveal>
+          <p className="text-center text-[10px] uppercase tracking-[0.32em] text-silver">
+            <T>What we do</T>
+          </p>
+          <h2 className="mt-5 text-center text-2xl font-semibold uppercase tracking-[0.01em] md:text-4xl">
+            <T>All services. One standard.</T>
+          </h2>
+          <span
+            aria-hidden
+            className="mx-auto mt-6 block h-px w-14 bg-bone/30"
+          />
+        </Reveal>
 
-      <div className="mt-12 md:mt-20 border-t border-hairline-light">
-        {SERVICES.map((s) => (
-          <motion.div
-            key={s.id}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.5 }}
-            transition={{ duration: 0.6, ease: EASE }}
-            onHoverStart={() => setActive(s.id)}
-            onHoverEnd={() => setActive(null)}
-            className="border-b border-hairline-light"
-          >
-            <Link
-              href={`/services/${s.id}`}
-              className="container-x grid grid-cols-12 items-center py-8 md:py-12 group"
-              data-cursor="hover"
-            >
-              <span className="col-span-2 md:col-span-1 text-xs md:text-sm opacity-60 tabular-nums">
-                {s.number}
-              </span>
-              <h3 className="col-span-10 md:col-span-7 text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight transition-transform duration-700 ease-out-expo group-hover:translate-x-2">
-                {t(s.title)}
-              </h3>
-              <p className="hidden md:block md:col-span-3 text-sm opacity-70 max-w-xs">
-                {t(s.short)}
-              </p>
-              <span
-                aria-hidden
-                className="hidden md:flex md:col-span-1 justify-end text-2xl transition-all duration-700 ease-out-expo group-hover:translate-x-1"
-              >
-                {active === s.id ? "→" : "+"}
-              </span>
-            </Link>
-          </motion.div>
-        ))}
+        <ul className="mt-14 grid grid-cols-2 gap-px overflow-hidden bg-bone/10 md:mt-16 md:grid-cols-4 lg:grid-cols-7">
+          {SERVICES.map((s, i) => (
+            <li key={s.id} className="flex bg-ink">
+              <Reveal delay={i * 0.05} className="flex w-full">
+                <Link
+                  href={`/services/${s.id}`}
+                  data-cursor="hover"
+                  className="group flex h-full flex-col items-center bg-graphite/60 px-4 py-9 text-center transition-colors duration-500 hover:bg-graphite md:px-5 md:py-11"
+                >
+                  <span className="text-platinum transition-colors duration-500 group-hover:text-bone">
+                    <ServiceIcon id={s.id} />
+                  </span>
+                  <h3 className="mt-6 text-[11px] font-semibold uppercase leading-snug tracking-[0.14em] md:text-xs">
+                    <T>{s.title}</T>
+                  </h3>
+                  <p className="mt-4 text-[11px] leading-relaxed text-silver/85 md:text-xs">
+                    <T>{s.short}</T>
+                  </p>
+                </Link>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

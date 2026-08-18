@@ -1,74 +1,83 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { PROJECTS } from "@/lib/data";
-import Reveal, { RevealText } from "@/components/Reveal";
-import WorkCard from "@/components/works/WorkCard";
-import { useT } from "@/lib/i18n";
+import Reveal from "@/components/Reveal";
+import ProjectCover from "@/components/ProjectCover";
+import { T } from "@/lib/i18n";
 
-const EASE = [0.25, 1, 0.5, 1] as const;
-
+/**
+ * Rebrand 2026: the selected-work row from the reference. Kicker and
+ * headline on the left, "view all" on the right, then a run of cards
+ * where the cover sits on a graphite panel with the client name and the
+ * discipline underneath.
+ */
 export default function FeaturedWorks() {
-  const items = PROJECTS.slice(0, 6);
-  const t = useT();
+  const items = PROJECTS.slice(0, 4);
 
   return (
     <section className="bg-ink text-bone">
-      <div className="container-x py-24 md:py-32 border-t border-hairline-light">
-      <div className="flex items-end justify-between mb-12 md:mb-16 gap-6">
-        <div className="max-w-2xl">
-          <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-4">
-            {t("Works")}
-          </p>
-          {/* No nowrap: the English fits on one line but the translations
-              are longer and were running off the right edge on mobile. */}
-          <h2 className="text-display-sm font-medium leading-[0.95] tracking-tight text-balance">
-            <RevealText text="Brands we've grown" />
-          </h2>
-          <p className="mt-5 text-base md:text-lg text-bone/70 leading-relaxed">
-            {t(
-              "A look at recent projects across websites, marketing, brand, and automation.",
-            )}
-          </p>
-        </div>
-        <Reveal className="hidden md:block shrink-0" delay={0.2}>
-          <Link
-            href="/works"
-            className="text-sm border-b border-ink/40 hover:border-ink pb-1 transition-colors"
-          >
-            {t("All works")} →
-          </Link>
+      <div className="container-x border-t border-hairline-light py-24 md:py-32">
+        <Reveal>
+          <div className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.32em] text-silver">
+                <T>Selected work</T>
+              </p>
+              <h2 className="mt-5 max-w-2xl text-2xl font-semibold uppercase leading-tight tracking-[0.01em] md:text-4xl">
+                <T>Digital solutions that drive growth.</T>
+              </h2>
+            </div>
+            <Link
+              href="/works"
+              data-cursor="hover"
+              className="group inline-flex items-center gap-3 border-b border-bone/30 pb-2 text-[10px] uppercase tracking-[0.22em] text-platinum transition-colors hover:border-bone hover:text-bone"
+            >
+              <T>View all work</T>
+              <span aria-hidden className="transition-transform duration-500 group-hover:translate-x-1">
+                →
+              </span>
+            </Link>
+          </div>
         </Reveal>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        {items.map((p, i) => (
-          <motion.div
-            key={p.slug}
-            initial={{ y: 60, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.9, ease: EASE, delay: (i % 2) * 0.1 }}
-            // Tidy 2-col masonry: right column (odd index) sits lower so
-            // the grid has editorial rhythm while every card stays the
-            // same uniform 16:9.
-            className={i % 2 === 1 ? "md:mt-16" : ""}
-          >
-            <WorkCard project={p} sizes="(min-width: 768px) 50vw, 100vw" />
-          </motion.div>
-        ))}
+        <ul className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 md:mt-16">
+          {items.map((p, i) => (
+            <li key={p.slug}>
+              <Reveal delay={i * 0.06}>
+                <Link
+                  href={`/works/${p.slug}`}
+                  data-cursor="hover"
+                  className="group block bg-graphite/60 p-3 transition-colors duration-500 hover:bg-graphite"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-ink">
+                    <ProjectCover
+                      src={p.cover}
+                      loop={p.coverLoop}
+                      alt={`${p.client}, ${p.title}`}
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  </div>
+                  <div className="flex items-end justify-between gap-3 px-1 pb-1 pt-4">
+                    <div>
+                      <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em]">
+                        {p.client}
+                      </h3>
+                      <p className="mt-1.5 text-[11px] text-silver/80">
+                        <T>{p.category}</T>
+                      </p>
+                    </div>
+                    <span
+                      aria-hidden
+                      className="shrink-0 text-sm text-silver transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-bone"
+                    >
+                      ↗
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <div className="mt-12 md:hidden text-center">
-        <Link
-          href="/works"
-          className="inline-block text-sm border-b border-ink/40 hover:border-ink pb-1"
-        >
-          {t("All works")} →
-        </Link>
-      </div>
-    </div>
     </section>
   );
 }

@@ -2,65 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-Light.ttf") format("truetype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-LightItalic.ttf") format("truetype");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-Italic.ttf") format("truetype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-Medium.ttf") format("truetype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-MediumItalic.ttf") format("truetype");
-  font-weight: 500;
-  font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "NeueMontreal";
-  src: url("/fonts/NeueMontreal-BoldItalic.ttf") format("truetype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
 :root {
-  --font-neue: "NeueMontreal", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Rebrand 2026: Montserrat per the brand guide. next/font declares
+     --font-brand on <html>; this is only the stack that consumes it. */
+  --font-neue: var(--font-brand), system-ui, -apple-system, "Segoe UI", sans-serif;
   --color-ink: #0a0a0a;
   --color-bone: #ffffff;
 

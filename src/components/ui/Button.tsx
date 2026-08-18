@@ -32,6 +32,7 @@ export default function Button({
   children,
   tone = "dark",
   arrow = true,
+  square = false,
   disabled = false,
   newTab = false,
   className,
@@ -42,6 +43,8 @@ export default function Button({
   children: string;
   tone?: Tone;
   arrow?: boolean;
+  /** Rebrand 2026: square corners instead of the pill, per the brand guide. */
+  square?: boolean;
   disabled?: boolean;
   /** Render as an external link that opens in a new tab. */
   newTab?: boolean;
@@ -56,7 +59,10 @@ export default function Button({
   const inner = (
     <span
       className={cn(
-        "group relative inline-flex items-center gap-2 overflow-hidden rounded-full px-7 py-3.5 text-sm font-medium",
+        "group relative inline-flex items-center gap-3 overflow-hidden text-sm font-medium",
+        square
+          ? "rounded-none px-8 py-4 text-[11px] uppercase tracking-[0.16em]"
+          : "rounded-full px-7 py-3.5",
         c.base,
         disabled && "pointer-events-none opacity-60",
         className,
