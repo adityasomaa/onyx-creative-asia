@@ -7,7 +7,9 @@ export const contentType = "image/png";
 
 /**
  * Apple touch icon (180×180, iOS home-screen shortcut). Same mark as the
- * favicon; iOS applies its own rounding, so this canvas stays square.
+ * favicon, and transparent to match. Note iOS composites a home-screen
+ * icon onto black rather than honouring alpha, so this still lands as the
+ * mark on black there; the transparency only matters everywhere else.
  */
 export default function AppleIcon() {
   const mark = fs.readFileSync(
@@ -21,7 +23,7 @@ export default function AppleIcon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#0E0E0E",
+          background: "transparent",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

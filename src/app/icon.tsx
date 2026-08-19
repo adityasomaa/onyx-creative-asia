@@ -9,7 +9,10 @@ export const size = { width: 192, height: 192 };
 export const contentType = "image/png";
 
 /**
- * Brand favicon: the CA mark on ink. Matches the nav logo.
+ * Raster favicon fallback. icon.svg is the primary and adapts to the
+ * browser's colour scheme; this covers anything that cannot use an SVG
+ * favicon. Those skew light-UI and this cannot adapt, so it carries the
+ * dark mark to match the SVG's default.
  *
  * The mark is a raster, so it is inlined as a data URI rather than
  * fetched: ImageResponse renders where a relative URL has no origin to
@@ -18,7 +21,7 @@ export const contentType = "image/png";
  */
 export default function Icon() {
   const mark = fs.readFileSync(
-    path.join(process.cwd(), "public/onyx-logo-white.png"),
+    path.join(process.cwd(), "public/onyx-logo-black.png"),
   );
   const src = `data:image/png;base64,${mark.toString("base64")}`;
 
@@ -28,11 +31,10 @@ export default function Icon() {
         style={{
           width: "100%",
           height: "100%",
-          background: "#0E0E0E",
+          background: "transparent",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 32,
         }}
       >
         {/* 850x512 source, drawn at ~72% width so the mark keeps a margin */}
