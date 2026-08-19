@@ -147,17 +147,17 @@ export const PROJECTS: Project[] = [
     category: "Digital Presence",
     year: "2026",
     description:
-      "An e-commerce storefront for a premium beauty tools retailer. Eight product categories, weekly new arrivals, cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure which brush they need.",
+      "An e-commerce storefront for a premium beauty tools retailer. The full product catalogue, weekly new arrivals, cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure which brush they need.",
     cover: "/works/tammia-online.jpg",
     coverLoop: "/works/tammia-online-card.mp4",
     coverLoopHd: "/works/tammia-online.mp4",
     tags: ["Web", "E-commerce", "Beauty"],
-    url: "https://marshella-eunike.vercel.app/tammia-online/",
+    url: "https://dev.tammiaonline.com",
     urlLabel: "Visit site",
     services: ["Digital Presence", "Creative Studio", "Growth & Analytics", "Managed Services"],
     location: "Indonesia",
     scope: [
-      "Storefront with eight product categories",
+      "Storefront across the full product catalogue",
       "New arrivals, ratings, and authenticity guarantee messaging",
       "Slide-out cart and wishlist drawers",
       "FAQ covering shipping, returns, and payment",
@@ -168,7 +168,7 @@ export const PROJECTS: Project[] = [
       "Beauty tools are a trust purchase: shoppers are looking for the real Real Techniques brush, not a convincing copy. The storefront leads with that, an authenticity guarantee and clear shipping thresholds sit above the fold, and every product carries a rating and a price in rupiah. Underneath, the catalogue is organised the way people actually shop, by what they need rather than by brand, with cart and wishlist drawers that never take you off the page. For anyone still unsure, a WhatsApp advisor is one tap away, which is how most of Indonesia prefers to ask.",
     study: {
       overview:
-        "Tammia Online is a premium beauty tools retailer in Indonesia, selling genuine brushes and tools rather than lookalikes. The storefront runs eight product categories with weekly new arrivals, ratings and rupiah pricing on every item, slide-out cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure what they need.",
+        "Tammia Online is a premium beauty tools retailer in Indonesia, selling genuine brushes and tools rather than lookalikes. The storefront runs the full catalogue with weekly new arrivals, ratings and rupiah pricing on every item, slide-out cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure what they need.",
       needed: [
       "Shoppers could not tell an original brush from a convincing copy.",
       "The same question arrived with every order: is this one authentic?",
@@ -176,7 +176,7 @@ export const PROJECTS: Project[] = [
       "No fast way to ask a product question before committing to buy.",
       ],
       did: [
-      "Built the storefront across eight product categories with weekly new arrivals.",
+      "Built the storefront across the full product catalogue with weekly new arrivals.",
       "Put the authenticity guarantee, ratings, and shipping thresholds above the fold.",
       "Added slide-out cart and wishlist drawers that keep shoppers on the page.",
       "Wrote the FAQ covering shipping, returns, and payment.",
@@ -307,8 +307,6 @@ export const PROJECTS: Project[] = [
     coverLoop: "/works/radcruiters-card.mp4",
     coverLoopHd: "/works/radcruiters.mp4",
     tags: ["Workflow", "Make.com", "WordPress"],
-    url: "https://onlineresults.radcruiters.com/campaign-request/",
-    urlLabel: "Visit site",
     services: ["AI Automation", "Digital Presence", "Growth & Analytics", "Managed Services"],
     location: "Netherlands · EU",
     scope: [

@@ -1199,7 +1199,7 @@ const PROJECT_TX: Record<string, ProjectTx> = {
 
   "tammia-online": {
     study: {
-      overview: { id: "Tammia Online adalah retailer beauty tools premium di Indonesia, menjual brush dan tools yang asli, bukan tiruan yang mirip. Storefront-nya punya delapan kategori produk dengan new arrivals mingguan, rating dan harga rupiah di tiap item, cart dan wishlist drawer yang muncul dari samping, plus beauty advisor lewat WhatsApp untuk pembeli yang belum yakin butuh apa.", zh: "Tammia Online 是印尼一家高端美妆工具零售商，卖的是正品刷具和工具，不是做得很像的仿品。店面分八个产品类目，每周上新，每件商品都有评分和印尼盾定价，购物车和心愿单以侧边抽屉呈现，还有 WhatsApp 上的美妆顾问，给还没想好要买什么的人。", ja: "Tammia Online はインドネシアのプレミアム美容ツール専門店です。よく似た模倣品ではなく、本物のブラシとツールを扱います。ストアは八つのカテゴリーで構成され、毎週新商品が入り、すべての商品に評価とルピア表示の価格が付きます。カートとウィッシュリストはスライドインのドロワーで、何が必要か迷う人のために WhatsApp のビューティーアドバイザーも用意しています。" },
+      overview: { id: "Tammia Online adalah retailer beauty tools premium di Indonesia, menjual brush dan tools yang asli, bukan tiruan yang mirip. Storefront-nya memuat katalog produk lengkap dengan new arrivals mingguan, rating dan harga rupiah di tiap item, cart dan wishlist drawer yang muncul dari samping, plus beauty advisor lewat WhatsApp untuk pembeli yang belum yakin butuh apa.", zh: "Tammia Online 是印尼一家高端美妆工具零售商，卖的是正品刷具和工具，不是做得很像的仿品。店面涵盖完整的商品类目，每周上新，每件商品都有评分和印尼盾定价，购物车和心愿单以侧边抽屉呈现，还有 WhatsApp 上的美妆顾问，给还没想好要买什么的人。", ja: "Tammia Online はインドネシアのプレミアム美容ツール専門店です。よく似た模倣品ではなく、本物のブラシとツールを扱います。ストアは全カテゴリーで構成され、毎週新商品が入り、すべての商品に評価とルピア表示の価格が付きます。カートとウィッシュリストはスライドインのドロワーで、何が必要か迷う人のために WhatsApp のビューティーアドバイザーも用意しています。" },
       needed: [
         { id: "Pembeli tidak bisa membedakan brush asli dari tiruan yang meyakinkan.", zh: "买家分不出正品刷具和做得很像的仿品。", ja: "買い手には、本物のブラシと精巧な模倣品の区別がつきませんでした。" },
         { id: "Pertanyaan yang sama datang di tiap order: ini asli atau bukan?", zh: "每一单都会冒出同一个问题：这个是正品吗？", ja: "注文のたびに同じ質問が来ていました。これは本物ですか、と。" },
@@ -1207,7 +1207,7 @@ const PROJECT_TX: Record<string, ProjectTx> = {
         { id: "Tidak ada cara cepat untuk bertanya soal produk sebelum memutuskan beli.", zh: "在决定下单之前，没有一条能快速问清产品的路。", ja: "購入を決める前に、商品について手早く尋ねる手段がありませんでした。" },
       ],
       did: [
-        { id: "Membangun storefront dengan delapan kategori produk dan new arrivals mingguan.", zh: "搭建了分八个类目、每周上新的店面。", ja: "八つの商品カテゴリーと毎週の新着を備えたストアを構築。" },
+        { id: "Membangun storefront dengan katalog produk lengkap dan new arrivals mingguan.", zh: "搭建了涵盖完整类目、每周上新的店面。", ja: "全商品カテゴリーと毎週の新着を備えたストアを構築。" },
         { id: "Menaruh garansi keaslian, rating, dan batas gratis ongkir di atas lipatan.", zh: "把正品保证、评分和包邮门槛都放到首屏。", ja: "正規品保証・評価・送料無料のしきい値をファーストビューに配置。" },
         { id: "Menambahkan cart dan wishlist drawer supaya pembeli tetap di halaman yang sama.", zh: "加了购物车和心愿单侧边抽屉，让买家不用离开当前页面。", ja: "同じページに留まれるよう、カートとウィッシュリストのドロワーを追加。" },
         { id: "Menulis FAQ yang mencakup pengiriman, retur, dan pembayaran.", zh: "写了覆盖配送、退换和付款的常见问题。", ja: "配送・返品・支払いをカバーする FAQ を執筆。" },
@@ -1224,9 +1224,9 @@ const PROJECT_TX: Record<string, ProjectTx> = {
     blurb: { id: "Retailer beauty tools premium di Indonesia", zh: "Indonesia 的高端美妆工具零售商", ja: "Indonesia のプレミアム・ビューティーツール専門店" },
     category: { id: "Kehadiran Digital", zh: "数字形象", ja: "デジタルプレゼンス" },
     description: {
-      id: "Etalase e-commerce untuk retailer beauty tools premium. Delapan kategori produk, koleksi baru tiap minggu, drawer keranjang dan wishlist, serta beauty advisor lewat WhatsApp untuk pembeli yang masih bingung memilih brush.",
-      zh: "为高端美妆工具零售商打造的电商门店。八个产品分类、每周上新、购物车与心愿单抽屉，还有 WhatsApp 美妆顾问，帮那些拿不准该选哪支刷子的顾客。",
-      ja: "プレミアムなビューティーツール専門店のための EC ストアフロント。8つの商品カテゴリー、毎週の新着、カートとウィッシュリストのドロワー、そしてどのブラシを選ぶか迷う人のための WhatsApp ビューティーアドバイザーを備えています。"
+      id: "Etalase e-commerce untuk retailer beauty tools premium. Katalog produk lengkap, koleksi baru tiap minggu, drawer keranjang dan wishlist, serta beauty advisor lewat WhatsApp untuk pembeli yang masih bingung memilih brush.",
+      zh: "为高端美妆工具零售商打造的电商门店。完整的商品分类、每周上新、购物车与心愿单抽屉，还有 WhatsApp 美妆顾问，帮那些拿不准该选哪支刷子的顾客。",
+      ja: "プレミアムなビューティーツール専門店のための EC ストアフロント。全商品カテゴリー、毎週の新着、カートとウィッシュリストのドロワー、そしてどのブラシを選ぶか迷う人のための WhatsApp ビューティーアドバイザーを備えています。"
     },
     longDescription: {
       id: "Beauty tools adalah pembelian yang bertumpu pada kepercayaan: pembeli mencari brush Real Techniques yang asli, bukan tiruan yang meyakinkan. Etalase ini membuka dengan hal itu, jaminan keaslian dan syarat gratis ongkir berada di atas lipatan, dan setiap produk menampilkan rating serta harga dalam rupiah. Di bawahnya, katalog disusun sesuai cara orang benar-benar berbelanja, berdasarkan kebutuhan alih-alih merek, dengan drawer keranjang dan wishlist yang tidak pernah membawa Anda keluar dari halaman. Bagi yang masih ragu, beauty advisor lewat WhatsApp hanya satu ketukan jauhnya, dan begitulah kebanyakan orang Indonesia memilih untuk bertanya.",
@@ -1234,7 +1234,7 @@ const PROJECT_TX: Record<string, ProjectTx> = {
       ja: "ビューティーツールは信頼で決まる買い物です。顧客が欲しいのは本物の Real Techniques のブラシであって、よくできた模造品ではありません。このストアはそこから始まります。正規品保証と送料無料の条件をファーストビューに置き、すべての商品に評価とルピア建ての価格を添える。その下では、カタログをブランド別ではなく「何が必要か」で並べ、カートとウィッシュリストのドロワーはページから離れることなく開きます。それでも迷う人には、WhatsApp のビューティーアドバイザーがワンタップ。Indonesia の多くの人が質問する、いつものやり方です。"
     },
     scope: [
-      { id: "Etalase dengan delapan kategori produk", zh: "含八个产品分类的门店", ja: "8つの商品カテゴリーを備えたストアフロント" },
+      { id: "Etalase dengan katalog produk lengkap", zh: "涵盖完整商品分类的门店", ja: "全商品カテゴリーを備えたストアフロント" },
       { id: "Koleksi baru, rating, dan pesan jaminan keaslian", zh: "新品上架、评分与正品保证信息", ja: "新着、評価、正規品保証のメッセージ" },
       { id: "Drawer keranjang dan wishlist yang bisa digeser", zh: "可滑出的购物车与心愿单抽屉", ja: "スライド式のカートとウィッシュリストのドロワー" },
       { id: "FAQ seputar pengiriman, retur, dan pembayaran", zh: "涵盖配送、退换与支付的常见问答", ja: "配送・返品・支払いに関する FAQ" },
