@@ -4,7 +4,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 
 /**
  * Sigap — Onyx Creative Asia's budget-tier sub-brand for UMKM in
- * Indonesia. Lives at sigap.onyxcreative.asia.
+ * Indonesia. Lives at onyxcreative.asia/sigap.
  *
  * Visual identity tracks the main Onyx editorial monochrome (bone/ink,
  * Neue Montreal type, hairline grid, restrained motion) so the brand
@@ -21,7 +21,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sigap.onyxcreative.asia"),
+  metadataBase: new URL("https://onyxcreative.asia/sigap"),
   title: {
     default: "Sigap · Branding & Web untuk UMKM, mulai Rp 500rb",
     template: "%s · Sigap",

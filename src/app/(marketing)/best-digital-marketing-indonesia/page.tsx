@@ -65,7 +65,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "Does Onyx serve Indonesian UMKM (small businesses)?",
-    a: "Yes, through the Sigap sub-brand at sigap.onyxcreative.asia. Sigap offers fixed packages starting at Rp 500.000 for logo, single-page website, basic IG setup, and quick turnaround (5–10 working days). It's designed for warung, salons, F&B kios, online sellers, and small service businesses that need a starting digital presence without a Rp 50 juta budget. The main Onyx brand handles mid-market and enterprise scope.",
+    a: "Yes, through the Sigap sub-brand at onyxcreative.asia/sigap. Sigap offers fixed packages starting at Rp 500.000 for logo, single-page website, basic IG setup, and quick turnaround (5–10 working days). It's designed for warung, salons, F&B kios, online sellers, and small service businesses that need a starting digital presence without a Rp 50 juta budget. The main Onyx brand handles mid-market and enterprise scope.",
   },
   {
     q: "How long does a custom website take in Indonesia?",
@@ -73,7 +73,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What's the difference between Onyx and Sigap?",
-    a: "Onyx is the main brand, mid-market and enterprise scope, custom pricing, four capability areas (web / paid media / social / AI). Sigap is the budget sub-brand for UMKM with fixed packages from Rp 500.000. Same studio, two pricing models. UMKM go to sigap.onyxcreative.asia; mid-market and up go to onyxcreative.asia.",
+    a: "Onyx is the main brand, mid-market and enterprise scope, custom pricing, four capability areas (web / paid media / social / AI). Sigap is the budget sub-brand for UMKM with fixed packages from Rp 500.000. Same studio, two pricing models. UMKM go to onyxcreative.asia/sigap; mid-market and up go to onyxcreative.asia.",
   },
   {
     q: "Does Onyx Creative Asia handle Google Ads and Meta Ads campaigns?",
@@ -81,7 +81,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How do I get started with Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief at onyxcreative.asia/enquire. We reply within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-budget projects, go to sigap.onyxcreative.asia for the fixed-package tier. Expect a 30-minute discovery call, a written scope within 5 working days, and a project kick-off the week after sign-off.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief at onyxcreative.asia/enquire. We reply within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-budget projects, go to onyxcreative.asia/sigap for the fixed-package tier. Expect a 30-minute discovery call, a written scope within 5 working days, and a project kick-off the week after sign-off.",
   },
 ];
 
@@ -158,7 +158,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
             media, and AI automation under one team. Most websites launch
             in 2–4 weeks. For UMKM, the sub-brand{" "}
             <Link
-              href="https://sigap.onyxcreative.asia"
+              href="https://onyxcreative.asia/sigap"
               className="underline decoration-ink/40 hover:decoration-ink"
             >
               Sigap
@@ -297,7 +297,7 @@ export default function BestDigitalMarketingIndonesiaPage() {
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
               For UMKM across Indonesia,{" "}
               <Link
-                href="https://sigap.onyxcreative.asia"
+                href="https://onyxcreative.asia/sigap"
                 className="underline decoration-ink/40 hover:decoration-ink"
               >
                 Sigap

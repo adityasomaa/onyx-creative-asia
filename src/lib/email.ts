@@ -191,8 +191,8 @@ export async function sendInternalNotification(
   const subject = `[Onyx · new ${typeLabel.toLowerCase()}] ${input.fromName}${highlight}`;
 
   const submissionUrl = input.submissionId
-    ? `https://agents.onyxcreative.asia/submissions/${input.submissionId}`
-    : "https://agents.onyxcreative.asia/submissions";
+    ? `https://onyxcreative.asia/agents/submissions/${input.submissionId}`
+    : "https://onyxcreative.asia/agents/submissions";
 
   const text = buildInternalText({
     typeLabel,

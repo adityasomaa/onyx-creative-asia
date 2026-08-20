@@ -33,7 +33,7 @@ export default function LoginForm({
         return;
       }
       // Cookie is now set. Hard-navigate so middleware re-reads.
-      const target = nextPath && nextPath.startsWith("/") ? nextPath : "/";
+      const target = nextPath && nextPath.startsWith("/") ? nextPath : "/agents";
       window.location.href = target;
     } catch (err) {
       setError(err instanceof Error ? err.message : "Network error.");

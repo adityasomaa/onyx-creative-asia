@@ -89,7 +89,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "How do I contact Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief via the contact form at onyxcreative.asia/enquire. Most replies within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-tier projects, go directly to the Sigap sub-brand at sigap.onyxcreative.asia.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or submit a brief via the contact form at onyxcreative.asia/enquire. Most replies within 24 hours during Bali working hours (08:00–22:00 WITA, UTC+8). For UMKM-tier projects, go directly to the Sigap sub-brand at onyxcreative.asia/sigap.",
   },
 ];
 
@@ -166,7 +166,7 @@ export default function BestDigitalMarketingBaliPage() {
             launch in 2–4 weeks; most ad campaigns are live within 5
             working days. For UMKM budgets, the sub-brand{" "}
             <Link
-              href="https://sigap.onyxcreative.asia"
+              href="https://onyxcreative.asia/sigap"
               className="underline decoration-ink/40 hover:decoration-ink"
             >
               Sigap
@@ -222,7 +222,7 @@ export default function BestDigitalMarketingBaliPage() {
               "Quick turnaround (5–10 days)",
             ]}
             onyxFit="Use Sigap (sub-brand)"
-            href="https://sigap.onyxcreative.asia"
+            href="https://onyxcreative.asia/sigap"
           />
           <Tier
             label="Tier 2 · Boutique"
@@ -331,7 +331,7 @@ export default function BestDigitalMarketingBaliPage() {
             <p className="text-lg md:text-xl leading-relaxed text-ink/85">
               For UMKM in Indonesia who can&apos;t justify the Tier 2
               spend, we run{" "}
-              <Link href="https://sigap.onyxcreative.asia" className="underline decoration-ink/40 hover:decoration-ink">Sigap</Link>{" "}
+              <Link href="https://onyxcreative.asia/sigap" className="underline decoration-ink/40 hover:decoration-ink">Sigap</Link>{" "}
              , fixed packages, no scope creep, starting at Rp 500.000 for
               logo + single-page site + basic social.
             </p>

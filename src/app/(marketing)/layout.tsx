@@ -118,7 +118,7 @@ const ORG_JSON_LD = {
   subOrganization: {
     "@type": "Organization",
     name: "Sigap",
-    url: "https://sigap.onyxcreative.asia",
+    url: "https://onyxcreative.asia/sigap",
     description:
       "Budget-tier digital service for UMKM (Indonesian small businesses). Fixed packages from Rp 500.000 for logo + website + social setup.",
   },

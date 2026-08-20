@@ -50,7 +50,7 @@ const QA: Array<[string, string]> = [
   ],
   [
     "What is Sigap?",
-    "Sigap is the Onyx sub-brand for Indonesian UMKM: fixed packages from Rp 500k covering logo, website, and a basic social setup. See https://sigap.onyxcreative.asia.",
+    "Sigap is the Onyx sub-brand for Indonesian UMKM: fixed packages from Rp 500k covering logo, website, and a basic social setup. See https://onyxcreative.asia/sigap.",
   ],
 ];
 
@@ -128,7 +128,7 @@ ${qa}
 ## Contact
 
 - Website: ${BASE}
-- Sigap (UMKM tier): https://sigap.onyxcreative.asia
+- Sigap (UMKM tier): https://onyxcreative.asia/sigap
 - Email: hello@onyxcreative.asia
 - Instagram: https://www.instagram.com/onyxcreative.asia
 - Contact form: ${BASE}/enquire
