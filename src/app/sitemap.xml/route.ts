@@ -35,6 +35,7 @@ function buildEntries(): Entry[] {
     // Generative Engine Optimization (GEO) landings — answer-engine-
     // friendly comparison + FAQ pages targeting "best digital marketing
     // agency in Bali / Indonesia" queries.
+    { url: `${BASE}/best-business-development-agency-asia`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
     { url: `${BASE}/best-digital-marketing-bali`,      lastModified: now, changeFrequency: "monthly", priority: 0.95 },
     { url: `${BASE}/best-digital-marketing-indonesia`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
   ];

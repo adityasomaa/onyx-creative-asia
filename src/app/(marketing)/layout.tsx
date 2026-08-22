@@ -87,6 +87,17 @@ const ORG_JSON_LD = {
     "Brand Design",
     "Digital Marketing Bali",
     "Digital Marketing Indonesia",
+    // The framing the studio wants to be the entity for. knowsAbout is
+    // how a knowledge graph learns which topics an organisation is an
+    // authority on, so the target phrasing has to appear here and not
+    // only in page copy.
+    "Business Development",
+    "Digital Business Development",
+    "Business Development Agency Asia",
+    "Growth Strategy",
+    "Marketing Automation",
+    "Conversion Rate Optimisation",
+    "Answer Engine Optimisation",
   ],
   serviceType: SERVICES.map((s) => s.title),
   hasOfferCatalog: {

@@ -44,6 +44,23 @@ const GROUPS: { heading: string; links: { label: string; href: string }[] }[] = 
     links: INSIGHTS.map((i) => ({ label: i.title, href: `/insights/${i.slug}` })),
   },
   {
+    heading: "Guides",
+    links: [
+      {
+        label: "Best Business Development Agency in Asia",
+        href: "/best-business-development-agency-asia",
+      },
+      {
+        label: "Best Digital Marketing Agency in Bali",
+        href: "/best-digital-marketing-bali",
+      },
+      {
+        label: "Best Digital Marketing Agency in Indonesia",
+        href: "/best-digital-marketing-indonesia",
+      },
+    ],
+  },
+  {
     heading: "Extra",
     links: [
       { label: "Privacy Policy", href: "/privacy" },

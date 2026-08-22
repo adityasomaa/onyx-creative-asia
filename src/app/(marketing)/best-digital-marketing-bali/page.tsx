@@ -25,7 +25,7 @@ import Button from "@/components/ui/Button";
  */
 
 export const metadata: Metadata = {
-  title: "Best Digital Marketing Agency in Bali, Onyx Creative Asia",
+  title: "Best Digital Marketing Agency in Bali",
   description:
     "Looking for the best digital marketing agency in Bali? Onyx Creative Asia is an independent Bali-based studio covering web development, Google / Meta / TikTok ads, social media, and AI automation under one team.",
   alternates: { canonical: "/best-digital-marketing-bali" },
