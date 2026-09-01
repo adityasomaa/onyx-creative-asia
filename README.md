@@ -16,7 +16,7 @@ The same LLM layer also polishes operator-typed reply drafts with channel-aware 
 
 Brand voice is encoded as a system instruction (`ONYX_SYSTEM_INSTRUCTION` in `src/lib/llm.ts`) baked into every Gemini call, so output reads as the studio across all surfaces — not a generic assistant. The LLM client is provider-agnostic with `generateText()` and `generateStructured()` exports, so swapping Gemini → Claude / Mistral is a single-file change. Cost engineering: switched from `gemini-2.5-flash` (20 free req/day, killed by daily traffic) to `gemini-2.5-flash-lite` (~1000 req/day) after measuring real usage; thinking-token-aware `maxOutputTokens` calibrated empirically.
 
-Safety + reliability: every outbound WhatsApp send is gated through a kill switch (`WA_AUTO_REPLY_ENABLED`) plus rate-limit guards (per-recipient cooldown, daily cap, working-hours window, min-interval) to avoid Meta ban triggers; downstream tasks fire-and-forget via `Promise.allSettled` so the form response time stays instant even when triage + project creation + agent assignment + internal email all run in parallel; failures log silently and never break the 200 we return to the webhook caller.
+Safety + reliability: WhatsApp is outbound-only — the platform sends replies an operator wrote and never ingests incoming messages. Every send is gated through rate-limit guards (per-recipient cooldown, daily cap, working-hours window, min-interval) to avoid Meta ban triggers; downstream tasks fire-and-forget via `Promise.allSettled` so the form response time stays instant even when triage + project creation + agent assignment + internal email all run in parallel; failures log silently and never break the 200 we return to the webhook caller.
 
 ---
 
@@ -26,7 +26,7 @@ Safety + reliability: every outbound WhatsApp send is gated through a kill switc
 Inbound channels                  Pipeline                              Outputs
 ───────────────                   ────────                              ───────
 Web form (4 inquiry types)  ─┐
-WhatsApp DM                  ├──→ /api/leads | /api/inbound/whatsapp
+WhatsApp DM                  ├──→ /api/leads
 WhatsApp group               ─┘         │
                                         ▼
                               submissions table (unified)
@@ -104,9 +104,6 @@ cp .env.example .env.local
 #   GEMINI_MODEL=gemini-2.5-flash-lite
 #   RESEND_API_KEY
 #   FONNTE_TOKEN
-#   FONNTE_WEBHOOK_SECRET
-#   WA_INBOUND_ENABLED=true   # default off
-#   WA_AUTO_REPLY_ENABLED=false   # safer to keep off
 npm run dev
 ```
 

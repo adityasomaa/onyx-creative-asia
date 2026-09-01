@@ -21,10 +21,8 @@
  *      to the new number.
  *   2. Vercel env: set FONNTE_TOKEN to the new device's token.
  *   3. Redeploy.
- *   4. Fonnte dashboard: register the new device, scan WA QR, set the
- *      same webhook URL (with the same FONNTE_WEBHOOK_SECRET).
- *   5. (Optional) Flip WA_AUTO_REPLY_ENABLED=true once the new number
- *      is exclusively for business.
+ *   4. Fonnte dashboard: register the new device and scan the WA QR.
+ *      Leave the webhook URL empty — we do not ingest inbound messages.
  *
  * See docs/AGENTS.md → "Switching the WhatsApp number" for the full
  * checklist.

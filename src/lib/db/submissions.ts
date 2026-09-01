@@ -534,111 +534,6 @@ export type UpsertWaSubmissionInput = {
   groupName?: string | null;
 };
 
-/**
- * Find the active (non-archived) submission for this WA contact/group,
- * or create a fresh one. Returns { submission, isFresh } — isFresh=true
- * triggers the LLM classifier on the next message.
- *
- * Refreshes wa_pushname / wa_group_name on every call. Touches
- * display_name only when display_name_source='auto'.
- */
-export async function upsertWaSubmission(
-  input: UpsertWaSubmissionInput
-): Promise<{ submission: SubmissionFullRow; isFresh: boolean } | null> {
-  const sb = getServerSupabase();
-  if (!sb) return null;
-
-  // Find an active (non-archived) submission for this WA identifier.
-  const { data: existing, error: lookupErr } = await sb
-    .from("submissions")
-    .select("*")
-    .eq("wa_kind", input.waKind)
-    .eq("wa_identifier", input.waIdentifier)
-    .neq("status", "archived")
-    .order("received_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (lookupErr) {
-    console.error("[db/submissions] WA lookup failed:", lookupErr.message);
-    return null;
-  }
-
-  if (existing) {
-    const row = existing as SubmissionFullRow;
-    const updates: Record<string, unknown> = {};
-
-    if (input.pushname && input.pushname !== row.wa_pushname) {
-      updates.wa_pushname = input.pushname;
-    }
-    if (input.groupName && input.groupName !== row.wa_group_name) {
-      updates.wa_group_name = input.groupName;
-    }
-    if (row.display_name_source === "auto") {
-      const autoName =
-        input.waKind === "group"
-          ? input.groupName ?? input.waIdentifier
-          : formatPhoneForDisplay(input.waIdentifier);
-      if (autoName && autoName !== row.display_name) {
-        updates.display_name = autoName;
-      }
-    }
-    if (Object.keys(updates).length > 0) {
-      const { data: updated } = await sb
-        .from("submissions")
-        .update(updates)
-        .eq("id", row.id)
-        .select("*")
-        .single();
-      return {
-        submission: (updated ?? row) as SubmissionFullRow,
-        isFresh: false,
-      };
-    }
-    return { submission: row, isFresh: false };
-  }
-
-  // Fresh insert.
-  const initialName =
-    input.waKind === "group"
-      ? input.groupName ?? input.waIdentifier
-      : formatPhoneForDisplay(input.waIdentifier);
-
-  const { data: inserted, error: insertErr } = await sb
-    .from("submissions")
-    .insert({
-      source: "whatsapp",
-      inquiry_type: "general",
-      from_name: input.pushname ?? initialName,
-      from_phone:
-        input.waKind === "contact" ? input.waIdentifier : null,
-      subject: null, // filled by LLM subject refresh
-      body_md: null, // body lives in submission_messages going forward
-      interest: [],
-      status: "new",
-      classification: "pending",
-      display_name: initialName,
-      display_name_source: "auto",
-      wa_pushname: input.pushname ?? null,
-      wa_group_name: input.groupName ?? null,
-      wa_kind: input.waKind,
-      wa_identifier: input.waIdentifier,
-      message_count: 0, // trigger will bump to 1 on first message
-      payload_json: {},
-    })
-    .select("*")
-    .single();
-
-  if (insertErr || !inserted) {
-    console.error(
-      "[db/submissions] WA insert failed:",
-      insertErr?.message
-    );
-    return null;
-  }
-  return { submission: inserted as SubmissionFullRow, isFresh: true };
-}
-
 export type InsertMessageInput = {
   submissionId: string;
   direction: MessageDirection;
@@ -675,34 +570,6 @@ export async function insertSubmissionMessage(
     return null;
   }
   return data as SubmissionMessageRow;
-}
-
-/**
- * Recent inbound messages for a submission, oldest → newest, for the
- * subject-refresh LLM prompt context.
- */
-export async function getRecentInboundBodies(
-  submissionId: string,
-  limit: number = 6
-): Promise<string[]> {
-  const sb = getServerSupabase();
-  if (!sb) return [];
-  const { data, error } = await sb
-    .from("submission_messages")
-    .select("body_md, sent_at, direction")
-    .eq("submission_id", submissionId)
-    .eq("direction", "in")
-    .order("sent_at", { ascending: false })
-    .limit(limit);
-  if (error) {
-    console.warn(
-      "[db/submissions] getRecentInboundBodies:",
-      error.message
-    );
-    return [];
-  }
-  const rows = (data ?? []) as { body_md: string }[];
-  return rows.map((r) => r.body_md).reverse();
 }
 
 /* ============================================================
@@ -820,31 +687,6 @@ export async function renameSubmissionDisplayName(
       "[db/submissions] renameSubmissionDisplayName:",
       error.message
     );
-    return false;
-  }
-  return true;
-}
-
-/**
- * Persist an LLM-generated subject. Skips silently when the operator
- * has manually set a subject (subject_source='operator').
- */
-export async function setAutoSubject(
-  submissionId: string,
-  subject: string
-): Promise<boolean> {
-  const sb = getServerSupabase();
-  if (!sb) return false;
-  const { error } = await sb
-    .from("submissions")
-    .update({
-      subject: subject.slice(0, 200),
-      subject_updated_at: new Date().toISOString(),
-    })
-    .eq("id", submissionId)
-    .eq("subject_source", "auto");
-  if (error) {
-    console.error("[db/submissions] setAutoSubject:", error.message);
     return false;
   }
   return true;

@@ -2,11 +2,12 @@
  * Fonnte — WhatsApp gateway client.
  *
  * Fonnte (https://fonnte.com) is an Indonesian WA Business API gateway
- * that lets us send messages programmatically using a device token. We
- * use it for:
- *   - Outbound replies from the submission detail page
- *   - Inbound webhook ingestion (Phase 2b — Fonnte POSTs incoming
- *     messages to a Vercel route, we save as a new submission row)
+ * that lets us send messages programmatically using a device token.
+ *
+ * Outbound only: replies an operator wrote on the submission detail
+ * page. We deliberately do not run an inbound webhook — Fonnte forwards
+ * every message the linked device receives, with no per-contact filter,
+ * so ingestion would pull personal chats in alongside client ones.
  *
  * Auth model: a single token in `FONNTE_TOKEN`. Anyone with that token
  * can send messages on the linked WA number's behalf. Never expose it

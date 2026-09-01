@@ -252,75 +252,24 @@ After a successful send:
 
 Free tier covers ~100 msg/day. Pro ~$5/mo scales to thousands.
 
-### Inbound WhatsApp — Fonnte webhook → submissions table
+### Inbound WhatsApp — removed, deliberately
 
-> **Currently DISABLED.** `WA_INBOUND_ENABLED` defaults to `false`
-> while the platform is linked to a personal WA number. The webhook
-> endpoint still accepts POSTs (so Fonnte doesn't error or retry)
-> but skips the insert entirely. To turn the pipeline back on:
->
-> 1. In Vercel env vars, set `WA_INBOUND_ENABLED=true`.
-> 2. Redeploy.
-> 3. Confirm Fonnte device → Webhook URL is still pointing at our
->    endpoint with the correct `?secret=` query.
->
-> Recommended sequence: only flip the switch after the dedicated
-> business WA number is connected to Fonnte (see "Switching the
-> WhatsApp number" below). Don't turn it on with a personal number
-> linked — every personal chat becomes a submission row, including
-> conversations that have nothing to do with the studio.
+There is no inbound webhook. The dashboard sends WhatsApp replies an
+operator has written; it never receives or reads messages.
 
-Every WA message someone sends to the studio's number becomes a row
-in `public.submissions` (source = whatsapp). The flow:
+This was built once (`/api/inbound/whatsapp`, a Gemini business-vs-
+personal classifier, and auto-subject) and removed on purpose. Fonnte
+forwards **every** message the linked device receives — there is no
+per-contact filter — so pointing it at a number that is also a personal
+number means personal conversations land in the database and get sent
+to an LLM for classification. A kill switch guarded it, but a feature
+whose safe state is "off" is better deleted than left one env var away
+from ingesting someone's private chats.
 
-```
-WA message → Fonnte → POST /api/inbound/whatsapp → submissions row
-                                              ↓
-                                              ├→ Auto-reply WA back
-                                              └→ Internal email notif
-```
+If a dedicated business number ever justifies bringing it back, restore
+it from history rather than rewriting it, and connect it only to a
+number that receives nothing personal.
 
-Setup steps:
-
-1. **Generate a webhook secret**. Anything random + long works:
-   ```
-   openssl rand -hex 24
-   ```
-   Add to Vercel env vars as `FONNTE_WEBHOOK_SECRET` (Sensitive ✅).
-   Redeploy.
-
-2. **Configure Fonnte** → Login at https://md.fonnte.com → **Device** →
-   click your device → **Webhook** tab.
-   - **URL**:
-     ```
-     https://onyxcreative.asia/api/inbound/whatsapp?secret=<YOUR_FONNTE_WEBHOOK_SECRET>
-     ```
-   - **Method**: POST
-   - **Events**: enable "Incoming message" (or "Pesan masuk"). Skip
-     status updates / ack / delete events — our endpoint ignores
-     them anyway, but turning them off saves invocations.
-   - **Group messages**: skip. The endpoint short-circuits on
-     `isgroup=true` to avoid clogging the inbox with chat-group noise.
-   - Save.
-
-3. **Test**: send a WA message to the studio number from any phone.
-   Within ~5 seconds:
-   - A new row should appear in `/agents/submissions` with
-     `Source = WhatsApp`, `Type = QUESTION`, status = NEW.
-   - `hello@onyxcreative.asia` gets an internal notification email
-     with a deep link to the new submission.
-   - The sender gets an auto-reply WA ONLY IF
-     `WA_AUTO_REPLY_ENABLED=true` is set in Vercel env. Default OFF
-     to keep early testing quiet (and to avoid burning Fonnte free-
-     tier quota on every inbound).
-
-Vercel logs are the first place to look if the webhook isn't firing —
-filter for `/api/inbound/whatsapp` and check for 401s (wrong secret)
-or 503s (env var missing).
-
-The endpoint always returns 200 on valid auth so Fonnte doesn't retry
-on transient errors. If the DB insert fails, the row's lost but the
-Fonnte webhook log on their side still has it.
 
 ### WhatsApp ban-prevention (safety guards)
 
@@ -457,8 +406,8 @@ hardcoded reference to the old number was centralized into
    - Enter the new number (e.g. `6281xxxxxxxxx`), connect, scan QR
      from the new phone's WhatsApp → Linked Devices
    - Once device shows green / connect, copy its **Token**
-   - On the new device, configure **Webhook URL** with the same
-     `?secret=<FONNTE_WEBHOOK_SECRET>` we already use
+   - Leave **Webhook URL** empty. A webhook makes Fonnte forward every
+     message the device receives, personal chats included.
 
 2. **Update Vercel env vars** (Production + Preview)
 
@@ -467,7 +416,6 @@ hardcoded reference to the old number was centralized into
    | `NEXT_PUBLIC_WA_NUMBER` | new number, digits only (e.g. `6281234567890`) |
    | `NEXT_PUBLIC_WA_DISPLAY` | human-formatted (e.g. `+62 812-3456-7890`) |
    | `FONNTE_TOKEN` | the new device's token |
-   | `WA_AUTO_REPLY_ENABLED` | flip to `true` if you want the auto-reply on with the business number |
 
 3. **Redeploy** — `NEXT_PUBLIC_*` env vars are baked at build time.
    Either push an empty commit or hit **Redeploy** on the latest
