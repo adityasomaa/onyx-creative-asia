@@ -2,7 +2,6 @@
 
 import { RevealText } from "@/components/Reveal";
 import Button from "@/components/ui/Button";
-import DitheredLogo from "@/components/ui/DitheredLogo";
 import { useT } from "@/lib/i18n";
 
 function discover() {
@@ -16,38 +15,26 @@ function discover() {
 export default function AboutHero() {
   const t = useT();
   return (
-    <section className="container-x pt-40 md:pt-52 pb-20 md:pb-28 lg:grid lg:grid-cols-12 lg:items-center lg:gap-12">
-      <div className="lg:col-span-8">
-        <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
-          {t("About")}
-        </p>
-        <h1 className="max-w-5xl text-3xl sm:text-4xl md:text-5xl lg:text-display-md font-medium leading-[1.05] tracking-tight text-balance">
-          <RevealText text="Your One Stop Business Development Digital Solution" />
-        </h1>
-        <p className="mt-8 max-w-2xl text-base md:text-lg leading-relaxed text-ink/70">
-          {t(
-            "An independent studio in Bali running every digital service your business needs to grow, from your website to your marketing to your automations, under one roof.",
-          )}
-        </p>
-        <div className="mt-10 flex flex-wrap items-center gap-4">
-          <Button href="/enquire" tone="dark">
-            Start a project
-          </Button>
-          <Button onClick={discover} tone="outlineDark" arrow={false}>
-            Discover
-          </Button>
-        </div>
+    <section className="container-x pt-40 md:pt-52 pb-20 md:pb-28">
+      <p className="text-xs uppercase tracking-[0.25em] opacity-60 mb-6">
+        {t("About")}
+      </p>
+      <h1 className="max-w-5xl text-3xl sm:text-4xl md:text-5xl lg:text-display-md font-medium leading-[1.05] tracking-tight text-balance">
+        <RevealText text="Your One Stop Business Development Digital Solution" />
+      </h1>
+      <p className="mt-8 max-w-2xl text-base md:text-lg leading-relaxed text-ink/70">
+        {t(
+          "An independent studio in Bali running every digital service your business needs to grow, from your website to your marketing to your automations, under one roof.",
+        )}
+      </p>
+      <div className="mt-10 flex flex-wrap items-center gap-4">
+        <Button href="/enquire" tone="dark">
+          Start a project
+        </Button>
+        <Button onClick={discover} tone="outlineDark" arrow={false}>
+          Discover
+        </Button>
       </div>
-
-      {/* The studio mark as a dot field: push it with the cursor, tap or
-          click for a ripple. Decorative, so it carries no label. */}
-      <DitheredLogo
-        imageSrc="/onyx-logo-black.png"
-        gridSize={90}
-        scale={0.9}
-        dotScale={0.55}
-        className="mt-14 h-64 w-full text-ink sm:h-80 lg:col-span-4 lg:mt-0 lg:h-[420px]"
-      />
     </section>
   );
 }

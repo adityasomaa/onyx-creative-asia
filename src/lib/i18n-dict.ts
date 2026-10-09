@@ -657,36 +657,6 @@ const UI: Array<[string, Tri]> = [
     "Every page on this site, grouped so you can find what you came for.",
     { id: "Semua halaman di situs ini, dikelompokkan supaya Anda cepat menemukan yang dicari.", zh: "本站的所有页面都归好类了，方便您找到想找的东西。", ja: "このサイトの全ページを、目的のものが見つけやすいようにまとめました。" },
   ],
-
-  // ── Home: disciplines band + "three jobs" split card ──
-  ["How we work", { id: "Cara kami bekerja", zh: "我们的工作方式", ja: "私たちの進め方" }],
-  ["Business development is three jobs.", { id: "Mengembangkan bisnis itu tiga pekerjaan.", zh: "业务拓展，是三项工作。", ja: "ビジネス開発は、三つの仕事です。" }],
-  ["Build the surface", { id: "Bangun etalasenya", zh: "搭建门面", ja: "顧客との接点をつくる" }],
-  ["The website, store and software your business actually sells through.", { id: "Website, toko online, dan software yang benar-benar menjadi tempat bisnis Anda berjualan.", zh: "您的业务真正用来成交的网站、网店和软件。", ja: "実際に売上を生むウェブサイト、オンラインストア、ソフトウェア。" }],
-  ["Drive the demand", { id: "Datangkan permintaannya", zh: "带来需求", ja: "需要を生み出す" }],
-  ["Search, ads and social that bring the right people to it, measured.", { id: "Search, iklan, dan media sosial yang membawa orang yang tepat ke sana, dan semuanya terukur.", zh: "用搜索、广告和社交媒体把对的人带进来，全程可衡量。", ja: "検索、広告、SNSで、ふさわしい人を届ける。成果はすべて計測します。" }],
-  ["Remove the busywork", { id: "Hapus pekerjaan berulangnya", zh: "去掉重复劳动", ja: "繰り返し作業をなくす" }],
-  ["Automation for the repetitive work between an enquiry and a client.", { id: "Otomasi untuk pekerjaan berulang di antara permintaan pertama hingga menjadi klien.", zh: "把从询盘到成交之间的重复工作交给自动化。", ja: "問い合わせから成約までの繰り返し作業を、自動化に任せる。" }],
-  ["One team does all three.", { id: "Satu tim mengerjakan ketiganya.", zh: "一个团队，三项全包。", ja: "その三つを、ひとつのチームで。" }],
-
-  // ── Home: liquid-glass works carousel ──
-  ["View", { id: "Lihat", zh: "查看", ja: "見る" }],
-  ["Close", { id: "Tutup", zh: "关闭", ja: "閉じる" }],
-  ["Close focused project", { id: "Tutup proyek yang dibuka", zh: "关闭当前项目", ja: "開いているプロジェクトを閉じる" }],
-  ["of", { id: "dari", zh: "/", ja: "/" }],
-  ["open", { id: "terbuka", zh: "已展开", ja: "表示中" }],
-  ["View case study", { id: "Lihat studi kasus", zh: "查看案例", ja: "事例を見る" }],
-  ["Drag to explore", { id: "Geser untuk menjelajah", zh: "拖动浏览", ja: "ドラッグして見る" }],
-  ["The interactive preview is unavailable here. Every project is on the works page.", { id: "Pratinjau interaktif tidak tersedia di sini. Semua proyek ada di halaman Karya.", zh: "此处无法显示互动预览，所有项目都在作品页面中。", ja: "ここではインタラクティブなプレビューを表示できません。すべてのプロジェクトは実績ページでご覧いただけます。" }],
-
-  // ── AI Automation: circuit board ──
-  ["In practice", { id: "Dalam praktik", zh: "实际运作", ja: "実際の流れ" }],
-  ["One enquiry. Nobody retyping it.", { id: "Satu permintaan. Tanpa ada yang mengetik ulang.", zh: "一条询盘，无需任何人重复录入。", ja: "問い合わせ一件。誰も打ち直さない。" }],
-  ["A typical first workflow: the enquiry is read and sorted, the CRM record fills itself in, the right person gets told, and the week's numbers land in a report. Every step runs inside tools you already use.", { id: "Contoh alur kerja pertama: permintaan dibaca dan dipilah, data di CRM terisi sendiri, orang yang tepat langsung diberi tahu, dan angka mingguan masuk ke laporan. Semua langkah berjalan di tools yang sudah Anda pakai.", zh: "一个典型的首个工作流：询盘被读取并分类，CRM 记录自动填写，相关负责人收到通知，每周数据汇入报告。每一步都在您已在使用的工具里运行。", ja: "最初の自動化の典型例：問い合わせを読み取って振り分け、CRMの記録は自動で入力され、担当者に通知が届き、週ごとの数字がレポートにまとまります。どのステップも、今お使いのツールの中で動きます。" }],
-  ["Enquiry", { id: "Permintaan", zh: "询盘", ja: "問い合わせ" }],
-  ["AI triage", { id: "Pemilahan AI", zh: "AI 分类", ja: "AI仕分け" }],
-  ["Team", { id: "Tim", zh: "团队", ja: "チーム" }],
-  ["Report", { id: "Laporan", zh: "报告", ja: "レポート" }],
 ];
 
 /* ============================================================

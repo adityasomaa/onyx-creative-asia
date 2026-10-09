@@ -4,8 +4,6 @@ import { notFound } from "next/navigation";
 import { SERVICES } from "@/lib/data";
 import Reveal, { RevealText } from "@/components/Reveal";
 import RelatedWorks from "@/components/services/RelatedWorks";
-import AutomationCircuit from "@/components/services/AutomationCircuit";
-import { HoverTransition } from "@/components/ui/HoverTransition";
 import Button from "@/components/ui/Button";
 import { T } from "@/lib/i18n";
 
@@ -184,10 +182,6 @@ export default async function ServiceDetailPage({
         </Reveal>
       </section>
 
-      {/* What one automated workflow looks like. Only this service has a
-          flow worth drawing; the others are better told in words. */}
-      {service.id === "ai-automation" && <AutomationCircuit />}
-
       {/* ───────────────────── PROCESS ───────────────────── */}
       <section className="container-x pb-24 md:pb-32 border-t border-hairline pt-16 md:pt-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12">
@@ -282,63 +276,33 @@ export default async function ServiceDetailPage({
           <T>Other services</T>
         </p>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {others.map((o) => {
-            const count = `${o.number} / ${String(SERVICES.length).padStart(2, "0")}`;
-            return (
-              <li key={o.id}>
-                {/* The link lives on the default face, so it is the one
-                    focusable element; its focus bubbles up and plays the
-                    same wipe a pointer does. The ink face is decorative. */}
-                <HoverTransition
-                  tabIndex={-1}
-                  label={o.title}
-                  effect="wipe"
-                  direction="left"
-                  duration={0.4}
-                  easing="cubic-bezier(0.16, 1, 0.3, 1)"
-                  className="min-h-0 rounded-2xl border border-hairline"
-                  defaultComponent={
-                    <Link
-                      href={`/services/${o.id}`}
-                      className="block h-full rounded-2xl p-6 md:p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink"
-                    >
-                      <p className="text-xs uppercase tracking-[0.25em] opacity-60 tabular-nums mb-4">
-                        {count}
-                      </p>
-                      <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
-                        <T>{o.title}</T>
-                      </h3>
-                      <p className="mt-3 text-sm italic text-ink/65 leading-relaxed">
-                        <T>{o.short}</T>
-                      </p>
-                      <p className="mt-6 text-xs uppercase tracking-[0.22em] opacity-70 inline-flex items-center gap-2">
-                        <T>Read more</T>
-                        <span aria-hidden>→</span>
-                      </p>
-                    </Link>
-                  }
-                  hoverComponent={
-                    <div className="flex h-full flex-col justify-between bg-ink p-6 text-bone md:p-8">
-                      <p className="text-xs uppercase tracking-[0.25em] opacity-60 tabular-nums">
-                        {count}
-                      </p>
-                      <ul className="space-y-1.5 text-sm text-bone/80">
-                        {o.capabilities.slice(0, 3).map((c) => (
-                          <li key={c.title}>
-                            <T>{c.title}</T>
-                          </li>
-                        ))}
-                      </ul>
-                      <p className="text-xs uppercase tracking-[0.22em] inline-flex items-center gap-2">
-                        <T>Read more</T>
-                        <span aria-hidden>→</span>
-                      </p>
-                    </div>
-                  }
-                />
-              </li>
-            );
-          })}
+          {others.map((o) => (
+            <li key={o.id}>
+              <Link
+                href={`/services/${o.id}`}
+                className="group block rounded-2xl border border-hairline p-6 md:p-8 transition-colors hover:bg-ink/[0.03]"
+              >
+                <p className="text-xs uppercase tracking-[0.25em] opacity-60 tabular-nums mb-4">
+                  {o.number} / {String(SERVICES.length).padStart(2, "0")}
+                </p>
+                <h3 className="text-2xl md:text-3xl font-medium tracking-tight leading-tight">
+                  <T>{o.title}</T>
+                </h3>
+                <p className="mt-3 text-sm italic text-ink/65 leading-relaxed">
+                  <T>{o.short}</T>
+                </p>
+                <p className="mt-6 text-xs uppercase tracking-[0.22em] opacity-70 inline-flex items-center gap-2">
+                  <T>Read more</T>
+                  <span
+                    aria-hidden
+                    className="inline-block transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+                  >
+                    →
+                  </span>
+                </p>
+              </Link>
+            </li>
+          ))}
         </ul>
       </section>
     </>
