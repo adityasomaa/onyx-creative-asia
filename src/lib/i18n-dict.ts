@@ -669,7 +669,7 @@ const UI: Array<[string, Tri]> = [
   ["Automation for the repetitive work between an enquiry and a client.", { id: "Otomasi untuk pekerjaan berulang di antara permintaan pertama hingga menjadi klien.", zh: "把从询盘到成交之间的重复工作交给自动化。", ja: "問い合わせから成約までの繰り返し作業を、自動化に任せる。" }],
   ["One team does all three.", { id: "Satu tim mengerjakan ketiganya.", zh: "一个团队，三项全包。", ja: "その三つを、ひとつのチームで。" }],
 
-  // ── Works: liquid-glass carousel ──
+  // ── Home: liquid-glass works carousel ──
   ["View", { id: "Lihat", zh: "查看", ja: "見る" }],
   ["Close", { id: "Tutup", zh: "关闭", ja: "閉じる" }],
   ["Close focused project", { id: "Tutup proyek yang dibuka", zh: "关闭当前项目", ja: "開いているプロジェクトを閉じる" }],
@@ -677,7 +677,7 @@ const UI: Array<[string, Tri]> = [
   ["open", { id: "terbuka", zh: "已展开", ja: "表示中" }],
   ["View case study", { id: "Lihat studi kasus", zh: "查看案例", ja: "事例を見る" }],
   ["Drag to explore", { id: "Geser untuk menjelajah", zh: "拖动浏览", ja: "ドラッグして見る" }],
-  ["The interactive preview is unavailable here. Every project is listed below.", { id: "Pratinjau interaktif tidak tersedia di sini. Semua proyek tercantum di bawah.", zh: "此处无法显示互动预览，所有项目都列在下方。", ja: "ここではインタラクティブなプレビューを表示できません。すべてのプロジェクトは下に掲載しています。" }],
+  ["The interactive preview is unavailable here. Every project is on the works page.", { id: "Pratinjau interaktif tidak tersedia di sini. Semua proyek ada di halaman Karya.", zh: "此处无法显示互动预览，所有项目都在作品页面中。", ja: "ここではインタラクティブなプレビューを表示できません。すべてのプロジェクトは実績ページでご覧いただけます。" }],
 
   // ── AI Automation: circuit board ──
   ["In practice", { id: "Dalam praktik", zh: "实际运作", ja: "実際の流れ" }],

@@ -14,6 +14,7 @@
  *     screen readers, so the text is announced once rather than sixteen
  *     times
  *   - each row takes its own class, so the two can differ in weight
+ *   - the scroll boost is a prop (was a fixed 5x at 1000px/s)
  */
 
 import { useRef } from "react";
@@ -37,10 +38,12 @@ const COPIES = 8;
 function Row({
   text,
   baseVelocity,
+  boost,
   className,
 }: {
   text: string;
   baseVelocity: number;
+  boost: number;
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -52,7 +55,7 @@ function Row({
     damping: 50,
     stiffness: 400,
   });
-  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, 5], {
+  const velocityFactor = useTransform(smoothVelocity, [0, 1000], [0, boost], {
     clamp: false,
   });
   const x = useTransform(baseX, (v) => `${wrap(-100 / COPIES, 0, v)}%`);
@@ -87,12 +90,15 @@ function Row({
 export default function ScrollVelocity({
   text,
   velocity = 3,
+  boost = 5,
   className,
   rowClassNames = [],
 }: {
   text: string;
-  /** Base drift in percent of one copy per second. */
+  /** Base drift, in percent of the eight-copy strip per second. */
   velocity?: number;
+  /** Extra speed multiplier reached at 1000px/s of scroll. */
+  boost?: number;
   className?: string;
   /** Per-row classes, applied in order to the first and second row. */
   rowClassNames?: [string?, string?];
@@ -110,8 +116,8 @@ export default function ScrollVelocity({
   return (
     <div className={className}>
       <span className="sr-only">{text}</span>
-      <Row text={text} baseVelocity={velocity} className={rowClassNames[0]} />
-      <Row text={text} baseVelocity={-velocity} className={rowClassNames[1]} />
+      <Row text={text} baseVelocity={velocity} boost={boost} className={rowClassNames[0]} />
+      <Row text={text} baseVelocity={-velocity} boost={boost} className={rowClassNames[1]} />
     </div>
   );
 }

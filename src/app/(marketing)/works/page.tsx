@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { RevealText } from "@/components/Reveal";
 import WorksBrowser from "@/components/works/WorksBrowser";
-import WorksCarousel from "@/components/works/WorksCarousel";
 import { T } from "@/lib/i18n";
 
 export const metadata: Metadata = {
@@ -40,11 +39,6 @@ export default async function WorksPage({
           </T>
         </p>
       </section>
-
-      {/* Skipped when arriving with a filter (the service pages link here
-          as /works?service=…): that visitor came for the filtered grid,
-          and a 74vh carousel would push it below the fold. */}
-      {!service && <WorksCarousel />}
 
       <WorksBrowser initialService={service} />
     </>

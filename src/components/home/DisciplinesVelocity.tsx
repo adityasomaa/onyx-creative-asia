@@ -20,7 +20,11 @@ export default function DisciplinesVelocity() {
     <section className="overflow-hidden py-12 md:py-20">
       <ScrollVelocity
         text={line}
-        velocity={2.5}
+        // ~250px/s at rest on a desktop, so a word takes ~6s to cross the
+        // screen (was ~1000px/s); scrolling at 1000px/s adds 1.5x on top
+        // (was 5x, which read as frantic).
+        velocity={0.6}
+        boost={1.5}
         className="text-[clamp(2.5rem,7.5vw,6.5rem)] leading-[1.08] tracking-tight"
         rowClassNames={["font-medium", "font-light italic text-ink/70"]}
       />
