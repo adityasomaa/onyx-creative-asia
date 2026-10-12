@@ -9,7 +9,15 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { DICT } from "./i18n-dict";
+import {
+  isLocale,
+  pick,
+  translate,
+  type L,
+  type Locale,
+} from "./l10n";
+
+export { LOCALES, l, pick, translate, type L, type Locale } from "./l10n";
 
 /**
  * Manual i18n for Onyx Creative Asia.
@@ -28,32 +36,8 @@ import { DICT } from "./i18n-dict";
  * source, so partial coverage degrades gracefully (never a blank).
  */
 
-export type Locale = "en" | "id" | "zh" | "ja";
-
-export const LOCALES: ReadonlyArray<{
-  code: Locale;
-  label: string;
-  name: string;
-}> = [
-  { code: "en", label: "EN", name: "English" },
-  { code: "id", label: "ID", name: "Bahasa Indonesia" },
-  { code: "zh", label: "CN", name: "中文" },
-  { code: "ja", label: "JP", name: "日本語" },
-];
-
 const DEFAULT_LOCALE: Locale = "en";
 const LOCALE_KEY = "onyx_locale";
-
-function isLocale(v: unknown): v is Locale {
-  return v === "en" || v === "id" || v === "zh" || v === "ja";
-}
-
-/** Look up a source string for the active locale, falling back to English. */
-export function translate(source: string, locale: Locale): string {
-  if (locale === "en") return source;
-  const table = DICT[locale];
-  return (table && table[source]) || source;
-}
 
 const LocaleContext = createContext<{
   locale: Locale;
@@ -87,6 +71,13 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  // Keep <html lang> in step, so screen readers and the browser's own
+  // translate prompt know which language the page is actually in.
+  useEffect(() => {
+    document.documentElement.lang =
+      locale === "zh" ? "zh-CN" : locale === "ja" ? "ja" : locale;
+  }, [locale]);
+
   const value = useMemo(() => ({ locale, setLocale }), [locale, setLocale]);
 
   return (
@@ -113,6 +104,18 @@ export function useT() {
 export function T({ children }: { children: string }) {
   const { locale } = useLocale();
   return <>{translate(children, locale)}</>;
+}
+
+/** `const tl = useL(); tl(copy)` — accepts an L or a dictionary key. */
+export function useL() {
+  const { locale } = useLocale();
+  return useCallback((v: L | string) => pick(v, locale), [locale]);
+}
+
+/** Inline form of useL, usable inside server components. */
+export function Tx({ v }: { v: L | string }) {
+  const { locale } = useLocale();
+  return <>{pick(v, locale)}</>;
 }
 
 /* ============================================================

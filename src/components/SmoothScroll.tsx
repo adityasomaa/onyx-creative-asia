@@ -17,6 +17,9 @@ export default function SmoothScroll() {
   const pathname = usePathname();
 
   useEffect(() => {
+    // Smooth scrolling is motion too; visitors who asked for less keep the
+    // browser's own scrolling (everything else checks `__lenis` exists).
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -43,8 +46,15 @@ export default function SmoothScroll() {
     };
   }, []);
 
-  // Reset scroll to top on every route change.
+  // Reset scroll to top on every route change — or to the anchor, when a
+  // native navigation (reduced motion) arrives with a hash.
   useEffect(() => {
+    const hash = window.location.hash;
+    const anchor = hash ? document.getElementById(decodeURIComponent(hash.slice(1))) : null;
+    if (anchor) {
+      anchor.scrollIntoView();
+      return;
+    }
     const lenis = lenisRef.current;
     if (lenis) {
       // `immediate: true` skips the smooth animation so the new page

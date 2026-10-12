@@ -1,15 +1,13 @@
-import { PROJECTS, SERVICES } from "@/lib/data";
-import { INSIGHTS, INSIGHT_CATEGORIES, categorySlug } from "@/lib/insights";
+import { PROJECTS } from "@/lib/data";
+import { NOTES } from "@/lib/notes";
 
 const BASE = "https://onyxcreative.asia";
 
 /**
- * XML sitemap for crawlers.
- *
- * This is a plain route handler rather than Next's `app/sitemap.ts`
- * convention: that convention claims the whole `/sitemap` path, which
- * collides with the human-readable sitemap page at /sitemap. Serving the
- * XML from an explicit `sitemap.xml` segment leaves that path free.
+ * XML sitemap for crawlers, served from an explicit segment rather than
+ * Next's app/sitemap.ts convention so the file name stays sitemap.xml.
+ * Mirrors the rebuilt sitemap: home, projects, notes, about, contact, the
+ * legal pages and the answer-engine landings.
  */
 
 type Entry = {
@@ -23,61 +21,34 @@ function buildEntries(): Entry[] {
   const now = new Date();
 
   const staticRoutes: Entry[] = [
-    { url: `${BASE}/`,         lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
-    { url: `${BASE}/works`,    lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE}/about`,    lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/insights`, lastModified: now, changeFrequency: "weekly",  priority: 0.8 },
-    { url: `${BASE}/enquire`,  lastModified: now, changeFrequency: "yearly",  priority: 0.7 },
-    { url: `${BASE}/sitemap`,  lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${BASE}/privacy`,  lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
-    { url: `${BASE}/terms`,    lastModified: now, changeFrequency: "yearly",  priority: 0.3 },
-    // Generative Engine Optimization (GEO) landings — answer-engine-
-    // friendly comparison + FAQ pages targeting "best digital marketing
-    // agency in Bali / Indonesia" queries.
+    { url: `${BASE}/`, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
+    { url: `${BASE}/projects`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${BASE}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/notes`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${BASE}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
+    { url: `${BASE}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    { url: `${BASE}/terms-and-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
+    // Answer-engine landings for the regional comparison queries.
     { url: `${BASE}/best-business-development-agency-asia`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
-    { url: `${BASE}/best-digital-marketing-bali`,      lastModified: now, changeFrequency: "monthly", priority: 0.95 },
+    { url: `${BASE}/best-digital-marketing-bali`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
     { url: `${BASE}/best-digital-marketing-indonesia`, lastModified: now, changeFrequency: "monthly", priority: 0.95 },
   ];
 
-  const serviceRoutes: Entry[] = SERVICES.map((s) => ({
-    url: `${BASE}/services/${s.id}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
-
   const projectRoutes: Entry[] = PROJECTS.map((p) => ({
-    url: `${BASE}/works/${p.slug}`,
+    url: `${BASE}/projects/${p.slug}`,
     lastModified: now,
     changeFrequency: "monthly",
     priority: 0.7,
   }));
 
-  // One entry per category. These are the pages a "market insight" or
-  // "how-to guide" query can actually land on; the filter row on /insights
-  // is client state and produces no URL of its own.
-  const categoryRoutes: Entry[] = INSIGHT_CATEGORIES.map((c) => ({
-    url: `${BASE}/insights/category/${categorySlug(c)}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: 0.7,
-  }));
-
-  const insightRoutes: Entry[] = INSIGHTS.map((i) => ({
-    url: `${BASE}/insights/${i.slug}`,
-    lastModified: new Date(i.publishedAt),
+  const noteRoutes: Entry[] = NOTES.map((n) => ({
+    url: `${BASE}/notes/${n.slug}`,
+    lastModified: new Date(n.date),
     changeFrequency: "yearly",
     priority: 0.6,
   }));
 
-  return [
-    ...staticRoutes,
-    ...serviceRoutes,
-    ...projectRoutes,
-    ...categoryRoutes,
-    ...insightRoutes,
-  ];
+  return [...staticRoutes, ...projectRoutes, ...noteRoutes];
 }
 
 export function GET() {

@@ -25,7 +25,7 @@ export default async function AgentsLayout({
     // overflow-x-hidden — prevents the page itself from scrolling sideways
     // on narrow viewports if any child component overflows by accident.
     // The sticky header's inner nav is the one that scrolls horizontally.
-    <div className="min-h-screen bg-ink text-bone font-sans antialiased overflow-x-hidden">
+    <div className="grain min-h-screen bg-ink text-bone font-sans antialiased overflow-x-hidden">
       <RouteLoader />
       <AgentsChrome
         displayName={profile.display_name || "Onyx"}

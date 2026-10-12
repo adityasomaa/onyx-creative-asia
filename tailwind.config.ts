@@ -5,6 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // ── Marketing site (monodrift-structure rebuild) ──
+        // `accent` is a CSS variable so the palette switcher can retint
+        // every accent surface at runtime; it is stored as "R G B" so the
+        // opacity modifiers (bg-accent/40) keep working.
+        accent: "rgb(var(--accent) / <alpha-value>)",
+        // Text on an accent surface: dark, or white for a dark custom pick.
+        "accent-ink": "rgb(var(--accent-ink) / <alpha-value>)",
+        fg: "#262626",
+        fg2: "#4D4D4D",
+        mute: "#8A8A8A",
+        faint: "#C4C4C4",
+        rule: "#E3E3E3",
+        paper: "#F4F4F4",
+        snow: "#FAFAFA",
+        night: "#0E0E0E",
+        coal: "#262626",
+        // ── Legacy tokens, still used by /sigap and /agents ──
         ink: {
           DEFAULT: "#0E0E0E",
           50: "#F7F7F5",
@@ -44,6 +61,9 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-neue)", "system-ui", "sans-serif"],
         display: ["var(--font-neue)", "system-ui", "sans-serif"],
+        tek: ["var(--font-tektur)", "system-ui", "sans-serif"],
+        inter: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono2: ["var(--font-fragment)", "ui-monospace", "monospace"],
       },
       fontSize: {
         // Custom display scale for hero/section headlines

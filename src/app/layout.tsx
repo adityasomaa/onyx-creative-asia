@@ -11,35 +11,36 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
   title: {
-    default: "Onyx Creative Asia | #1 Digital Business Development Agency in Asia",
+    default: "Onyx Creative Asia | Digital Business Development Agency in Bali, Asia",
     template: "%s | Onyx Creative Asia",
   },
   description:
-    "Onyx Creative Asia is an independent studio building brands, performance marketing, and AI systems for ambitious teams across Asia and beyond.",
+    "Onyx Creative Asia is a digital business development agency in Bali. Websites, software and apps, plus social media, SEO/AEO/GEO, ads, content, photo and video, branding and analytics, from one team.",
   applicationName: "Onyx Creative Asia",
   authors: [{ name: "Onyx Creative Asia", url: "https://onyxcreative.asia" }],
   creator: "Onyx Creative Asia",
   publisher: "Onyx Creative Asia",
   alternates: { canonical: "/" },
   keywords: [
-    "creative studio Bali",
-    "creative agency Asia",
-    "web development Indonesia",
-    "Next.js studio",
-    "performance marketing",
-    "google ads agency",
-    "meta ads",
-    "tiktok ads",
-    "social media strategy",
-    "AI systems",
-    "AI automation agency",
-    "brand design",
+    "digital business development agency",
+    "business development agency Asia",
+    "digital agency Bali",
+    "website development Bali",
+    "software development Indonesia",
+    "mobile app development Indonesia",
+    "social media management Bali",
+    "SEO AEO GEO",
+    "Google Ads Meta Ads TikTok Ads",
+    "content creation",
+    "photography videography Bali",
+    "branding agency Bali",
+    "growth analytics",
     "Onyx Creative Asia",
   ],
   openGraph: {
-    title: "Onyx Creative Asia · Brand, Performance & AI Systems",
+    title: "Onyx Creative Asia · Digital Business Development Agency",
     description:
-      "Independent studio in Bali building brands, performance marketing, and AI systems for ambitious teams.",
+      "One team in Bali builds the website, software and apps, and runs the marketing that grows them.",
     url: "/",
     siteName: "Onyx Creative Asia",
     locale: "en_US",
@@ -48,8 +49,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Onyx Creative Asia",
-    description:
-      "Brand, performance, and AI systems for ambitious teams. Built in Bali.",
+    description: "Digital business development agency. Built in Bali.",
   },
   robots: {
     index: true,
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  category: "design",
+  category: "business",
 };
 
 export const viewport: Viewport = {
@@ -77,8 +77,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="antialiased grain">
+    // suppressHydrationWarning: inline scripts in the marketing layout set
+    // data-intro and the accent variables on <html> before React hydrates.
+    <html lang="en" suppressHydrationWarning>
+      <body className="antialiased">
         {children}
       </body>
     </html>

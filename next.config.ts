@@ -31,19 +31,31 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // The service taxonomy was reorganised (4 disciplines -> 6 services).
-    // Old detail URLs were indexed, so point them at the closest new one
-    // instead of 404ing. Also covers the retired /pricing page and the
-    // removed Great Bali Properties case study.
+    // The October 2026 rebuild adopted a new sitemap. Every URL the old
+    // site exposed, including the earlier generations it already
+    // redirected, points at its nearest new equivalent so nothing that
+    // was indexed or bookmarked 404s.
     return [
-      { source: "/services/web-development", destination: "/services/digital-presence", permanent: true },
-      { source: "/services/paid-media", destination: "/services/digital-marketing", permanent: true },
-      { source: "/services/social-media", destination: "/services/digital-marketing", permanent: true },
-      { source: "/services/ai-systems", destination: "/services/ai-automation", permanent: true },
-      // The contact page moved to /enquire.
-      { source: "/contact", destination: "/enquire", permanent: true },
-      { source: "/pricing", destination: "/services", permanent: true },
-      { source: "/works/great-bali-properties", destination: "/works", permanent: true },
+      // portfolio: /works -> /projects
+      { source: "/works", destination: "/projects", permanent: true },
+      { source: "/works/great-bali-properties", destination: "/projects", permanent: true },
+      // Slug-shaped paths only: public/works/ still serves the case-study
+      // covers and loops, and a bare :slug would redirect those too.
+      { source: "/works/:slug([a-z0-9-]+)", destination: "/projects/:slug", permanent: true },
+      // blog: /insights -> /notes (the old posts were retired with the rebuild)
+      { source: "/insights", destination: "/notes", permanent: true },
+      { source: "/insights/:path*", destination: "/notes", permanent: true },
+      // contact: /enquire (and the older /contact redirect) -> /contact
+      { source: "/enquire", destination: "/contact", permanent: true },
+      // legal
+      { source: "/privacy", destination: "/privacy-policy", permanent: true },
+      { source: "/terms", destination: "/terms-and-conditions", permanent: true },
+      // services now live on the home page's Expertise section
+      { source: "/services", destination: "/#expertise", permanent: true },
+      { source: "/services/:path*", destination: "/#expertise", permanent: true },
+      { source: "/pricing", destination: "/#pricing", permanent: true },
+      // the human-readable sitemap page is gone; the XML sitemap remains
+      { source: "/sitemap", destination: "/", permanent: true },
     ];
   },
   // No host rewrites any more.

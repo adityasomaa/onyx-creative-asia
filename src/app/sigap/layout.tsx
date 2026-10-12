@@ -58,7 +58,7 @@ export default function SigapLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-bone text-ink antialiased">
+    <div className="grain min-h-screen bg-bone text-ink antialiased">
       <SmoothScroll />
       {children}
       {GA_ID && <GoogleAnalytics gaId={GA_ID} />}
