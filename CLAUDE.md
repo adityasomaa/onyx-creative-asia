@@ -55,19 +55,22 @@ ONYX CREATIVE ASIA/
 
 **Locations:** Bali, Indonesia.
 
-**4 disciplines, one team:** Web Development · Paid Media · Social Media · AI Systems.
+**Ten services, one team** (a digital business development agency): website development · software development · mobile apps · social media management · SEO/AEO/GEO · ads management · content creation · photography & videography · design & branding · growth & analytics. The list lives in `src/lib/services.ts`.
 
 **Tagline:** *Brand, performance, and AI systems for ambitious teams.*
 
 **Position:** small studio, opinionated, no hand-offs, ships fast.
 
+Website system since the 2026-10-12 rebuild (Monodrift layout; the previous site is tagged `pre-rebuild-2026-10-12`):
+
 | Token | Value |
 |---|---|
-| Color — Ink | `#0E0E0E` |
-| Color — Bone | `#F4F1EC` |
-| Type | Neue Montreal (Light · Regular · Medium · Bold + italics) |
-| Aesthetic | Monochrome Y2K editorial — "Black Box" (see `design/brand/PHILOSOPHY.md`) |
-| Motion | 150–400ms UI; 800–1200ms section reveals; out-expo / out-quart / in-out-quart |
+| Color — accent | `#52FF9D` by default; the visitor can switch it from the nav (CSS var `--accent`) |
+| Color — base | White page, `#0E0E0E` night, `#262626` text, greyscale photography |
+| Type | Tektur (display, uppercase) · Inter with `opsz` (text) · Fragment Mono (tiny meta) |
+| Motion | Accent panel page transition: close 600ms → swap → top → open 750ms; home loader with wordmark |
+
+The older "Black Box" system (Ink `#0E0E0E` / Bone `#F4F1EC`, Neue Montreal) still applies to `/sigap`, `/agents` and existing social templates.
 
 Full specs in `design/brand/COLORS.md`, `TYPOGRAPHY.md`, `VOICE.md`, `MOTION.md`, `PHILOSOPHY.md`.
 
@@ -78,8 +81,7 @@ Full specs in `design/brand/COLORS.md`, `TYPOGRAPHY.md`, `VOICE.md`, `MOTION.md`
 - **Stack:** Next.js 15 (App Router, Turbopack) · TypeScript · Tailwind CSS · Framer Motion · Lenis · Supabase.
 - **Live URL:** https://onyxcreative.asia (Vercel auto-deploy from `main` branch on GitHub).
 - **Design tokens (single source of truth for engineering):** `tailwind.config.ts`.
-- **Project data (case studies):** `src/lib/data.ts`.
-- **Hero video:** `public/videos/hero.mp4` (with `.webm` + `.webp` poster fallbacks).
+- **Project data (case studies):** `src/lib/data.ts`. Services: `src/lib/services.ts`. All page copy in four languages: `src/lib/copy.ts`. Notes (blog): `src/lib/notes.ts`.
 - **Local dev:** `npm run dev` → http://localhost:3000.
 - **Auto-push:** the `origin` remote has an embedded fine-grained PAT, so `git push` from this session works without prompts. Don't print the URL via `git remote -v` (token leaks).
 
