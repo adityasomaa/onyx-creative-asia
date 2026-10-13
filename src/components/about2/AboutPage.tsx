@@ -16,6 +16,7 @@ import Showreel from "@/components/home2/Showreel";
 import WorkIndex from "@/components/home2/WorkIndex";
 import ClientLogos from "@/components/home2/ClientLogos";
 import NotesTeaser from "@/components/home2/NotesTeaser";
+import ServiceArt from "@/components/site/art/ServiceArt";
 
 function Studio() {
   const tl = useL();
@@ -72,7 +73,7 @@ export default function AboutPage() {
         <Headline v={ABOUT.ambitious} className="mx-auto mt-8 max-w-[18ch] text-[40px] leading-[1.06] tracking-[-0.03em] md:text-[72px]" />
         <p className="mx-auto mt-8 max-w-[520px] text-[16px] font-medium leading-[1.35] tracking-[-0.03em]">{tl(ABOUT.ambitiousBody)}</p>
         <div className="mx-auto mt-14 grid max-w-[1000px] grid-cols-3 gap-3 md:gap-5">
-          {["/images/about-gate.jpg", "/images/about-curve.jpg", "/images/about-bali.jpg"].map((src) => (
+          {["/images/about-facade.jpg", "/images/about-curve.jpg", "/images/results-blocks.jpg"].map((src) => (
             <Reveal key={src} className="relative aspect-[4/3] overflow-hidden">
               <Image src={src} alt="" fill sizes="33vw" className="object-cover" />
             </Reveal>
@@ -91,7 +92,7 @@ export default function AboutPage() {
             <Reveal key={s.id} delay={(i % 5) * 0.05}>
               <Link href={`/#svc-${s.id}`} className="group block">
                 <div className="cut relative aspect-[3/4] overflow-hidden bg-paper [--cut:22px]">
-                  <Image src={s.image} alt="" fill sizes="(min-width: 1024px) 20vw, 50vw" className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <ServiceArt id={s.id} className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
                 </div>
                 <p className="mt-4 font-tek text-[18px] font-medium uppercase leading-[1.05] text-fg">{tl(s.title)}</p>
                 <div className="mt-3 flex items-end gap-2 border-b border-rule pb-3">

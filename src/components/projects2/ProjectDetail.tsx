@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -11,6 +10,7 @@ import { disciplinesFor } from "@/lib/services";
 import { Bracket } from "@/components/site/SectionHeader";
 import CutButton from "@/components/site/CutButton";
 import Reveal from "@/components/site/Reveal";
+import WorkMedia from "@/components/site/WorkMedia";
 
 function Kicker({ n, v }: { n: string; v: Parameters<typeof Bracket>[0]["v"] }) {
   const tl = useL();
@@ -26,17 +26,13 @@ function Kicker({ n, v }: { n: string; v: Parameters<typeof Bracket>[0]["v"] }) 
 function Hero({ p }: { p: Project }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
   return (
-    // Phones get the cover's own proportions; a tall box would crop the
-    // device mockups down to a sliver of one screen.
-    <div ref={ref} className="relative aspect-[16/10] overflow-hidden bg-night md:aspect-auto md:h-[86vh] md:min-h-[340px]">
-      <motion.div className="absolute inset-[-10%_0]" style={{ y }}>
-        {p.coverLoopHd ? (
-          <video className="h-full w-full object-cover" src={p.coverLoopHd} poster={p.cover} autoPlay muted loop playsInline preload="metadata" aria-hidden />
-        ) : (
-          <Image src={p.cover} alt="" fill priority sizes="100vw" className="object-cover" />
-        )}
+    // The preview is a 16:10 frame on #F4F4F4, shown whole: phones get its
+    // own proportions, larger screens a tall paper box it sits inside.
+    <div ref={ref} className="relative aspect-[16/10] overflow-hidden bg-paper md:aspect-auto md:h-[86vh] md:min-h-[340px]">
+      <motion.div className="absolute inset-0" style={{ y }}>
+        <WorkMedia project={p} size="hd" fit="contain" sizes="100vw" priority />
       </motion.div>
     </div>
   );
@@ -222,8 +218,8 @@ export default function ProjectDetail({ project: p }: { project: Project }) {
         <div className="mt-8 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {others.map((o) => (
             <Link key={o.slug} href={`/projects/${o.slug}`} className="group">
-              <div className="relative aspect-[16/11] overflow-hidden bg-paper">
-                <Image src={o.cover} alt={o.client} fill sizes="(min-width: 1024px) 33vw, 50vw" className="object-cover grayscale transition-transform duration-700 group-hover:scale-[1.04]" />
+              <div className="relative aspect-[16/10] overflow-hidden bg-paper">
+                <WorkMedia project={o} sizes="(min-width: 1024px) 33vw, 50vw" className="grayscale transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:grayscale-0" />
               </div>
               <p className="mt-3 text-[12px] font-semibold uppercase text-fg">
                 <T>{o.title}</T>

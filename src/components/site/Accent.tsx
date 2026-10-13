@@ -7,12 +7,14 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
  *
  * The accent is a CSS variable (`--accent`, an "R G B" triplet) so every
  * surface built with `bg-accent`, `text-accent`, `.hl` or `.cut` retints
- * at once. The visitor's pick is stored per browser; it is a preference,
+ * at once. A pale pick (the default white) cannot show on a white page,
+ * so `--accent-light` carries the colour light surfaces draw instead:
+ * night. The visitor's pick is stored per browser; it is a preference,
  * not data, so localStorage is the right home for it.
  */
 
-export const ORIGINAL_ACCENT = "#52FF9D";
-export const SWATCHES = ["#52FF9D", "#8AEDFF", "#F7F990", "#F5A4D9", "#AAAEF2"] as const;
+export const ORIGINAL_ACCENT = "#FFFFFF";
+export const SWATCHES = ["#FFFFFF", "#52FF9D", "#8AEDFF", "#F7F990", "#F5A4D9", "#AAAEF2"] as const;
 const KEY = "onyx_accent";
 
 function hexToTriplet(hex: string): string | null {
@@ -22,31 +24,38 @@ function hexToTriplet(hex: string): string | null {
   return `${(n >> 16) & 255} ${(n >> 8) & 255} ${n & 255}`;
 }
 
-/** Ink on the accent: dark for light accents, white for dark custom picks. */
-function inkFor(hex: string): string {
+function luminance(hex: string): number {
   const n = parseInt(hex.replace("#", ""), 16);
   const [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((c) => {
     const s = c / 255;
     return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
   });
-  const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return lum > 0.35 ? "14 14 14" : "255 255 255";
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
+
+const NIGHT = "14 14 14";
+const WHITE = "255 255 255";
+/** Above this luminance an accent is near-white: light surfaces use night. */
+const PALE = 0.92;
 
 function apply(hex: string) {
   const t = hexToTriplet(hex);
   if (!t) return;
+  const lum = luminance(hex);
+  const ink = lum > 0.35 ? NIGHT : WHITE;
   const root = document.documentElement;
   root.style.setProperty("--accent", t);
-  root.style.setProperty("--accent-ink", inkFor(hex));
+  root.style.setProperty("--accent-ink", ink);
+  root.style.setProperty("--accent-light", lum > PALE ? NIGHT : t);
+  root.style.setProperty("--accent-light-ink", lum > PALE ? WHITE : ink);
 }
 
 /**
  * Inline script that applies a stored accent before first paint, so a
- * returning visitor never sees the default green flash to their colour.
+ * returning visitor never sees the default flash to their colour.
  */
 export function AccentScript() {
-  const js = `(function(){try{var h=localStorage.getItem(${JSON.stringify(KEY)});if(!h||!/^#[0-9a-f]{6}$/i.test(h))return;var n=parseInt(h.slice(1),16),R=(n>>16)&255,G=(n>>8)&255,B=n&255,r=document.documentElement;r.style.setProperty('--accent',R+' '+G+' '+B);var f=function(c){c/=255;return c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4)};r.style.setProperty('--accent-ink',(0.2126*f(R)+0.7152*f(G)+0.0722*f(B))>0.35?'14 14 14':'255 255 255');}catch(e){}})();`;
+  const js = `(function(){try{var h=localStorage.getItem(${JSON.stringify(KEY)});if(!h||!/^#[0-9a-f]{6}$/i.test(h))return;var n=parseInt(h.slice(1),16),R=(n>>16)&255,G=(n>>8)&255,B=n&255,r=document.documentElement,t=R+' '+G+' '+B;var f=function(c){c/=255;return c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4)};var L=0.2126*f(R)+0.7152*f(G)+0.0722*f(B),ink=L>0.35?'${NIGHT}':'${WHITE}',pale=L>${PALE};r.style.setProperty('--accent',t);r.style.setProperty('--accent-ink',ink);r.style.setProperty('--accent-light',pale?'${NIGHT}':t);r.style.setProperty('--accent-light-ink',pale?'${WHITE}':ink);}catch(e){}})();`;
   return <script dangerouslySetInnerHTML={{ __html: js }} />;
 }
 

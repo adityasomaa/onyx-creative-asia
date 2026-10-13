@@ -31,7 +31,6 @@ export type Service = {
   /** Display headline when the row is open. */
   headline: L;
   body: L;
-  image: string;
 };
 
 export const SERVICES: Service[] = [
@@ -57,7 +56,6 @@ export const SERVICES: Service[] = [
       "大多数人第一次认识你的生意是在网站上，而且他们做决定很快。我们自己设计、自己开发，你确认过的样子就是上线的样子，之后也由我们让它保持快速、保持更新。",
       "多くの人が最初に出会うのはウェブサイトで、判断は一瞬です。設計も実装も私たちが行うので、承認したものがそのまま公開され、公開後も速く新しい状態を保ちます。",
     ),
-    image: "/images/svc-website.jpg",
   },
   {
     id: "software-development",
@@ -81,7 +79,6 @@ export const SERVICES: Service[] = [
       "当模板不再合身，我们就直接把工具做出来：预订引擎、客户门户、内部面板，以及你已经在付费使用的各个系统之间的打通。",
       "テンプレートが合わなくなったら、道具そのものを作ります。予約エンジン、顧客ポータル、社内ダッシュボード、そしてすでに使っているシステム同士の連携。",
     ),
-    image: "/images/svc-software.jpg",
   },
   {
     id: "mobile-apps",
@@ -105,7 +102,6 @@ export const SERVICES: Service[] = [
       "为每周都会回来的客户、也为不坐在办公桌前的团队做应用，从设计、开发到上架两大应用商店。",
       "毎週戻ってくるお客様のために、デスクを離れて働くチームのために。設計し、開発し、両方のストアに公開します。",
     ),
-    image: "/images/svc-mobile.jpg",
   },
   {
     id: "social-media",
@@ -129,7 +125,6 @@ export const SERVICES: Service[] = [
       "我们排内容日历、做帖子、回评论，让整个主页读起来像一个品牌，也让账号在你忙着做生意的时候照样在动。",
       "カレンダーを組み、投稿を作り、コメントに返信します。グリッドはひとつのブランドとして読め、あなたが本業で忙しい間もアカウントは動き続けます。",
     ),
-    image: "/images/svc-social.jpg",
   },
   {
     id: "seo-aeo-geo",
@@ -153,7 +148,6 @@ export const SERVICES: Service[] = [
       "搜索引擎依然在带来买家，而答案引擎如今决定了哪家公司会被推荐。我们把网站、内容和数据都整理好，让两者都能读懂你，也愿意引用你。",
       "検索エンジンは今も買い手を連れてきて、回答エンジンはどの会社を勧めるかを決めるようになりました。サイト、コンテンツ、データを整え、どちらにも読まれ、引用されるようにします。",
     ),
-    image: "/images/svc-seo.jpg",
   },
   {
     id: "ads-management",
@@ -177,7 +171,6 @@ export const SERVICES: Service[] = [
       "围绕一个客户对你到底值多少来搭建广告，上线、每周调整，并用说人话的方式汇报，覆盖 Google、Meta 和 TikTok。",
       "一人のお客様が実際にいくらの価値を持つかを起点に組み立て、配信し、毎週調整し、わかる言葉で報告します。Google・Meta・TikTok で。",
     ),
-    image: "/images/svc-ads.jpg",
   },
   {
     id: "content-creation",
@@ -201,7 +194,6 @@ export const SERVICES: Service[] = [
       "我们写那些安静地替你成交的内容：买家打电话前会读的指南，把服务讲清楚的文案，让人愿意多看一眼的活动。",
       "静かに売ってくれるものを書きます。電話の前に買い手が読むガイド、サービスを説明するキャプション、もう一度見たくなるキャンペーン。",
     ),
-    image: "/images/svc-content.jpg",
   },
   {
     id: "photo-video",
@@ -225,7 +217,6 @@ export const SERVICES: Service[] = [
       "照片和视频由设计品牌的同一支团队来拍，拍出来的和做出来的是一套东西，最后留给你一整套属于你自己的素材库。",
       "ブランドを設計したチームが写真と映像も制作するので、撮るものと作るものが揃い、最後には自分のものになる素材ライブラリが残ります。",
     ),
-    image: "/images/svc-photo.jpg",
   },
   {
     id: "design-branding",
@@ -249,7 +240,6 @@ export const SERVICES: Service[] = [
       "标志、字体、颜色，以及把它们串在一起的那套系统，延伸到你印的、发的、出版的每一样东西上，再附上你的团队不用找我们也能用的模板。",
       "ロゴ、書体、色、それらをまとめるシステム。印刷物にも投稿にも出版物にも行き渡らせ、私たちがいなくてもチームが使えるテンプレートまで用意します。",
     ),
-    image: "/images/svc-design.jpg",
   },
   {
     id: "growth-analytics",
@@ -273,7 +263,6 @@ export const SERVICES: Service[] = [
       "我们先把追踪装对，把数字放进一个面板，每月写一份说人话的解读，然后去改那些能推动数字的页面和广告。",
       "計測を正しく設定し、数字をひとつのダッシュボードにまとめ、月に一度わかる言葉で読み解きます。そのうえで、数字を動かすページとキャンペーンを変えていきます。",
     ),
-    image: "/images/svc-growth.jpg",
   },
 ];
 

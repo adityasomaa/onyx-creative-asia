@@ -9,8 +9,9 @@ import CutButton from "@/components/site/CutButton";
 import Wordmark from "@/components/site/Wordmark";
 
 // The in-place loop uses the lighter card-size file; the player uses HD.
-const BG = PROJECTS[0];
-const REEL = PROJECTS.filter((p) => p.coverLoopHd).map((p) => ({ src: p.coverLoopHd as string, poster: p.cover, client: p.client }));
+const WITH_PREVIEW = PROJECTS.filter((p) => p.preview);
+const BG = WITH_PREVIEW[0];
+const REEL = WITH_PREVIEW.map((p) => ({ src: p.preview!.video, poster: p.cover, client: p.client }));
 
 /**
  * Full-height dark showreel. In place, one client loop plays muted and
@@ -43,8 +44,8 @@ export default function Showreel() {
     <section className="relative z-10 h-[100svh] min-h-[620px] overflow-hidden bg-night text-white">
       <video
         className="absolute inset-0 h-full w-full object-cover opacity-70 grayscale"
-        src={BG.coverLoop}
-        poster={BG.cover}
+        src={BG?.preview?.card}
+        poster={BG?.cover}
         autoPlay
         muted
         loop

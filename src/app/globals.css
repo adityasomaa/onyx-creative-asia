@@ -188,14 +188,18 @@
 /* ==========================================================================
    Marketing site — monodrift-structure rebuild.
    Everything below is scoped to `.site` (the marketing layout's root), so
-   /sigap and /agents keep the legacy bone/ink system untouched.
+   /agents keeps the legacy bone/ink system untouched.
    ========================================================================== */
 
 :root {
   /* Accent as an "R G B" triplet, so Tailwind's bg-accent/40 works.
-     The palette switcher rewrites this at runtime. */
-  --accent: 82 255 157;
+     The palette switcher rewrites all four at runtime (Accent.tsx). */
+  --accent: 255 255 255;
   --accent-ink: 14 14 14;
+  /* The accent as drawn on light surfaces: the accent itself, or night
+     when it is too pale to show on white (the default white is). */
+  --accent-light: 14 14 14;
+  --accent-light-ink: 255 255 255;
 }
 
 .site {
@@ -205,15 +209,26 @@
   font-variation-settings: "opsz" 32;
   background: #fff;
   color: #262626;
+  /* What `accent` / `accent-ink` utilities resolve to: the light-surface
+     version by default, the true accent on dark surfaces (below). */
+  --accent-s: var(--accent-light);
+  --accent-s-ink: var(--accent-light-ink);
+}
+
+/* Dark surfaces draw the true accent. Matching on the background classes
+   means a section that turns dark (an open accordion row) follows along. */
+.site :is(.bg-night, .bg-coal, .bg-\[\#111\], [class~="bg-night/95"], [class~="bg-night/80"], .on-dark) {
+  --accent-s: var(--accent);
+  --accent-s-ink: var(--accent-ink);
 }
 
 .site ::selection {
-  background-color: rgb(var(--accent));
-  color: #0e0e0e;
+  background-color: rgb(var(--accent-s));
+  color: rgb(var(--accent-s-ink));
 }
 
 .site :focus-visible {
-  outline: 2px solid rgb(var(--accent));
+  outline: 2px solid rgb(var(--accent-s));
   outline-offset: 3px;
   border-radius: 0;
 }
@@ -237,6 +252,11 @@
     padding: 0 0.12em;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
+  }
+  /* On an accent-filled band the block inverts against the band. */
+  .bg-accent .hl {
+    background: rgb(var(--accent-s-ink));
+    color: rgb(var(--accent-s));
   }
 
   /* Diagonal hatch strip used down the side of gray header panels. */

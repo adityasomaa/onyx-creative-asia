@@ -11,10 +11,14 @@ import Reveal from "@/components/site/Reveal";
 
 /**
  * Client words: a huge outlined title between two accent rules, then a
- * masonry of quotes and project stills. Quotes come from TESTIMONIALS;
+ * masonry of quotes and client logo tiles. Quotes come from TESTIMONIALS;
  * where a quote is still a placeholder awaiting the client's real words,
- * it is attributed to a role, never to an invented person.
+ * it is attributed to a role, never to an invented person. Logos are the
+ * clients' own marks in solid black, inverted to white here.
  */
+
+/** Tiles use the marks with enough resolution to sit large. */
+const TILE_SLUGS = ["bhagawan-property", "jalak-cargo-logistics", "my-day-gili", "the-hair-extensions-bali"];
 
 function initials(name: string) {
   return name
@@ -44,8 +48,15 @@ function Quote({ t }: { t: (typeof TESTIMONIALS)[number] }) {
         “<T>{t.quote}</T>”
       </blockquote>
       {project && (
-        <Link href={`/projects/${project.slug}`} className="text-[11px] font-semibold uppercase text-accent hover:underline">
-          {project.client} →
+        <Link href={`/projects/${project.slug}`} className="group flex items-center justify-between gap-4 border-t border-white/10 pt-4">
+          {project.logo ? (
+            <span className="relative block h-9 w-[170px]">
+              <Image src={project.logo} alt={project.client} fill sizes="170px" className="object-contain object-left opacity-70 invert transition-opacity group-hover:opacity-100" />
+            </span>
+          ) : (
+            <span className="text-[11px] font-semibold uppercase text-white/70">{project.client}</span>
+          )}
+          <span className="text-[14px] text-accent transition-transform group-hover:translate-x-1">→</span>
         </Link>
       )}
     </figure>
@@ -56,9 +67,9 @@ export default function ClientWords() {
   const tl = useL();
   const real = TESTIMONIALS.filter((t) => !t.placeholder);
   const stand = TESTIMONIALS.filter((t) => t.placeholder);
-  const stills = PROJECTS.slice(0, 4);
+  const stills = TILE_SLUGS.map((slug) => PROJECTS.find((p) => p.slug === slug)).filter((p): p is (typeof PROJECTS)[number] => !!p?.logo);
 
-  // Interleave quotes and stills so the columns read like the reference.
+  // Interleave quotes and logo tiles so the columns read like the reference.
   const items: ({ kind: "q"; t: (typeof TESTIMONIALS)[number] } | { kind: "img"; p: (typeof PROJECTS)[number] })[] = [];
   [...real, ...stand].forEach((t, i) => {
     items.push({ kind: "q", t });
@@ -93,9 +104,12 @@ export default function ClientWords() {
             </Reveal>
           ) : (
             <Reveal key={i} className="relative break-inside-avoid">
-              <Link href={`/projects/${it.p.slug}`} className="group relative block aspect-[4/5] overflow-hidden">
-                <Image src={it.p.cover} alt={it.p.client} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
-                <span className="absolute bottom-3 left-3 bg-night/80 px-2 py-1 text-[11px] font-semibold uppercase">{it.p.client}</span>
+              <Link href={`/projects/${it.p.slug}`} className="group relative block aspect-[5/4] overflow-hidden border border-white/10 bg-white/[0.03] transition-colors duration-500 hover:border-white/30">
+                <span className="absolute inset-x-[18%] inset-y-[30%] transition-transform duration-700 group-hover:scale-105">
+                  <Image src={it.p.logo as string} alt={it.p.client} fill sizes="(min-width: 1024px) 22vw, 64vw" className="object-contain invert" />
+                </span>
+                <span className="absolute bottom-4 left-4 text-[11px] font-semibold uppercase text-white/45">{it.p.client}</span>
+                <span className="absolute bottom-4 right-4 text-[14px] text-accent transition-transform group-hover:translate-x-1">→</span>
               </Link>
             </Reveal>
           ),

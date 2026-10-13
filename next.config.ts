@@ -60,9 +60,9 @@ const nextConfig: NextConfig = {
   },
   // No host rewrites any more.
   //
-  // agents.onyxcreative.asia and sigap.onyxcreative.asia were detached
-  // from the project, so the host conditions they matched can never fire.
-  // Both areas still exist on the apex, at /agents and /sigap.
+  // agents.onyxcreative.asia was detached from the project, so the host
+  // conditions it matched can never fire. The area still exists on the
+  // apex, at /agents.
   //
   // If a subdomain comes back, note why these were explicit rewrites per
   // route rather than a catch-all: a catch-all in `beforeFiles` also

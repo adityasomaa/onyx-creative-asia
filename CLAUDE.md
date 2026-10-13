@@ -65,12 +65,12 @@ Website system since the 2026-10-12 rebuild (Monodrift layout; the previous site
 
 | Token | Value |
 |---|---|
-| Color — accent | `#52FF9D` by default; the visitor can switch it from the nav (CSS var `--accent`) |
-| Color — base | White page, `#0E0E0E` night, `#262626` text, greyscale photography |
+| Color — accent | `#FFFFFF` by default (drawn as `#0E0E0E` on light surfaces); the visitor can switch it from the nav (CSS var `--accent`) |
+| Color — base | White page, `#0E0E0E` night, `#262626` text, greyscale photography without people; service visuals are canvas motion graphics |
 | Type | Tektur (display, uppercase) · Inter with `opsz` (text) · Fragment Mono (tiny meta) |
 | Motion | Accent panel page transition: close 600ms → swap → top → open 750ms; home loader with wordmark |
 
-The older "Black Box" system (Ink `#0E0E0E` / Bone `#F4F1EC`, Neue Montreal) still applies to `/sigap`, `/agents` and existing social templates.
+The older "Black Box" system (Ink `#0E0E0E` / Bone `#F4F1EC`, Neue Montreal) still applies to `/agents` and existing social templates.
 
 Full specs in `design/brand/COLORS.md`, `TYPOGRAPHY.md`, `VOICE.md`, `MOTION.md`, `PHILOSOPHY.md`.
 

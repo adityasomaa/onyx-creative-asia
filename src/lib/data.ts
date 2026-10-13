@@ -1,3 +1,5 @@
+import type { SceneId } from "@/components/site/art/scenes";
+
 export type Project = {
   slug: string;
   title: string;
@@ -7,15 +9,16 @@ export type Project = {
   category: string;
   year: string;
   description: string;
-  /** Still poster / image cover (always required, used as video poster too). */
+  /** Still poster, 16:10 (also the video poster and the OG image). */
   cover: string;
-  /** Looping video cover for card-sized slots (720p60). Plays muted on top
-   *  of the poster. Five of these autoplay on the works grid, so this tier
-   *  is deliberately the lighter one. */
-  coverLoop?: string;
-  /** Same loop at 1080p60, for the case-study hero where it renders large. */
-  coverLoopHd?: string;
   tags: string[];
+  /** Scroll-through of the live site in a browser + phone frame, 16:10 on
+   *  #F4F4F4: `video` at 1600x1000 for large slots, `card` at 960x600. */
+  preview?: { video: string; card: string };
+  /** For work without a public site: the motion graphic shown instead. */
+  art?: SceneId;
+  /** Client logo, solid black on transparent (shown inverted on dark). */
+  logo?: string;
   /** Live destination, domain for web projects, social URL for non-web.
    *  Optional: some projects are not publicly linkable. */
   url?: string;
@@ -33,13 +36,14 @@ export type Project = {
   study?: CaseStudy;
 };
 
-// Covers are generated from the real sites: each one is a scroll-through of
-// the live home page, composited into desktop / tablet / phone mockups.
-// `cover` is the poster frame, `coverLoop` the moving version. Both are
-// produced by the capture pipeline (see .capture/) and live in public/works/.
+// Previews are captured from the real sites: a scroll-through of the live
+// home page in a browser window with the phone version beside it, framed on
+// #F4F4F4 at 16:10 so it sits whole in any slot. `cover` is its first frame.
+// All of it lives in public/works/.
 export const PROJECTS: Project[] = [
   {
     slug: "great-bali-villas",
+    logo: "/logos/great-bali-villas.png",
     title: "Villa Rental Surface",
     client: "Great Bali Villas",
     blurb: "Premium villa stays in Bali",
@@ -47,9 +51,8 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "A calm booking surface for premium Bali villa stays. Browse by area, size, and dates, move through full-bleed galleries and amenity breakdowns, and enquire straight to the team on WhatsApp.",
-    cover: "/works/great-bali-villas.jpg",
-    coverLoop: "/works/great-bali-villas-card.mp4",
-    coverLoopHd: "/works/great-bali-villas.mp4",
+    cover: "/works/great-bali-villas-scroll.jpg",
+    preview: { video: "/works/great-bali-villas-scroll.mp4", card: "/works/great-bali-villas-scroll-card.mp4" },
     tags: ["Web", "Villas", "Booking"],
     url: "https://greatbalivillas.com",
     urlLabel: "Visit site",
@@ -90,6 +93,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "bhagawan-property",
+    logo: "/logos/bhagawan-property.png",
     title: "Property Advisory Platform",
     client: "Bhagawan Property",
     blurb: "Buyer-first property advisory in Bali",
@@ -97,9 +101,8 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "A property advisory site built around trust rather than volume. Freehold and leasehold listings with real specs and pricing, editorial area guides across six Bali neighbourhoods, and a knowledge base that answers the questions buyers ask before they ever enquire.",
-    cover: "/works/bhagawan-property.jpg",
-    coverLoop: "/works/bhagawan-property-card.mp4",
-    coverLoopHd: "/works/bhagawan-property.mp4",
+    cover: "/works/bhagawan-property-scroll.jpg",
+    preview: { video: "/works/bhagawan-property-scroll.mp4", card: "/works/bhagawan-property-scroll-card.mp4" },
     tags: ["Web", "Property", "Advisory"],
     url: "https://bhagawanproperty.com",
     urlLabel: "Visit site",
@@ -141,6 +144,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "tammia-online",
+    logo: "/logos/tammia-online.png",
     title: "Beauty Tools Storefront",
     client: "Tammia Online",
     blurb: "Premium beauty tools retailer in Indonesia",
@@ -148,9 +152,8 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "An e-commerce storefront for a premium beauty tools retailer. The full product catalogue, weekly new arrivals, cart and wishlist drawers, and a WhatsApp beauty advisor for shoppers who are not sure which brush they need.",
-    cover: "/works/tammia-online.jpg",
-    coverLoop: "/works/tammia-online-card.mp4",
-    coverLoopHd: "/works/tammia-online.mp4",
+    cover: "/works/tammia-online-scroll.jpg",
+    preview: { video: "/works/tammia-online-scroll.mp4", card: "/works/tammia-online-scroll-card.mp4" },
     tags: ["Web", "E-commerce", "Beauty"],
     url: "https://dev.tammiaonline.com",
     urlLabel: "Visit site",
@@ -192,6 +195,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "astungkare-spa",
+    logo: "/logos/astungkare-spa.png",
     title: "Mobile Spa Booking Surface",
     client: "Astungkare Spa",
     blurb: "24-hour mobile spa across Bali",
@@ -199,9 +203,8 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "Brand, site, social, and paid media for a 24-hour mobile spa serving Canggu, Seminyak, and Ubud. A trained therapist with oils and linen arrives at your villa, booked in under five minutes via WhatsApp, with a real-time earliest-availability indicator on the hero.",
-    cover: "/works/astungkare-spa.jpg",
-    coverLoop: "/works/astungkare-spa-card.mp4",
-    coverLoopHd: "/works/astungkare-spa.mp4",
+    cover: "/works/astungkare-spa-scroll.jpg",
+    preview: { video: "/works/astungkare-spa-scroll.mp4", card: "/works/astungkare-spa-scroll-card.mp4" },
     tags: ["Web", "Spa", "Hospitality"],
     url: "https://astungkarespa.com",
     urlLabel: "Visit site",
@@ -243,6 +246,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "the-hair-extensions-bali",
+    logo: "/logos/the-hair-extensions-bali.png",
     title: "Salon Brand & Site",
     client: "The Hair Extensions Bali",
     blurb: "Hair extensions studio in Kerobokan",
@@ -250,9 +254,8 @@ export const PROJECTS: Project[] = [
     year: "2025",
     description:
       "Brand and site for a premium hair extensions studio in Kerobokan, six application methods, an editorial gallery with method filters, and a video hero of the actual color wall.",
-    cover: "/works/the-hair-extensions-bali.jpg",
-    coverLoop: "/works/the-hair-extensions-bali-card.mp4",
-    coverLoopHd: "/works/the-hair-extensions-bali.mp4",
+    cover: "/works/the-hair-extensions-bali-scroll.jpg",
+    preview: { video: "/works/the-hair-extensions-bali-scroll.mp4", card: "/works/the-hair-extensions-bali-scroll-card.mp4" },
     tags: ["Web", "Brand", "Beauty"],
     url: "https://thehairextensionsbali.com",
     urlLabel: "Visit site",
@@ -294,6 +297,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "radcruiters",
+    logo: "/logos/radcruiters.png",
     title: "Campaign Request Automation",
     client: "RADcruiters",
     blurb: "Recruitment-marketing agency in the EU",
@@ -302,10 +306,9 @@ export const PROJECTS: Project[] = [
     description:
       "Self-routing intake for new campaign briefs. A WordPress form feeds a Make.com pipeline that extracts the domain, matches the client in Airtable, queues a Trello task, and fires team and client emails, end to end in seconds.",
     // This one has no site to scroll through: the work is the pipeline, so
-    // the cover is a diagram of it, with the packet running the route.
-    cover: "/works/radcruiters.jpg",
-    coverLoop: "/works/radcruiters-card.mp4",
-    coverLoopHd: "/works/radcruiters.mp4",
+    // it shows as a motion graphic of the route (the poster is a still of it).
+    cover: "/works/radcruiters-poster.jpg",
+    art: "automation",
     tags: ["Workflow", "Make.com", "WordPress"],
     services: ["AI Automation", "Digital Presence", "Growth & Analytics", "Managed Services"],
     location: "Netherlands · EU",
@@ -345,6 +348,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "jalak-cargo-logistics",
+    logo: "/logos/jalak-cargo-logistics.svg",
     title: "Social & Content Programme",
     client: "Jalak Cargo Logistics",
     blurb: "Freight forwarder in Bali and Jakarta",
@@ -352,12 +356,8 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "An always-on social programme for an Indonesian freight forwarder. Every post answers one real shipping question, in one visual system, published on a schedule, with the live site kept current alongside it.",
-    // Not a build: Onyx runs the feed, the content, and site upkeep. So the
-    // cover pairs the live site with the actual feed instead of putting the
-    // site in device mockups.
-    cover: "/works/jalak-cargo-logistics.jpg",
-    coverLoop: "/works/jalak-cargo-logistics-card.mp4",
-    coverLoopHd: "/works/jalak-cargo-logistics.mp4",
+    cover: "/works/jalak-cargo-logistics-scroll.jpg",
+    preview: { video: "/works/jalak-cargo-logistics-scroll.mp4", card: "/works/jalak-cargo-logistics-scroll-card.mp4" },
     tags: ["Instagram", "Content", "Maintenance"],
     url: "https://jalakkargologistik.id",
     urlLabel: "Visit site",
@@ -399,6 +399,7 @@ export const PROJECTS: Project[] = [
   },
   {
     slug: "my-day-gili",
+    logo: "/logos/my-day-gili.png",
     title: "Fast Boat Booking Surface",
     client: "My Day Gili",
     blurb: "Fast boat tickets and day trips from Bali",
@@ -406,9 +407,8 @@ export const PROJECTS: Project[] = [
     year: "2026",
     description:
       "One booking surface for crossings to the Gili Islands and Lombok. Four operators, their real schedules, and their real fares, with every enquiry landing on WhatsApp already carrying the trip it came from.",
-    cover: "/works/my-day-gili.jpg",
-    coverLoop: "/works/my-day-gili-card.mp4",
-    coverLoopHd: "/works/my-day-gili.mp4",
+    cover: "/works/my-day-gili-scroll.jpg",
+    preview: { video: "/works/my-day-gili-scroll.mp4", card: "/works/my-day-gili-scroll-card.mp4" },
     tags: ["Travel", "Booking", "SEO"],
     url: "https://mydaygili.com",
     urlLabel: "Visit site",

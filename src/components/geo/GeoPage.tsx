@@ -92,7 +92,7 @@ export default function GeoPage({
           {PROJECTS.map((p) => (
             <li key={p.slug}>
               <Link href={`/projects/${p.slug}`} className="group block">
-                <span className="relative block aspect-[16/11] overflow-hidden bg-paper">
+                <span className="relative block aspect-[16/10] overflow-hidden bg-paper">
                   <Image src={p.cover} alt={p.client} fill sizes="25vw" className="object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
                 </span>
                 <span className="mt-3 block text-[12px] font-semibold uppercase text-fg">{p.client}</span>

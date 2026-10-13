@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 import { ORIGINAL_ACCENT, SWATCHES, useAccent } from "./Accent";
 
 /**
- * The accent picker: five swatches, a custom colour, and a reset, in a
+ * The accent picker: six swatches, a custom colour, and a reset, in a
  * small dark card under the nav. Same feature set as the reference.
  */
 export default function Palette({ open, onClose, hint }: { open: boolean; onClose: () => void; hint?: boolean }) {

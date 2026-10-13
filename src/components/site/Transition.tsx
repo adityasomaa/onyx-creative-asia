@@ -263,8 +263,8 @@ export default function Transition() {
         return;
       }
       if (url.origin !== location.origin) return;
-      // Only the marketing site animates; /agents and /sigap navigate natively.
-      if (url.pathname.startsWith("/agents") || url.pathname.startsWith("/sigap") || url.pathname.startsWith("/api")) return;
+      // Only the marketing site animates; /agents navigates natively.
+      if (url.pathname.startsWith("/agents") || url.pathname.startsWith("/api")) return;
 
       const samePage = url.pathname === location.pathname;
       if (samePage) {

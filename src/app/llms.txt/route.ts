@@ -63,7 +63,6 @@ ${qa}
 
 - Website builds from IDR 8 million; template build IDR 8–20 million; custom marketing site IDR 25–70 million; software from around IDR 60 million.
 - Ongoing work (social, ads, content, reporting, maintenance) is billed monthly and scoped per client.
-- Small businesses: Sigap, fixed packages from IDR 500,000 — ${BASE}/sigap
 
 ## Comparison pages
 

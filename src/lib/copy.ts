@@ -505,15 +505,6 @@ export const FAQ = {
       ),
     },
     {
-      q: l("Is there an option for smaller budgets?", "Ada pilihan untuk budget lebih kecil?", "预算比较少有选择吗？", "予算が少ない場合の選択肢は？"),
-      a: l(
-        "Yes, through Sigap, our sub-brand for Indonesian small businesses, with fixed packages from IDR 500,000 covering a logo, a single-page website and a basic social setup.",
-        "Ada, lewat Sigap, sub-brand kami untuk UMKM Indonesia, dengan paket tetap mulai Rp 500.000 yang mencakup logo, website satu halaman, dan setup media sosial dasar.",
-        "有，通过我们面向印尼小微企业的子品牌 Sigap，固定套餐 50 万印尼盾起，包含标志、单页网站和基础社交媒体设置。",
-        "あります。インドネシアの中小事業者向けサブブランド Sigap で、ロゴ、1ページのサイト、基本的な SNS 設定を含む50万ルピアからの定額パッケージをご用意しています。",
-      ),
-    },
-    {
       q: l("Who will I actually work with?", "Dengan siapa saya akan bekerja?", "我实际上会和谁合作？", "実際に誰とやり取りするの？"),
       a: l(
         "The people doing the work. The person who scopes your project designs and builds it too, so nothing gets lost in a hand-off between an account manager and a production team.",

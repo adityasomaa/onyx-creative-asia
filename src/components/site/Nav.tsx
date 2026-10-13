@@ -258,8 +258,8 @@ export default function Nav() {
                 </ul>
 
                 <Link href={`/projects/${LATEST.slug}`} className="group mt-8 flex gap-4 border-y border-white/10 px-5 py-5 md:px-8">
-                  <span className="relative h-[120px] w-[90px] shrink-0 overflow-hidden bg-white/5">
-                    <Image src={LATEST.cover} alt="" fill sizes="90px" className="object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
+                  <span className="relative h-[75px] w-[120px] shrink-0 self-center overflow-hidden bg-white/5">
+                    <Image src={LATEST.cover} alt="" fill sizes="120px" className="object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
                   </span>
                   <span className="flex min-w-0 flex-col justify-between">
                     <span>

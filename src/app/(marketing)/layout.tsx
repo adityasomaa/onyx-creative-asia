@@ -12,8 +12,8 @@ import ContactFab from "@/components/site/ContactFab";
 /**
  * Marketing site layout. Wraps every public route under (marketing):
  * /, /projects, /notes, /about, /contact, the legal pages and the
- * answer-engine landings. /agents and /sigap have their own layouts and
- * none of this chrome reaches them.
+ * answer-engine landings. /agents has its own layout and none of this
+ * chrome reaches it.
  *
  * Type: Tektur for display, Inter at its display optical size for text,
  * Fragment Mono for the odd technical label — the reference's stack.
@@ -101,13 +101,6 @@ const ORG_JSON_LD = {
     },
   ],
   sameAs: ["https://www.instagram.com/onyxcreative.asia", "https://www.tiktok.com/@onyxcreative.asia"],
-  subOrganization: {
-    "@type": "Organization",
-    name: "Sigap",
-    url: `${BASE}/sigap`,
-    description:
-      "Budget-tier digital service for Indonesian small businesses (UMKM). Fixed packages from IDR 500,000 for a logo, a one-page website and a social setup.",
-  },
 };
 
 const LOCAL_BUSINESS_JSON_LD = {

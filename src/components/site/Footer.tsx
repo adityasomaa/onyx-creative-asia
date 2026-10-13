@@ -21,7 +21,7 @@ const SOCIALS = [
 ];
 
 const field =
-  "cut h-12 w-full bg-paper px-3 font-tek text-[15px] uppercase text-fg placeholder:text-mute outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_rgb(var(--accent))] [--cut:8px]";
+  "cut h-12 w-full bg-paper px-3 font-tek text-[15px] uppercase text-fg placeholder:text-mute outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_rgb(var(--accent-s))] [--cut:8px]";
 
 function FooterForm() {
   const tl = useL();

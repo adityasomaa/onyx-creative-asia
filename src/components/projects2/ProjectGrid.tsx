@@ -1,14 +1,15 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useReduce } from "@/components/site/useReduce";
 import { T, useL } from "@/lib/i18n";
 import { PROJECTS, type Project } from "@/lib/data";
 import { PROJECTS_PAGE, UI } from "@/lib/copy";
 import { disciplinesFor } from "@/lib/services";
 import { Chevron } from "@/components/site/CutButton";
+import WorkMedia from "@/components/site/WorkMedia";
 
 /**
  * /projects: two columns of case studies moving in opposite directions as
@@ -31,9 +32,9 @@ function Card({ p, n }: { p: Project; n: number }) {
           {String(n).padStart(2, "0")}
         </span>
       </div>
-      <div className="relative aspect-[16/11] overflow-hidden bg-paper">
-        <Image src={p.cover} alt={p.client} fill sizes="(min-width: 768px) 46vw, 100vw" className="object-cover grayscale transition-transform duration-[1.2s] ease-out group-hover:scale-[1.04]" />
-        <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/45 to-black/10 p-5 text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 md:p-8">
+      <div className="relative aspect-[16/10] overflow-hidden bg-paper">
+        <WorkMedia project={p} sizes="(min-width: 768px) 46vw, 100vw" className="grayscale transition-[filter,transform] duration-[1.2s] ease-out group-hover:scale-[1.03] group-hover:grayscale-0" />
+        <div className="on-dark absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/45 to-black/10 p-5 text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 md:p-8">
           <p className="font-tek text-[28px] font-medium uppercase leading-none md:text-[40px]">
             <T>{p.title}</T>
           </p>
@@ -51,7 +52,7 @@ function Card({ p, n }: { p: Project; n: number }) {
 
 export default function ProjectGrid() {
   const tl = useL();
-  const reduce = useReducedMotion();
+  const reduce = useReduce();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const p = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.3 });

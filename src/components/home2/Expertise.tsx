@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useL } from "@/lib/i18n";
@@ -8,6 +7,7 @@ import { EXPERTISE, UI } from "@/lib/copy";
 import { SERVICES, projectsFor } from "@/lib/services";
 import { cn } from "@/lib/cn";
 import SectionHeader from "@/components/site/SectionHeader";
+import ServiceArt from "@/components/site/art/ServiceArt";
 
 function Caret({ up, className }: { up?: boolean; className?: string }) {
   return (
@@ -81,7 +81,7 @@ export default function Expertise() {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-y-0 right-0 hidden w-[38%] md:block"
                   >
-                    <Image src={s.image} alt="" fill sizes="38vw" className="object-cover" />
+                    <ServiceArt id={s.id} className="absolute inset-0 h-full w-full" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -147,7 +147,7 @@ export default function Expertise() {
                       </div>
                     </div>
                     <div className="relative h-[240px] md:hidden">
-                      <Image src={s.image} alt="" fill sizes="100vw" className="object-cover" />
+                      <ServiceArt id={s.id} className="absolute inset-0 h-full w-full" />
                     </div>
                   </motion.div>
                 )}

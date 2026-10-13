@@ -8,10 +8,12 @@ const config: Config = {
         // ── Marketing site (monodrift-structure rebuild) ──
         // `accent` is a CSS variable so the palette switcher can retint
         // every accent surface at runtime; it is stored as "R G B" so the
-        // opacity modifiers (bg-accent/40) keep working.
-        accent: "rgb(var(--accent) / <alpha-value>)",
-        // Text on an accent surface: dark, or white for a dark custom pick.
-        "accent-ink": "rgb(var(--accent-ink) / <alpha-value>)",
+        // opacity modifiers (bg-accent/40) keep working. It resolves per
+        // surface (--accent-s, see globals.css): a pale accent such as the
+        // default white is drawn as night on light backgrounds.
+        accent: "rgb(var(--accent-s) / <alpha-value>)",
+        // Text on an accent surface.
+        "accent-ink": "rgb(var(--accent-s-ink) / <alpha-value>)",
         fg: "#262626",
         fg2: "#4D4D4D",
         mute: "#8A8A8A",
@@ -21,7 +23,7 @@ const config: Config = {
         snow: "#FAFAFA",
         night: "#0E0E0E",
         coal: "#262626",
-        // ── Legacy tokens, still used by /sigap and /agents ──
+        // ── Legacy tokens, still used by /agents ──
         ink: {
           DEFAULT: "#0E0E0E",
           50: "#F7F7F5",
@@ -43,19 +45,6 @@ const config: Config = {
           200: "#EAE6DE",
           300: "#D8D2C6",
           400: "#BDB5A4",
-        },
-        // Sigap (sub-brand for budget-tier UMKM packages) — warm cream
-        // + rust accent. Lives under local.onyxcreative.asia. Deliberately
-        // distinct from the Onyx monochrome so a premium-tier visitor
-        // doesn't perceive the studio as "the 500rb place".
-        sigap: {
-          cream: "#FAF6EE",
-          "cream-deep": "#F3ECDD",
-          ink: "#2A1F18",
-          rust: "#C45A2E",
-          "rust-soft": "#E8C9B0",
-          muted: "#7A6A5A",
-          line: "#E0D7C8",
         },
       },
       fontFamily: {

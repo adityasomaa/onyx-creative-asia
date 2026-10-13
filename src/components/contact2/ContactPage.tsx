@@ -12,7 +12,7 @@ import CutButton from "@/components/site/CutButton";
 import { sendLead } from "@/components/site/leads";
 
 const input =
-  "w-full bg-white/[0.07] px-3 py-3 font-tek text-[15px] uppercase text-white placeholder:text-white/35 outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_rgb(var(--accent))]";
+  "w-full bg-white/[0.07] px-3 py-3 font-tek text-[15px] uppercase text-white placeholder:text-white/35 outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_rgb(var(--accent-s))]";
 
 function Row({ n, q, hint, children }: { n: string; q: string; hint: string; children: ReactNode }) {
   return (
