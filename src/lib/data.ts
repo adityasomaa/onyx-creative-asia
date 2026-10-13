@@ -155,8 +155,9 @@ export const PROJECTS: Project[] = [
     cover: "/works/tammia-online-scroll.jpg",
     preview: { video: "/works/tammia-online-scroll.mp4", card: "/works/tammia-online-scroll-card.mp4" },
     tags: ["Web", "E-commerce", "Beauty"],
-    url: "https://dev.tammiaonline.com",
-    urlLabel: "Visit site",
+    // Live-project buttons hidden while the site is offline (dev.tammiaonline.com
+    // 403, tammiaonline.com 503 since Oct 2026). To restore:
+    // url: "https://dev.tammiaonline.com", urlLabel: "Visit site",
     services: ["Digital Presence", "Creative Studio", "Growth & Analytics", "Managed Services"],
     location: "Indonesia",
     scope: [
