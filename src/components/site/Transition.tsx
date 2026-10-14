@@ -176,7 +176,7 @@ export default function Transition() {
       }
       await playLoader();
       if (cancelled) return;
-      // A deep link (/#pricing) keeps its place; anything else starts at the top.
+      // A deep link (/#process) keeps its place; anything else starts at the top.
       const hash = location.hash;
       if (!hash) toTop();
       await open();

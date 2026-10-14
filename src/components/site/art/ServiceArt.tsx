@@ -9,7 +9,7 @@ import { SCENES, type Pal, type SceneId } from "./scenes";
  * box. Size it with className like an image.
  *
  * It only draws while on screen, and gives its pixels back when it leaves
- * (a hero has ten of these). Colours follow the visitor's accent: the true
+ * (a hero has five of these). Colours follow the visitor's accent: the true
  * accent on the dark theme, the light-surface version on the light one.
  * Under reduced motion it draws a single still frame.
  */
@@ -21,7 +21,7 @@ function triplet(name: string, fallback: string) {
   return (v || fallback).split(/\s+/).join(",");
 }
 
-function palette(theme: "dark" | "light"): Pal {
+function palette(theme: "dark" | "light", bare: boolean): Pal {
   const dark = theme === "dark";
   const fg = dark ? "255,255,255" : "14,14,14";
   const ac = triplet(dark ? "--accent" : "--accent-light", dark ? "255 255 255" : "14 14 14");
@@ -30,11 +30,24 @@ function palette(theme: "dark" | "light"): Pal {
     fg: (a) => `rgba(${fg},${a})`,
     ac: (a) => `rgba(${ac},${a})`,
     ink: (a) => `rgba(${ink},${a})`,
-    bg: dark ? "#111111" : "#F4F4F4",
+    // Bare: drawn over another background, so panels become dark glass.
+    bg: bare ? "rgba(8,8,10,0.55)" : dark ? "#111111" : "#F4F4F4",
+    clear: bare,
   };
 }
 
-export default function ServiceArt({ id, theme = "dark", className }: { id: SceneId; theme?: "dark" | "light"; className?: string }) {
+export default function ServiceArt({
+  id,
+  theme = "dark",
+  bare = false,
+  className,
+}: {
+  id: SceneId;
+  theme?: "dark" | "light";
+  /** No background of its own, for layering over another one. */
+  bare?: boolean;
+  className?: string;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -50,7 +63,7 @@ export default function ServiceArt({ id, theme = "dark", className }: { id: Scen
     let visible = false;
     let w = 0;
     let h = 0;
-    let pal = palette(theme);
+    let pal = palette(theme, bare);
     let frames = 0;
     const t0 = performance.now();
 
@@ -67,7 +80,7 @@ export default function ServiceArt({ id, theme = "dark", className }: { id: Scen
 
     const draw = (now: number) => {
       if (!visible || !w || !h) return;
-      if (frames++ % 30 === 0) pal = palette(theme);
+      if (frames++ % 30 === 0) pal = palette(theme, bare);
       scene(ctx, w, h, reduce ? 2.6 + offset : (now - t0) / 1000 + offset, pal);
       if (!reduce) raf = requestAnimationFrame(draw);
     };
@@ -99,7 +112,7 @@ export default function ServiceArt({ id, theme = "dark", className }: { id: Scen
       ro.disconnect();
       io.disconnect();
     };
-  }, [id, theme]);
+  }, [id, theme, bare]);
 
   return <canvas ref={ref} aria-hidden className={cn("block", className)} />;
 }

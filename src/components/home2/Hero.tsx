@@ -12,9 +12,10 @@ import CutButton, { Chevron } from "@/components/site/CutButton";
 import Headline from "@/components/site/Headline";
 import { useBaliTime } from "@/components/site/useBaliTime";
 import ServiceArt from "@/components/site/art/ServiceArt";
+import SilkAurora from "@/components/site/art/SilkAurora";
 
 /**
- * Home hero. A fixed intro column on the left; the ten services cascade
+ * Home hero. A fixed intro column on the left; the five services cascade
  * in from the right as you scroll, the reference's "Cascade" mechanic:
  *
  *   state 0       intro visible, service 1 fills the rest, card showing
@@ -175,7 +176,8 @@ function Slide({ s, j, state, geo }: { s: Service; j: number; state: MotionValue
       <motion.div className="absolute inset-x-0 top-0 overflow-hidden" style={{ height: imgH }}>
         {/* Sized to the viewport, not the slide, so the strip widening never
             resizes the canvas: it is cropped like a cover image instead. */}
-        <ServiceArt id={s.id} className="absolute left-1/2 top-0 h-screen w-screen -translate-x-1/2" />
+        <SilkAurora seed={j} className="absolute left-1/2 top-0 h-screen w-screen -translate-x-1/2" />
+        <ServiceArt id={s.art} bare className="absolute left-1/2 top-0 h-screen w-screen -translate-x-1/2" />
       </motion.div>
       <motion.div className="pointer-events-none absolute inset-x-0 bottom-0 top-[20.5%] flex flex-col justify-between p-4" style={{ opacity: chrome }}>
         <span className="pt-2 text-[11px] font-semibold uppercase leading-tight tracking-[-0.01em] text-white/90">{tl(s.title)}</span>
@@ -219,7 +221,8 @@ function Stack() {
       <div className="flex flex-col gap-1 bg-[#111] pt-1">
         {SERVICES.map((s, i) => (
           <article key={s.id} className="relative flex min-h-[78svh] flex-col justify-end overflow-hidden">
-            <ServiceArt id={s.id} className="absolute inset-0 h-full w-full" />
+            <SilkAurora seed={i + 1} className="absolute inset-0 h-full w-full" />
+            <ServiceArt id={s.art} bare className="absolute inset-0 h-full w-full" />
             <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/20 to-black/80" />
             <div className="relative flex flex-col gap-3 p-4 pb-5 text-white">
               <span className="text-[13px] font-medium tabular-nums text-white/75">
@@ -246,7 +249,8 @@ export default function Hero() {
           <div className="grid grid-cols-2 gap-1 bg-[#111] p-1">
             {SERVICES.map((s, i) => (
               <div key={s.id} className="relative min-h-[46vh]">
-                <ServiceArt id={s.id} className="absolute inset-0 h-full w-full" />
+                <SilkAurora seed={i + 1} className="absolute inset-0 h-full w-full" />
+                <ServiceArt id={s.art} bare className="absolute inset-0 h-full w-full" />
                 <ServiceCard s={s} i={i} className="absolute inset-x-0 bottom-0 h-[150px]" />
               </div>
             ))}

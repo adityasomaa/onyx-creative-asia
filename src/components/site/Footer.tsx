@@ -13,7 +13,7 @@ import Headline from "./Headline";
 import { Chevrons } from "./Wordmark";
 import { sendLead } from "./leads";
 import { openCookieSettings } from "./Cookies";
-import Dropdown from "./Dropdown";
+import BudgetSlider from "./BudgetSlider";
 
 const SOCIALS = [
   { label: "Instagram", href: "https://www.instagram.com/onyxcreative.asia" },
@@ -54,9 +54,9 @@ function FooterForm() {
       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         <input name="name" required autoComplete="name" placeholder={tl(FOOTER.name)} aria-label={tl(FOOTER.name)} className={field} />
         <input name="email" type="email" required autoComplete="email" placeholder={tl(FOOTER.email)} aria-label={tl(FOOTER.email)} className={field} />
-        <input name="phone" autoComplete="tel" placeholder={tl(FOOTER.phone)} aria-label={tl(FOOTER.phone)} className={field} />
-        <Dropdown name="budget" placeholder={tl(FOOTER.budget)} label={tl(FOOTER.budget)} options={FOOTER.budgets.map((b) => ({ value: b.en, label: tl(b) }))} />
+        <input name="phone" autoComplete="tel" placeholder={tl(FOOTER.phone)} aria-label={tl(FOOTER.phone)} className={cn(field, "sm:col-span-2")} />
       </div>
+      <BudgetSlider tone="light" className="cut bg-paper px-3 pb-3 pt-4 [--cut:8px]" />
       <textarea
         name="message"
         required

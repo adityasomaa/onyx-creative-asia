@@ -92,12 +92,12 @@ export default function AboutPage() {
             <Reveal key={s.id} delay={(i % 5) * 0.05}>
               <Link href={`/#svc-${s.id}`} className="group block">
                 <div className="cut relative aspect-[3/4] overflow-hidden bg-paper [--cut:22px]">
-                  <ServiceArt id={s.id} className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
+                  <ServiceArt id={s.art} className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
                 </div>
                 <p className="mt-4 font-tek text-[18px] font-medium uppercase leading-[1.05] text-fg">{tl(s.title)}</p>
                 <div className="mt-3 flex items-end gap-2 border-b border-rule pb-3">
                   <span className="font-tek text-[30px] font-medium leading-none text-fg">{s.number}</span>
-                  <span className="pb-0.5 text-[9px] font-semibold uppercase leading-tight text-mute">/ 10</span>
+                  <span className="pb-0.5 text-[9px] font-semibold uppercase leading-tight text-mute">/ {String(SERVICES.length).padStart(2, "0")}</span>
                 </div>
                 <p className="mt-3 text-[11px] leading-[1.35] tracking-[-0.02em] text-fg2">{tl(s.short)}</p>
               </Link>

@@ -17,6 +17,8 @@ import {
   type Locale,
 } from "./l10n";
 
+import { DEFAULT_CURRENCY, FALLBACK_RATES, isCurrency, type CurrencyCode, type Rates } from "./currency";
+
 export { LOCALES, l, pick, translate, type L, type Locale } from "./l10n";
 
 /**
@@ -119,36 +121,37 @@ export function Tx({ v }: { v: L | string }) {
 }
 
 /* ============================================================
- * Currency preference (IDR / USD) — independent of language, kept from
- * the previous i18n module so pricing call sites keep working.
+ * Currency: which Asian currency the visitor reads amounts in (the budget
+ * slider), with the day's rupiah rates from the server. Independent of
+ * language; chosen in the nav's language menu or beside the slider, and
+ * remembered per browser.
  * ============================================================ */
 
-export type Currency = "idr" | "usd";
-
-const DEFAULT_CURRENCY: Currency = "idr";
 const CURRENCY_KEY = "onyx_currency";
 
 const CurrencyContext = createContext<{
-  currency: Currency;
-  setCurrency: (c: Currency) => void;
+  currency: CurrencyCode;
+  setCurrency: (c: CurrencyCode) => void;
+  rates: Rates;
 }>({
   currency: DEFAULT_CURRENCY,
   setCurrency: () => {},
+  rates: FALLBACK_RATES,
 });
 
-export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrencyState] = useState<Currency>(DEFAULT_CURRENCY);
+export function CurrencyProvider({ rates, children }: { rates: Rates; children: ReactNode }) {
+  const [currency, setCurrencyState] = useState<CurrencyCode>(DEFAULT_CURRENCY);
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(CURRENCY_KEY);
-      if (stored === "idr" || stored === "usd") setCurrencyState(stored);
+      const stored = localStorage.getItem(CURRENCY_KEY)?.toUpperCase();
+      if (isCurrency(stored)) setCurrencyState(stored);
     } catch {
       /* ignore */
     }
   }, []);
 
-  const setCurrency = useCallback((next: Currency) => {
+  const setCurrency = useCallback((next: CurrencyCode) => {
     setCurrencyState(next);
     try {
       localStorage.setItem(CURRENCY_KEY, next);
@@ -157,16 +160,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const value = useMemo(
-    () => ({ currency, setCurrency }),
-    [currency, setCurrency],
-  );
+  const value = useMemo(() => ({ currency, setCurrency, rates }), [currency, setCurrency, rates]);
 
-  return (
-    <CurrencyContext.Provider value={value}>
-      {children}
-    </CurrencyContext.Provider>
-  );
+  return <CurrencyContext.Provider value={value}>{children}</CurrencyContext.Provider>;
 }
 
 export function useCurrency() {

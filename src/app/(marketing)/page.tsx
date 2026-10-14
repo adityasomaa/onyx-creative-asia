@@ -9,14 +9,13 @@ import WorkIndex from "@/components/home2/WorkIndex";
 import Manifesto from "@/components/home2/Manifesto";
 import Process from "@/components/home2/Process";
 import ClientWords from "@/components/home2/ClientWords";
-import Pricing from "@/components/home2/Pricing";
 import Faq from "@/components/home2/Faq";
 import NotesTeaser from "@/components/home2/NotesTeaser";
 
 export const metadata: Metadata = {
   title: { absolute: "Onyx Creative Asia | Digital Business Development Agency in Bali, Asia" },
   description:
-    "Digital business development agency in Bali. Websites, software and mobile apps, plus social media, SEO/AEO/GEO, ads, content, photo and video, branding and analytics, from one team.",
+    "Digital business development agency in Bali. Websites and software, branding and design, ads, social media and growth analytics, from one team.",
   alternates: { canonical: "/" },
 };
 
@@ -43,7 +42,6 @@ export default function HomePage() {
       <Manifesto />
       <Process />
       <ClientWords />
-      <Pricing />
       <Faq />
       <NotesTeaser />
     </>

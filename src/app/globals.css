@@ -233,6 +233,42 @@
   border-radius: 0;
 }
 
+/* Budget slider: a thin track filled to --p in the surface accent, and a
+   square thumb with the site's cut corner. */
+.site .budget-range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+.site .budget-range--dark { --track: rgba(255, 255, 255, 0.18); }
+.site .budget-range--light { --track: #e3e3e3; }
+.site .budget-range::-webkit-slider-runnable-track {
+  height: 3px;
+  background: linear-gradient(to right, rgb(var(--accent-s)) var(--p, 0%), var(--track) var(--p, 0%));
+}
+.site .budget-range::-moz-range-track { height: 3px; background: var(--track); }
+.site .budget-range::-moz-range-progress { height: 3px; background: rgb(var(--accent-s)); }
+.site .budget-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -8.5px;
+  border: 0;
+  background: rgb(var(--accent-s));
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%);
+}
+.site .budget-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 0;
+  background: rgb(var(--accent-s));
+  clip-path: polygon(0 0, 100% 0, 100% 68%, 68% 100%, 0 100%);
+}
+.site .budget-range:focus-visible { outline: 2px solid rgb(var(--accent-s)); outline-offset: 6px; }
+
 @layer utilities {
   /* The signature clipped corner: bottom-right cut, size from --cut. */
   .cut {

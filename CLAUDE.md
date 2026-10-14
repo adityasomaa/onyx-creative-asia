@@ -55,7 +55,7 @@ ONYX CREATIVE ASIA/
 
 **Locations:** Bali, Indonesia.
 
-**Ten services, one team** (a digital business development agency): website development · software development · mobile apps · social media management · SEO/AEO/GEO · ads management · content creation · photography & videography · design & branding · growth & analytics. The list lives in `src/lib/services.ts`.
+**Five services, one team** (a digital business development agency): web & software development · branding & design · ads management · social media management · growth & analytics. The list lives in `src/lib/services.ts`. The site publishes no pricing; the contact form takes a budget on a 0–100 million rupiah slider readable in any Asian currency.
 
 **Tagline:** *Brand, performance, and AI systems for ambitious teams.*
 

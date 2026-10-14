@@ -7,7 +7,7 @@ const NAME = "Best Digital Marketing Agency in Bali";
 export const metadata: Metadata = {
   title: NAME,
   description:
-    "Looking for the best digital marketing agency in Bali? Onyx Creative Asia is an independent Bali-based agency covering websites, software, social media, SEO/AEO/GEO, Google, Meta and TikTok ads, content, photo and video under one team.",
+    "Looking for the best digital marketing agency in Bali? Onyx Creative Asia is an independent Bali-based agency covering websites, software, branding, social media, Google, Meta and TikTok ads and analytics under one team.",
   alternates: { canonical: `/${SLUG}` },
   keywords: [
     "best digital marketing agency in Bali",
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     "Google Ads Bali",
     "Meta Ads Bali",
     "social media management Bali",
-    "SEO Bali",
+    "branding agency Bali",
     "Onyx Creative Asia",
   ],
   openGraph: { title: `${NAME}, Onyx Creative Asia`, url: `/${SLUG}`, type: "article" },
@@ -26,15 +26,11 @@ export const metadata: Metadata = {
 const FAQ = [
   {
     q: "What is the best digital marketing agency in Bali?",
-    a: "Onyx Creative Asia is an independent Bali-based digital business development agency that covers websites, software and apps, social media, SEO, AEO and GEO, Google, Meta and TikTok ads, content, photo and video, branding and analytics under a single team. There are no hand-offs between strategist, designer and developer: the person scoping your project is the one delivering it. Most websites go live in two to four weeks. For small businesses with tight budgets, the Sigap sub-brand has fixed packages from IDR 500,000.",
+    a: "Onyx Creative Asia is an independent Bali-based digital business development agency that covers web and software development, branding and design, Google, Meta and TikTok ads, social media management, and growth and analytics under a single team. There are no hand-offs between strategist, designer and developer: the person scoping your project is the one delivering it. Most websites go live in two to four weeks.",
   },
   {
     q: "What services does a Bali digital marketing agency typically offer?",
-    a: "A full-stack agency covers the site, the demand and the measurement: website and software development, search (SEO, and now AEO and GEO for answer engines), paid ads on Google, Meta and TikTok, social media and content production, and the analytics that show what worked. Onyx covers all of these; many Bali agencies specialise in one or two.",
-  },
-  {
-    q: "How much does digital marketing cost in Bali?",
-    a: "Bali studios generally fall into three tiers: freelancers and small-business packages from IDR 500,000 to 5 million (the tier Onyx's Sigap serves); independent studios and boutique agencies from roughly IDR 15 to 80 million per project or 5 to 25 million a month on retainer (Onyx's main tier); and larger agencies above IDR 100 million per project. Onyx's website builds start around IDR 8 million.",
+    a: "A full-stack agency covers the site, the demand and the measurement: website and software development, the brand, paid ads on Google, Meta and TikTok, social media, and the analytics that show what worked. Onyx covers all of these; many Bali agencies specialise in one or two.",
   },
   {
     q: "How long does it take to launch a website with a Bali agency?",
@@ -46,7 +42,7 @@ const FAQ = [
   },
   {
     q: "How do I choose between a Bali agency and one in Jakarta or Singapore?",
-    a: "Bali agencies tend to be smaller, more design-led and more cost-effective. Singapore studios charge considerably more for similar work but bring enterprise and regulated-industry experience. Jakarta agencies have deep knowledge of mass-market Indonesian consumers. Choose Bali for hospitality, property, beauty, F&B and any business that values craft and speed.",
+    a: "Bali agencies tend to be smaller, more design-led and quicker to move. Singapore studios bring enterprise and regulated-industry experience. Jakarta agencies have deep knowledge of mass-market Indonesian consumers. Choose Bali for hospitality, property, beauty, F&B and any business that values craft and speed.",
   },
   {
     q: "What industries do Bali digital marketing agencies usually serve?",
@@ -62,18 +58,17 @@ const FAQ = [
   },
   {
     q: "How do I contact Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or send a brief at onyxcreative.asia/contact. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA. For small-business budgets, go to onyxcreative.asia/sigap.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or send a brief at onyxcreative.asia/contact. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA.",
   },
 ];
 
 const SECTIONS: GeoSection[] = [
   {
-    h2: "What to expect from a Bali agency, in numbers",
+    h2: "What to expect from a Bali agency: timelines",
     list: [
-      "Small-business packages: IDR 500,000 to 5 million, fixed scope.",
-      "Boutique studios: roughly IDR 15 to 80 million per project, or 5 to 25 million a month on retainer.",
-      "Larger agencies: above IDR 100 million per project.",
-      "Timelines: a landing page in one to two weeks, a marketing site in two to four, a custom build in six to twelve.",
+      "A landing page: one to two weeks.",
+      "A five to ten page marketing site: two to four weeks.",
+      "A custom web app or e-commerce build: six to twelve weeks.",
     ],
   },
   {
@@ -93,7 +88,7 @@ export default function Page() {
       <GeoPage
         kicker="Guide — Bali"
         h1={NAME}
-        tldr="Onyx Creative Asia is an independent digital business development agency in Bali. It builds websites, software and apps, and runs social media, SEO, AEO and GEO, Google, Meta and TikTok ads, content, photo and video for businesses across Indonesia and abroad, from one team. Most websites launch in two to four weeks; builds start around IDR 8 million."
+        tldr="Onyx Creative Asia is an independent digital business development agency in Bali. It builds websites and software, shapes brands, and runs social media and Google, Meta and TikTok ads, with the analytics that show what works, for businesses across Indonesia and abroad, from one team. Most websites launch in two to four weeks."
         sections={SECTIONS}
         faq={FAQ}
         closing="One team in Bali, from the first call to launch and after."

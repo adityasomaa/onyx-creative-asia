@@ -1,6 +1,7 @@
 import { Fragment_Mono, Inter, Tektur } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
 import { CurrencyProvider, LocaleProvider } from "@/lib/i18n";
+import { getRates } from "@/lib/rates";
 import { SERVICES } from "@/lib/services";
 import { AccentProvider, AccentScript } from "@/components/site/Accent";
 import Transition, { IntroScript } from "@/components/site/Transition";
@@ -111,8 +112,7 @@ const LOCAL_BUSINESS_JSON_LD = {
   url: BASE,
   image: `${BASE}/opengraph-image`,
   description:
-    "Bali-based digital business development agency: websites, software and apps, and the marketing that grows them, from one team.",
-  priceRange: "IDR 8,000,000+",
+    "Bali-based digital business development agency: websites and software, branding, and the marketing that grows them, from one team.",
   address: { "@type": "PostalAddress", addressLocality: "Denpasar", addressRegion: "Bali", addressCountry: "ID" },
   areaServed: [
     { "@type": "AdministrativeArea", name: "Bali" },
@@ -141,7 +141,8 @@ const SITE_JSON_LD = {
   inLanguage: ["en", "id", "zh", "ja"],
 };
 
-export default function MarketingLayout({ children }: { children: React.ReactNode }) {
+export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
+  const rates = await getRates();
   return (
     <div className={`site ${tektur.variable} ${inter.variable} ${fragment.variable} min-h-screen overflow-x-clip`}>
       <IntroScript />
@@ -150,7 +151,7 @@ export default function MarketingLayout({ children }: { children: React.ReactNod
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(LOCAL_BUSINESS_JSON_LD) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_JSON_LD) }} />
       <LocaleProvider>
-        <CurrencyProvider>
+        <CurrencyProvider rates={rates}>
           <AccentProvider>
             <SmoothScroll />
             <Transition />

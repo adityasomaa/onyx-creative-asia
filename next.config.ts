@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
       // services now live on the home page's Expertise section
       { source: "/services", destination: "/#expertise", permanent: true },
       { source: "/services/:path*", destination: "/#expertise", permanent: true },
-      { source: "/pricing", destination: "/#pricing", permanent: true },
+      { source: "/pricing", destination: "/", permanent: true },
       // the human-readable sitemap page is gone; the XML sitemap remains
       { source: "/sitemap", destination: "/", permanent: true },
     ];

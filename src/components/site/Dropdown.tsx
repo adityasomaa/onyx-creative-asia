@@ -20,6 +20,8 @@ export default function Dropdown({
   name,
   options,
   defaultValue = "",
+  value: controlled,
+  onChange,
   placeholder,
   label,
   tone = "light",
@@ -28,6 +30,9 @@ export default function Dropdown({
   name: string;
   options: Option[];
   defaultValue?: string;
+  /** Controlled use: the current value, with onChange receiving picks. */
+  value?: string;
+  onChange?: (value: string) => void;
   placeholder?: string;
   /** Accessible name when no visible label is tied to the trigger. */
   label?: string;
@@ -35,7 +40,12 @@ export default function Dropdown({
   className?: string;
 }) {
   const id = useId();
-  const [value, setValue] = useState(defaultValue);
+  const [own, setOwn] = useState(defaultValue);
+  const value = controlled ?? own;
+  const setValue = (v: string) => {
+    if (controlled === undefined) setOwn(v);
+    onChange?.(v);
+  };
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [up, setUp] = useState(false);
@@ -49,10 +59,12 @@ export default function Dropdown({
   useEffect(() => {
     const form = root.current?.closest("form");
     if (!form) return;
-    const onReset = () => setValue(defaultValue);
+    const onReset = () => {
+      if (controlled === undefined) setOwn(defaultValue);
+    };
     form.addEventListener("reset", onReset);
     return () => form.removeEventListener("reset", onReset);
-  }, [defaultValue]);
+  }, [defaultValue, controlled]);
 
   useEffect(() => {
     if (!open) return;

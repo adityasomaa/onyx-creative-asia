@@ -11,6 +11,7 @@ import Headline from "@/components/site/Headline";
 import CutButton from "@/components/site/CutButton";
 import { sendLead } from "@/components/site/leads";
 import Dropdown from "@/components/site/Dropdown";
+import BudgetSlider from "@/components/site/BudgetSlider";
 
 const input =
   "w-full bg-white/[0.07] px-3 py-3 font-tek text-[15px] uppercase text-white placeholder:text-white/35 outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_rgb(var(--accent-s))]";
@@ -88,7 +89,7 @@ export default function ContactPage() {
           <Dropdown tone="dark" className="max-w-[340px]" name="service" label={tl(CONTACT.q1)} defaultValue={SERVICES[0].title.en} options={SERVICES.map((s) => ({ value: s.title.en, label: tl(s.title) }))} />
         </Row>
         <Row n="02" q={tl(CONTACT.q2)} hint={tl(CONTACT.q2Hint)}>
-          <Dropdown tone="dark" className="max-w-[340px]" name="budget" label={tl(CONTACT.q2)} defaultValue={FOOTER.budgets[0].en} options={FOOTER.budgets.map((b) => ({ value: b.en, label: tl(b) }))} />
+          <BudgetSlider tone="dark" className="max-w-[640px]" />
         </Row>
         <Row n="03" q={tl(CONTACT.q3)} hint={tl(CONTACT.q3Hint)}>
           <Dropdown tone="dark" className="max-w-[340px]" name="start" label={tl(CONTACT.q3)} defaultValue={CONTACT.starts[0].en} options={CONTACT.starts.map((s) => ({ value: s.en, label: tl(s) }))} />

@@ -18,9 +18,9 @@ function Caret({ up, className }: { up?: boolean; className?: string }) {
 }
 
 /**
- * Expertise: the section header, then the ten services as an accordion.
+ * Expertise: the section header, then the five services as an accordion.
  * Closed rows are light; the open row turns dark with the number in the
- * accent, a display headline, the body, and the photo on the right.
+ * accent, a display headline, the body, and its motion graphic on the right.
  * A hash of #svc-<id> (the hero cards link to it) opens that row.
  */
 export default function Expertise() {
@@ -70,7 +70,7 @@ export default function Expertise() {
               id={`svc-${s.id}`}
               className={cn("relative scroll-mt-20 border-b border-white transition-colors duration-500", isOpen ? "bg-coal text-white" : "bg-paper text-fg")}
             >
-              {/* Photo: right third of the open row, full height (desktop). */}
+              {/* Motion graphic: right third of the open row, full height (desktop). */}
               <AnimatePresence>
                 {isOpen && (
                   <motion.div
@@ -81,7 +81,7 @@ export default function Expertise() {
                     transition={{ duration: 0.5 }}
                     className="absolute inset-y-0 right-0 hidden w-[38%] md:block"
                   >
-                    <ServiceArt id={s.id} className="absolute inset-0 h-full w-full" />
+                    <ServiceArt id={s.art} className="absolute inset-0 h-full w-full" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -147,7 +147,7 @@ export default function Expertise() {
                       </div>
                     </div>
                     <div className="relative h-[240px] md:hidden">
-                      <ServiceArt id={s.id} className="absolute inset-0 h-full w-full" />
+                      <ServiceArt id={s.art} className="absolute inset-0 h-full w-full" />
                     </div>
                   </motion.div>
                 )}

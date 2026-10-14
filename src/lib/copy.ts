@@ -15,7 +15,6 @@ export const NAV: { href: string; label: L; meta: L }[] = [
   { href: "/", label: l("Home", "Beranda", "首页", "ホーム"), meta: l("Bali, Indonesia", "Bali, Indonesia", "印尼 · 巴厘岛", "インドネシア・バリ") },
   { href: "/#process", label: l("Process", "Proses", "流程", "プロセス"), meta: l("2–4 weeks", "2–4 minggu", "2–4 周", "2〜4週間") },
   { href: "/projects", label: l("Projects", "Proyek", "项目", "プロジェクト"), meta: l("08", "08", "08", "08") },
-  { href: "/#pricing", label: l("Pricing", "Harga", "价格", "料金"), meta: l("From IDR 8M", "Mulai Rp 8 jt", "800 万印尼盾起", "800万ルピアから") },
   { href: "/about", label: l("About", "Tentang", "关于", "私たちについて"), meta: l("One team", "Satu tim", "一支团队", "ひとつのチーム") },
   { href: "/notes", label: l("Notes", "Catatan", "笔记", "ノート"), meta: l("03", "03", "03", "03") },
   { href: "/contact", label: l("Contact", "Kontak", "联系", "お問い合わせ"), meta: l("1 day reply", "Balas 1 hari", "1 天内回复", "1日以内に返信") },
@@ -82,10 +81,10 @@ export const HERO = {
     "*ビジネス*が*伸びる*しくみを、オンラインで。",
   ),
   subtitle: l(
-    "Websites, software, marketing and content, made by one team from the first call to launch, and kept running after.",
-    "Website, software, marketing, dan konten, dikerjakan satu tim dari panggilan pertama sampai peluncuran, lalu tetap dijalankan sesudahnya.",
-    "网站、软件、营销和内容，由同一支团队从第一通电话做到上线，上线之后也继续由我们运营。",
-    "ウェブサイト、ソフトウェア、マーケティング、コンテンツ。最初の通話から公開まで一つのチームで手がけ、公開後も運用します。",
+    "Websites, software, brands and campaigns, made by one team from the first call to launch, and kept running after.",
+    "Website, software, brand, dan kampanye, dikerjakan satu tim dari panggilan pertama sampai peluncuran, lalu tetap dijalankan sesudahnya.",
+    "网站、软件、品牌和广告，由同一支团队从第一通电话做到上线，上线之后也继续由我们运营。",
+    "ウェブサイト、ソフトウェア、ブランド、広告。最初の通話から公開まで一つのチームで手がけ、公開後も運用します。",
   ),
   reminder: l("First step — a 30 min call", "Langkah pertama — call 30 menit", "第一步 —— 30 分钟通话", "最初の一歩 — 30分の通話"),
   cta: l("Start a project", "Mulai proyek", "开始一个项目", "プロジェクトを始める"),
@@ -130,10 +129,10 @@ export const EXPERTISE = {
   section: l("Expertise", "Keahlian", "专长", "専門領域"),
   question: l("What do we actually do?", "Sebenarnya apa yang kami kerjakan?", "我们到底做什么？", "実際に何をしているのか？"),
   headline: l(
-    "*Websites*, *software*, *marketing*, *content*. Run as one practice, not ten vendors.",
-    "*Website*, *software*, *marketing*, *konten*. Dijalankan sebagai satu praktik, bukan sepuluh vendor.",
-    "*网站*、*软件*、*营销*、*内容*。作为一个整体来做，而不是十家供应商。",
-    "*ウェブ*、*ソフト*、*マーケ*、*コンテンツ*。十社ではなく、ひとつの実践として。",
+    "*Websites*, *software*, *brands*, *campaigns*. Run as one practice, not five vendors.",
+    "*Website*, *software*, *brand*, *kampanye*. Dijalankan sebagai satu praktik, bukan lima vendor.",
+    "*网站*、*软件*、*品牌*、*广告*。作为一个整体来做，而不是五家供应商。",
+    "*ウェブ*、*ソフト*、*ブランド*、*広告*。五社ではなく、ひとつの実践として。",
   ),
   subtitle: l(
     "A business arrives here with a goal and leaves with the system that meets it, planned, built and run by the same people.",
@@ -369,84 +368,6 @@ export const WORDS = {
   start: l("Get started", "Mulai sekarang", "开始吧", "はじめる"),
 };
 
-/* ───────────────────────── Home: pricing ───────────────────────── */
-
-export const PRICING = {
-  section: l("Pricing", "Harga", "价格", "料金"),
-  question: l("What does it cost?", "Berapa biayanya?", "要花多少钱？", "いくらかかるのか？"),
-  headline: l(
-    "*One* *scope*. *One* *price*. No surprise invoices.",
-    "*Satu* *cakupan*. *Satu* *harga*. Tanpa tagihan kejutan.",
-    "*一个范围*，*一个价格*。没有意外账单。",
-    "*ひとつの範囲*、*ひとつの価格*。予想外の請求なし。",
-  ),
-  subtitle: l(
-    "You get a written scope and a fixed price before we start. Ongoing work is billed monthly and can be paused.",
-    "Anda mendapat cakupan tertulis dan harga tetap sebelum kami mulai. Pekerjaan berjalan ditagih bulanan dan bisa dijeda.",
-    "开工前，你会拿到书面范围和固定价格。持续性的工作按月计费，可以暂停。",
-    "着手前に書面の範囲と固定価格をお渡しします。継続業務は月額で、一時停止も可能です。",
-  ),
-  metaA: l("Billing", "Penagihan", "计费", "請求"),
-  metaAValue: l("Per project, or monthly", "Per proyek, atau bulanan", "按项目，或按月", "プロジェクト単位、または月額"),
-  metaB: l("Commitment", "Komitmen", "合约", "契約"),
-  metaBValue: l("None. Pause anytime", "Tidak ada. Jeda kapan saja", "无，可随时暂停", "なし。いつでも停止可"),
-  plans: [
-    {
-      name: l("Build", "Build", "搭建", "ビルド"),
-      price: l("IDR 8M", "Rp 8 jt", "800 万印尼盾", "800万ルピア"),
-      prefix: l("From", "Mulai", "起价", "から"),
-      per: l("/ project", "/ proyek", "/ 项目", "/ 件"),
-      blurb: l(
-        "A website or app built once, handed over, and yours to keep.",
-        "Website atau aplikasi yang dibangun sekali, diserahkan, dan jadi milik Anda.",
-        "一次做好的网站或应用，交到你手上，归你所有。",
-        "一度作って引き渡し、そのままあなたのものになるサイトやアプリ。",
-      ),
-      cta: l("Start a build", "Mulai build", "开始搭建", "ビルドを始める"),
-      dark: false,
-    },
-    {
-      name: l("Grow", "Grow", "增长", "グロース"),
-      price: l("Custom", "Custom", "按需报价", "個別見積"),
-      prefix: l("", "", "", ""),
-      per: l("/ month", "/ bulan", "/ 月", "/ 月"),
-      blurb: l(
-        "The site plus the marketing, content and reporting that grow it, every month.",
-        "Situsnya plus marketing, konten, dan laporan yang menumbuhkannya, setiap bulan.",
-        "网站，加上每个月推动它增长的营销、内容和报告。",
-        "サイトに加えて、それを毎月伸ばすマーケティング、コンテンツ、レポート。",
-      ),
-      cta: l("Start growing", "Mulai tumbuh", "开始增长", "グロースを始める"),
-      dark: true,
-    },
-  ],
-  rows: [
-    { label: l("Strategy and scope", "Strategi dan cakupan", "策略与范围", "戦略と範囲"), a: l("Included", "Termasuk", "包含", "含む"), b: l("Included", "Termasuk", "包含", "含む") },
-    { label: l("Design and build", "Desain dan pengembangan", "设计与开发", "デザインと実装"), a: l("Included", "Termasuk", "包含", "含む"), b: l("Included", "Termasuk", "包含", "含む") },
-    { label: l("SEO, AEO and GEO setup", "Setup SEO, AEO, dan GEO", "SEO、AEO、GEO 基础设置", "SEO・AEO・GEO の初期設定"), a: l("Included", "Termasuk", "包含", "含む"), b: l("Ongoing", "Berkelanjutan", "持续优化", "継続"), aOk: true, bOk: true },
-    { label: l("Social media", "Media sosial", "社交媒体", "SNS"), a: l("—", "—", "—", "—"), b: l("Included", "Termasuk", "包含", "含む"), aOk: false, bOk: true },
-    { label: l("Ads management", "Manajemen iklan", "广告投放", "広告運用"), a: l("—", "—", "—", "—"), b: l("Included", "Termasuk", "包含", "含む"), aOk: false, bOk: true },
-    { label: l("Content and shoots", "Konten dan pemotretan", "内容与拍摄", "コンテンツと撮影"), a: l("On request", "Sesuai permintaan", "按需", "ご要望に応じて"), b: l("Included", "Termasuk", "包含", "含む"), aOk: true, bOk: true },
-    { label: l("Monthly report", "Laporan bulanan", "月度报告", "月次レポート"), a: l("—", "—", "—", "—"), b: l("Included", "Termasuk", "包含", "含む"), aOk: false, bOk: true },
-    { label: l("Maintenance", "Pemeliharaan", "维护", "保守"), a: l("First month", "Bulan pertama", "首月", "初月"), b: l("Included", "Termasuk", "包含", "含む"), aOk: true, bOk: true },
-  ],
-  footnote: l(
-    "Prices in IDR, excluding tax. Software and apps are quoted after a brief.",
-    "Harga dalam Rupiah, belum termasuk pajak. Software dan aplikasi dihitung setelah brief.",
-    "价格以印尼盾计，不含税。软件和应用需看过需求后报价。",
-    "価格はルピア建て・税別。ソフトウェアとアプリはご相談後にお見積もりします。",
-  ),
-  question2: l("Have a question?", "Ada pertanyaan?", "有问题吗？", "ご質問は？"),
-  howTitle: l("How it works", "Cara kerjanya", "怎么运作", "進め方"),
-  howSub: l("Four steps. Nothing to sign until the scope is right.", "Empat langkah. Tidak ada yang ditandatangani sampai cakupannya pas.", "四步。范围对了才需要签字。", "4つのステップ。範囲が固まるまで、署名は不要です。"),
-  how: [
-    { title: l("Brief", "Brief", "需求", "ブリーフ"), body: l("Tell us the goal in a few lines, or on a call.", "Ceritakan tujuannya dalam beberapa baris, atau lewat call.", "用几句话、或一通电话告诉我们目标。", "目標を数行で、または通話で。") },
-    { title: l("Scope", "Cakupan", "范围", "範囲"), body: l("A written scope and a fixed price, within days.", "Cakupan tertulis dan harga tetap, dalam hitungan hari.", "几天内给出书面范围和固定价格。", "数日以内に、書面の範囲と固定価格を。") },
-    { title: l("Build", "Bangun", "开发", "制作"), body: l("Weekly check-ins on a live preview link.", "Check-in mingguan lewat link preview langsung.", "每周同步，随时看预览链接。", "公開プレビューで毎週の確認。") },
-    { title: l("Grow", "Tumbuh", "增长", "成長"), body: l("Launch, then keep improving what moves the numbers.", "Rilis, lalu terus perbaiki yang menggerakkan angka.", "上线，然后持续改进能推动数字的部分。", "公開し、数字を動かす部分を磨き続ける。") },
-  ],
-};
-
 /* ───────────────────────── Home: FAQ ───────────────────────── */
 
 export const FAQ = {
@@ -471,19 +392,10 @@ export const FAQ = {
     {
       q: l("What does Onyx Creative Asia do?", "Apa yang dikerjakan Onyx Creative Asia?", "Onyx Creative Asia 是做什么的？", "Onyx Creative Asia は何をしている会社？"),
       a: l(
-        "We are a digital business development agency in Bali. We build websites, software and mobile apps, and run the marketing that grows them: social media, SEO, AEO and GEO, ads, content, photo and video, design and branding, and the analytics that tell you what is working. One team covers all of it.",
-        "Kami agensi pengembangan bisnis digital di Bali. Kami membangun website, software, dan aplikasi mobile, lalu menjalankan marketing yang menumbuhkannya: media sosial, SEO, AEO dan GEO, iklan, konten, foto dan video, desain dan branding, serta analitik yang menunjukkan apa yang berhasil. Satu tim mengerjakan semuanya.",
-        "我们是一家位于巴厘岛的数字化业务发展机构。我们做网站、软件和移动应用，也负责让它们增长的营销：社交媒体、SEO、AEO 与 GEO、广告、内容、摄影摄像、设计与品牌，以及告诉你什么有效的数据分析。一支团队全包。",
-        "バリを拠点とするデジタル・ビジネス開発エージェンシーです。ウェブサイト、ソフトウェア、モバイルアプリを作り、それを伸ばすマーケティングも担います。SNS、SEO・AEO・GEO、広告、コンテンツ、写真・映像、デザイン・ブランディング、そして何が効いているかを示す分析まで。ひとつのチームですべてを。",
-      ),
-    },
-    {
-      q: l("How much does a website cost?", "Berapa biaya sebuah website?", "做一个网站要多少钱？", "ウェブサイトの費用は？"),
-      a: l(
-        "As a guide: a template build with copy and photos supplied runs roughly IDR 8 to 20 million, a custom marketing site of five to ten pages roughly IDR 25 to 70 million, and anything with software behind it, such as a booking flow, starts around IDR 60 million. You get a fixed price in writing before we start.",
-        "Sebagai gambaran: build dari template dengan teks dan foto dari Anda sekitar Rp 8 sampai 20 juta, situs marketing custom lima sampai sepuluh halaman sekitar Rp 25 sampai 70 juta, dan yang ada software di baliknya, misalnya alur booking, mulai sekitar Rp 60 juta. Anda mendapat harga tetap tertulis sebelum kami mulai.",
-        "大致参考：用模板搭建、文字和照片由你提供，约 800 万到 2000 万印尼盾；五到十页的定制营销网站约 2500 万到 7000 万；背后带软件的，比如预订流程，约 6000 万起。开工前你会拿到书面的固定价格。",
-        "目安として、原稿と写真をご用意いただくテンプレート制作でおよそ800万〜2,000万ルピア、5〜10ページのカスタムサイトでおよそ2,500万〜7,000万ルピア、予約フローのようなソフトウェアを伴うものは6,000万ルピア前後からです。着手前に書面で固定価格をお出しします。",
+        "We are a digital business development agency in Bali. We build websites and software, shape the brand around them, and run what grows them: ads, social media, and the analytics that tell you what is working. One team covers all of it.",
+        "Kami agensi pengembangan bisnis digital di Bali. Kami membangun website dan software, membentuk brand di sekitarnya, lalu menjalankan yang menumbuhkannya: iklan, media sosial, dan analitik yang menunjukkan apa yang berhasil. Satu tim mengerjakan semuanya.",
+        "我们是一家位于巴厘岛的数字化业务发展机构。我们做网站和软件，围绕它们塑造品牌，也负责让它们增长的部分：广告、社交媒体，以及告诉你什么有效的数据分析。一支团队全包。",
+        "バリを拠点とするデジタル・ビジネス開発エージェンシーです。ウェブサイトとソフトウェアを作り、その周りのブランドを形にし、伸ばす部分も担います。広告、SNS、そして何が効いているかを示す分析まで。ひとつのチームですべてを。",
       ),
     },
     {
@@ -557,7 +469,6 @@ export const FOOTER = {
   name: l("Your name", "Nama Anda", "你的名字", "お名前"),
   email: l("Your email", "Email Anda", "你的邮箱", "メールアドレス"),
   phone: l("WhatsApp (optional)", "WhatsApp (opsional)", "WhatsApp（选填）", "WhatsApp（任意）"),
-  budget: l("Your budget", "Budget Anda", "你的预算", "ご予算"),
   message: l("Your message", "Pesan Anda", "你的留言", "メッセージ"),
   submit: l("Submit", "Kirim", "提交", "送信"),
   sending: l("Sending", "Mengirim", "发送中", "送信中"),
@@ -577,17 +488,21 @@ export const FOOTER = {
   rights: l("All rights reserved.", "Hak cipta dilindungi.", "保留所有权利。", "All rights reserved."),
   termsFull: l("Terms & conditions", "Syarat & ketentuan", "条款与条件", "利用規約"),
   cookies: l("Cookie settings", "Pengaturan cookie", "Cookie 设置", "Cookie 設定"),
-  budgets: [
-    l("Under IDR 10M", "Di bawah Rp 10 jt", "1000 万印尼盾以下", "1,000万ルピア未満"),
-    l("IDR 10–25M", "Rp 10–25 jt", "1000–2500 万印尼盾", "1,000万〜2,500万ルピア"),
-    l("IDR 25–70M", "Rp 25–70 jt", "2500–7000 万印尼盾", "2,500万〜7,000万ルピア"),
-    l("IDR 70M+", "Di atas Rp 70 jt", "7000 万印尼盾以上", "7,000万ルピア以上"),
-    l("Monthly retainer", "Retainer bulanan", "按月合作", "月額契約"),
-    l("Not sure yet", "Belum tahu", "还不确定", "まだ未定"),
-  ],
 };
 
 /* ───────────────────────── Contact page ───────────────────────── */
+
+export const BUDGET = {
+  unset: l("Drag to set a budget", "Geser untuk mengatur budget", "拖动来设定预算", "ドラッグして予算を設定"),
+  more: l("or more", "atau lebih", "或以上", "以上"),
+  currency: l("Currency", "Mata uang", "货币", "通貨"),
+  note: l(
+    "Converted at today's rate, as a guide.",
+    "Dikonversi dengan kurs hari ini, sebagai gambaran.",
+    "按今日汇率换算，仅供参考。",
+    "本日のレートで換算した目安です。",
+  ),
+};
 
 export const CONTACT = {
   question: l("What happens after I hit send?", "Apa yang terjadi setelah saya kirim?", "我点了发送之后会怎样？", "送信したあと、どうなる？"),
@@ -726,10 +641,10 @@ export const ABOUT = {
   ),
   crewTag: l("Who's behind it?", "Siapa di baliknya?", "背后是谁？", "誰がやっているのか？"),
   crewHeadline: l(
-    "*Ten* *disciplines*, one table.",
-    "*Sepuluh* *disiplin*, satu meja.",
-    "*十个专业*，一张桌子。",
-    "*十の専門*、ひとつのテーブル。",
+    "*Five* *disciplines*, one table.",
+    "*Lima* *disiplin*, satu meja.",
+    "*五个专业*，一张桌子。",
+    "*五つの専門*、ひとつのテーブル。",
   ),
   crewBody: l(
     "Strategy, engineering, marketing and craft sit together, so the plan and the work never drift apart.",

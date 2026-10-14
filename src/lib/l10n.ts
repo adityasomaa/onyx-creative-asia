@@ -16,6 +16,9 @@ export const LOCALES: ReadonlyArray<{ code: Locale; label: string; name: string 
   { code: "ja", label: "JP", name: "日本語" },
 ];
 
+/** BCP 47 tag per locale, for Intl formatting. */
+export const LOCALE_TAG: Record<Locale, string> = { en: "en", id: "id-ID", zh: "zh-CN", ja: "ja-JP" };
+
 export function isLocale(v: unknown): v is Locale {
   return v === "en" || v === "id" || v === "zh" || v === "ja";
 }

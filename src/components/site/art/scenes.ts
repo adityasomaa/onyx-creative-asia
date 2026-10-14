@@ -1,5 +1,5 @@
 /**
- * Motion graphics for the ten services (and the RADcruiters automation),
+ * Motion graphics for the five services (and the RADcruiters automation),
  * drawn on a 2D canvas in the same thin-line, dotted vocabulary as DotArt.
  *
  * Every scene is a pure function of size and time, so it loops forever,
@@ -10,7 +10,7 @@
  */
 
 export type Ink = (alpha: number) => string;
-export type Pal = { fg: Ink; ac: Ink; ink: Ink; bg: string };
+export type Pal = { fg: Ink; ac: Ink; ink: Ink; bg: string; clear?: boolean };
 export type Scene = (c: CanvasRenderingContext2D, w: number, h: number, t: number, p: Pal) => void;
 
 const TAU = Math.PI * 2;
@@ -32,6 +32,11 @@ function frame(w: number, h: number) {
 }
 
 function base(c: CanvasRenderingContext2D, w: number, h: number, p: Pal) {
+  // Over another background (the hero's aurora): no fill, no dot grid.
+  if (p.clear) {
+    c.clearRect(0, 0, w, h);
+    return;
+  }
   const { U, cx, cy } = frame(w, h);
   c.fillStyle = p.bg;
   c.fillRect(0, 0, w, h);
@@ -56,20 +61,6 @@ function dot(c: CanvasRenderingContext2D, x: number, y: number, r: number, color
   c.arc(x, y, r, 0, TAU);
   c.fillStyle = color;
   c.fill();
-}
-
-/** Point at fraction e along a polyline. */
-function along(pts: [number, number][], e: number): [number, number] {
-  const lens = pts.slice(1).map((q, i) => Math.hypot(q[0] - pts[i][0], q[1] - pts[i][1]));
-  let d = e * lens.reduce((a, b) => a + b, 0);
-  for (let i = 0; i < lens.length; i++) {
-    if (d <= lens[i] || i === lens.length - 1) {
-      const f = lens[i] ? clamp(d / lens[i]) : 0;
-      return [lerp(pts[i][0], pts[i + 1][0], f), lerp(pts[i][1], pts[i + 1][1], f)];
-    }
-    d -= lens[i];
-  }
-  return pts[pts.length - 1];
 }
 
 function polyline(c: CanvasRenderingContext2D, pts: [number, number][]) {
@@ -189,149 +180,6 @@ const website: Scene = (c, w, h, t, p) => {
   c.globalAlpha = 1;
 };
 
-/* ───────────────────────── Software development ────────────────────────
-   A service graph: packets run the edges and light the node they reach. */
-const software: Scene = (c, w, h, t, p) => {
-  base(c, w, h, p);
-  const { U, cx, cy, lw } = frame(w, h);
-  const N: [number, number][] = [[-3, 0], [-1, -1.5], [-1, 1.5], [1, -1.5], [1, 0], [1, 1.5], [3, 0]];
-  const E: [number, number][] = [[0, 1], [0, 2], [1, 3], [1, 4], [2, 4], [2, 5], [3, 6], [4, 6], [5, 6]];
-  const nw = 1.4 * U, nh = 0.66 * U;
-  const pos = (i: number): [number, number] => [cx + N[i][0] * U * 1.12, cy + N[i][1] * U * 1.05];
-  const path = (a: number, b: number): [number, number][] => {
-    const [ax, ay] = pos(a), [bx, by] = pos(b);
-    const x1 = ax + nw / 2, x2 = bx - nw / 2, mx = (x1 + x2) / 2;
-    return [[x1, ay], [mx, ay], [mx, by], [x2, by]];
-  };
-  c.lineWidth = lw;
-  c.strokeStyle = p.fg(0.28);
-  for (const [a, b] of E) {
-    polyline(c, path(a, b));
-    c.stroke();
-  }
-  const flash = N.map(() => 0);
-  E.forEach(([a, b], k) => {
-    const P = 2.2 + rnd(k) * 0.8;
-    const ph = ((t + rnd(k + 9) * P) % P) / P;
-    if (ph < 0.7) {
-      const [x, y] = along(path(a, b), eio(ph / 0.7));
-      dot(c, x, y, 0.07 * U, p.ac(0.95));
-    } else flash[b] = Math.max(flash[b], 1 - seg(ph, 0.7, 1));
-  });
-  N.forEach((_, i) => {
-    const [x, y] = pos(i);
-    const f = i === 0 ? 0.35 + 0.35 * Math.sin(t * 2) ** 2 : flash[i];
-    c.fillStyle = p.bg;
-    rr(c, x - nw / 2, y - nh / 2, nw, nh, 0.1 * U);
-    c.fill();
-    if (f > 0) {
-      c.fillStyle = p.ac(0.9 * f);
-      c.fill();
-    }
-    c.strokeStyle = p.fg(0.8);
-    c.stroke();
-    const tc = f > 0.5 ? p.ink(0.85) : p.fg(0.75);
-    bar(c, x - nw / 2 + 0.16 * U, y - 0.12 * U, nw * 0.55, 0.08 * U, tc);
-    bar(c, x - nw / 2 + 0.16 * U, y + 0.06 * U, nw * 0.35, 0.06 * U, f > 0.5 ? p.ink(0.5) : p.fg(0.3));
-  });
-};
-
-/* ───────────────────────── Mobile apps ─────────────────────────────────
-   A phone with a scrolling feed, a tab bar whose indicator hops, and a
-   notification that drops in. Two UI chips float beside it. */
-const mobile: Scene = (c, w, h, t, p) => {
-  base(c, w, h, p);
-  const { U, cx, cy, lw } = frame(w, h);
-  c.lineWidth = lw;
-  const chips: [number, number, number, number][] = [
-    [cx - 3.5 * U, cy - 1.3 * U + Math.sin(t * 1.1) * 0.12 * U, 1.7 * U, 0.6 * U],
-    [cx + 1.9 * U, cy + 0.9 * U + Math.cos(t * 0.9) * 0.12 * U, 1.8 * U, 0.6 * U],
-  ];
-  chips.forEach(([x, y, cw, ch], i) => {
-    c.fillStyle = p.bg;
-    rr(c, x, y, cw, ch, ch / 2);
-    c.fill();
-    c.strokeStyle = p.fg(0.45);
-    c.stroke();
-    if (i === 0) {
-      const on = Math.sin(t * 0.8) > 0;
-      c.fillStyle = on ? p.ac(0.9) : p.fg(0.15);
-      rr(c, x + cw - 0.75 * U, y + 0.15 * U, 0.55 * U, 0.3 * U, 0.15 * U);
-      c.fill();
-      dot(c, x + cw - (on ? 0.35 : 0.6) * U, y + 0.3 * U, 0.11 * U, on ? p.ink(0.9) : p.fg(0.7));
-      bar(c, x + 0.25 * U, y + 0.26 * U, 0.6 * U, 0.08 * U, p.fg(0.6));
-    } else {
-      dot(c, x + 0.32 * U, y + 0.3 * U, 0.14 * U, p.ac(0.9));
-      bar(c, x + 0.6 * U, y + 0.2 * U, 0.9 * U, 0.08 * U, p.fg(0.7));
-      bar(c, x + 0.6 * U, y + 0.34 * U, 0.6 * U, 0.06 * U, p.fg(0.3));
-    }
-  });
-
-  const PW = 3.1 * U, PH = 6.3 * U, px = cx - PW / 2, py = cy - PH / 2, r = 0.42 * U;
-  c.fillStyle = p.bg;
-  rr(c, px, py, PW, PH, r);
-  c.fill();
-  c.lineWidth = lw * 1.3;
-  c.strokeStyle = p.fg(0.9);
-  c.stroke();
-  c.lineWidth = lw;
-  const sx = px + 0.14 * U, sy = py + 0.14 * U, sw = PW - 0.28 * U, sh = PH - 0.28 * U;
-  c.save();
-  rr(c, sx, sy, sw, sh, r * 0.75);
-  c.clip();
-  const ch = 0.95 * U, gap = 0.22 * U, step = ch + gap, listTop = sy + 1.05 * U, speed = 0.5 * U;
-  const off = (t * speed) % step, first = Math.floor((t * speed) / step);
-  for (let i = -1; i < 8; i++) {
-    const y = listTop + i * step - off;
-    const acc = (first + i) % 5 === 2;
-    rr(c, sx + 0.22 * U, y, sw - 0.44 * U, ch, 0.12 * U);
-    if (acc) {
-      c.fillStyle = p.ac(0.92);
-      c.fill();
-    } else {
-      c.strokeStyle = p.fg(0.4);
-      c.stroke();
-    }
-    dot(c, sx + 0.62 * U, y + ch / 2, 0.2 * U, acc ? p.ink(0.85) : p.fg(0.25));
-    bar(c, sx + 0.98 * U, y + ch * 0.36, sw * 0.45, 0.08 * U, acc ? p.ink(0.85) : p.fg(0.7));
-    bar(c, sx + 0.98 * U, y + ch * 0.56, sw * 0.28, 0.06 * U, acc ? p.ink(0.55) : p.fg(0.3));
-  }
-  c.fillStyle = p.bg;
-  c.fillRect(sx, sy, sw, 0.95 * U);
-  bar(c, sx + 0.25 * U, sy + 0.62 * U, 1.1 * U, 0.14 * U, p.fg(0.9));
-  dot(c, sx + sw - 0.4 * U, sy + 0.68 * U, 0.12 * U, p.fg(0.35));
-  const tb = 0.8 * U;
-  c.fillStyle = p.bg;
-  c.fillRect(sx, sy + sh - tb, sw, tb);
-  c.strokeStyle = p.fg(0.2);
-  c.beginPath();
-  c.moveTo(sx, sy + sh - tb);
-  c.lineTo(sx + sw, sy + sh - tb);
-  c.stroke();
-  const tabX = (i: number) => sx + sw * (0.14 + i * 0.24);
-  for (let i = 0; i < 4; i++) dot(c, tabX(i), sy + sh - tb * 0.55, 0.09 * U, p.fg(0.55));
-  const k = t / 2, cur = Math.floor(k) % 4, prev = (cur + 3) % 4, mv = eio(clamp((k % 1) * 4));
-  const ax = lerp(tabX(prev), tabX(cur), cur === 0 ? 1 : mv);
-  bar(c, ax - 0.2 * U, sy + sh - tb * 0.22, 0.4 * U, 0.07 * U, p.ac(0.95));
-  const nq = (t % 5) / 5;
-  const drop = eout(seg(nq, 0, 0.08)) * (1 - eio(seg(nq, 0.45, 0.55)));
-  if (drop > 0) {
-    const ny = sy - 0.9 * U + drop * 1.2 * U;
-    c.fillStyle = p.bg;
-    rr(c, sx + 0.18 * U, ny, sw - 0.36 * U, 0.72 * U, 0.18 * U);
-    c.fill();
-    c.strokeStyle = p.ac(0.95);
-    c.stroke();
-    dot(c, sx + 0.55 * U, ny + 0.36 * U, 0.14 * U, p.ac(0.95));
-    bar(c, sx + 0.85 * U, ny + 0.24 * U, sw * 0.42, 0.08 * U, p.fg(0.8));
-    bar(c, sx + 0.85 * U, ny + 0.4 * U, sw * 0.3, 0.06 * U, p.fg(0.35));
-  }
-  c.restore();
-  c.fillStyle = p.fg(0.85);
-  rr(c, cx - 0.45 * U, sy + 0.12 * U, 0.9 * U, 0.24 * U, 0.12 * U);
-  c.fill();
-};
-
 /* ───────────────────────── Social media management ─────────────────────
    A 3×3 grid of posts arrives in a wave, likes float up off the corner,
    and a story ring spins above it. */
@@ -412,78 +260,6 @@ const social: Scene = (c, w, h, t, p) => {
   bar(c, cx2 + 0.6 * U, cy2 + 0.24 * U, (0.5 + 0.6 * ((t * 0.25) % 1)) * U, 0.08 * U, p.fg(0.8));
 };
 
-/* ───────────────────────── SEO, AEO & GEO ──────────────────────────────
-   A query types itself, one result climbs to the top, and an answer card
-   (the AI answer that names it) pops out of the corner. */
-const seo: Scene = (c, w, h, t, p) => {
-  base(c, w, h, p);
-  const { U, cx, cy, lw } = frame(w, h);
-  c.lineWidth = lw;
-  const q = (t % 8) / 8;
-  const fade = 1 - seg(q, 0.92, 1);
-  const SW = 7.2 * U, sx = cx - SW / 2, sy = cy - 2.75 * U, sh = 0.75 * U;
-  c.strokeStyle = p.fg(0.85);
-  rr(c, sx, sy, SW, sh, sh / 2);
-  c.stroke();
-  c.beginPath();
-  c.arc(sx + 0.42 * U, sy + sh / 2 - 0.03 * U, 0.15 * U, 0, TAU);
-  c.moveTo(sx + 0.53 * U, sy + sh / 2 + 0.08 * U);
-  c.lineTo(sx + 0.66 * U, sy + sh / 2 + 0.21 * U);
-  c.stroke();
-  const ty = eio(seg(q, 0.02, 0.16));
-  bar(c, sx + 0.9 * U, sy + sh / 2 - 0.05 * U, 2.8 * U * ty, 0.1 * U, p.fg(0.85));
-  if (Math.floor(t * 2) % 2 === 0) bar(c, sx + 0.95 * U + 2.8 * U * ty, sy + sh * 0.28, 0.04 * U, sh * 0.44, p.ac(0.95));
-
-  const steps = [0.22, 0.36, 0.5, 0.64];
-  const accentPos = 4 - steps.reduce((a, s) => a + eio(seg(q, s, s + 0.08)), 0);
-  const rowY = (k: number) => cy - 1.55 * U + k * 0.85 * U, rh = 0.64 * U;
-  c.globalAlpha = fade;
-  for (let i = 0; i < 4; i++) {
-    const y = rowY(i + clamp(i + 1 - accentPos));
-    c.strokeStyle = p.fg(0.3);
-    rr(c, sx, y, SW, rh, 0.1 * U);
-    c.stroke();
-    c.strokeStyle = p.fg(0.4);
-    c.strokeRect(sx + 0.2 * U, y + 0.17 * U, 0.3 * U, 0.3 * U);
-    bar(c, sx + 0.7 * U, y + 0.18 * U, (2.6 - rnd(i) * 0.8) * U, 0.1 * U, p.fg(0.7));
-    bar(c, sx + 0.7 * U, y + 0.38 * U, 1.5 * U, 0.06 * U, p.fg(0.28));
-  }
-  const ay = rowY(accentPos);
-  c.fillStyle = p.ac(0.95);
-  rr(c, sx, ay, SW, rh, 0.1 * U);
-  c.fill();
-  c.fillStyle = p.ink(0.85);
-  c.fillRect(sx + 0.2 * U, ay + 0.17 * U, 0.3 * U, 0.3 * U);
-  bar(c, sx + 0.7 * U, ay + 0.18 * U, 3.0 * U, 0.1 * U, p.ink(0.85));
-  bar(c, sx + 0.7 * U, ay + 0.38 * U, 1.6 * U, 0.06 * U, p.ink(0.55));
-  const rank = eout(seg(q, 0.62, 0.7));
-  bar(c, sx + SW - 0.75 * U, ay + 0.24 * U, 0.45 * U * rank, 0.16 * U, p.ink(0.85));
-
-  const pop = eout(seg(q, 0.74, 0.8));
-  if (pop > 0) {
-    const bw = 2.7 * U * pop, bh = 0.8 * U * pop, bx = sx + SW - 2.7 * U, by = sy - 1.05 * U;
-    c.fillStyle = p.bg;
-    rr(c, bx, by, bw, bh, 0.14 * U);
-    c.fill();
-    c.strokeStyle = p.ac(0.95);
-    c.stroke();
-    if (pop > 0.9) {
-      const k = bx + 0.38 * U, m = by + bh / 2, s = 0.2 * U * (1 + 0.15 * Math.sin(t * 6));
-      c.beginPath();
-      c.moveTo(k, m - s);
-      c.quadraticCurveTo(k, m, k + s, m);
-      c.quadraticCurveTo(k, m, k, m + s);
-      c.quadraticCurveTo(k, m, k - s, m);
-      c.quadraticCurveTo(k, m, k, m - s);
-      c.fillStyle = p.ac(0.95);
-      c.fill();
-      bar(c, bx + 0.7 * U, by + 0.26 * U, 1.7 * U, 0.08 * U, p.fg(0.8));
-      bar(c, bx + 0.7 * U, by + 0.44 * U, 1.1 * U, 0.06 * U, p.fg(0.35));
-    }
-  }
-  c.globalAlpha = 1;
-};
-
 /* ───────────────────────── Ads management ──────────────────────────────
    A target: the audience drifts in orbit, the qualified dots spiral into
    the centre and pulse it, a dashed ring sweeps round. */
@@ -554,162 +330,6 @@ const ads: Scene = (c, w, h, t, p) => {
   c.lineTo(kx + 0.59 * U, ky + 0.42 * U);
   c.stroke();
   bar(c, kx + 0.8 * U, ky + 0.26 * U, (0.5 + 0.45 * ((t * 0.2) % 1)) * U, 0.09 * U, p.fg(0.85));
-};
-
-/* ───────────────────────── Content creation ────────────────────────────
-   A page writes itself line by line behind a caret; an image card drops in
-   halfway; then the page lifts away for the next one. */
-const content: Scene = (c, w, h, t, p) => {
-  base(c, w, h, p);
-  const { U, cx, cy, lw } = frame(w, h);
-  c.lineWidth = lw;
-  const q = (t % 8) / 8;
-  const enter = eout(seg(q, 0, 0.06)), exit = eio(seg(q, 0.9, 1));
-  const PW = 4.6 * U, PH = 6.0 * U, px = cx - PW / 2 - 0.9 * U, py = cy - PH / 2 + (1 - enter) * 0.6 * U - exit * 0.6 * U;
-  c.globalAlpha = enter * (1 - exit);
-  const f = 0.5 * U;
-  c.fillStyle = p.bg;
-  c.beginPath();
-  c.moveTo(px, py);
-  c.lineTo(px + PW - f, py);
-  c.lineTo(px + PW, py + f);
-  c.lineTo(px + PW, py + PH);
-  c.lineTo(px, py + PH);
-  c.closePath();
-  c.fill();
-  c.strokeStyle = p.fg(0.85);
-  c.stroke();
-  c.strokeStyle = p.fg(0.45);
-  c.beginPath();
-  c.moveTo(px + PW - f, py);
-  c.lineTo(px + PW - f, py + f);
-  c.lineTo(px + PW, py + f);
-  c.stroke();
-
-  const lx = px + 0.45 * U;
-  bar(c, lx, py + 0.6 * U, 2.8 * U * eio(seg(q, 0.06, 0.16)), 0.28 * U, p.fg(0.92));
-  const L = Array.from({ length: 11 }, (_, k) => (k % 5 === 4 ? 1.6 : 3.7 - rnd(k) * 0.7) * U);
-  const total = L.reduce((a, b) => a + b, 0);
-  const writ = seg(q, 0.17, 0.8) * total;
-  let acc = 0, caret: [number, number] | null = null;
-  L.forEach((len, k) => {
-    const y = py + 1.25 * U + k * 0.38 * U + (k > 4 ? 0.3 * U : 0);
-    const d = clamp(writ - acc, 0, len);
-    bar(c, lx, y, d, 0.09 * U, p.fg(k % 5 === 0 ? 0.6 : 0.4));
-    if (d > 0 && d < len) caret = [lx + d, y];
-    acc += len;
-  });
-  if (!caret && writ >= total) caret = [lx + L[10], py + 1.25 * U + 10 * 0.38 * U + 0.3 * U];
-  if (caret && (writ < total || Math.floor(t * 2.4) % 2 === 0)) bar(c, caret[0] + 0.05 * U, caret[1] - 0.1 * U, 0.05 * U, 0.3 * U, p.ac(0.95));
-
-  const ie = eout(seg(q, 0.45, 0.53));
-  if (ie > 0) {
-    const iw = 2.3 * U, ih = 1.75 * U, ix = px + PW + 0.35 * U, iy = cy - 1.7 * U + (1 - ie) * 0.4 * U;
-    c.globalAlpha = enter * (1 - exit) * ie;
-    c.fillStyle = p.bg;
-    c.fillRect(ix, iy, iw, ih);
-    c.strokeStyle = p.fg(0.7);
-    c.strokeRect(ix, iy, iw, ih);
-    mountain(c, ix + 0.2 * U, iy + 0.25 * U, iw - 0.4 * U, ih - 0.45 * U, U, p.fg(0.45));
-    bar(c, ix, iy + ih + 0.2 * U, 1.6 * U, 0.08 * U, p.fg(0.5));
-    c.fillStyle = p.ac(0.95);
-    c.fillRect(ix + iw - 0.5 * U, iy - 0.18 * U, 0.68 * U, 0.36 * U);
-  }
-  c.globalAlpha = 1;
-};
-
-/* ───────────────────────── Photography & videography ───────────────────
-   An aperture breathes open and shut inside a viewfinder; REC blinks and
-   a focus box hunts, then locks. */
-const photo: Scene = (c, w, h, t, p) => {
-  base(c, w, h, p);
-  const { U, cx, cy, lw } = frame(w, h);
-  c.lineWidth = lw;
-  const R = 2.35 * U;
-  const tri = Math.abs(((t / 5) % 1) * 2 - 1);
-  const open = eio(tri);
-  const r = lerp(0.35 * U, 1.9 * U, open);
-  const n = 7, rot = open * 0.7 + t * 0.05;
-  const v = Array.from({ length: n }, (_, i) => {
-    const a = rot + (i * TAU) / n;
-    return [cx + r * Math.cos(a), cy + r * Math.sin(a)] as [number, number];
-  });
-  c.beginPath();
-  c.arc(cx, cy, R, 0, TAU);
-  c.moveTo(v[0][0], v[0][1]);
-  v.slice(1).forEach(([x, y]) => c.lineTo(x, y));
-  c.closePath();
-  c.fillStyle = p.fg(0.07);
-  c.fill("evenodd");
-  c.strokeStyle = p.fg(0.55);
-  v.forEach(([x, y], i) => {
-    const [nx, ny] = v[(i + 1) % n];
-    const dl = Math.hypot(nx - x, ny - y) || 1, dx = (nx - x) / dl, dy = (ny - y) / dl;
-    const ox = x - cx, oy = y - cy, b = ox * dx + oy * dy;
-    const s = -b + Math.sqrt(Math.max(0, b * b - (ox * ox + oy * oy - R * R)));
-    c.beginPath();
-    c.moveTo(x, y);
-    c.lineTo(x + dx * s, y + dy * s);
-    c.stroke();
-  });
-  c.lineWidth = lw * 1.4;
-  c.strokeStyle = p.fg(0.85);
-  c.beginPath();
-  c.arc(cx, cy, R, 0, TAU);
-  c.stroke();
-  c.lineWidth = lw;
-  c.strokeStyle = p.fg(0.22);
-  c.beginPath();
-  c.arc(cx, cy, R * 1.13, 0, TAU);
-  c.stroke();
-
-  const vx = 3.7 * U, vy = 2.75 * U, b = 0.5 * U;
-  c.strokeStyle = p.fg(0.8);
-  c.beginPath();
-  for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
-    const x = cx + sx * vx, y = cy + sy * vy;
-    c.moveTo(x - sx * b, y);
-    c.lineTo(x, y);
-    c.lineTo(x, y - sy * b);
-  }
-  c.stroke();
-  if (Math.floor(t * 1.4) % 2 === 0) dot(c, cx - vx + 0.4 * U, cy - vy + 0.4 * U, 0.1 * U, p.ac(0.95));
-  bar(c, cx - vx + 0.62 * U, cy - vy + 0.35 * U, 0.55 * U, 0.1 * U, p.fg(0.75));
-  const fr = Math.floor(t * 24) % 24;
-  for (let i = 0; i < 4; i++) bar(c, cx + vx - 2.0 * U + i * 0.42 * U, cy - vy + 0.35 * U, i === 3 ? 0.06 * U + (fr / 24) * 0.26 * U : 0.32 * U, 0.1 * U, p.fg(0.6));
-
-  const k = t / 2.5, i0 = Math.floor(k), f = eio(clamp((k % 1) * 2.5));
-  const fx = (i: number) => cx + (rnd(i) - 0.5) * 2.2 * U, fy = (i: number) => cy + (rnd(i + 30) - 0.5) * 1.6 * U;
-  const x = lerp(fx(i0 - 1), fx(i0), f), y = lerp(fy(i0 - 1), fy(i0), f), s = 0.42 * U * (1 + (1 - f) * 0.4);
-  c.strokeStyle = f >= 1 ? p.ac(0.95) : p.fg(0.8);
-  c.beginPath();
-  for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
-    const ex = x + sx * s, ey = y + sy * s;
-    c.moveTo(ex - sx * s * 0.45, ey);
-    c.lineTo(ex, ey);
-    c.lineTo(ex, ey - sy * s * 0.45);
-  }
-  c.stroke();
-
-  const ly = cy + vy - 0.45 * U;
-  c.strokeStyle = p.fg(0.35);
-  c.beginPath();
-  for (let i = 0; i <= 8; i++) {
-    const x2 = cx - 2 * U + i * 0.5 * U;
-    c.moveTo(x2, ly);
-    c.lineTo(x2, ly - (i % 4 === 0 ? 0.22 : 0.12) * U);
-  }
-  c.moveTo(cx - 2 * U, ly);
-  c.lineTo(cx + 2 * U, ly);
-  c.stroke();
-  const ix = cx - 2 * U + open * 4 * U;
-  c.beginPath();
-  c.moveTo(ix, ly + 0.08 * U);
-  c.lineTo(ix - 0.12 * U, ly + 0.28 * U);
-  c.lineTo(ix + 0.12 * U, ly + 0.28 * U);
-  c.closePath();
-  c.fillStyle = p.ac(0.95);
-  c.fill();
 };
 
 /* ───────────────────────── Design & branding ───────────────────────────
@@ -937,13 +557,8 @@ const automation: Scene = (c, w, h, t, p) => {
 
 export const SCENES = {
   "website-development": website,
-  "software-development": software,
-  "mobile-apps": mobile,
   "social-media": social,
-  "seo-aeo-geo": seo,
   "ads-management": ads,
-  "content-creation": content,
-  "photo-video": photo,
   "design-branding": design,
   "growth-analytics": growth,
   automation,
