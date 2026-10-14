@@ -7,6 +7,7 @@ import { FAQ } from "@/lib/copy";
 import { getWaLink } from "@/lib/wa-number";
 import { cn } from "@/lib/cn";
 import SectionHeader from "@/components/site/SectionHeader";
+import { InfinityMark } from "@/components/site/Wordmark";
 
 /** FAQ: header with a contact card at the side, then accordion rows. */
 export default function Faq() {
@@ -21,8 +22,9 @@ export default function Faq() {
         subtitle={FAQ.subtitle}
         aside={
           <div className="flex flex-col gap-2">
-            <span className="grid h-[88px] w-[70px] place-items-center bg-night">
-              <span className="font-tek text-[22px] font-semibold text-accent">OC</span>
+            {/* The studio's avatar: the icon tile, square. */}
+            <span className="grid h-[72px] w-[72px] place-items-center bg-night text-accent">
+              <InfinityMark className="h-auto w-[76%]" />
             </span>
             <span className="mt-2 text-[13px] font-semibold uppercase text-fg2">{tl(FAQ.studio)}</span>
             <span className="text-[12px] font-semibold uppercase text-mute">{tl(FAQ.studioRole)}</span>

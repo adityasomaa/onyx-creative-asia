@@ -13,6 +13,7 @@ import BudgetSlider from "@/components/site/BudgetSlider";
 import Wordmark, { InfinityMark } from "@/components/site/Wordmark";
 import { Marked } from "@/components/site/Headline";
 import { LAST_PATH_KEY } from "@/components/site/Chrome";
+import LangMenu from "@/components/site/LangMenu";
 import { postLead, withExtras, type LeadPayload } from "@/components/site/leads";
 import { useReduce } from "@/components/site/useReduce";
 
@@ -407,18 +408,21 @@ export default function EnquirePage({ initial }: { initial: Kind | null }) {
         <Link href="/" aria-label={tl(UI.home)} className="shrink-0 text-white">
           <Wordmark className="text-[15px] max-[359px]:[&>span:last-child]:hidden md:text-[18px]" />
         </Link>
-        <p className="truncate text-[11px] font-semibold uppercase text-white/50" aria-live="polite">
+        <p className="hidden truncate text-[11px] font-semibold uppercase text-white/50 md:block" aria-live="polite">
           <span className="text-white/30">[</span>{" "}
           {sent ? "✓" : kindLabel ? `${kindLabel} · ${pad(at + 1)} / ${pad(flow.length)}` : pad(1)}{" "}
           <span className="text-white/30">]</span>
         </p>
-        <Link href={back} className="group flex shrink-0 items-center gap-2 font-tek text-[14px] font-medium uppercase text-white/70 transition-colors hover:text-white">
+        <div className="flex shrink-0 items-center gap-4 md:gap-6">
+          <LangMenu />
+          <Link href={back} className="group flex shrink-0 items-center gap-2 font-tek text-[14px] font-medium uppercase text-white/70 transition-colors hover:text-white">
           <span className="hidden sm:inline">{tl(ENQUIRE.close)}</span>
           <svg viewBox="0 0 16 16" className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" aria-hidden>
             <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" strokeWidth="1.8" />
           </svg>
           <span className="sr-only sm:hidden">{tl(ENQUIRE.close)}</span>
-        </Link>
+          </Link>
+        </div>
       </header>
 
       <div className="h-[3px] w-full shrink-0 bg-white/10" aria-hidden>
@@ -445,7 +449,7 @@ export default function EnquirePage({ initial }: { initial: Kind | null }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -40 }}
                 transition={{ duration: reduce ? 0 : 0.6, ease: EASE }}
-                className="pointer-events-none absolute -bottom-[0.18em] right-4 hidden select-none font-tek text-[34vh] font-extrabold leading-none tracking-[-0.06em] text-white/[0.035] md:block md:right-8"
+                className="pointer-events-none absolute -bottom-[0.18em] right-4 hidden select-none font-tek text-[34vh] font-semibold leading-none tracking-[-0.06em] text-white/[0.035] md:block md:right-8"
               >
                 {pad(at + 1)}
               </motion.span>
@@ -607,8 +611,9 @@ export default function EnquirePage({ initial }: { initial: Kind | null }) {
               <Chevron className="rotate-180" />
               {tl(ENQUIRE.back)}
             </button>
-            <p className="hidden text-[11px] font-semibold uppercase text-white/35 md:block">
-              {tl(["problem", "proposal", "letter", "note"].includes(id) ? ENQUIRE.textHint : ENQUIRE.enterHint)}
+            <p className="text-[11px] font-semibold uppercase text-white/35">
+              <span className="md:hidden">{kind ? `${pad(at + 1)} / ${pad(flow.length)}` : pad(1)}</span>
+              <span className="hidden md:inline">{tl(["problem", "proposal", "letter", "note"].includes(id) ? ENQUIRE.textHint : ENQUIRE.enterHint)}</span>
             </p>
             <div className="w-[170px] md:w-[240px]">
               <CutButton

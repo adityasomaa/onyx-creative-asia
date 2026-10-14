@@ -6,10 +6,10 @@ import { cn } from "@/lib/cn";
 
 /**
  * The Onyx logo: an infinity mark drawn in Tektur's geometry (45° chamfers,
- * the O's octagonal counter, a heavy stroke) followed by "ONYX CREATIVE" in
- * Tektur ExtraBold. Size it with a text-size class; the mark scales with
- * the cap height. `animate` draws the mark, then builds the letters in
- * (used by the loader).
+ * the O's octagonal counter) followed by "ONYX CREATIVE" in Tektur
+ * SemiBold. Size it with a text-size class: the mark's stroke matches the
+ * SemiBold stem (0.14em) and its outer edge is exactly cap height.
+ * `animate` draws the mark, then builds the letters in (used by the loader).
  *
  * The mark is one centre-line path: two chamfered loops meeting on 45°
  * diagonals at the middle, stroked with a miter join so the crossing stays
@@ -17,14 +17,14 @@ import { cn } from "@/lib/cn";
  */
 
 export const MARK = {
-  viewBox: "-160 -72 320 144",
+  viewBox: "-154 -66 308 132",
   d: "M0 0L50 -50L112 -50L138 -24L138 24L112 50L50 50ZM0 0L-50 -50L-112 -50L-138 -24L-138 24L-112 50L-50 50Z",
-  stroke: 40,
+  stroke: 28,
 };
 
 export function InfinityMark({ className, draw = false }: { className?: string; draw?: boolean }) {
   return (
-    <svg viewBox={MARK.viewBox} className={cn("h-[0.78em] w-auto shrink-0", className)} aria-hidden>
+    <svg viewBox={MARK.viewBox} className={cn("h-[0.71em] w-auto shrink-0", className)} aria-hidden>
       {draw ? (
         <motion.path
           d={MARK.d}
@@ -60,7 +60,7 @@ export default function Wordmark({ className, animate = false }: { className?: s
   const reduce = useReduce();
   const play = animate && !reduce;
   return (
-    <span className={cn("inline-flex items-center gap-[0.34em] font-tek font-extrabold uppercase leading-none tracking-[-0.02em]", className)}>
+    <span className={cn("inline-flex items-center gap-[0.34em] font-tek font-semibold uppercase leading-none tracking-[-0.02em]", className)}>
       <span className="sr-only">Onyx Creative Asia</span>
       <InfinityMark draw={play} />
       <span aria-hidden className="inline-flex">

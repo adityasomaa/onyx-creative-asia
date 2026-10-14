@@ -169,8 +169,8 @@ export default function Footer() {
       {/* Giant wordmark */}
       <div className="mx-4 border-t border-rule md:mx-8" />
       <div className="overflow-hidden px-4 py-4 md:px-8">
-        <p aria-hidden className="flex items-center gap-[0.3em] whitespace-nowrap font-tek font-extrabold uppercase leading-[0.82] tracking-[-0.03em] text-rule text-[clamp(30px,9.2vw,150px)]">
-          <InfinityMark className="h-[0.74em]" />
+        <p aria-hidden className="flex items-center gap-[0.3em] whitespace-nowrap font-tek font-semibold uppercase leading-[0.82] tracking-[-0.03em] text-rule text-[clamp(30px,9.2vw,150px)]">
+          <InfinityMark />
           <span>Onyx Creative</span>
         </p>
       </div>

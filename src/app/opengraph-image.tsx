@@ -36,9 +36,9 @@ export default function Image() {
           justifyContent: "center",
         }}
       >
-        {/* 800x360 infinity mark, ~38% of the canvas width so it keeps air around it */}
+        {/* 800x343 infinity mark, ~38% of the canvas width so it keeps air around it */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt="" width={460} height={207} />
+        <img src={src} alt="" width={460} height={197} />
       </div>
     ),
     { ...size },

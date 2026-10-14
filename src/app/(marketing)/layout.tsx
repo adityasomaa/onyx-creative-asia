@@ -22,7 +22,7 @@ import Chrome from "@/components/site/Chrome";
  * Fragment Mono for the odd technical label — the reference's stack.
  */
 
-const tektur = Tektur({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-tektur", display: "swap" });
+const tektur = Tektur({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-tektur", display: "swap" });
 const inter = Inter({ subsets: ["latin"], axes: ["opsz"], variable: "--font-inter", display: "swap" });
 const fragment = Fragment_Mono({ subsets: ["latin"], weight: "400", variable: "--font-fragment", display: "swap" });
 

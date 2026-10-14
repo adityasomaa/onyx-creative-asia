@@ -29,8 +29,8 @@ function Studio() {
         <motion.div className="absolute inset-[-12%_0]" style={{ y }}>
           <Image src="/images/about-studio.jpg" alt="" fill sizes="100vw" className="object-cover" />
         </motion.div>
-        <p aria-hidden className="absolute inset-x-0 bottom-[-0.12em] flex items-center gap-[0.3em] whitespace-nowrap px-4 font-tek font-extrabold uppercase leading-none tracking-[-0.03em] text-white/80 mix-blend-overlay text-[clamp(30px,9vw,150px)]">
-          <InfinityMark className="h-[0.74em]" />
+        <p aria-hidden className="absolute inset-x-0 bottom-[-0.12em] flex items-center gap-[0.3em] whitespace-nowrap px-4 font-tek font-semibold uppercase leading-none tracking-[-0.03em] text-white/80 mix-blend-overlay text-[clamp(30px,9vw,150px)]">
+          <InfinityMark />
           <span>Onyx Creative</span>
         </p>
       </div>
