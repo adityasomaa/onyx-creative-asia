@@ -119,7 +119,7 @@ export const SHOWREEL = {
     "我们够不够好？你自己判断。",
     "腕前はどうか。ご自身で判断を。",
   ),
-  cta: l("Watch reel", "Tonton reel", "观看集锦", "リールを見る"),
+  cta: l("View works", "Lihat karya", "查看作品", "作品を見る"),
   ctaMeta: l("Real client work. No stock footage.", "Karya klien sungguhan. Tanpa stok video.", "真实的客户作品，没有素材库画面。", "実際のクライアントワーク。ストック映像なし。"),
   close: l("Close showreel", "Tutup showreel", "关闭集锦", "ショーリールを閉じる"),
 };

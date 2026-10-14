@@ -13,6 +13,7 @@ import Headline from "./Headline";
 import { Chevrons } from "./Wordmark";
 import { sendLead } from "./leads";
 import { openCookieSettings } from "./Cookies";
+import Dropdown from "./Dropdown";
 
 const SOCIALS = [
   { label: "Instagram", href: "https://www.instagram.com/onyxcreative.asia" },
@@ -54,21 +55,7 @@ function FooterForm() {
         <input name="name" required autoComplete="name" placeholder={tl(FOOTER.name)} aria-label={tl(FOOTER.name)} className={field} />
         <input name="email" type="email" required autoComplete="email" placeholder={tl(FOOTER.email)} aria-label={tl(FOOTER.email)} className={field} />
         <input name="phone" autoComplete="tel" placeholder={tl(FOOTER.phone)} aria-label={tl(FOOTER.phone)} className={field} />
-        <div className="relative">
-          <select name="budget" defaultValue="" aria-label={tl(FOOTER.budget)} className={cn(field, "appearance-none pr-10 invalid:text-mute")} required={false}>
-            <option value="" disabled>
-              {tl(FOOTER.budget)}
-            </option>
-            {FOOTER.budgets.map((b) => (
-              <option key={b.en} value={b.en}>
-                {tl(b)}
-              </option>
-            ))}
-          </select>
-          <svg viewBox="0 0 12 7" className="pointer-events-none absolute right-4 top-1/2 h-2 w-3 -translate-y-1/2 text-fg2" aria-hidden>
-            <path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-          </svg>
-        </div>
+        <Dropdown name="budget" placeholder={tl(FOOTER.budget)} label={tl(FOOTER.budget)} options={FOOTER.budgets.map((b) => ({ value: b.en, label: tl(b) }))} />
       </div>
       <textarea
         name="message"

@@ -10,6 +10,7 @@ import { cn } from "@/lib/cn";
 import Headline from "@/components/site/Headline";
 import CutButton from "@/components/site/CutButton";
 import { sendLead } from "@/components/site/leads";
+import Dropdown from "@/components/site/Dropdown";
 
 const input =
   "w-full bg-white/[0.07] px-3 py-3 font-tek text-[15px] uppercase text-white placeholder:text-white/35 outline-none transition-shadow focus:shadow-[inset_0_0_0_1.5px_rgb(var(--accent-s))]";
@@ -25,23 +26,6 @@ function Row({ n, q, hint, children }: { n: string; q: string; hint: string; chi
         <p className="mt-2 max-w-[320px] text-[11px] font-semibold uppercase leading-[1.3] text-white/45">{hint}</p>
       </div>
       <div>{children}</div>
-    </div>
-  );
-}
-
-function Select({ name, options, required }: { name: string; options: { value: string; label: string }[]; required?: boolean }) {
-  return (
-    <div className="relative max-w-[340px]">
-      <select name={name} required={required} defaultValue={options[0]?.value} className={cn(input, "appearance-none pr-10")}>
-        {options.map((o) => (
-          <option key={o.value} value={o.value} className="bg-coal">
-            {o.label}
-          </option>
-        ))}
-      </select>
-      <svg viewBox="0 0 12 7" className="pointer-events-none absolute right-4 top-1/2 h-2 w-3 -translate-y-1/2 text-white/60" aria-hidden>
-        <path d="M1 1l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.4" />
-      </svg>
     </div>
   );
 }
@@ -101,13 +85,13 @@ export default function ContactPage() {
           [ {tl(CONTACT.formTag)} ]
         </p>
         <Row n="01" q={tl(CONTACT.q1)} hint={tl(CONTACT.q1Hint)}>
-          <Select name="service" options={SERVICES.map((s) => ({ value: s.title.en, label: tl(s.title) }))} />
+          <Dropdown tone="dark" className="max-w-[340px]" name="service" label={tl(CONTACT.q1)} defaultValue={SERVICES[0].title.en} options={SERVICES.map((s) => ({ value: s.title.en, label: tl(s.title) }))} />
         </Row>
         <Row n="02" q={tl(CONTACT.q2)} hint={tl(CONTACT.q2Hint)}>
-          <Select name="budget" options={FOOTER.budgets.map((b) => ({ value: b.en, label: tl(b) }))} />
+          <Dropdown tone="dark" className="max-w-[340px]" name="budget" label={tl(CONTACT.q2)} defaultValue={FOOTER.budgets[0].en} options={FOOTER.budgets.map((b) => ({ value: b.en, label: tl(b) }))} />
         </Row>
         <Row n="03" q={tl(CONTACT.q3)} hint={tl(CONTACT.q3Hint)}>
-          <Select name="start" options={CONTACT.starts.map((s) => ({ value: s.en, label: tl(s) }))} />
+          <Dropdown tone="dark" className="max-w-[340px]" name="start" label={tl(CONTACT.q3)} defaultValue={CONTACT.starts[0].en} options={CONTACT.starts.map((s) => ({ value: s.en, label: tl(s) }))} />
         </Row>
         <Row n="04" q={tl(CONTACT.q4)} hint={tl(CONTACT.q4Hint)}>
           <input name="name" required autoComplete="name" placeholder={tl(FOOTER.name)} aria-label={tl(CONTACT.q4)} className={input} />
