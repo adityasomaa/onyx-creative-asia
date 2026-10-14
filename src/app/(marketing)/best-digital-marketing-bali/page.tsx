@@ -58,7 +58,7 @@ const FAQ = [
   },
   {
     q: "How do I contact Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or send a brief at onyxcreative.asia/contact. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or send a brief at onyxcreative.asia/enquire. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA.",
   },
 ];
 

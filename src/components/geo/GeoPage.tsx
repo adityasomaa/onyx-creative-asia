@@ -118,7 +118,7 @@ export default function GeoPage({
       <section className="bg-accent px-4 py-16 text-accent-ink md:px-8 md:py-20">
         <p className="max-w-[20ch] font-tek text-[30px] font-medium uppercase leading-[1.08] md:text-[48px]">{closing}</p>
         <div className="mt-8 max-w-[420px]">
-          <CutButton href="/contact" label="Start a project" tone="dark" />
+          <CutButton href="/enquire?type=project" label="Start a project" tone="dark" />
         </div>
       </section>
     </article>

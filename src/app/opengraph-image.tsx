@@ -7,7 +7,7 @@ export const contentType = "image/png";
 export const alt = "Onyx Creative Asia";
 
 /**
- * Default social preview: the mark on ink, nothing else.
+ * Default social preview: the infinity mark on ink, nothing else.
  *
  * This is what WhatsApp, and every other link unfurler, shows when the
  * site is shared. It used to be a typographic card with headline, footer
@@ -20,7 +20,7 @@ export const alt = "Onyx Creative Asia";
  */
 export default function Image() {
   const mark = fs.readFileSync(
-    path.join(process.cwd(), "public/onyx-logo-white.png"),
+    path.join(process.cwd(), "public/onyx-mark-white.png"),
   );
   const src = `data:image/png;base64,${mark.toString("base64")}`;
 
@@ -36,9 +36,9 @@ export default function Image() {
           justifyContent: "center",
         }}
       >
-        {/* 850x512 source, ~36% of the canvas width so it keeps air around it */}
+        {/* 800x360 infinity mark, ~38% of the canvas width so it keeps air around it */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt="" width={430} height={259} />
+        <img src={src} alt="" width={460} height={207} />
       </div>
     ),
     { ...size },

@@ -95,7 +95,7 @@ export default function ClientWords() {
       <div className="mt-16 columns-1 gap-3 px-4 sm:columns-2 md:px-8 lg:columns-3 [&>*]:mb-3">
         <div className="flex break-inside-avoid flex-col gap-5 border border-white/10 p-5">
           <p className="text-[18px] font-medium tracking-[-0.03em]">{tl(WORDS.ask)}</p>
-          <CutButton href="/contact" label={WORDS.start} size="md" />
+          <CutButton href="/enquire?type=project" label={WORDS.start} size="md" />
         </div>
         {items.map((it, i) =>
           it.kind === "q" ? (

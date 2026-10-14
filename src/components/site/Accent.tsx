@@ -16,6 +16,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 export const ORIGINAL_ACCENT = "#FFFFFF";
 export const SWATCHES = ["#FFFFFF", "#52FF9D", "#8AEDFF", "#F7F990", "#F5A4D9", "#AAAEF2"] as const;
 const KEY = "onyx_accent";
+/** Fired on window whenever the accent variables change. */
+export const ACCENT_EVENT = "onyx:accent";
 
 function hexToTriplet(hex: string): string | null {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
@@ -48,6 +50,9 @@ function apply(hex: string) {
   root.style.setProperty("--accent-ink", ink);
   root.style.setProperty("--accent-light", lum > PALE ? NIGHT : t);
   root.style.setProperty("--accent-light-ink", lum > PALE ? WHITE : ink);
+  // Canvas pieces (aurora, motion graphics) read the variables in JS; tell
+  // them now rather than leaving them to notice on their next poll.
+  window.dispatchEvent(new Event(ACCENT_EVENT));
 }
 
 /**

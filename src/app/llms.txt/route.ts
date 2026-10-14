@@ -68,7 +68,7 @@ ${qa}
 ## Contact
 
 - Website: ${BASE}
-- Contact form: ${BASE}/contact
+- Enquiry form (projects, partnerships, careers, general): ${BASE}/enquire
 - Email: hello@onyxcreative.asia
 - WhatsApp: +62 895 4133 72822 (Mon–Fri, 08:00–22:00 WITA, UTC+8)
 - Instagram: https://www.instagram.com/onyxcreative.asia

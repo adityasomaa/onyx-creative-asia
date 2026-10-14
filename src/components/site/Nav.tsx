@@ -54,7 +54,26 @@ export default function Nav() {
   const [lang, setLang] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const ref = useRef<HTMLElement>(null);
+  const row = useRef<HTMLDivElement>(null);
   const dot = useRef<HTMLButtonElement>(null);
+  const [need, setNeed] = useState(0);
+
+  // The bar is never narrower than its own row (logo + controls), whatever
+  // the locale or currency label: measured, so the width still animates.
+  useEffect(() => {
+    const el = row.current;
+    if (!el) return;
+    const measure = () => {
+      const cs = getComputedStyle(el);
+      const [a, b] = Array.from(el.children) as HTMLElement[];
+      const w = (n: HTMLElement) => n.getBoundingClientRect().width;
+      setNeed(Math.ceil(w(a) + w(b) + parseFloat(cs.columnGap) + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)));
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    Array.from(el.children).forEach((c) => ro.observe(c));
+    return () => ro.disconnect();
+  }, []);
 
   // Wide (aligned with the home hero's intro column) only at the very top of home.
   useEffect(() => {
@@ -134,15 +153,21 @@ export default function Nav() {
         className={cn(
           "relative bg-night text-white transition-[width] duration-700 ease-[cubic-bezier(0.65,0,0.35,1)]",
           "w-full",
-          menu ? "md:w-[min(576px,100vw)]" : wide ? "md:w-[40vw] md:min-w-[440px]" : "md:w-[390px]",
+          menu
+            ? "md:w-[min(max(576px,var(--nav-need,460px)),100vw)]"
+            : wide
+              ? "md:w-[max(40vw,440px,var(--nav-need,460px))]"
+              : "md:w-[max(390px,var(--nav-need,460px))]",
         )}
+        style={need ? ({ "--nav-need": `${need}px` } as React.CSSProperties) : undefined}
       >
-        <div className="flex h-[70px] items-center justify-between gap-4 px-5 md:px-8">
-          <Link href="/" aria-label={tl(UI.home)} className="text-white">
-            <Wordmark className="text-[19px] md:text-[21px]" />
+        <div ref={row} className="flex h-[70px] items-center justify-between gap-3 px-4 md:gap-4 md:px-8">
+          <Link href="/" aria-label={tl(UI.home)} className="shrink-0 text-white">
+            {/* Under 360px (old SE, folded phones) the mark stands alone. */}
+            <Wordmark className="text-[17px] max-[359px]:[&>span:last-child]:hidden md:text-[21px]" />
           </Link>
 
-          <div className="flex items-center gap-5 md:gap-6">
+          <div className="flex shrink-0 items-center gap-3 md:gap-6">
             <button
               ref={dot}
               type="button"
@@ -168,7 +193,7 @@ export default function Nav() {
                   setLang((v) => !v);
                   setPalette(false);
                 }}
-                className="group flex h-8 items-center gap-1 font-tek text-[15px] font-medium uppercase text-white/85 hover:text-white"
+                className="group flex h-8 items-center gap-1 font-tek text-[14px] font-medium uppercase text-white/85 hover:text-white md:text-[15px]"
               >
                 <Roll text={`${current.label} · ${currency}`} />
                 <svg viewBox="0 0 10 6" className={cn("h-1.5 w-2.5 transition-transform", lang && "rotate-180")} aria-hidden>

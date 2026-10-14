@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { cn } from "@/lib/cn";
 import { SCENES, type Pal, type SceneId } from "./scenes";
+import { ACCENT_EVENT } from "../Accent";
 
 /**
  * A looping motion graphic (see scenes.ts) on a canvas that fills its own
@@ -64,7 +65,6 @@ export default function ServiceArt({
     let w = 0;
     let h = 0;
     let pal = palette(theme, bare);
-    let frames = 0;
     const t0 = performance.now();
 
     const alloc = () => {
@@ -80,7 +80,6 @@ export default function ServiceArt({
 
     const draw = (now: number) => {
       if (!visible || !w || !h) return;
-      if (frames++ % 30 === 0) pal = palette(theme, bare);
       scene(ctx, w, h, reduce ? 2.6 + offset : (now - t0) / 1000 + offset, pal);
       if (!reduce) raf = requestAnimationFrame(draw);
     };
@@ -105,12 +104,19 @@ export default function ServiceArt({
         cv.height = 1;
       }
     });
+    // Recolour on the accent event, the same frame the CSS changes.
+    const onAccent = () => {
+      pal = palette(theme, bare);
+      if (reduce && visible) start();
+    };
+    window.addEventListener(ACCENT_EVENT, onAccent);
     ro.observe(cv);
     io.observe(cv);
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
+      window.removeEventListener(ACCENT_EVENT, onAccent);
     };
   }, [id, theme, bare]);
 

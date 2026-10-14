@@ -120,7 +120,7 @@ function Intro({ className }: { className?: string }) {
       <div className="mt-8 flex flex-col gap-8 lg:mt-6">
         <div>
           <p className="pb-4 text-[12px] font-semibold uppercase tracking-[-0.02em] text-fg2">{tl(HERO.reminder)}</p>
-          <CutButton href="/contact" label={HERO.cta} meta={HERO.ctaMeta} />
+          <CutButton href="/enquire?type=project" label={HERO.cta} meta={HERO.ctaMeta} />
         </div>
         <HoursWidget />
       </div>

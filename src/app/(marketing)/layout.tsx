@@ -9,18 +9,20 @@ import Nav from "@/components/site/Nav";
 import Footer from "@/components/site/Footer";
 import Cookies from "@/components/site/Cookies";
 import ContactFab from "@/components/site/ContactFab";
+import Chrome from "@/components/site/Chrome";
 
 /**
  * Marketing site layout. Wraps every public route under (marketing):
- * /, /projects, /notes, /about, /contact, the legal pages and the
- * answer-engine landings. /agents has its own layout and none of this
+ * /, /projects, /notes, /about, /enquire, the legal pages and the
+ * answer-engine landings. /enquire is a full-screen canvas: Chrome
+ * leaves the nav, footer and contact badge out there. /agents has its own layout and none of this
  * chrome reaches it.
  *
  * Type: Tektur for display, Inter at its display optical size for text,
  * Fragment Mono for the odd technical label — the reference's stack.
  */
 
-const tektur = Tektur({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-tektur", display: "swap" });
+const tektur = Tektur({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-tektur", display: "swap" });
 const inter = Inter({ subsets: ["latin"], axes: ["opsz"], variable: "--font-inter", display: "swap" });
 const fragment = Fragment_Mono({ subsets: ["latin"], weight: "400", variable: "--font-fragment", display: "swap" });
 
@@ -36,7 +38,7 @@ const ORG_JSON_LD = {
   name: "Onyx Creative Asia",
   alternateName: ["Onyx", "Onyx Creative"],
   url: BASE,
-  logo: { "@type": "ImageObject", url: `${BASE}/icon`, width: 512, height: 512 },
+  logo: { "@type": "ImageObject", url: `${BASE}/onyx-mark-512.png`, width: 512, height: 512 },
   image: `${BASE}/opengraph-image`,
   description:
     "Digital business development agency in Bali, Indonesia. Website, software and mobile app development, plus social media, SEO/AEO/GEO, ads, content, photo and video, design and branding, and growth analytics, run by one team for businesses across Asia and Europe.",
@@ -155,11 +157,18 @@ export default async function MarketingLayout({ children }: { children: React.Re
           <AccentProvider>
             <SmoothScroll />
             <Transition />
-            <Nav />
-            <main id="main">{children}</main>
-            <Footer />
+            <Chrome
+              nav={<Nav />}
+              footer={
+                <>
+                  <Footer />
+                  <ContactFab />
+                </>
+              }
+            >
+              {children}
+            </Chrome>
             <Cookies gaId={GA_ID} />
-            <ContactFab />
           </AccentProvider>
         </CurrencyProvider>
       </LocaleProvider>

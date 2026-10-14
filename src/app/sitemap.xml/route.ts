@@ -25,7 +25,7 @@ function buildEntries(): Entry[] {
     { url: `${BASE}/projects`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/notes`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE}/contact`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
+    { url: `${BASE}/enquire`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
     { url: `${BASE}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE}/terms-and-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     // Answer-engine landings for the regional comparison queries.

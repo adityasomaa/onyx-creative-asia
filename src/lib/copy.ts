@@ -17,7 +17,7 @@ export const NAV: { href: string; label: L; meta: L }[] = [
   { href: "/projects", label: l("Projects", "Proyek", "项目", "プロジェクト"), meta: l("08", "08", "08", "08") },
   { href: "/about", label: l("About", "Tentang", "关于", "私たちについて"), meta: l("One team", "Satu tim", "一支团队", "ひとつのチーム") },
   { href: "/notes", label: l("Notes", "Catatan", "笔记", "ノート"), meta: l("03", "03", "03", "03") },
-  { href: "/contact", label: l("Contact", "Kontak", "联系", "お問い合わせ"), meta: l("1 day reply", "Balas 1 hari", "1 天内回复", "1日以内に返信") },
+  { href: "/enquire", label: l("Enquire", "Hubungi", "咨询", "お問い合わせ"), meta: l("1 day reply", "Balas 1 hari", "1 天内回复", "1日以内に返信") },
 ];
 
 export const UI = {
@@ -490,7 +490,7 @@ export const FOOTER = {
   cookies: l("Cookie settings", "Pengaturan cookie", "Cookie 设置", "Cookie 設定"),
 };
 
-/* ───────────────────────── Contact page ───────────────────────── */
+/* ───────────────────────── Budget slider ───────────────────────── */
 
 export const BUDGET = {
   unset: l("Drag to set a budget", "Geser untuk mengatur budget", "拖动来设定预算", "ドラッグして予算を設定"),
@@ -504,56 +504,125 @@ export const BUDGET = {
   ),
 };
 
-export const CONTACT = {
-  question: l("What happens after I hit send?", "Apa yang terjadi setelah saya kirim?", "我点了发送之后会怎样？", "送信したあと、どうなる？"),
-  place: l("Bali, ID — WITA, UTC+8", "Bali, ID — WITA, UTC+8", "巴厘岛 —— WITA，UTC+8", "バリ — WITA（UTC+8）"),
-  headline: l(
-    "You get *a* *person*, not a ticket number.",
-    "Anda dapat *orang* *sungguhan*, bukan nomor tiket.",
-    "你会得到*一个真人*，而不是一个工单号。",
-    "届くのは*人*からの返事。チケット番号ではなく。",
+/* ───────────────────────── Enquire (/enquire) ─────────────────────────
+ * One question per screen. The first screen picks the kind of enquiry;
+ * the questions after it follow that kind. Option values are submitted
+ * in English (they land in the /agents dashboard); labels are localised.
+ */
+
+const opt = (value: string, label: L) => ({ value, label });
+
+export const ENQUIRE = {
+  close: l("Close", "Tutup", "关闭", "閉じる"),
+  back: l("Back", "Kembali", "返回", "戻る"),
+  next: l("Next", "Lanjut", "下一步", "次へ"),
+  send: l("Send", "Kirim", "发送", "送信"),
+  sending: l("Sending", "Mengirim", "发送中", "送信中"),
+  enterHint: l("Enter ↵ to continue", "Enter ↵ untuk lanjut", "按 Enter ↵ 继续", "Enter ↵ で次へ"),
+  textHint: l("Ctrl + Enter ↵ to continue", "Ctrl + Enter ↵ untuk lanjut", "按 Ctrl + Enter ↵ 继续", "Ctrl + Enter ↵ で次へ"),
+
+  kindQ: l("What brings you here?", "Ada perlu apa?", "想聊点什么？", "どんなご用件ですか？"),
+  kindHint: l(
+    "Pick one. The questions after it change to fit.",
+    "Pilih satu. Pertanyaan berikutnya menyesuaikan.",
+    "选一个，后面的问题会随之调整。",
+    "ひとつ選んでください。続く質問が合わせて変わります。",
   ),
-  lede: l(
-    "One of us reads it the day it arrives. If it is a fit, you get a thirty-minute call. If it is not, you get a straight answer and, where we can, the name of someone who might be.",
-    "Salah satu dari kami membacanya di hari yang sama. Kalau cocok, Anda dapat call tiga puluh menit. Kalau tidak, Anda dapat jawaban jujur dan, kalau bisa, nama orang yang mungkin cocok.",
-    "邮件到的当天就会有人看。合适的话，你会得到一通三十分钟的电话；不合适，你会得到一个直接的答复，能推荐的话，也会告诉你谁可能更合适。",
-    "届いたその日に、私たちの誰かが読みます。合いそうなら30分の通話を。合わなければ率直にお伝えし、可能なら合いそうな人を紹介します。",
-  ),
-  replyTime: l("Reply time", "Waktu balas", "回复时间", "返信までの時間"),
-  replyTimeValue: l("Within a working day", "Dalam satu hari kerja", "一个工作日内", "1営業日以内"),
-  hours: l("Studio hours", "Jam studio", "工作时间", "営業時間"),
-  hoursValue: l("Mon–Fri, 08:00–22:00 WITA", "Sen–Jum, 08:00–22:00 WITA", "周一至周五 08:00–22:00（WITA）", "月〜金 08:00〜22:00（WITA）"),
-  readBy: l("Read by", "Dibaca oleh", "由谁阅读", "読むのは"),
-  readByValue: l("The people who do the work", "Orang yang mengerjakannya", "真正干活的人", "実際に作る人"),
-  formTag: l("Six questions, about two minutes", "Enam pertanyaan, sekitar dua menit", "六个问题，大约两分钟", "6つの質問、約2分"),
-  q1: l("What are we making?", "Apa yang kita buat?", "我们要做什么？", "何を作りますか？"),
-  q1Hint: l("Pick the closest. We'll get specific on the call.", "Pilih yang paling dekat. Detailnya kita bahas di call.", "选最接近的那个，细节电话里聊。", "いちばん近いものを。詳しくは通話で。"),
-  q2: l("What's the budget?", "Berapa budget-nya?", "预算多少？", "ご予算は？"),
-  q2Hint: l("A range is fine. It shapes the plan, not the welcome.", "Kisaran saja cukup. Ini membentuk rencananya, bukan sambutannya.", "给个范围就行，它影响的是方案，不是态度。", "幅で構いません。左右されるのは計画で、対応ではありません。"),
-  q3: l("When should it start?", "Kapan mulainya?", "什么时候开始？", "いつ始めますか？"),
-  q3Hint: l("ASAP means the next open slot.", "Secepatnya berarti slot kosong berikutnya.", "越快越好，指的是下一个空档。", "「できるだけ早く」は次の空き枠のことです。"),
-  q4: l("Your name", "Nama Anda", "你的名字", "お名前"),
-  q4Hint: l("The way you'd like to be addressed.", "Bagaimana Anda ingin dipanggil.", "你希望我们怎么称呼你。", "呼ばれたいお名前で。"),
-  q5: l("Your email", "Email Anda", "你的邮箱", "メールアドレス"),
-  q5Hint: l("The only field we can't do without.", "Satu-satunya kolom yang wajib.", "唯一必填的一项。", "これだけは必須です。"),
-  q6: l("What's the problem?", "Apa masalahnya?", "要解决什么问题？", "解決したいことは？"),
-  q6Hint: l("No brief template. Say it like you would on a call.", "Tanpa template brief. Ceritakan seperti di telepon.", "没有模板，像打电话那样说就好。", "テンプレートは不要。電話で話すように。"),
-  q6Placeholder: l("Three sentences is plenty. A link is even better.", "Tiga kalimat sudah cukup. Link malah lebih baik.", "三句话就够了，附个链接更好。", "3文で十分です。リンクがあればなお良し。"),
+  kinds: {
+    project: {
+      label: l("Project", "Proyek", "项目", "プロジェクト"),
+      body: l("Build, brand or grow something with us.", "Bangun, branding, atau kembangkan sesuatu bersama kami.", "和我们一起做产品、做品牌、做增长。", "一緒につくる、ブランドを育てる、伸ばす。"),
+    },
+    partnership: {
+      label: l("Partnership", "Kerja sama", "合作", "協業"),
+      body: l("A studio, agency or platform with an idea to work together.", "Studio, agensi, atau platform yang punya ide untuk bekerja sama.", "工作室、代理商或平台，有合作的想法。", "スタジオ、代理店、プラットフォームからの協業のご提案。"),
+    },
+    career: {
+      label: l("Career", "Karier", "加入我们", "採用"),
+      body: l("You'd like to work at Onyx.", "Anda ingin bekerja di Onyx.", "你想在 Onyx 工作。", "Onyx で働きたい方へ。"),
+    },
+    general: {
+      label: l("General", "Umum", "一般咨询", "一般"),
+      body: l("A question, a hello, anything that doesn't fit the others.", "Pertanyaan, sapaan, apa pun yang tidak masuk pilihan lain.", "一个问题、一声问候，或其他任何事。", "質問やご挨拶など、ほかに当てはまらないこと。"),
+    },
+  },
+  orWrite: l("Rather write or chat?", "Lebih suka email atau chat?", "更想发邮件或聊天？", "メールやチャットがよければ"),
+
+  servicesQ: l("What are we making?", "Apa yang kita buat?", "我们要做什么？", "何をつくりますか？"),
+  servicesHint: l("Pick all that apply. We'll get specific on the call.", "Pilih semua yang sesuai. Detailnya kita bahas di call.", "可多选，细节电话里再聊。", "当てはまるものをすべて。詳しくは通話で。"),
+  budgetQ: l("What's the budget?", "Berapa budget-nya?", "预算多少？", "ご予算は？"),
+  budgetHint: l("A rough figure is fine, or skip it. It shapes the plan, not the welcome.", "Kisaran saja cukup, atau lewati. Ini membentuk rencananya, bukan sambutannya.", "给个大概就行，也可以跳过。它影响的是方案，不是态度。", "おおよそで構いません。飛ばしても大丈夫。左右されるのは計画で、対応ではありません。"),
+  startQ: l("When should it start?", "Kapan mulainya?", "什么时候开始？", "いつ始めますか？"),
+  startHint: l("ASAP means the next open slot.", "Secepatnya berarti slot kosong berikutnya.", "越快越好，指的是下一个空档。", "「できるだけ早く」は次の空き枠のことです。"),
   starts: [
-    l("ASAP", "Secepatnya", "越快越好", "できるだけ早く"),
-    l("This month", "Bulan ini", "这个月", "今月"),
-    l("Next month", "Bulan depan", "下个月", "来月"),
-    l("Just exploring", "Baru melihat-lihat", "先了解一下", "情報収集中"),
+    opt("ASAP", l("ASAP", "Secepatnya", "越快越好", "できるだけ早く")),
+    opt("This month", l("This month", "Bulan ini", "这个月", "今月")),
+    opt("Next month", l("Next month", "Bulan depan", "下个月", "来月")),
+    opt("Just exploring", l("Just exploring", "Baru melihat-lihat", "先了解一下", "情報収集中")),
   ],
-  submitNote: l("It goes to a person, who replies within a working day.", "Pesan ini sampai ke orang, yang membalas dalam satu hari kerja.", "它会送到一个真人那里，一个工作日内回复。", "人に届き、1営業日以内に返信が来ます。"),
-  byEmail: l("If you'd rather write", "Kalau lebih suka menulis", "如果你更想写邮件", "メールがよければ"),
-  emailNote: l("Same inbox, same people.", "Inbox yang sama, orang yang sama.", "同一个邮箱，同一批人。", "同じ受信箱、同じ人たち。"),
-  byVisit: l("If you'd rather visit", "Kalau lebih suka datang", "如果你想当面聊", "訪問がよければ"),
-  visitValue: l("Bali, Indonesia", "Bali, Indonesia", "印尼巴厘岛", "インドネシア・バリ"),
-  visitNote: l("By appointment. Ask on WhatsApp.", "Dengan janji. Tanya lewat WhatsApp.", "需预约，请在 WhatsApp 上问。", "要予約。WhatsApp でお尋ねください。"),
-  byChat: l("If you'd rather chat", "Kalau lebih suka chat", "如果你更想聊天", "チャットがよければ"),
-  chatNote: l("WhatsApp, Mon–Fri, 08:00–22:00 WITA.", "WhatsApp, Sen–Jum, 08:00–22:00 WITA.", "WhatsApp，周一至周五 08:00–22:00（WITA）。", "WhatsApp、月〜金 08:00〜22:00（WITA）。"),
-  byWatch: l("If you'd rather watch", "Kalau lebih suka melihat", "如果你想先看看", "まずは見てみたいなら"),
+  problemQ: l("What's the problem?", "Apa masalahnya?", "要解决什么问题？", "解決したいことは？"),
+  problemHint: l("No brief template. Say it like you would on a call.", "Tanpa template brief. Ceritakan seperti di telepon.", "不需要模板，像打电话那样说就好。", "テンプレートは不要。電話で話すように。"),
+  problemPh: l("Three sentences is plenty. A link is even better.", "Tiga kalimat sudah cukup. Link malah lebih baik.", "三句话就够了，附个链接更好。", "3文で十分です。リンクがあればなお良し。"),
+
+  ptypeQ: l("What kind of partnership?", "Kerja sama seperti apa?", "什么样的合作？", "どんな協業ですか？"),
+  ptypeHint: l("The closest fit is fine.", "Yang paling mendekati saja.", "选最接近的即可。", "近いもので構いません。"),
+  ptypes: [
+    opt("Co-production", l("Co-production", "Produksi bersama", "联合制作", "共同制作")),
+    opt("White-label", l("White-label", "White-label", "白标合作", "ホワイトラベル")),
+    opt("Reseller", l("Reseller", "Reseller", "代理销售", "リセラー")),
+    opt("Affiliate / referral", l("Affiliate or referral", "Afiliasi atau referral", "联盟或推荐", "アフィリエイト・紹介")),
+    opt("Strategic alliance", l("Strategic alliance", "Aliansi strategis", "战略联盟", "戦略的提携")),
+    opt("Other", l("Something else", "Lainnya", "其他", "その他")),
+  ],
+  companyQ: l("Which company?", "Dari perusahaan mana?", "哪家公司？", "どちらの会社ですか？"),
+  companyHint: l("And a website, so we can read up before we reply.", "Dan website-nya, supaya kami bisa pelajari dulu sebelum membalas.", "再附上网站，方便我们回复前先了解一下。", "返信前に拝見できるよう、ウェブサイトも。"),
+  companyPh: l("Company name", "Nama perusahaan", "公司名称", "会社名"),
+  websitePh: l("Website (optional)", "Website (opsional)", "网站（选填）", "ウェブサイト（任意）"),
+  proposalQ: l("What's the idea?", "Apa idenya?", "合作的想法是什么？", "どんなアイデアですか？"),
+  proposalHint: l("A few lines on what each side brings.", "Beberapa baris tentang apa yang dibawa masing-masing pihak.", "用几句话说说双方各自能带来什么。", "それぞれが何を持ち寄るのか、数行で。"),
+  proposalPh: l("Who you are, what you have in mind, why us.", "Siapa Anda, apa yang terpikir, kenapa kami.", "你们是谁，想做什么，为什么找我们。", "どなたか、何をお考えか、なぜ私たちか。"),
+
+  deptQ: l("Which team?", "Tim yang mana?", "哪个团队？", "どのチームですか？"),
+  deptHint: l("Where you'd do your best work.", "Tempat Anda bisa bekerja paling baik.", "你最能发挥的地方。", "いちばん力を発揮できるところ。"),
+  deptExtra: [
+    opt("Operations", l("Operations", "Operasional", "运营", "オペレーション")),
+    opt("Open application", l("Open application", "Lamaran terbuka", "开放申请", "オープンポジション")),
+  ],
+  workQ: l("Show us your work", "Tunjukkan karya Anda", "给我们看看你的作品", "作品を見せてください"),
+  workHint: l("A portfolio link, a CV, or both. Both optional. PDF or Word, up to 3 MB.", "Link portofolio, CV, atau keduanya. Keduanya opsional. PDF atau Word, maks. 3 MB.", "作品集链接、简历，或两者都给。均为选填。PDF 或 Word，不超过 3 MB。", "ポートフォリオのリンク、履歴書、またはその両方。どちらも任意。PDF か Word、3 MB まで。"),
+  portfolioPh: l("Portfolio link (optional)", "Link portofolio (opsional)", "作品集链接（选填）", "ポートフォリオのリンク（任意）"),
+  cvPick: l("Attach a CV", "Lampirkan CV", "附上简历", "履歴書を添付"),
+  cvRemove: l("Remove", "Hapus", "移除", "削除"),
+  letterQ: l("Why Onyx?", "Kenapa Onyx?", "为什么是 Onyx？", "なぜ Onyx ですか？"),
+  letterHint: l("A short note. What you've made, and what you want to make next.", "Catatan singkat. Apa yang sudah Anda buat, dan apa yang ingin Anda buat berikutnya.", "简短几句：你做过什么，接下来想做什么。", "短いメモで。これまでつくったもの、次につくりたいもの。"),
+  letterPh: l("A few lines is enough.", "Beberapa baris sudah cukup.", "几句话就够了。", "数行で十分です。"),
+
+  noteQ: l("What's on your mind?", "Ada yang ingin disampaikan?", "想说点什么？", "どんなことでしょう？"),
+  noteHint: l("Ask anything. A person reads it.", "Tanya apa saja. Yang membaca orang sungguhan.", "什么都可以问，读它的是真人。", "なんでもどうぞ。読むのは人です。"),
+  notePh: l("Your message", "Pesan Anda", "你的留言", "メッセージ"),
+
+  contactQ: l("Who should we reply to?", "Kami balas ke siapa?", "我们该回复谁？", "どなたに返信しますか？"),
+  contactHint: l("Your name and email. WhatsApp too, if you'd rather chat.", "Nama dan email Anda. WhatsApp juga, kalau lebih suka chat.", "你的名字和邮箱。想聊天的话，也可以留 WhatsApp。", "お名前とメール。チャットがよければ WhatsApp も。"),
+  projectCompanyPh: l("Company (optional)", "Perusahaan (opsional)", "公司（选填）", "会社名（任意）"),
+
+  errPick: l("Pick one to continue.", "Pilih satu untuk lanjut.", "选一个再继续。", "ひとつ選んでください。"),
+  errPickAny: l("Pick at least one.", "Pilih minimal satu.", "至少选一个。", "ひとつ以上選んでください。"),
+  errRequired: l("This one's needed.", "Yang ini wajib diisi.", "这一项必填。", "こちらは必須です。"),
+  errEmail: l("That email doesn't look right.", "Email itu sepertinya keliru.", "这个邮箱看起来不对。", "メールアドレスが正しくないようです。"),
+  errUrl: l("That link doesn't look right.", "Link itu sepertinya keliru.", "这个链接看起来不对。", "リンクが正しくないようです。"),
+  errCvSize: l("The CV is over 3 MB.", "CV lebih dari 3 MB.", "简历超过 3 MB。", "履歴書が 3 MB を超えています。"),
+  errCvType: l("PDF, DOC or DOCX only.", "Hanya PDF, DOC, atau DOCX.", "仅限 PDF、DOC 或 DOCX。", "PDF、DOC、DOCX のみです。"),
+
+  sentTitle: l("Sent. *Thank* *you.*", "Terkirim. *Terima* *kasih.*", "已发送。*谢谢。*", "送信しました。*ありがとう*ございます。"),
+  sentBody: l(
+    "A person reads it today and replies within a working day, Monday to Friday, 08:00–22:00 WITA.",
+    "Orang sungguhan membacanya hari ini dan membalas dalam satu hari kerja, Senin–Jumat, 08:00–22:00 WITA.",
+    "今天就会有人看，一个工作日内回复，周一至周五 08:00–22:00（WITA）。",
+    "本日中に人が読み、1営業日以内に返信します。月〜金 08:00〜22:00（WITA）。",
+  ),
+  sentWa: l("Also message us on WhatsApp", "Kabari juga lewat WhatsApp", "也在 WhatsApp 上说一声", "WhatsApp でも連絡する"),
+  sentHome: l("Back to the site", "Kembali ke situs", "返回网站", "サイトに戻る"),
+  sentAgain: l("Send another", "Kirim lagi", "再发一条", "もう一件送る"),
 };
 
 /* ───────────────────────── Cookies ───────────────────────── */

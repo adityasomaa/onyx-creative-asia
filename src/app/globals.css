@@ -233,6 +233,18 @@
   border-radius: 0;
 }
 
+/* /enquire is one screen, the height of the device: nothing behind the
+   canvas scrolls, and there is no bounce or pull-to-refresh to drag it. */
+html:has(.enquire-canvas),
+html:has(.enquire-canvas) body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+html:has(.enquire-canvas) .site {
+  min-height: 0;
+}
+
 /* Budget slider: a thin track filled to --p in the surface accent, and a
    square thumb with the site's cut corner. */
 .site .budget-range {

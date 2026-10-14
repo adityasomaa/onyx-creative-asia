@@ -11,7 +11,7 @@ import Headline from "@/components/site/Headline";
 import { Bracket } from "@/components/site/SectionHeader";
 import Odometer from "@/components/site/Odometer";
 import Reveal from "@/components/site/Reveal";
-import { Chevrons } from "@/components/site/Wordmark";
+import { InfinityMark } from "@/components/site/Wordmark";
 import Showreel from "@/components/home2/Showreel";
 import WorkIndex from "@/components/home2/WorkIndex";
 import ClientLogos from "@/components/home2/ClientLogos";
@@ -29,9 +29,9 @@ function Studio() {
         <motion.div className="absolute inset-[-12%_0]" style={{ y }}>
           <Image src="/images/about-studio.jpg" alt="" fill sizes="100vw" className="object-cover" />
         </motion.div>
-        <p aria-hidden className="absolute inset-x-0 bottom-[-0.12em] flex items-center justify-between px-4 font-tek font-semibold uppercase leading-none tracking-[-0.03em] text-white/80 mix-blend-overlay text-[clamp(44px,11vw,170px)]">
+        <p aria-hidden className="absolute inset-x-0 bottom-[-0.12em] flex items-center gap-[0.3em] whitespace-nowrap px-4 font-tek font-extrabold uppercase leading-none tracking-[-0.03em] text-white/80 mix-blend-overlay text-[clamp(30px,9vw,150px)]">
+          <InfinityMark className="h-[0.74em]" />
           <span>Onyx Creative</span>
-          <Chevrons className="h-[0.7em]" />
         </p>
       </div>
       <p className="mt-3 text-right text-[10px] font-semibold uppercase text-mute">Studio — Bali, ID</p>

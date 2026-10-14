@@ -45,8 +45,8 @@ const nextConfig: NextConfig = {
       // blog: /insights -> /notes (the old posts were retired with the rebuild)
       { source: "/insights", destination: "/notes", permanent: true },
       { source: "/insights/:path*", destination: "/notes", permanent: true },
-      // contact: /enquire (and the older /contact redirect) -> /contact
-      { source: "/enquire", destination: "/contact", permanent: true },
+      // enquiries: the rebuild briefly used /contact; /enquire is the page again
+      { source: "/contact", destination: "/enquire", permanent: true },
       // legal
       { source: "/privacy", destination: "/privacy-policy", permanent: true },
       { source: "/terms", destination: "/terms-and-conditions", permanent: true },

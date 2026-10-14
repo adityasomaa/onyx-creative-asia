@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/cn";
+import { ACCENT_EVENT } from "../Accent";
 
 /**
  * Silk Aurora background (shader adapted from componentry.dev's
@@ -107,7 +108,6 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
     let u: Record<string, WebGLUniformLocation | null> = {};
     let raf = 0;
     let visible = false;
-    let frames = 0;
     const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
     const t0 = performance.now();
 
@@ -165,7 +165,6 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
 
     const draw = (now: number) => {
       if (!gl || !visible) return;
-      if (frames++ % 30 === 0) setColours();
       mouse.x += (mouse.tx - mouse.x) * 0.045;
       mouse.y += (mouse.ty - mouse.y) * 0.045;
       gl.uniform2f(u.mouse, mouse.x, mouse.y);
@@ -196,11 +195,18 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
     io.observe(cv);
     ro.observe(cv);
     if (!reduce) window.addEventListener("pointermove", onMove, { passive: true });
+    // Recolour the moment the palette changes (a still frame redraws too).
+    const onAccent = () => {
+      setColours();
+      if (reduce && visible) raf = requestAnimationFrame(draw);
+    };
+    window.addEventListener(ACCENT_EVENT, onAccent);
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       ro.disconnect();
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener(ACCENT_EVENT, onAccent);
       gl?.getExtension("WEBGL_lose_context")?.loseContext();
     };
   }, [seed]);

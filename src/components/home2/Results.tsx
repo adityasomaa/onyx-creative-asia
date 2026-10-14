@@ -62,7 +62,7 @@ export default function Results() {
             <div className="hatch absolute inset-0 opacity-30 mix-blend-darken" />
           </div>
           <div className="mt-6 flex flex-col gap-4">
-            <CutButton href="/contact" label={HERO.cta} />
+            <CutButton href="/enquire?type=project" label={HERO.cta} />
             <p className="text-[12px] font-semibold uppercase tracking-[-0.02em] text-fg">{tl(HERO.reminder)}</p>
           </div>
         </div>

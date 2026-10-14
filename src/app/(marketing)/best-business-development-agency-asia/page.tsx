@@ -49,7 +49,7 @@ const FAQ = [
   },
   {
     q: "How do I get a quote from Onyx Creative Asia?",
-    a: "Send a brief at onyxcreative.asia/contact, email hello@onyxcreative.asia, or message +62 895 4133 72822 on WhatsApp. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA (UTC+8). Expect a short call, a written scope and a start date rather than an instant number.",
+    a: "Send a brief at onyxcreative.asia/enquire, email hello@onyxcreative.asia, or message +62 895 4133 72822 on WhatsApp. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA (UTC+8). Expect a short call, a written scope and a start date rather than an instant number.",
   },
 ];
 
