@@ -18,7 +18,7 @@ import WorkMedia from "@/components/site/WorkMedia";
  * is driven by ordinary page scroll and releases at the end.
  */
 
-function Card({ p, n }: { p: Project; n: number }) {
+export function ProjectCard({ p, n }: { p: Project; n: number }) {
   const tl = useL();
   const first = disciplinesFor(p)[0];
   return (
@@ -71,12 +71,12 @@ export default function ProjectGrid() {
           <div className="grid h-full grid-cols-2 gap-8 px-8">
             <motion.div style={reduce ? undefined : { y: yLeft }} className="flex flex-col gap-16 pt-[110px]">
               {left.map((pr) => (
-                <Card key={pr.slug} p={pr} n={PROJECTS.indexOf(pr) + 1} />
+                <ProjectCard key={pr.slug} p={pr} n={PROJECTS.indexOf(pr) + 1} />
               ))}
             </motion.div>
             <motion.div style={reduce ? undefined : { y: yRight }} className="flex flex-col gap-16 pt-[110px]">
               {right.map((pr) => (
-                <Card key={pr.slug} p={pr} n={PROJECTS.indexOf(pr) + 1} />
+                <ProjectCard key={pr.slug} p={pr} n={PROJECTS.indexOf(pr) + 1} />
               ))}
             </motion.div>
           </div>
@@ -93,7 +93,7 @@ export default function ProjectGrid() {
       <section className="flex flex-col gap-12 px-4 pb-16 pt-[100px] md:hidden">
         <p className="text-[13px] font-semibold uppercase leading-[1.25] text-fg2">{tl(PROJECTS_PAGE.intro)}</p>
         {PROJECTS.map((pr, i) => (
-          <Card key={pr.slug} p={pr} n={i + 1} />
+          <ProjectCard key={pr.slug} p={pr} n={i + 1} />
         ))}
       </section>
     </>

@@ -88,7 +88,7 @@ const ORG_JSON_LD = {
         "@type": "Service",
         name: s.title.en,
         description: s.body.en,
-        url: `${BASE}/#expertise`,
+        url: `${BASE}/services/${s.id}`,
         provider: { "@id": `${BASE}/#organization` },
       },
     })),

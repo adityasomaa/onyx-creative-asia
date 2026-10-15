@@ -40,7 +40,7 @@ export default function LegalPage({
       <div className="mt-4 h-1 bg-accent" />
       {locale !== "en" && <p className="mt-6 text-[12px] font-semibold uppercase text-fg2">{tl(LEGAL.englishOnly)}</p>}
 
-      <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-[300px_1fr] lg:gap-16">
+      <div className="mt-14 grid grid-cols-1 gap-12 lg:grid-cols-[300px_minmax(0,1fr)] lg:gap-16">
         <aside className="lg:sticky lg:top-28 lg:self-start">
           <p className="text-[10px] font-semibold uppercase text-mute">{tl(LEGAL.onThisPage)}</p>
           <ol className="mt-4 border-t border-rule">
@@ -64,7 +64,7 @@ export default function LegalPage({
 
         <div>
           {sections.map((s, i) => (
-            <section key={s.id} id={s.id} className="grid scroll-mt-28 grid-cols-[44px_1fr] gap-4 border-t border-rule py-10 md:grid-cols-[64px_1fr]">
+            <section key={s.id} id={s.id} className="grid scroll-mt-28 grid-cols-[44px_minmax(0,1fr)] gap-4 border-t border-rule py-10 md:grid-cols-[64px_minmax(0,1fr)]">
               <span className="font-tek text-[20px] font-medium text-faint">{String(i + 1).padStart(2, "0")}</span>
               <div>
                 <h2 className="font-tek text-[24px] font-medium uppercase leading-[1.1] text-fg md:text-[30px]">{s.title}</h2>

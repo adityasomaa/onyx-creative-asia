@@ -22,7 +22,7 @@ function StatCard({ c, n }: { c: Card; n: number }) {
       </div>
       <div className="mt-6 flex items-end gap-2 border-b-[3px] border-accent pb-2 font-tek font-medium text-fg">
         <Odometer value={c.value} className="text-[72px] md:text-[78px]" />
-        <span className="pb-2 text-[20px] uppercase text-mute">
+        <span className="min-w-0 pb-2 text-[20px] uppercase text-mute [overflow-wrap:anywhere]">
           {c.suffix} {tl(c.unit)}
         </span>
       </div>
@@ -47,7 +47,7 @@ export default function Results() {
         ]}
       />
 
-      <div className="mt-16 grid grid-cols-1 gap-2 px-4 md:mt-20 md:grid-cols-2 md:px-8 lg:grid-cols-[1fr_2fr_1fr]">
+      <div className="mt-16 grid grid-cols-1 gap-2 px-4 md:mt-20 md:grid-cols-2 md:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_minmax(0,1fr)]">
         <div className="flex flex-col gap-2">
           <StatCard c={a} n={1} />
           <StatCard c={c} n={3} />

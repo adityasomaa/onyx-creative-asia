@@ -28,7 +28,7 @@ export default function WorkIndex() {
         </Reveal>
       </div>
 
-      <div className="grid grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-[305px_1fr] lg:gap-8">
+      <div className="grid grid-cols-1 gap-10 px-4 md:px-8 lg:grid-cols-[305px_minmax(0,1fr)] lg:gap-8">
         <aside className="flex flex-col gap-8 lg:pr-8 lg:pt-4">
           <SectionTitle v={INDEX.side} className="[&>span:first-child]:text-[20px]" />
           <div className="relative aspect-[16/10] w-[240px] overflow-hidden bg-paper">

@@ -121,10 +121,12 @@ const area =
 type Opt = { value: string; label: string; body?: string };
 
 /** Option cards. Single choice moves on when clicked; keyboard picks wait for Enter. */
-function Choices({ name, options, multi, checked, onChange, onPick, wide }: {
+function Choices({ name, options, multi, checked, defaults, onChange, onPick, wide }: {
   name: string;
   options: Opt[];
   multi?: boolean;
+  /** Uncontrolled options ticked on arrival. */
+  defaults?: string[];
   checked?: string | null;
   onChange?: (v: string) => void;
   onPick?: () => void;
@@ -154,6 +156,7 @@ function Choices({ name, options, multi, checked, onChange, onPick, wide }: {
             value={o.value}
             className="peer sr-only"
             data-first={i === 0 ? "" : undefined}
+            defaultChecked={checked === undefined ? defaults?.includes(o.value) : undefined}
             {...(checked !== undefined ? { checked: checked === o.value, onChange: () => onChange?.(o.value) } : {})}
           />
           <span className="font-mono2 text-[11px] opacity-50">{pad(i + 1)}</span>
@@ -208,7 +211,7 @@ function Panel({ state, q, hint, error, children, setRef, reduce }: {
 
 /* ── Page ───────────────────────────────────────────────────────────── */
 
-export default function EnquirePage({ initial }: { initial: Kind | null }) {
+export default function EnquirePage({ initial, services = [] }: { initial: Kind | null; services?: string[] }) {
   const tl = useL();
   const reduce = useReduce();
   const form = useRef<HTMLFormElement>(null);
@@ -477,7 +480,7 @@ export default function EnquirePage({ initial }: { initial: Kind | null }) {
 
           {/* Project */}
           <Panel q={tl(ENQUIRE.servicesQ)} hint={tl(ENQUIRE.servicesHint)} {...panel("services")}>
-            <Choices name="services" multi wide options={SERVICES.map((s) => ({ value: s.title.en, label: tl(s.title) }))} />
+            <Choices name="services" multi wide defaults={services} options={SERVICES.map((s) => ({ value: s.title.en, label: tl(s.title) }))} />
           </Panel>
           <Panel q={tl(ENQUIRE.budgetQ)} hint={tl(ENQUIRE.budgetHint)} {...panel("budget")}>
             <BudgetSlider tone="dark" className="max-w-[680px]" />

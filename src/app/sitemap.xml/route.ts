@@ -1,12 +1,13 @@
 import { PROJECTS } from "@/lib/data";
 import { NOTES } from "@/lib/notes";
+import { SERVICES } from "@/lib/services";
 
 const BASE = "https://onyxcreative.asia";
 
 /**
  * XML sitemap for crawlers, served from an explicit segment rather than
  * Next's app/sitemap.ts convention so the file name stays sitemap.xml.
- * Mirrors the rebuilt sitemap: home, projects, notes, about, contact, the
+ * Mirrors the rebuilt sitemap: home, services, projects, notes, about, enquire, the
  * legal pages and the answer-engine landings.
  */
 
@@ -25,6 +26,8 @@ function buildEntries(): Entry[] {
     { url: `${BASE}/projects`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${BASE}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/notes`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${BASE}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    ...SERVICES.map((s) => ({ url: `${BASE}/services/${s.id}`, lastModified: now, changeFrequency: "monthly", priority: 0.8 })),
     { url: `${BASE}/enquire`, lastModified: now, changeFrequency: "yearly", priority: 0.7 },
     { url: `${BASE}/privacy-policy`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: `${BASE}/terms-and-conditions`, lastModified: now, changeFrequency: "yearly", priority: 0.3 },

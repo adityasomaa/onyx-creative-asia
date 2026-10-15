@@ -12,7 +12,7 @@ export function Bracket({ v, className, dark }: { v: L | string; className?: str
   return (
     <p className={cn("flex items-center gap-1.5 text-[13px] font-semibold uppercase tracking-[-0.02em]", className)}>
       <span className={dark ? "text-white/30" : "text-faint"}>[</span>
-      <span className={dark ? "text-white/60" : "text-fg2"}>{tl(v)}</span>
+      <span className={cn("min-w-0", dark ? "text-white/60" : "text-fg2")}>{tl(v)}</span>
       <span className={dark ? "text-white/30" : "text-faint"}>]</span>
     </p>
   );
@@ -72,7 +72,7 @@ export default function SectionHeader({
   const tl = useL();
   return (
     <div id={id} className={cn("scroll-mt-24 px-4 md:px-8", className)}>
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[346px_1fr] lg:gap-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[346px_minmax(0,1fr)] lg:gap-2">
         <div className="flex flex-col justify-between gap-8 lg:min-h-[500px] lg:pt-8">
           <Reveal>
             <SectionTitle v={section} />
@@ -83,7 +83,7 @@ export default function SectionHeader({
 
         <div className="cut relative flex bg-paper [--cut:40px] lg:min-h-[500px]">
           <div className="hatch hidden w-6 shrink-0 opacity-60 mix-blend-darken md:block" />
-          <div className="flex flex-1 flex-col justify-between gap-12 px-5 py-8 md:px-6 md:py-8">
+          <div className="flex min-w-0 flex-1 flex-col justify-between gap-12 px-5 py-8 md:px-6 md:py-8">
             <div className="flex flex-col gap-6 md:gap-8">
               <Bracket v={question} />
               <Reveal>

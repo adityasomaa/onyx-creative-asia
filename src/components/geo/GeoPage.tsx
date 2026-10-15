@@ -60,7 +60,7 @@ export default function GeoPage({
             {s.list && (
               <ul className="mt-6 border-t border-rule">
                 {s.list.map((it, j) => (
-                  <li key={j} className="grid grid-cols-[36px_1fr] gap-3 border-b border-rule py-4 text-[16px] leading-[1.5] tracking-[-0.02em] text-fg">
+                  <li key={j} className="grid grid-cols-[36px_minmax(0,1fr)] gap-3 border-b border-rule py-4 text-[16px] leading-[1.5] tracking-[-0.02em] text-fg">
                     <span className="font-tek text-[15px] font-medium text-faint">{String(j + 1).padStart(2, "0")}</span>
                     {it}
                   </li>
@@ -76,7 +76,7 @@ export default function GeoPage({
         <ul className="mt-10 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
           {SERVICES.map((s) => (
             <li key={s.id} className="bg-coal">
-              <Link href={`/#svc-${s.id}`} className="flex h-full flex-col gap-3 p-5 hover:bg-white/5">
+              <Link href={`/services/${s.id}`} className="flex h-full flex-col gap-3 p-5 hover:bg-white/5">
                 <span className="font-tek text-[14px] font-medium text-accent">{s.number}</span>
                 <span className="font-tek text-[17px] font-medium uppercase leading-[1.1]">{s.title.en}</span>
                 <span className="text-[12px] leading-[1.4] text-white/60">{s.short.en}</span>

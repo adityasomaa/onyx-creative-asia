@@ -1,4 +1,4 @@
-import { l, type L } from "@/lib/l10n";
+import { l, LOCALE_TAG, type L, type Locale } from "@/lib/l10n";
 
 /**
  * Notes — the studio blog, rebuilt from scratch. Three pieces, each
@@ -293,8 +293,8 @@ export function noteBySlug(slug: string) {
   return NOTES.find((n) => n.slug === slug);
 }
 
-export function formatDate(iso: string, locale: string) {
-  const tag = locale === "zh" ? "zh-CN" : locale === "ja" ? "ja-JP" : locale === "id" ? "id-ID" : "en-GB";
+export function formatDate(iso: string, locale: Locale) {
+  const tag = locale === "en" ? "en-GB" : LOCALE_TAG[locale];
   return new Date(iso + "T00:00:00Z").toLocaleDateString(tag, {
     day: "numeric",
     month: "short",

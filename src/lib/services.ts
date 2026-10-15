@@ -4,9 +4,9 @@ import type { SceneId } from "@/components/site/art/scenes";
 
 /**
  * The five disciplines Onyx sells as a digital business development
- * agency. They drive the home hero slider, the Expertise accordion, the
- * contact form's "what are we making" list, and the JSON-LD service
- * catalogue, so the list exists exactly once.
+ * agency. They drive the home hero slider, the Expertise stack, the
+ * /services pages, the enquiry form's "what are we making" list, and the
+ * JSON-LD service catalogue, so the list exists exactly once.
  *
  * Every string carries all four languages beside it (see `L` in i18n).
  */
@@ -24,6 +24,8 @@ export type Service = {
   /** Display headline when the row is open. */
   headline: L;
   body: L;
+  /** What the service covers, as a short list (the detail page). */
+  included: L[];
 };
 
 export const SERVICES: Service[] = [
@@ -50,6 +52,14 @@ export const SERVICES: Service[] = [
       "大多数人第一次认识你的生意是在网站上，而且他们做决定很快。我们自己设计、自己开发，你确认过的样子就是上线的样子。当模板不再合身，我们就直接把工具做出来：预订引擎、客户门户、内部面板，以及你已经在付费使用的各个系统之间的打通。",
       "多くの人が最初に出会うのはウェブサイトで、判断は一瞬です。設計も実装も私たちが行うので、承認したものがそのまま公開されます。テンプレートが合わなくなったら、道具そのものを作ります。予約エンジン、顧客ポータル、社内ダッシュボード、そしてすでに使っているシステム同士の連携。",
     ),
+    included: [
+      l("Website design and build, every page responsive", "Desain dan pembuatan website, semua halaman responsif", "网站设计与开发，每个页面都适配手机", "ウェブサイトの設計と構築、全ページレスポンシブ対応"),
+      l("Booking, payments and forms connected to your tools", "Booking, pembayaran, dan formulir yang terhubung ke alat Anda", "预订、支付和表单，接入你现有的工具", "予約、決済、フォームを既存のツールと連携"),
+      l("Custom software: portals, dashboards, internal tools", "Software khusus: portal, dashboard, alat internal", "定制软件：门户、看板、内部工具", "独自ソフトウェア：ポータル、ダッシュボード、社内ツール"),
+      l("SEO, speed and schema set up from day one", "SEO, kecepatan, dan schema disiapkan sejak hari pertama", "从第一天起就做好 SEO、速度和结构化数据", "SEO、表示速度、構造化データを初日から"),
+      l("A CMS your team can edit without us", "CMS yang bisa diedit tim Anda tanpa kami", "你的团队不靠我们也能编辑的后台", "私たちがいなくても編集できる CMS"),
+      l("Hosting, monitoring and fixes after launch", "Hosting, pemantauan, dan perbaikan setelah rilis", "上线后的托管、监控和修复", "公開後のホスティング、監視、修正"),
+    ],
   },
   {
     id: "branding-design",
@@ -74,6 +84,14 @@ export const SERVICES: Service[] = [
       "标志、字体、颜色，以及把它们串在一起的那套系统，延伸到你印的、发的、出版的每一样东西上，再附上你的团队不用找我们也能用的模板。",
       "ロゴ、書体、色、それらをまとめるシステム。印刷物にも投稿にも出版物にも行き渡らせ、私たちがいなくてもチームが使えるテンプレートまで用意します。",
     ),
+    included: [
+      l("Positioning and naming, written down before anything is drawn", "Positioning dan penamaan, ditulis sebelum apa pun digambar", "先把定位和命名写清楚，再开始画", "描く前に、ポジショニングとネーミングを言葉に"),
+      l("Logo, type, colour and a system that holds together", "Logo, tipografi, warna, dan sistem yang konsisten", "标志、字体、颜色，以及一套撑得住的系统", "ロゴ、書体、色、そして崩れないシステム"),
+      l("Packaging, signage and print, ready for production", "Kemasan, papan nama, dan cetakan, siap produksi", "包装、招牌和印刷品，可直接投产", "パッケージ、サイン、印刷物を入稿できる状態で"),
+      l("Social templates and a photo direction", "Template media sosial dan arahan foto", "社交媒体模板与摄影风格指引", "SNS テンプレートと写真のディレクション"),
+      l("Tone of voice: how the brand writes and speaks", "Gaya bahasa: bagaimana brand menulis dan berbicara", "品牌语气：品牌怎么写、怎么说", "トーン・オブ・ボイス：ブランドの書き方と話し方"),
+      l("A brand book and every source file", "Brand book dan semua file sumber", "品牌手册和全部源文件", "ブランドブックとすべての元データ"),
+    ],
   },
   {
     id: "ads-management",
@@ -98,6 +116,14 @@ export const SERVICES: Service[] = [
       "围绕一个客户对你到底值多少来搭建广告，上线、每周调整，并用说人话的方式汇报，覆盖 Google、Meta 和 TikTok。",
       "一人のお客様が実際にいくらの価値を持つかを起点に組み立て、配信し、毎週調整し、わかる言葉で報告します。Google・Meta・TikTok で。",
     ),
+    included: [
+      l("Meta, Google and TikTok campaigns, run from one plan", "Kampanye Meta, Google, dan TikTok, dijalankan dari satu rencana", "Meta、Google 和 TikTok 广告，用同一套计划来跑", "Meta、Google、TikTok の広告を、ひとつの計画で運用"),
+      l("Tracking and conversions checked end to end", "Tracking dan konversi dicek dari ujung ke ujung", "追踪和转化设置，从头到尾核对", "計測とコンバージョンを端から端まで確認"),
+      l("Ad creative made for each platform", "Materi iklan yang dibuat untuk tiap platform", "为每个平台单独制作的广告素材", "プラットフォームごとに作る広告クリエイティブ"),
+      l("Landing pages built to match the ads", "Landing page yang dibuat selaras dengan iklannya", "与广告相匹配的落地页", "広告に合わせて作るランディングページ"),
+      l("Weekly optimisation, with budget moved to what works", "Optimasi mingguan, budget dipindah ke yang berhasil", "每周优化，预算向有效的地方倾斜", "毎週の改善、成果の出ているところへ予算を移す"),
+      l("A monthly report in plain language", "Laporan bulanan dengan bahasa yang mudah", "用大白话写的月度报告", "わかりやすい言葉の月次レポート"),
+    ],
   },
   {
     id: "social-media",
@@ -122,6 +148,14 @@ export const SERVICES: Service[] = [
       "我们排内容日历、做帖子、回评论，让整个主页读起来像一个品牌，也让账号在你忙着做生意的时候照样在动。",
       "カレンダーを組み、投稿を作り、コメントに返信します。グリッドはひとつのブランドとして読め、あなたが本業で忙しい間もアカウントは動き続けます。",
     ),
+    included: [
+      l("Content pillars and a monthly calendar", "Pilar konten dan kalender bulanan", "内容支柱与月度日历", "コンテンツの柱と月間カレンダー"),
+      l("Photo and video, shot on monthly production days", "Foto dan video, dibuat di hari produksi bulanan", "照片和视频，在每月的拍摄日集中制作", "毎月の撮影日でまとめて撮る写真と動画"),
+      l("Captions written in your brand's voice", "Caption yang ditulis dengan gaya bahasa brand Anda", "用品牌语气写的文案", "ブランドの口調で書くキャプション"),
+      l("Posting on schedule across Instagram, TikTok and LinkedIn", "Posting terjadwal di Instagram, TikTok, dan LinkedIn", "在 Instagram、TikTok 和 LinkedIn 上按计划发布", "Instagram、TikTok、LinkedIn への予定どおりの投稿"),
+      l("Comments and messages answered", "Komentar dan pesan dibalas", "评论和私信有人回复", "コメントとメッセージへの返信"),
+      l("A monthly read of what grew and what changes next", "Tinjauan bulanan: apa yang tumbuh dan apa yang diubah berikutnya", "每月复盘：什么增长了，下一步改什么", "伸びたものと次に変えることの月次振り返り"),
+    ],
   },
   {
     id: "growth-analytics",
@@ -146,6 +180,14 @@ export const SERVICES: Service[] = [
       "我们先把追踪装对，把数字放进一个面板，每月写一份说人话的解读，然后去改那些能推动数字的页面和广告。",
       "計測を正しく設定し、数字をひとつのダッシュボードにまとめ、月に一度わかる言葉で読み解きます。そのうえで、数字を動かすページとキャンペーンを変えていきます。",
     ),
+    included: [
+      l("Analytics and conversion tracking you can trust", "Analitik dan tracking konversi yang bisa dipercaya", "可信的分析和转化追踪", "信頼できる分析とコンバージョン計測"),
+      l("One dashboard with the numbers that matter", "Satu dashboard berisi angka yang penting", "一个只放关键数字的看板", "大事な数字だけのダッシュボード"),
+      l("Funnel audits: where people drop off, and why", "Audit funnel: di mana orang berhenti, dan kenapa", "漏斗诊断：人在哪里流失，为什么", "ファネル分析：どこで、なぜ離脱するのか"),
+      l("A/B tests on pages, offers and forms", "Uji A/B pada halaman, penawaran, dan formulir", "对页面、优惠和表单做 A/B 测试", "ページ、オファー、フォームの A/B テスト"),
+      l("Search, SEO and AI-answer visibility", "Visibilitas di pencarian, SEO, dan jawaban AI", "搜索、SEO 与 AI 答案中的可见度", "検索、SEO、AI の回答での見え方"),
+      l("A monthly call with what to try next", "Call bulanan dengan langkah yang dicoba berikutnya", "每月一通电话，定下一步试什么", "次に試すことを決める月一回の通話"),
+    ],
   },
 ];
 

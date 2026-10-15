@@ -90,7 +90,7 @@ export default function AboutPage() {
         <div className="mt-12 grid grid-cols-2 gap-x-3 gap-y-10 md:grid-cols-3 lg:grid-cols-5">
           {SERVICES.map((s, i) => (
             <Reveal key={s.id} delay={(i % 5) * 0.05}>
-              <Link href={`/#svc-${s.id}`} className="group block">
+              <Link href={`/services/${s.id}`} className="group block">
                 <div className="cut relative aspect-[3/4] overflow-hidden bg-paper [--cut:22px]">
                   <ServiceArt id={s.art} className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
                 </div>

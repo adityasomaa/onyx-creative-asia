@@ -55,7 +55,7 @@ ONYX CREATIVE ASIA/
 
 **Locations:** Bali, Indonesia.
 
-**Five services, one team** (a digital business development agency): web & software development · branding & design · ads management · social media management · growth & analytics. The list lives in `src/lib/services.ts`. The site publishes no pricing; the contact form takes a budget on a 0–100 million rupiah slider readable in any Asian currency.
+**Five services, one team** (a digital business development agency): web & software development · branding & design · ads management · social media management · growth & analytics. The list lives in `src/lib/services.ts`; each has a page at `/services/<id>` (index at `/services`). The site publishes no pricing; the enquiry form (`/enquire`) takes a budget on a 0–100 million rupiah slider readable in any Asian currency.
 
 **Tagline:** *Brand, performance, and AI systems for ambitious teams.*
 
@@ -81,7 +81,7 @@ Full specs in `design/brand/COLORS.md`, `TYPOGRAPHY.md`, `VOICE.md`, `MOTION.md`
 - **Stack:** Next.js 15 (App Router, Turbopack) · TypeScript · Tailwind CSS · Framer Motion · Lenis · Supabase.
 - **Live URL:** https://onyxcreative.asia (Vercel auto-deploy from `main` branch on GitHub).
 - **Design tokens (single source of truth for engineering):** `tailwind.config.ts`.
-- **Project data (case studies):** `src/lib/data.ts`. Services: `src/lib/services.ts`. All page copy in four languages: `src/lib/copy.ts`. Notes (blog): `src/lib/notes.ts`.
+- **Project data (case studies):** `src/lib/data.ts`. Services: `src/lib/services.ts`. Page copy: `src/lib/copy.ts`, written inline in the four base languages (en, id, zh, ja). The other 40 Asian languages are dictionaries keyed by the English in `src/lib/locales/<code>.json`, loaded on demand; when English copy changes, re-extract the catalog and re-translate (a missing string falls back to English). Notes (blog): `src/lib/notes.ts`.
 - **Local dev:** `npm run dev` → http://localhost:3000.
 - **Auto-push:** the `origin` remote has an embedded fine-grained PAT, so `git push` from this session works without prompts. Don't print the URL via `git remote -v` (token leaks).
 

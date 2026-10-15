@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import EnquirePage, { type Kind } from "@/components/enquire/EnquirePage";
+import { SERVICES } from "@/lib/services";
 
 export const metadata: Metadata = {
   title: "Enquire",
@@ -13,9 +14,13 @@ export const metadata: Metadata = {
 // from a "use client" module is only a client reference on the server.
 const KINDS: Kind[] = ["project", "partnership", "career", "general"];
 
-/** `?type=project` (the "Start a project" buttons) skips the first question. */
-export default async function Enquire({ searchParams }: { searchParams: Promise<{ type?: string | string[] }> }) {
-  const { type } = await searchParams;
+/**
+ * `?type=project` (the "Start a project" buttons) skips the first question;
+ * `&service=<id>` (from a service page) arrives with that service ticked.
+ */
+export default async function Enquire({ searchParams }: { searchParams: Promise<{ type?: string | string[]; service?: string | string[] }> }) {
+  const { type, service } = await searchParams;
   const initial = KINDS.find((k) => k === type) ?? null;
-  return <EnquirePage initial={initial} />;
+  const picked = SERVICES.find((s) => s.id === service);
+  return <EnquirePage initial={initial} services={picked ? [picked.title.en] : []} />;
 }

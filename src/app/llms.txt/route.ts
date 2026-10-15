@@ -13,7 +13,7 @@ const BASE = "https://onyxcreative.asia";
  */
 
 function build(): string {
-  const services = SERVICES.map((s) => `- **${s.title.en}** (${BASE}/#svc-${s.id}) — ${s.short.en} ${s.body.en}`).join("\n");
+  const services = SERVICES.map((s) => `- **${s.title.en}** (${BASE}/services/${s.id}) — ${s.short.en} ${s.body.en}`).join("\n");
 
   const works = PROJECTS.map((p) => `- **${p.client}** (${BASE}/projects/${p.slug}) — ${p.blurb ?? p.title}. ${p.location ?? ""}`.trim()).join("\n");
 

@@ -11,7 +11,7 @@
  */
 
 import { PROJECTS, TESTIMONIALS } from "./data";
-import type { Locale } from "./l10n";
+import type { BaseLocale } from "./l10n";
 
 type Tri = { id: string; zh: string; ja: string };
 
@@ -507,7 +507,7 @@ const TESTIMONIAL_TX: Record<string, { quote?: Tri; role?: Tri }> = {
 
 /** Aligned to STATS: label only. */
 type Table = Record<string, string>;
-type Maps = Record<Locale, Table>;
+type Maps = Record<BaseLocale, Table>;
 
 function put(m: Maps, en: string | undefined, tri: Tri | undefined) {
   if (!en || !tri) return;

@@ -7,16 +7,16 @@ import { SHOWREEL } from "@/lib/copy";
 import { PROJECTS } from "@/lib/data";
 import CutButton from "@/components/site/CutButton";
 import Wordmark from "@/components/site/Wordmark";
+import SilkAurora from "@/components/site/art/SilkAurora";
 
 // The in-place loop uses the lighter card-size file; the player uses HD.
 const WITH_PREVIEW = PROJECTS.filter((p) => p.preview);
-const BG = WITH_PREVIEW[0];
 const REEL = WITH_PREVIEW.map((p) => ({ src: p.preview!.video, poster: p.cover, client: p.client }));
 
 /**
- * Full-height dark showreel. In place, one client loop plays muted and
- * greyscale behind the question; "Watch reel" opens a full-screen player
- * that runs every project loop back to back, in colour.
+ * Full-height dark showreel. In place, the silk aurora (coloured by the
+ * visitor's accent) moves behind the question; "View works" opens a
+ * full-screen player that runs every project loop back to back.
  */
 export default function Showreel() {
   const tl = useL();
@@ -42,18 +42,7 @@ export default function Showreel() {
 
   return (
     <section className="relative z-10 h-[100svh] min-h-[620px] overflow-hidden bg-night text-white">
-      <video
-        className="absolute inset-0 h-full w-full object-cover opacity-70 grayscale"
-        src={BG?.preview?.card}
-        poster={BG?.cover}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden
-      />
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-accent/55 via-accent/10 to-transparent mix-blend-multiply" />
+      <SilkAurora seed={6} className="absolute inset-0 h-full w-full" />
       <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/60 to-transparent" />
 
       <div className="relative flex h-full flex-col justify-between px-4 pb-10 pt-24 md:px-8 md:pb-20 md:pt-20">

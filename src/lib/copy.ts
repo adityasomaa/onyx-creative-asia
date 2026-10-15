@@ -13,6 +13,7 @@ import { l, type L } from "@/lib/l10n";
 
 export const NAV: { href: string; label: L; meta: L }[] = [
   { href: "/", label: l("Home", "Beranda", "首页", "ホーム"), meta: l("Bali, Indonesia", "Bali, Indonesia", "印尼 · 巴厘岛", "インドネシア・バリ") },
+  { href: "/services", label: l("Services", "Layanan", "服务", "サービス"), meta: l("05", "05", "05", "05") },
   { href: "/#process", label: l("Process", "Proses", "流程", "プロセス"), meta: l("2–4 weeks", "2–4 minggu", "2–4 周", "2〜4週間") },
   { href: "/projects", label: l("Projects", "Proyek", "项目", "プロジェクト"), meta: l("08", "08", "08", "08") },
   { href: "/about", label: l("About", "Tentang", "关于", "私たちについて"), meta: l("One team", "Satu tim", "一支团队", "ひとつのチーム") },
@@ -27,6 +28,8 @@ export const UI = {
   latestProject: l("Latest project", "Proyek terbaru", "最新项目", "最新プロジェクト"),
   ourTime: l("Our time", "Waktu kami", "我们的时间", "現地時間"),
   language: l("Language", "Bahasa", "语言", "言語"),
+  search: l("Search", "Cari", "搜索", "検索"),
+  noMatch: l("No match", "Tidak ditemukan", "没有匹配项", "該当なし"),
   accentTitle: l("Pick an accent", "Pilih warna aksen", "选一个强调色", "アクセントカラーを選ぶ"),
   accentBody: l(
     "Every accent across the site updates instantly.",
@@ -144,6 +147,50 @@ export const EXPERTISE = {
   metaAValue: l("Build, market, measure", "Bangun, pasarkan, ukur", "搭建、推广、衡量", "つくる、届ける、測る"),
   metaB: l("Working method", "Cara kerja", "工作方式", "進め方"),
   metaBValue: l("The people who plan it build it", "Yang merencanakan juga yang membangun", "规划的人就是动手的人", "計画した人が、そのまま作る"),
+};
+
+/* ───────────────────────── Services (/services, /services/[slug]) ───────────────────────── */
+
+export const SERVICES_PAGE = {
+  section: l("Services", "Layanan", "服务", "サービス"),
+  question: l("What can we take off your plate?", "Apa yang bisa kami ambil alih?", "我们能帮你接手什么？", "何をお任せいただけますか？"),
+  headline: l(
+    "*Five* *services*, one team that runs them together.",
+    "*Lima* *layanan*, satu tim yang menjalankannya bersama.",
+    "*五项服务*，由同一个团队一起来做。",
+    "*五つのサービス*を、ひとつのチームでまとめて。",
+  ),
+  subtitle: l(
+    "Pick one, or let them work as a system: the site, the brand, the ads, the content and the numbers, planned by the same people.",
+    "Pilih satu, atau biarkan semuanya bekerja sebagai satu sistem: situs, brand, iklan, konten, dan angka, direncanakan oleh orang yang sama.",
+    "可以只选一项，也可以让它们作为一个系统一起运转：网站、品牌、广告、内容和数据，由同一批人来规划。",
+    "ひとつだけでも、全部をひとつのしくみとしても。サイト、ブランド、広告、コンテンツ、数字を同じ人たちが計画します。",
+  ),
+  view: l("View service", "Lihat layanan", "查看服务", "サービスを見る"),
+  overview: l("Overview", "Ringkasan", "概述", "概要"),
+  included: l("What's included", "Yang termasuk", "包含内容", "含まれるもの"),
+  howItRuns: l("How it runs", "Cara kerjanya", "怎么推进", "進め方"),
+  work: l("Work that used it", "Proyek yang memakainya", "用到它的项目", "このサービスを使った仕事"),
+  noWork: l(
+    "Case studies for this service are being written up. Ask us for examples on a call.",
+    "Studi kasus untuk layanan ini sedang ditulis. Minta contohnya saat call.",
+    "这项服务的案例正在整理中，可以在电话里问我们要例子。",
+    "このサービスの事例はまとめている最中です。通話で実例をお見せします。",
+  ),
+  next: l("Next service", "Layanan berikutnya", "下一项服务", "次のサービス"),
+  all: l("All services", "Semua layanan", "全部服务", "すべてのサービス"),
+  ctaTitle: l(
+    "Want this for *your* *business*?",
+    "Mau ini untuk *bisnis* *Anda*?",
+    "想把它用在*你的生意*上？",
+    "*あなたの事業*にも？",
+  ),
+  ctaBody: l(
+    "Tell us what you're trying to fix. A person replies within a working day with a short call and a written scope.",
+    "Ceritakan apa yang ingin Anda perbaiki. Orang sungguhan membalas dalam satu hari kerja, dengan call singkat dan cakupan tertulis.",
+    "告诉我们你想解决什么。一个工作日内会有真人回复，接着是一通简短的电话和一份书面范围。",
+    "解決したいことを教えてください。1営業日以内に人から返信し、短い通話と書面の範囲をお送りします。",
+  ),
 };
 
 /* ───────────────────────── Home: results ───────────────────────── */

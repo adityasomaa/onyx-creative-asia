@@ -57,7 +57,7 @@ export default function ProjectDetail({ project: p }: { project: Project }) {
           </span>
           <span className="text-faint">]</span>
         </div>
-        <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-[1fr_auto] md:items-end">
+        <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
           <div>
             <h1 className="font-tek text-[40px] font-medium uppercase leading-[0.95] tracking-[-0.02em] text-fg md:text-[72px]">
               <T>{p.title}</T>
@@ -73,7 +73,11 @@ export default function ProjectDetail({ project: p }: { project: Project }) {
             <p className="text-[10px] font-semibold uppercase text-mute">{tl(PROJECTS_PAGE.scope)}</p>
             <ul className="mt-1 text-[11px] font-semibold uppercase leading-[1.35] text-fg">
               {services.map((s) => (
-                <li key={s.id}>{tl(s.title)}</li>
+                <li key={s.id}>
+                  <Link href={`/services/${s.id}`} className="underline-offset-2 hover:text-fg2 hover:underline">
+                    {tl(s.title)}
+                  </Link>
+                </li>
               ))}
             </ul>
           </div>
@@ -102,7 +106,7 @@ export default function ProjectDetail({ project: p }: { project: Project }) {
                 [PROJECTS_PAGE.type, services.map((s) => tl(s.title)).join(", ")],
               ] as [typeof PROJECTS_PAGE.title, React.ReactNode][]
             ).map(([k, v], i) => (
-              <div key={i} className="grid grid-cols-[120px_1fr] gap-4 border-b border-rule py-3.5 md:grid-cols-[200px_1fr]">
+              <div key={i} className="grid grid-cols-[120px_minmax(0,1fr)] gap-4 border-b border-rule py-3.5 md:grid-cols-[200px_minmax(0,1fr)]">
                 <dt className="text-[10px] font-semibold uppercase text-mute">{tl(k)}</dt>
                 <dd className="text-[12px] font-semibold uppercase text-fg">{v}</dd>
               </div>
@@ -144,7 +148,7 @@ export default function ProjectDetail({ project: p }: { project: Project }) {
               </div>
               <ul className="max-w-[760px] border-t border-rule">
                 {b.items.map((it, i) => (
-                  <Reveal as="li" key={i} delay={i * 0.04} className="grid grid-cols-[48px_1fr] gap-4 border-b border-rule py-5">
+                  <Reveal as="li" key={i} delay={i * 0.04} className="grid grid-cols-[48px_minmax(0,1fr)] gap-4 border-b border-rule py-5">
                     <span className="font-tek text-[18px] font-medium text-faint">{String(i + 1).padStart(2, "0")}</span>
                     <span className="text-[16px] font-medium leading-[1.4] tracking-[-0.03em] text-fg md:text-[18px]">
                       <T>{it}</T>

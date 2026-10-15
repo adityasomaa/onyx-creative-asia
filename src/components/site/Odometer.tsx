@@ -11,6 +11,11 @@ const DIGITS = "0123456789".split("");
  * Digits that roll up into place the first time they scroll into view,
  * like the reference's stat cards. Each digit is a 0–9 strip that stops
  * at its value, later digits landing a beat after earlier ones.
+ *
+ * Line height is set on the digits themselves: a text-size class passed in
+ * would otherwise knock a leading-none off the wrapper (tailwind-merge
+ * treats the two as conflicting), and at the inherited 1.5 every glyph sits
+ * half a line low in its 1em window, cut off at the top.
  */
 export default function Odometer({ value, className }: { value: number | string; className?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -24,21 +29,26 @@ export default function Odometer({ value, className }: { value: number | string;
         const d = DIGITS.indexOf(c);
         if (d < 0) {
           return (
-            <span key={i} aria-hidden>
+            <span key={i} aria-hidden className="leading-none">
               {c}
             </span>
           );
         }
+        // The window is as wide as the digit it lands on (an invisible copy
+        // sizes it), and clips only top and bottom: a wider digit rolling
+        // past may overhang sideways, but "1" no longer sits in a "0"-wide gap.
         return (
-          <span key={i} aria-hidden className="relative inline-block h-[1em] overflow-hidden">
+          <span key={i} aria-hidden className="relative inline-block h-[1em] leading-none [clip-path:inset(0_-50%)]">
+            <span className="invisible">{c}</span>
             <motion.span
-              className="flex flex-col"
+              className="absolute left-1/2 top-0 flex flex-col items-center"
+              style={{ x: "-50%" }}
               initial={{ y: "0em" }}
               animate={{ y: inView || reduce ? `${-d}em` : "0em" }}
               transition={{ duration: reduce ? 0 : 1.4, ease: [0.16, 1, 0.3, 1], delay: reduce ? 0 : i * 0.12 }}
             >
               {DIGITS.map((x) => (
-                <span key={x} className="block h-[1em]">
+                <span key={x} className="block h-[1em] leading-none">
                   {x}
                 </span>
               ))}

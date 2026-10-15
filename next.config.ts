@@ -50,9 +50,16 @@ const nextConfig: NextConfig = {
       // legal
       { source: "/privacy", destination: "/privacy-policy", permanent: true },
       { source: "/terms", destination: "/terms-and-conditions", permanent: true },
-      // services now live on the home page's Expertise section
-      { source: "/services", destination: "/#expertise", permanent: true },
-      { source: "/services/:path*", destination: "/#expertise", permanent: true },
+      // services: the old slugs point at their nearest new service page
+      { source: "/services/digital-presence", destination: "/services/web-software", permanent: true },
+      { source: "/services/creative-studio", destination: "/services/branding-design", permanent: true },
+      { source: "/services/digital-marketing", destination: "/services/ads-management", permanent: true },
+      { source: "/services/ai-automation", destination: "/services/web-software", permanent: true },
+      { source: "/services/managed-services", destination: "/services/growth-analytics", permanent: true },
+      // and the generation before that
+      { source: "/services/web-development", destination: "/services/web-software", permanent: true },
+      { source: "/services/paid-media", destination: "/services/ads-management", permanent: true },
+      { source: "/services/ai-systems", destination: "/services/web-software", permanent: true },
       { source: "/pricing", destination: "/", permanent: true },
       // the human-readable sitemap page is gone; the XML sitemap remains
       { source: "/sitemap", destination: "/", permanent: true },

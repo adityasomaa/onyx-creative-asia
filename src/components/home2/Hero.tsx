@@ -13,6 +13,7 @@ import Headline from "@/components/site/Headline";
 import { useBaliTime } from "@/components/site/useBaliTime";
 import ServiceArt from "@/components/site/art/ServiceArt";
 import SilkAurora from "@/components/site/art/SilkAurora";
+import ServiceStack from "@/components/services/ServiceStack";
 
 /**
  * Home hero. A fixed intro column on the left; the five services cascade
@@ -24,7 +25,7 @@ import SilkAurora from "@/components/site/art/SilkAurora";
  *   between       everything interpolates, so the next column widens
  *                 into the main slot while the current one slides off left
  *
- * Phones get the intro followed by a plain stack of full-bleed cards.
+ * Below lg the intro is followed by the services as a card stack.
  */
 
 const N = SERVICES.length;
@@ -132,7 +133,7 @@ function ServiceCard({ s, i, className }: { s: Service; i: number; className?: s
   const tl = useL();
   return (
     <Link
-      href={`/#svc-${s.id}`}
+      href={`/services/${s.id}`}
       className={cn("group cut flex flex-col justify-between gap-4 bg-accent p-5 text-accent-ink [--cut:24px] md:p-8", className)}
     >
       <span className="flex items-center gap-3 text-[11px] font-medium tabular-nums">
@@ -168,8 +169,11 @@ function Slide({ s, j, state, geo }: { s: Service; j: number; state: MotionValue
   const w = useTransform(pos, (p) => p.w);
   const imgH = useTransform(act, (a) => `${lerp(20.5, 100, a)}%`);
   const chrome = useTransform(act, (a) => 1 - Math.min(1, a * 1.6));
-  const cardOpacity = useTransform(act, (a) => Math.max(0, (a - 0.86) / 0.14));
-  const cardY = useTransform(act, (a) => (1 - Math.max(0, (a - 0.86) / 0.14)) * 40);
+  // The card comes in while the slide is still widening, not after it has
+  // landed: from 30% of the way into the main slot, fully in by 65%.
+  const reveal = (a: number) => Math.max(0, Math.min(1, (a - 0.3) / 0.35));
+  const cardOpacity = useTransform(act, reveal);
+  const cardY = useTransform(act, (a) => (1 - reveal(a)) * 40);
 
   return (
     <motion.div className="absolute top-0 h-full overflow-hidden bg-[#111]" style={{ x, width: w }}>
@@ -214,27 +218,10 @@ function Cascade() {
 }
 
 function Stack() {
-  const tl = useL();
   return (
     <section aria-label="Services" className="lg:hidden">
       <Intro />
-      <div className="flex flex-col gap-1 bg-[#111] pt-1">
-        {SERVICES.map((s, i) => (
-          <article key={s.id} className="relative flex min-h-[78svh] flex-col justify-end overflow-hidden">
-            <SilkAurora seed={i + 1} className="absolute inset-0 h-full w-full" />
-            <ServiceArt id={s.art} bare className="absolute inset-0 h-full w-full" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/0 via-black/20 to-black/80" />
-            <div className="relative flex flex-col gap-3 p-4 pb-5 text-white">
-              <span className="text-[13px] font-medium tabular-nums text-white/75">
-                {s.number} / {String(N).padStart(2, "0")}
-              </span>
-              <h2 className="font-tek text-[26px] font-medium uppercase leading-none">{tl(s.title)}</h2>
-              <p className="text-[15px] font-medium uppercase leading-[1.2] text-white/80">{tl(s.short)}</p>
-              <CutButton href={`/#svc-${s.id}`} label={s.title} size="md" className="mt-2" />
-            </div>
-          </article>
-        ))}
-      </div>
+      <ServiceStack variant="hero" className="pb-6" />
     </section>
   );
 }
@@ -244,7 +231,7 @@ export default function Hero() {
   return (
     <>
       {reduce ? (
-        <div className="hidden lg:grid lg:grid-cols-[40vw_1fr]">
+        <div className="hidden lg:grid lg:grid-cols-[40vw_minmax(0,1fr)]">
           <Intro className="min-h-screen" />
           <div className="grid grid-cols-2 gap-1 bg-[#111] p-1">
             {SERVICES.map((s, i) => (

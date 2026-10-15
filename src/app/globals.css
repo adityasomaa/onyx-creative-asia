@@ -233,6 +233,39 @@
   border-radius: 0;
 }
 
+/* Languages beyond Latin, Cyrillic and CJK.
+   Right-to-left text (Arabic, Persian, Urdu, Pashto, Kurdish, Hebrew,
+   Dhivehi) keeps the page layout, which is built left to right (sliders,
+   timelines, the transition), and sets each block of text in its own
+   direction, aligned to its own start. */
+html[data-dir="rtl"] .site :is(p, h1, h2, h3, h4, li, blockquote, figcaption, dt, dd, label, textarea, input, output, a, button, span) {
+  unicode-bidi: plaintext;
+}
+/* Scripts that join or stack (Arabic, the Indic and Southeast Asian
+   scripts, Tibetan, Thaana): negative tracking breaks the joins and
+   collides the marks, and tight leading clips them. */
+html[data-script="complex"] .site * {
+  letter-spacing: 0 !important;
+}
+html[data-script="complex"] .site :is(h1, h2, h3, h4, p, .font-tek) {
+  line-height: 1.4 !important;
+}
+/* A word longer than the line (long compounds in Kazakh, Tajik, Tamil,
+   Malayalam; display sizes on a phone) breaks instead of running off the
+   screen. Only words that cannot fit are affected. */
+.site :is(h1, h2, h3, h4, p, blockquote, li) {
+  overflow-wrap: break-word;
+}
+/* Korean wraps between words, not between syllables. */
+html[lang^="ko"] .site {
+  word-break: keep-all;
+}
+/* Georgian has no capitals in running text; all-caps would switch it to
+   Mtavruli, which many fonts do not carry. */
+html[lang^="ka"] .site * {
+  text-transform: none !important;
+}
+
 /* /enquire is one screen, the height of the device: nothing behind the
    canvas scrolls, and there is no bounce or pull-to-refresh to drag it. */
 html:has(.enquire-canvas),
