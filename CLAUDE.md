@@ -83,6 +83,7 @@ Full specs in `design/brand/COLORS.md`, `TYPOGRAPHY.md`, `VOICE.md`, `MOTION.md`
 - **Design tokens (single source of truth for engineering):** `tailwind.config.ts`.
 - **Project data (case studies):** `src/lib/data.ts`. Services: `src/lib/services.ts`. Page copy: `src/lib/copy.ts`, written inline in the four base languages (en, id, zh, ja). The other 40 Asian languages are dictionaries keyed by the English in `src/lib/locales/<code>.json`, loaded on demand; when English copy changes, re-extract the catalog and re-translate (a missing string falls back to English). Notes (blog): `src/lib/notes.ts`.
 - **Local dev:** `npm run dev` → http://localhost:3000.
+- **Site assistant:** "Ask our AI" beside the WhatsApp badge (`src/components/site/ChatAssistant.tsx`, mounted by `ContactFab`) streams from `/api/chat` (Anthropic, `claude-haiku-5-5`; `ANTHROPIC_API_KEY` is the Vercel team's shared env var). Its knowledge is built from the same data as `llms.txt` in `src/lib/assistant.ts`, so new services, projects, notes and FAQ reach it on the next deploy. The route only accepts same-origin JSON with capped history; a Vercel Firewall rule rate-limits `/api/chat` to 20 requests / 60 s per IP. UI strings: `CHAT` in `copy.ts`.
 - **Auto-push:** the `origin` remote has an embedded fine-grained PAT, so `git push` from this session works without prompts. Don't print the URL via `git remote -v` (token leaks).
 
 When you change a brand token in code, also update the matching markdown file in `design/brand/` so the design and engineering sides don't drift.

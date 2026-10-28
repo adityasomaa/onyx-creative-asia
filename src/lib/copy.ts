@@ -57,6 +57,55 @@ export const UI = {
   close: l("Close", "Tutup", "关闭", "閉じる"),
 };
 
+/* ───────────────────────── Site assistant ───────────────────────── */
+
+export const CHAT = {
+  launcher: l("Ask our AI", "Tanya AI kami", "问问我们的 AI", "AIに聞く"),
+  launcherSub: l("Instant answers · 24/7", "Jawaban instan · 24/7", "即时回答 · 全天候", "すぐに回答 · 24時間"),
+  title: l("Onyx assistant", "Asisten Onyx", "Onyx 助手", "Onyx アシスタント"),
+  status: l("AI · answers in seconds", "AI · menjawab dalam detik", "AI · 几秒内回答", "AI · 数秒で回答"),
+  greeting: l(
+    "Hi. We're the Onyx assistant, an AI trained on this site. Ask about our services, our work, or how a project starts.",
+    "Halo. Kami asisten Onyx, AI yang dilatih dari isi situs ini. Tanyakan soal layanan, karya kami, atau cara memulai proyek.",
+    "你好。我们是 Onyx 助手，一个基于本站内容的 AI。可以问我们的服务、作品，或项目如何开始。",
+    "こんにちは。Onyx アシスタントです。このサイトの内容で学習した AI です。サービス、実績、プロジェクトの始め方について聞いてください。",
+  ),
+  suggestions: [
+    l("What do you build?", "Apa saja yang kalian kerjakan?", "你们做什么？", "何を作っていますか？"),
+    l("Can you build an AI receptionist for us?", "Bisa buatkan AI receptionist untuk bisnis kami?", "能为我们做一个 AI 接待员吗？", "AI 受付を作ってもらえますか？"),
+    l("How does a project start?", "Bagaimana proyek dimulai?", "项目怎么开始？", "プロジェクトはどう始まりますか？"),
+  ],
+  placeholder: l("Type your question…", "Ketik pertanyaan Anda…", "输入你的问题…", "質問を入力…"),
+  inputLabel: l("Your message", "Pesan Anda", "你的消息", "メッセージ"),
+  send: l("Send", "Kirim", "发送", "送信"),
+  open: l("Open the AI assistant", "Buka asisten AI", "打开 AI 助手", "AI アシスタントを開く"),
+  typing: l("Typing", "Mengetik", "正在输入", "入力中"),
+  disclaimer: l(
+    "AI assistant. For scope and quotes, the team replies on WhatsApp.",
+    "Asisten AI. Untuk scope dan penawaran, tim membalas lewat WhatsApp.",
+    "AI 助手。范围和报价由团队在 WhatsApp 上回复。",
+    "AI アシスタントです。範囲と見積もりはチームが WhatsApp で返信します。",
+  ),
+  tooFast: l(
+    "That's a few too many messages at once. Try again in a minute.",
+    "Pesannya terlalu cepat. Coba lagi semenit lagi.",
+    "消息发得有点快，请一分钟后再试。",
+    "メッセージが続きすぎました。1分後にもう一度どうぞ。",
+  ),
+  failed: l(
+    "We can't answer right now. Message the team on WhatsApp instead.",
+    "Kami belum bisa menjawab sekarang. Silakan hubungi tim lewat WhatsApp.",
+    "现在无法回答，请在 WhatsApp 上联系团队。",
+    "今は回答できません。WhatsApp でチームに連絡してください。",
+  ),
+  limit: l(
+    "That's the limit for this chat. The team can pick it up on WhatsApp.",
+    "Batas percakapan ini sudah tercapai. Tim bisa lanjutkan lewat WhatsApp.",
+    "本次对话已达上限，团队可以在 WhatsApp 上继续。",
+    "このチャットの上限です。続きは WhatsApp でチームが対応します。",
+  ),
+};
+
 /* ───────────────────────── Loader ───────────────────────── */
 
 export const LOADER = {
