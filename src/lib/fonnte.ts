@@ -20,7 +20,7 @@ const FONNTE_SEND_URL = "https://api.fonnte.com/send";
 
 export type FonnteSendInput = {
   /** Target phone number. Indonesian numbers: include 62 country code
-   *  WITHOUT a leading + (e.g. "62895413372822"). Fonnte normalises a
+   *  WITHOUT a leading + (e.g. "6285190963271"). Fonnte normalises a
    *  few formats but the canonical form avoids ambiguity. */
   target: string;
   /** Message body. Plain text. Newlines become real line breaks in WA. */

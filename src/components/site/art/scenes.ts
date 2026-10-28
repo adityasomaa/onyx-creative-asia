@@ -508,51 +508,205 @@ const growth: Scene = (c, w, h, t, p) => {
 };
 
 /* ───────────────────────── Automation (RADcruiters) ────────────────────
-   Eight steps in a snake, one form submission running the whole route:
-   each step lights as the packet passes, then the run resets. */
+   The campaign-request pipeline as one smooth run. The brief form fills
+   itself in and is sent; a glowing packet rides a curve into the router,
+   which reads the vacancy URL down to a domain chip; three branches fan
+   out, and at their ends the client's row lights up in the table, a new
+   card drops onto the board, and two emails fly out with a tick. A timer
+   underneath runs the whole way: seconds, end to end. Then it resets. */
+type Pt = [number, number];
+const bez = (a: Pt, b: Pt, d: Pt, e: Pt, t: number): Pt => {
+  const u = 1 - t;
+  return [u * u * u * a[0] + 3 * u * u * t * b[0] + 3 * u * t * t * d[0] + t * t * t * e[0], u * u * u * a[1] + 3 * u * u * t * b[1] + 3 * u * t * t * d[1] + t * t * t * e[1]];
+};
+const backOut = (t: number) => 1 + 2.70158 * Math.pow(t - 1, 3) + 1.70158 * Math.pow(t - 1, 2);
+
 const automation: Scene = (c, w, h, t, p) => {
   base(c, w, h, p);
   const { U, cx, cy, lw } = frame(w, h);
   c.lineWidth = lw;
-  const q = (t % 9) / 9;
-  const fade = 1 - seg(q, 0.92, 1);
-  const xs = [-3.2, -1.07, 1.07, 3.2].map((x) => cx + x * U);
-  const nodes: [number, number][] = [...xs.map((x) => [x, cy - 1.1 * U] as [number, number]), ...[...xs].reverse().map((x) => [x, cy + 1.1 * U] as [number, number])];
-  const nw = 1.6 * U, nh = 0.78 * U;
-  c.strokeStyle = p.fg(0.3);
-  polyline(c, nodes);
+  const q = (t % 8) / 8;
+  const fade = 1 - seg(q, 0.9, 0.98);
+  const A = (a: number) => p.ac(a * fade);
+
+  // ── the brief form ──
+  const fx = cx - 3.8 * U, fy = cy - 1.55 * U, fw = 2.1 * U, fh = 3.1 * U;
+  c.fillStyle = p.bg;
+  rr(c, fx, fy, fw, fh, 0.14 * U);
+  c.fill();
+  c.strokeStyle = p.fg(0.55);
   c.stroke();
-  const e = seg(q, 0.04, 0.86) * (nodes.length - 1);
-  const k = Math.floor(e), f = e - k;
-  const move = eio(seg(f, 0.35, 1));
-  const at: [number, number] = k >= nodes.length - 1 ? nodes[nodes.length - 1] : [lerp(nodes[k][0], nodes[k + 1][0], move), lerp(nodes[k][1], nodes[k + 1][1], move)];
-  if (k < nodes.length - 1 && q < 0.86) {
-    c.strokeStyle = p.ac(0.95);
+  bar(c, fx + 0.2 * U, fy + 0.22 * U, 0.9 * U, 0.09 * U, p.fg(0.75));
+  bar(c, fx + 0.2 * U, fy + 0.38 * U, 0.6 * U, 0.06 * U, p.fg(0.3));
+  const typing = [[0.02, 0.07], [0.07, 0.11], [0.11, 0.17]];
+  const widths = [1.0, 0.75, 1.4];
+  typing.forEach(([a, b], i) => {
+    const y = fy + (0.7 + i * 0.55) * U;
+    const f = eio(seg(q, a, b)) * fade;
+    const active = q > a && q < b;
+    bar(c, fx + 0.2 * U, y, 0.42 * U, 0.05 * U, p.fg(0.35));
+    rr(c, fx + 0.2 * U, y + 0.12 * U, fw - 0.4 * U, 0.32 * U, 0.06 * U);
+    c.strokeStyle = active ? p.ac(0.9) : p.fg(0.3);
+    c.stroke();
+    const tw = widths[i] * U * f;
+    bar(c, fx + 0.3 * U, y + 0.24 * U, tw, 0.08 * U, i === 2 ? p.fg(0.95) : p.fg(0.8));
+    if (active && Math.sin(t * 14) > 0) bar(c, fx + 0.32 * U + tw, y + 0.2 * U, lw * 1.6, 0.16 * U, p.ac(1));
+  });
+  const press = seg(q, 0.17, 0.2);
+  const sbx = fx + 0.2 * U, sby = fy + fh - 0.62 * U, sbw = fw - 0.4 * U, sbh = 0.38 * U;
+  const squash = 1 - 0.06 * Math.sin(press * Math.PI);
+  c.save();
+  c.translate(sbx + sbw / 2, sby + sbh / 2);
+  c.scale(squash, squash);
+  rr(c, -sbw / 2, -sbh / 2, sbw, sbh, 0.08 * U);
+  c.fillStyle = q > 0.18 ? A(0.95) : p.fg(0.14);
+  c.fill();
+  bar(c, -0.3 * U, -0.04 * U, 0.6 * U, 0.08 * U, q > 0.18 ? p.ink(0.85 * fade) : p.fg(0.6));
+  c.restore();
+
+  // ── routes ──
+  const R = 0.55 * U, rx = cx - 0.15 * U;
+  const sb: Pt = [fx + fw, sby + sbh / 2];
+  const rIn: Pt = [rx - R, cy], rOut: Pt = [rx + R, cy];
+  const toRouter: [Pt, Pt, Pt, Pt] = [sb, [sb[0] + 0.7 * U, sb[1]], [rIn[0] - 0.7 * U, cy], rIn];
+  const dx = cx + 1.3 * U, dw = 2.5 * U, dh = 0.95 * U;
+  const ys = [cy - 1.25 * U, cy, cy + 1.25 * U];
+  const branches = ys.map((y) => [rOut, [rOut[0] + 0.5 * U, cy], [dx - 0.5 * U, y], [dx, y]] as [Pt, Pt, Pt, Pt]);
+  c.save();
+  c.setLineDash([0.07 * U, 0.09 * U]);
+  c.lineDashOffset = -t * U * 0.35;
+  c.strokeStyle = p.fg(0.28);
+  for (const r of [toRouter, ...branches]) {
+    c.beginPath();
+    c.moveTo(r[0][0], r[0][1]);
+    c.bezierCurveTo(r[1][0], r[1][1], r[2][0], r[2][1], r[3][0], r[3][1]);
+    c.stroke();
+  }
+  c.restore();
+  // a packet with a soft trail
+  const packet = (r: [Pt, Pt, Pt, Pt], e: number) => {
+    if (e <= 0 || e >= 1) return;
+    for (let k = 7; k >= 0; k--) {
+      const tt = e - k * 0.03;
+      if (tt < 0) continue;
+      const [x, y] = bez(r[0], r[1], r[2], r[3], tt);
+      dot(c, x, y, (0.1 - k * 0.009) * U, p.ac(k === 0 ? 1 : 0.45 * (1 - k / 8)));
+    }
+  };
+  packet(toRouter, eio(seg(q, 0.2, 0.31)));
+  branches.forEach((r, i) => packet(r, eio(seg(q, 0.42 + i * 0.05, 0.53 + i * 0.05))));
+
+  // ── the router: reads the URL down to a domain ──
+  const busy = q > 0.3 && q < 0.44;
+  if (busy) {
+    const s2 = (t * 1.3) % 1;
+    c.strokeStyle = p.ac(0.55 * (1 - s2));
+    c.beginPath();
+    c.arc(rx, cy, R * (1 + 0.5 * s2), 0, TAU);
+    c.stroke();
+  }
+  dot(c, rx, cy, R, p.bg);
+  c.strokeStyle = p.fg(0.8);
+  c.beginPath();
+  c.arc(rx, cy, R, 0, TAU);
+  c.stroke();
+  const spin = t * (busy ? 2.6 : 0.8);
+  for (let k = 0; k < 3; k++) {
+    const a = spin + (k * TAU) / 3;
+    dot(c, rx + Math.cos(a) * R * 0.6, cy + Math.sin(a) * R * 0.6, 0.06 * U, busy ? p.ac(1) : p.fg(0.55));
+  }
+  dot(c, rx, cy, 0.1 * U, busy ? p.ac(1) : p.fg(0.7));
+  const chip = eout(seg(q, 0.34, 0.4)) * fade;
+  if (chip > 0) {
+    c.globalAlpha = chip;
+    const cw = lerp(1.6, 1.0, eio(seg(q, 0.36, 0.44))) * U;
+    rr(c, rx - cw / 2, cy - R - 0.55 * U + (1 - chip) * 0.15 * U, cw, 0.3 * U, 0.15 * U);
+    c.fillStyle = p.ac(0.95);
+    c.fill();
+    bar(c, rx - cw / 2 + 0.14 * U, cy - R - 0.44 * U + (1 - chip) * 0.15 * U, cw - 0.28 * U, 0.08 * U, p.ink(0.8));
+    c.globalAlpha = 1;
+  }
+  // timer: the whole run, end to end
+  const run = seg(q, 0.18, 0.66);
+  bar(c, rx - 0.6 * U, cy + R + 0.32 * U, 1.2 * U, 0.06 * U, p.fg(0.2));
+  bar(c, rx - 0.6 * U, cy + R + 0.32 * U, 1.2 * U * run * fade, 0.06 * U, p.ac(0.95));
+  const tick = (x: number, y: number, s3: number, a: number) => {
+    if (a <= 0) return;
+    c.strokeStyle = p.ac(a);
     c.lineWidth = lw * 2;
     c.beginPath();
-    c.moveTo(nodes[k][0], nodes[k][1]);
-    c.lineTo(at[0], at[1]);
+    c.moveTo(x - s3 * 0.5, y);
+    c.lineTo(x - s3 * 0.15, y + s3 * 0.35);
+    c.lineTo(x + s3 * 0.55, y - s3 * 0.4);
     c.stroke();
     c.lineWidth = lw;
-  }
-  nodes.forEach(([x, y], i) => {
-    const lit = (i < k || (i === k && move < 1) || q >= 0.86) && q > 0.04;
-    const a = lit ? fade : 0;
+  };
+  tick(rx + 0.85 * U, cy + R + 0.34 * U, 0.22 * U, eout(seg(q, 0.66, 0.7)) * fade);
+
+  // ── where it lands ──
+  ys.forEach((y, i) => {
+    const top = y - dh / 2;
+    const a = eout(seg(q, 0.53 + i * 0.05, 0.6 + i * 0.05)) * fade;
     c.fillStyle = p.bg;
-    rr(c, x - nw / 2, y - nh / 2, nw, nh, 0.1 * U);
+    rr(c, dx, top, dw, dh, 0.1 * U);
     c.fill();
-    if (a > 0) {
-      c.fillStyle = p.ac(0.92 * a);
-      c.fill();
-    }
-    c.strokeStyle = p.fg(0.8);
+    c.strokeStyle = p.fg(0.5);
     c.stroke();
-    const on = a > 0.5;
-    bar(c, x - nw / 2 + 0.16 * U, y - nh / 2 + 0.14 * U, 0.2 * U, 0.06 * U, on ? p.ink(0.6) : p.fg(0.35));
-    bar(c, x - nw / 2 + 0.16 * U, y - 0.04 * U, nw * 0.6, 0.1 * U, on ? p.ink(0.9) : p.fg(0.85));
-    bar(c, x - nw / 2 + 0.16 * U, y + 0.16 * U, nw * 0.38, 0.06 * U, on ? p.ink(0.55) : p.fg(0.3));
+    if (a > 0) {
+      c.strokeStyle = p.ac(0.7 * a);
+      c.stroke();
+    }
+    if (i === 0) {
+      // client table: the matching row lights cell by cell
+      for (let r = 0; r < 3; r++)
+        for (let k = 0; k < 4; k++) {
+          const lit = r === 1 && a * 4.2 > k + 0.2;
+          c.fillStyle = lit ? A(0.9) : p.fg(r === 0 ? 0.32 : 0.15);
+          c.fillRect(dx + 0.2 * U + k * 0.55 * U, top + 0.17 * U + r * 0.22 * U, 0.46 * U, 0.13 * U);
+        }
+    } else if (i === 1) {
+      // board: three lists, a new card drops onto the first
+      for (let k = 0; k < 3; k++) {
+        const lx = dx + 0.18 * U + k * 0.76 * U;
+        c.strokeStyle = p.fg(0.22);
+        rr(c, lx, top + 0.13 * U, 0.66 * U, dh - 0.26 * U, 0.05 * U);
+        c.stroke();
+        if (k > 0) bar(c, lx + 0.08 * U, top + 0.22 * U, 0.5 * U, 0.14 * U, p.fg(0.25));
+        if (k === 2) bar(c, lx + 0.08 * U, top + 0.42 * U, 0.5 * U, 0.14 * U, p.fg(0.25));
+      }
+      if (a > 0) {
+        const yy = lerp(top - 0.5 * U, top + 0.22 * U, backOut(a));
+        c.globalAlpha = Math.min(1, a * 2);
+        rr(c, dx + 0.26 * U, yy, 0.5 * U, 0.2 * U, 0.04 * U);
+        c.fillStyle = p.ac(0.95);
+        c.fill();
+        c.globalAlpha = 1;
+      }
+    } else {
+      // mail: two envelopes leave, to the team and to the client, then a tick
+      const env = (x: number, yy: number, sz: number, col: string) => {
+        c.strokeStyle = col;
+        rr(c, x, yy, sz, sz * 0.66, 0.03 * U);
+        c.stroke();
+        c.beginPath();
+        c.moveTo(x, yy);
+        c.lineTo(x + sz / 2, yy + sz * 0.36);
+        c.lineTo(x + sz, yy);
+        c.stroke();
+      };
+      env(dx + 0.22 * U, y - 0.2 * U, 0.6 * U, p.fg(0.7));
+      for (let m = 0; m < 2; m++) {
+        const f = eio(seg(q, 0.62 + m * 0.04, 0.72 + m * 0.04));
+        if (f <= 0 || f >= 1 || fade <= 0) continue;
+        const ex = lerp(dx + 0.3 * U, dx + dw - 0.75 * U, f);
+        const ey = y - 0.16 * U + (m ? 0.16 : -0.18) * U * Math.sin(f * Math.PI);
+        c.globalAlpha = Math.sin(f * Math.PI) * fade;
+        env(ex, ey, 0.4 * U, p.ac(1));
+        c.globalAlpha = 1;
+      }
+      tick(dx + dw - 0.38 * U, y, 0.26 * U, eout(seg(q, 0.78, 0.82)) * fade);
+    }
   });
-  if (q < 0.86) dot(c, at[0], at[1], 0.11 * U, p.ac(1));
 };
 
 /* ───────────────────────── AI automation ───────────────────────────────

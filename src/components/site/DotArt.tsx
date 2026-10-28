@@ -40,7 +40,7 @@ function boxEdges(x: number, y: number, z: number, w: number, h: number, d: numb
   return e.map(([a, b]) => [v[a], v[b]]);
 }
 
-export default function DotArt({ kind, className }: { kind: Kind; className?: string }) {
+export default function DotArt({ kind, light, className }: { kind: Kind; light?: boolean; className?: string }) {
   const groups = useMemo(() => {
     if (kind === "rings") return [dotsOnCircle(145, 130, 88, 8), dotsOnCircle(145, 130, 58, 7), dotsOnCircle(145, 130, 30, 6), [[145, 130] as P]];
     if (kind === "target") return [dotsOnCircle(145, 130, 92, 9), dotsOnCircle(145, 130, 54, 6), dotsOnCircle(145, 130, 26, 5), [[145, 130] as P]];
@@ -63,7 +63,7 @@ export default function DotArt({ kind, className }: { kind: Kind; className?: st
           style={{ animationDelay: `${gi * -1.7}s` }}
         >
           {g.map(([x, y], i) => (
-            <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r={kind === "box" ? 1.05 : 0.95} fill="#262626" opacity={0.75} />
+            <circle key={i} cx={x.toFixed(1)} cy={y.toFixed(1)} r={kind === "box" ? 1.05 : 0.95} fill={light ? "#FFFFFF" : "#262626"} opacity={light ? 0.85 : 0.75} />
           ))}
         </g>
       ))}

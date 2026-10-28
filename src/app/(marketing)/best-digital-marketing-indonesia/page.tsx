@@ -50,7 +50,7 @@ const FAQ = [
   },
   {
     q: "How do I get started with Onyx Creative Asia?",
-    a: "Email hello@onyxcreative.asia, WhatsApp +62 895 4133 72822, or send a brief at onyxcreative.asia/enquire. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA. Expect a short call, a written scope and a start date.",
+    a: "Email hello@onyxcreative.asia, WhatsApp +62 851 9096 3271, or send a brief at onyxcreative.asia/enquire. Replies come within a working day, Monday to Friday, 08:00 to 22:00 WITA. Expect a short call, a written scope and a start date.",
   },
 ];
 

@@ -244,7 +244,7 @@ After a successful send:
 ### Fonnte setup
 
 1. Sign up at https://md.fonnte.com → register a device for the WA
-   business number (`+62 895-4133-72822`).
+   business number (`+62 851-9096-3271`).
 2. Open the device detail → copy **Token** (long random string).
 3. Add `FONNTE_TOKEN` to Vercel env vars (Production + Preview,
    Sensitive ✅).

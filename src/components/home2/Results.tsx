@@ -5,6 +5,7 @@ import { useL } from "@/lib/i18n";
 import { RESULTS, HERO } from "@/lib/copy";
 import SectionHeader from "@/components/site/SectionHeader";
 import DotArt from "@/components/site/DotArt";
+import SilkAurora from "@/components/site/art/SilkAurora";
 import Odometer from "@/components/site/Odometer";
 import CutButton from "@/components/site/CutButton";
 import Reveal from "@/components/site/Reveal";
@@ -16,9 +17,10 @@ function StatCard({ c, n }: { c: Card; n: number }) {
   return (
     <Reveal className="flex flex-col bg-snow p-6">
       <span className="w-fit border-b border-faint pb-1.5 text-[13px] font-semibold uppercase tracking-[-0.02em] text-night">{tl(c.tag)}</span>
-      <div className="cut relative mt-4 aspect-[290/262] bg-paper/70 [--cut:28px]">
-        <DotArt kind={c.art} />
-        <span className="absolute bottom-2 right-4 text-[11px] text-faint">{String(n).padStart(2, "0")}</span>
+      <div className="cut on-dark relative mt-4 aspect-[290/262] overflow-hidden bg-[#111] [--cut:28px]">
+        <SilkAurora seed={n + 8} className="absolute inset-0 h-full w-full" />
+        <DotArt kind={c.art} light className="relative" />
+        <span className="absolute bottom-2 right-4 text-[11px] text-white/50">{String(n).padStart(2, "0")}</span>
       </div>
       <div className="mt-6 flex items-end gap-2 border-b-[3px] border-accent pb-2 font-tek font-medium text-fg">
         <Odometer value={c.value} className="text-[72px] md:text-[78px]" />

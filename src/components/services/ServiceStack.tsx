@@ -78,8 +78,9 @@ function PanelCard({ s }: { s: Service }) {
   const count = projectsFor(s.id).length;
   return (
     <article className="cut on-dark relative grid h-full grid-rows-[34%_1fr] overflow-hidden border-t border-white/10 bg-coal text-white [--cut:28px] md:grid-cols-[minmax(0,1fr)_38%] md:grid-rows-1">
-      <div className="relative md:order-last">
-        <ServiceArt id={s.art} className="absolute inset-0 h-full w-full" />
+      <div className="relative overflow-hidden bg-[#111] md:order-last">
+        <SilkAurora seed={SERVICES.indexOf(s) + 1} className="absolute inset-0 h-full w-full" />
+        <ServiceArt id={s.art} bare className="absolute inset-0 h-full w-full" />
       </div>
       <div className="flex min-h-0 flex-col justify-between gap-5 p-5 md:p-10">
         <div className="min-h-0">

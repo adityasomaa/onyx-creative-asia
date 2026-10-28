@@ -16,6 +16,7 @@ import Showreel from "@/components/home2/Showreel";
 import WorkIndex from "@/components/home2/WorkIndex";
 import ClientLogos from "@/components/home2/ClientLogos";
 import NotesTeaser from "@/components/home2/NotesTeaser";
+import SilkAurora from "@/components/site/art/SilkAurora";
 import ServiceArt from "@/components/site/art/ServiceArt";
 
 function Studio() {
@@ -91,8 +92,9 @@ export default function AboutPage() {
           {SERVICES.map((s, i) => (
             <Reveal key={s.id} delay={(i % 5) * 0.05}>
               <Link href={`/services/${s.id}`} className="group block">
-                <div className="cut relative aspect-[3/4] overflow-hidden bg-paper [--cut:22px]">
-                  <ServiceArt id={s.art} className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
+                <div className="cut on-dark relative aspect-[3/4] overflow-hidden bg-[#111] [--cut:22px]">
+                  <SilkAurora seed={i + 1} className="absolute inset-0 h-full w-full" />
+                  <ServiceArt id={s.art} bare className="absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-105" />
                 </div>
                 <p className="mt-4 font-tek text-[18px] font-medium uppercase leading-[1.05] text-fg">{tl(s.title)}</p>
                 <div className="mt-3 flex items-end gap-2 border-b border-rule pb-3">

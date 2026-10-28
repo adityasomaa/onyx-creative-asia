@@ -5,11 +5,12 @@ import { useEffect, useRef } from "react";
 import type { Project } from "@/lib/data";
 import { cn } from "@/lib/cn";
 import ServiceArt from "./art/ServiceArt";
+import SilkAurora from "./art/SilkAurora";
 
 /**
  * A project's moving preview: the scroll-through of its live site in a
  * browser + phone frame (16:10 on #F4F4F4), or, for work without a public
- * site, its motion graphic. The poster shows until the video can play; the
+ * site, its motion graphic over the silk aurora. The poster shows until the video can play; the
  * video only plays while on screen, and never under reduced motion.
  *
  * Fills its parent; give the parent the 16:10 box.
@@ -45,7 +46,13 @@ export default function WorkMedia({
     return () => io.disconnect();
   }, [src]);
 
-  if (p.art) return <ServiceArt id={p.art} theme="light" className={cn("absolute inset-0 h-full w-full", className)} />;
+  if (p.art)
+    return (
+      <span className="absolute inset-0 overflow-hidden bg-[#111]">
+        <SilkAurora seed={7} className={cn("absolute inset-0 h-full w-full", className)} />
+        <ServiceArt id={p.art} bare className={cn("absolute inset-0 h-full w-full", className)} />
+      </span>
+    );
 
   return (
     <>

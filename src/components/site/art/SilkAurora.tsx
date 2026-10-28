@@ -14,7 +14,29 @@ import { ACCENT_EVENT } from "../Accent";
  * Cheap on purpose: rendered at half resolution (the image is soft
  * anyway), the GL context is only created once the canvas is on screen,
  * drawing pauses when it leaves, and reduced motion gets one still frame.
+ *
+ * A page can carry a dozen or more of these, and browsers keep only about
+ * sixteen WebGL contexts alive (the oldest is dropped, leaving a black
+ * box). So live contexts are pooled: past MAX_LIVE, the one off screen
+ * longest gives its context back and starts again on a fresh canvas when
+ * it is next seen. A context the browser drops on its own recovers the
+ * same way.
  */
+
+type Slot = { visible: boolean; seen: number; release: () => void };
+const LIVE = new Set<Slot>();
+const MAX_LIVE = 8;
+
+function claim(slot: Slot) {
+  LIVE.add(slot);
+  while (LIVE.size > MAX_LIVE) {
+    let victim: Slot | null = null;
+    for (const s of LIVE) if (s !== slot && !s.visible && (!victim || s.seen < victim.seen)) victim = s;
+    if (!victim) break; // everything live is on screen: let the browser cope
+    LIVE.delete(victim);
+    victim.release();
+  }
+}
 
 const VERTEX = `
 attribute vec2 position;
@@ -99,6 +121,8 @@ function colours(): { base: RGB; mid: RGB; sheen: RGB; accent: RGB } {
 export default function SilkAurora({ seed = 0, className }: { seed?: number; className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [failed, setFailed] = useState(false);
+  // A new generation means a new canvas element, so a released context can be rebuilt.
+  const [gen, setGen] = useState(0);
 
   useEffect(() => {
     const cv = ref.current;
@@ -110,6 +134,28 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
     let visible = false;
     const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
     const t0 = performance.now();
+    const drop = () => {
+      cancelAnimationFrame(raf);
+      cv.removeEventListener("webglcontextlost", onLost);
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
+      gl = null;
+    };
+    const slot: Slot = {
+      visible: false,
+      seen: 0,
+      release: () => {
+        drop();
+        setGen((g) => g + 1);
+      },
+    };
+    const onLost = (e: Event) => {
+      e.preventDefault();
+      LIVE.delete(slot);
+      gl = null;
+      cancelAnimationFrame(raf);
+      setGen((g) => g + 1);
+    };
+    cv.addEventListener("webglcontextlost", onLost);
 
     const setColours = () => {
       if (!gl) return;
@@ -182,9 +228,14 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
 
     const io = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
+      slot.visible = visible;
+      slot.seen = performance.now();
       cancelAnimationFrame(raf);
       if (!visible) return;
-      if (!gl) init();
+      if (!gl) {
+        init();
+        if (gl) claim(slot);
+      }
       size();
       raf = requestAnimationFrame(draw);
     });
@@ -207,9 +258,10 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
       ro.disconnect();
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener(ACCENT_EVENT, onAccent);
-      gl?.getExtension("WEBGL_lose_context")?.loseContext();
+      LIVE.delete(slot);
+      drop();
     };
-  }, [seed]);
+  }, [seed, gen]);
 
   if (failed) {
     return (
@@ -220,5 +272,5 @@ export default function SilkAurora({ seed = 0, className }: { seed?: number; cla
       />
     );
   }
-  return <canvas ref={ref} aria-hidden className={cn("block", className)} />;
+  return <canvas key={gen} ref={ref} aria-hidden className={cn("block", className)} />;
 }

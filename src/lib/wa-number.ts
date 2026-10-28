@@ -3,10 +3,10 @@
  *
  * Two forms:
  *   - getWaNumber()  → raw digits with country code, no separators
- *                      e.g. "62895413372822". Used in wa.me links and
+ *                      e.g. "6285190963271". Used in wa.me links and
  *                      anywhere the WA web/protocol expects a phone.
  *   - getWaDisplay() → human-readable formatted version with country
- *                      code and dashes, e.g. "+62 895-4133-72822".
+ *                      code and dashes, e.g. "+62 851-9096-3271".
  *                      Used in copy that humans read.
  *
  * Both read from `NEXT_PUBLIC_*` env vars so they survive client-side
@@ -28,8 +28,8 @@
  * checklist.
  */
 
-const DEFAULT_NUMBER = "62895413372822";
-const DEFAULT_DISPLAY = "+62 895-4133-72822";
+const DEFAULT_NUMBER = "6285190963271";
+const DEFAULT_DISPLAY = "+62 851-9096-3271";
 
 /** Raw digits (with country code, no +, no spaces). For wa.me links. */
 export function getWaNumber(): string {

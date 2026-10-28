@@ -102,7 +102,7 @@ const ORG_JSON_LD = {
       "@type": "ContactPoint",
       contactType: "customer service",
       email: "hello@onyxcreative.asia",
-      telephone: "+62-895-4133-72822",
+      telephone: "+62-851-9096-3271",
       availableLanguage: ["English", "Indonesian"],
       areaServed: ["ID", "SG", "AU", "NL", "Asia"],
     },
@@ -128,7 +128,7 @@ const LOCAL_BUSINESS_JSON_LD = {
     { "@type": "Country", name: "Australia" },
   ],
   email: "hello@onyxcreative.asia",
-  telephone: "+62-895-4133-72822",
+  telephone: "+62-851-9096-3271",
   openingHoursSpecification: {
     "@type": "OpeningHoursSpecification",
     dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
