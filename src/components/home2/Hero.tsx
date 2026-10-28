@@ -16,7 +16,7 @@ import SilkAurora from "@/components/site/art/SilkAurora";
 import ServiceStack from "@/components/services/ServiceStack";
 
 /**
- * Home hero. A fixed intro column on the left; the five services cascade
+ * Home hero. A fixed intro column on the left; the six services cascade
  * in from the right as you scroll, the reference's "Cascade" mechanic:
  *
  *   state 0       intro visible, service 1 fills the rest, card showing
@@ -60,7 +60,10 @@ function box(j: number, s: number, g: Geo): { x: number; w: number } {
   if (s === N && j === N) return { x: 0, w: g.W };
   if (d < 0) return { x: -g.M - 40, w: g.M };
   if (d === 0) return { x: 0, w: g.M };
-  return { x: g.M + (d - 1) * g.C, w: g.C };
+  // The last waiting column runs to the right edge: with one service left
+  // there is no second column to fill the space after it.
+  const x = g.M + (d - 1) * g.C;
+  return { x, w: j === N ? Math.max(g.C, g.W - x) : g.C };
 }
 
 function lerp(a: number, b: number, t: number) {

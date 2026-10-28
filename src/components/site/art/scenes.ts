@@ -1,5 +1,5 @@
 /**
- * Motion graphics for the five services (and the RADcruiters automation),
+ * Motion graphics for the six services (and the RADcruiters automation),
  * drawn on a 2D canvas in the same thin-line, dotted vocabulary as DotArt.
  *
  * Every scene is a pure function of size and time, so it loops forever,
@@ -555,12 +555,171 @@ const automation: Scene = (c, w, h, t, p) => {
   if (q < 0.86) dot(c, at[0], at[1], 0.11 * U, p.ac(1));
 };
 
+/* ───────────────────────── AI automation ───────────────────────────────
+   A chat on the left, the agent in the middle, the business on the right.
+   A customer's message travels to the agent, the agent types and answers,
+   and in the same moment books the calendar slot, adds the lead to the
+   list and moves the dashboard. Then the next message does it again. */
+const agent: Scene = (c, w, h, t, p) => {
+  base(c, w, h, p);
+  const { U, cx, cy, lw } = frame(w, h);
+  c.lineWidth = lw;
+  const q = (t % 9) / 9;
+  const fade = 1 - seg(q, 0.9, 0.98);
+
+  const pw = 2.3 * U, ph = 3.5 * U, lx = cx - 3.75 * U, ly = cy - ph / 2;
+  const R = 0.62 * U;
+  const rx = cx + 1.45 * U, rw = 2.3 * U, rh = 0.86 * U;
+  const outY = [cy - 1.15 * U, cy, cy + 1.15 * U];
+
+  // Two rounds: message in, the agent thinks, the answer and the three updates go out.
+  const rounds = [
+    { inAt: 0.04, go: 0.1, think: [0.16, 0.3], reply: 0.3, out: 0.3 },
+    { inAt: 0.48, go: 0.54, think: [0.6, 0.72], reply: 0.72, out: 0.72 },
+  ];
+  const busy = rounds.some((r) => q > r.think[0] && q < r.think[1] + 0.02);
+
+  // Links, dotted.
+  c.save();
+  c.setLineDash([0.06 * U, 0.1 * U]);
+  c.strokeStyle = p.fg(0.3);
+  c.beginPath();
+  c.moveTo(lx + pw, cy);
+  c.lineTo(cx - R, cy);
+  c.stroke();
+  for (const y of outY) {
+    c.beginPath();
+    c.moveTo(cx + R, cy);
+    c.lineTo(rx, y);
+    c.stroke();
+  }
+  c.restore();
+
+  // Chat panel.
+  c.fillStyle = p.bg;
+  rr(c, lx, ly, pw, ph, 0.14 * U);
+  c.fill();
+  c.strokeStyle = p.fg(0.55);
+  c.stroke();
+  dot(c, lx + 0.28 * U, ly + 0.3 * U, 0.1 * U, p.fg(0.35));
+  bar(c, lx + 0.48 * U, ly + 0.26 * U, 0.9 * U, 0.08 * U, p.fg(0.6));
+  bar(c, lx, ly + 0.6 * U, pw, lw, p.fg(0.2));
+
+  const bubble = (x: number, y: number, bw: number, bh: number, mine: boolean, e: number) => {
+    if (e <= 0) return;
+    c.globalAlpha = e * fade;
+    const yy = y + (1 - e) * 0.15 * U;
+    rr(c, x, yy, bw, bh, 0.12 * U);
+    if (mine) {
+      c.fillStyle = p.ac(0.92);
+      c.fill();
+      bar(c, x + 0.14 * U, yy + 0.14 * U, bw - 0.4 * U, 0.07 * U, p.ink(0.85));
+      bar(c, x + 0.14 * U, yy + 0.3 * U, bw * 0.45, 0.07 * U, p.ink(0.6));
+    } else {
+      c.fillStyle = p.bg;
+      c.fill();
+      c.strokeStyle = p.fg(0.6);
+      c.stroke();
+      bar(c, x + 0.14 * U, yy + 0.14 * U, bw - 0.35 * U, 0.07 * U, p.fg(0.75));
+    }
+    c.globalAlpha = 1;
+  };
+  const inX = lx + 0.16 * U, outX = lx + pw - 0.16 * U - 1.7 * U;
+  const slots = [ly + 0.82 * U, ly + 1.34 * U, ly + 2.12 * U, ly + 2.64 * U];
+  rounds.forEach((r, i) => {
+    bubble(inX, slots[i * 2], 1.5 * U, 0.36 * U, false, eout(seg(q, r.inAt, r.inAt + 0.05)));
+    bubble(outX, slots[i * 2 + 1], 1.7 * U, 0.5 * U, true, eout(seg(q, r.reply, r.reply + 0.05)));
+    if (q > r.think[0] && q < r.think[1]) {
+      for (let k = 0; k < 3; k++) {
+        const b = Math.max(0, Math.sin(t * 9 - k * 0.9)) * 0.08 * U;
+        dot(c, lx + pw - 0.5 * U - k * 0.2 * U, slots[i * 2 + 1] + 0.2 * U - b, 0.055 * U, p.fg(0.6));
+      }
+    }
+  });
+
+  // Packets: chat → agent, then agent → each of the three outputs.
+  rounds.forEach((r) => {
+    const e = seg(q, r.go, r.go + 0.06);
+    if (e > 0 && e < 1) dot(c, lerp(lx + pw, cx - R, eio(e)), cy, 0.09 * U, p.ac(1));
+    outY.forEach((y, k) => {
+      const f = seg(q, r.out + k * 0.03, r.out + k * 0.03 + 0.06);
+      if (f > 0 && f < 1) dot(c, lerp(cx + R, rx, eio(f)), lerp(cy, y, eio(f)), 0.09 * U, p.ac(1));
+    });
+  });
+
+  // The agent.
+  if (busy) {
+    const s = (t * 1.4) % 1;
+    c.strokeStyle = p.ac(0.6 * (1 - s));
+    c.beginPath();
+    c.arc(cx, cy, R * (1 + 0.45 * s), 0, TAU);
+    c.stroke();
+  }
+  dot(c, cx, cy, R, p.bg);
+  c.strokeStyle = p.fg(0.8);
+  c.beginPath();
+  c.arc(cx, cy, R, 0, TAU);
+  c.stroke();
+  c.save();
+  c.setLineDash([0.08 * U, 0.07 * U]);
+  c.lineDashOffset = -t * U * (busy ? 0.9 : 0.25);
+  c.strokeStyle = busy ? p.ac(0.95) : p.fg(0.4);
+  c.beginPath();
+  c.arc(cx, cy, R * 0.68, 0, TAU);
+  c.stroke();
+  c.restore();
+  dot(c, cx, cy, 0.14 * U, busy ? p.ac(1) : p.fg(0.7));
+  bar(c, cx - 0.5 * U, cy + R + 0.24 * U, 1 * U, 0.08 * U, p.fg(0.6));
+  bar(c, cx - 0.32 * U, cy + R + 0.4 * U, 0.64 * U, 0.06 * U, p.fg(0.3));
+
+  // Outputs: calendar, lead list, dashboard. Each updates when its packet lands.
+  const hit = (k: number) => rounds.map((r) => eout(seg(q, r.out + k * 0.03 + 0.06, r.out + k * 0.03 + 0.11)) * fade);
+  outY.forEach((y, k) => {
+    const top = y - rh / 2;
+    c.fillStyle = p.bg;
+    rr(c, rx, top, rw, rh, 0.1 * U);
+    c.fill();
+    c.strokeStyle = p.fg(0.5);
+    c.stroke();
+    const [a, b] = hit(k);
+    if (k === 0) {
+      // calendar: two weeks of days, a slot books each round
+      for (let r = 0; r < 2; r++)
+        for (let d = 0; d < 7; d++) {
+          const x = rx + 0.16 * U + d * 0.29 * U, yy = top + 0.18 * U + r * 0.3 * U;
+          const booked = (r === 0 && d === 3 && a > 0) || (r === 1 && d === 1 && b > 0);
+          c.fillStyle = booked ? p.ac(0.95 * (r === 0 ? a : b)) : p.fg(0.12);
+          c.fillRect(x, yy, 0.22 * U, 0.22 * U);
+        }
+    } else if (k === 1) {
+      // lead list: a new row slides in on top each round
+      const rows = [a, b].filter((v) => v > 0).length;
+      for (let i = 0; i < 3; i++) {
+        const fresh = i === 0 && rows > 0;
+        const e = fresh ? (rows === 2 ? b : a) : 1;
+        const yy = top + 0.18 * U + i * 0.2 * U - (fresh ? (1 - e) * 0.15 * U : 0);
+        dot(c, rx + 0.24 * U, yy + 0.04 * U, 0.05 * U, fresh ? p.ac(0.95 * e) : p.fg(0.35));
+        bar(c, rx + 0.4 * U, yy, (1.2 - i * 0.2) * U, 0.08 * U, fresh ? p.ac(0.95 * e) : p.fg(0.4));
+      }
+    } else {
+      // dashboard: bars, the last two grow as the rounds land
+      const base0 = top + rh - 0.14 * U;
+      for (let i = 0; i < 6; i++) {
+        const hgt = (0.16 + rnd(i + 30) * 0.22 + (i === 4 ? a : 0) * 0.22 + (i === 5 ? b : 0) * 0.34) * U;
+        const grow = (i === 4 && a > 0) || (i === 5 && b > 0);
+        bar(c, rx + 0.2 * U + i * 0.33 * U, base0 - hgt, 0.2 * U, hgt, grow ? p.ac(0.95) : p.fg(0.4));
+      }
+    }
+  });
+};
+
 export const SCENES = {
   "website-development": website,
   "social-media": social,
   "ads-management": ads,
   "design-branding": design,
   "growth-analytics": growth,
+  "ai-automation": agent,
   automation,
 } satisfies Record<string, Scene>;
 

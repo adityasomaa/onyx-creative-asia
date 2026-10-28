@@ -5,7 +5,7 @@ import SectionHeader from "@/components/site/SectionHeader";
 import ServiceStack from "@/components/services/ServiceStack";
 
 /**
- * Expertise: the section header, then the five services as a stack of
+ * Expertise: the section header, then the six services as a stack of
  * cards that pile up as the page scrolls. Every card is fully readable
  * and links to its service page; nothing opens or closes.
  */

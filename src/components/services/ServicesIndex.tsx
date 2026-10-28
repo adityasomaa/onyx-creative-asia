@@ -7,7 +7,7 @@ import Headline from "@/components/site/Headline";
 import { useL } from "@/lib/i18n";
 import ServiceStack from "./ServiceStack";
 
-/** /services: the header, the five services as a card stack, and a way in. */
+/** /services: the header, the six services as a card stack, and a way in. */
 export default function ServicesIndex() {
   const tl = useL();
   return (

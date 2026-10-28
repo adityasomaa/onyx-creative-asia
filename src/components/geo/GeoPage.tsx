@@ -73,7 +73,7 @@ export default function GeoPage({
 
       <section className="bg-coal px-4 py-16 text-white md:px-8 md:py-24">
         <h2 className="font-tek text-[26px] font-medium uppercase leading-[1.1] md:text-[36px]">What Onyx covers</h2>
-        <ul className="mt-10 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
+        <ul className="mt-10 grid grid-cols-1 gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s) => (
             <li key={s.id} className="bg-coal">
               <Link href={`/services/${s.id}`} className="flex h-full flex-col gap-3 p-5 hover:bg-white/5">

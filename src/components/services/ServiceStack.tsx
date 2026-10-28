@@ -14,7 +14,7 @@ import { useReduce } from "@/components/site/useReduce";
 const N = SERVICES.length;
 
 /**
- * The five services as a stack of cards. Each card pins under the nav and
+ * The six services as a stack of cards. Each card pins under the nav and
  * the next one slides up over it; the ones underneath shrink a little so
  * their top edges stay visible. Nothing has to be opened to be read, and
  * every card leads to its service page.

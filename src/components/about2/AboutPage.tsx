@@ -87,7 +87,7 @@ export default function AboutPage() {
         <Headline v={ABOUT.crewHeadline} className="mt-6 text-[36px] leading-[1.06] tracking-[-0.03em] text-fg md:text-[64px]" />
         <p className="mt-6 max-w-[560px] text-[12px] font-semibold uppercase leading-[1.3] text-fg2">{tl(ABOUT.crewBody)}</p>
         <div className="mt-10 h-1 bg-accent" />
-        <div className="mt-12 grid grid-cols-2 gap-x-3 gap-y-10 md:grid-cols-3 lg:grid-cols-5">
+        <div className="mt-12 grid grid-cols-2 gap-x-3 gap-y-10 md:grid-cols-3 lg:grid-cols-6">
           {SERVICES.map((s, i) => (
             <Reveal key={s.id} delay={(i % 5) * 0.05}>
               <Link href={`/services/${s.id}`} className="group block">

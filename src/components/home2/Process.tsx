@@ -119,7 +119,7 @@ export default function Process() {
       <div className="mt-24 bg-coal text-white md:mt-32">
         <div className="flex items-center gap-4 border-b border-white/10 px-4 py-2 md:px-8">
           <span className="hidden shrink-0 text-[11px] font-semibold uppercase text-white/45 lg:block">[ {tl(PROCESS.pick)} ]</span>
-          {/* Five tabs scroll sideways on a phone rather than wrapping into a block. */}
+          {/* Six tabs scroll sideways on a phone rather than wrapping into a block. */}
           <div role="tablist" aria-label={tl(PROCESS.pick)} className="no-scrollbar -mx-4 flex flex-1 gap-2 overflow-x-auto px-4 md:mx-0 md:justify-end md:px-0">
             {PROCESS.tracks.map((t, i) => (
               <button

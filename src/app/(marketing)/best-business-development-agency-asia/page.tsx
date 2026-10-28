@@ -41,7 +41,7 @@ const FAQ = [
   },
   {
     q: "What services does Onyx cover?",
-    a: "Five: web and software development, branding and design, ads management, social media management, and growth and analytics. One team covers all five, so nothing is handed between vendors.",
+    a: "Six: web and software development, branding and design, ads management, social media management, growth and analytics, and AI automation (AI receptionists, custom agents, automatic dashboards). One team covers all six, so nothing is handed between vendors.",
   },
   {
     q: "How long does it take to get started?",

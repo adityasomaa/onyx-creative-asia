@@ -41,7 +41,7 @@ const ORG_JSON_LD = {
   logo: { "@type": "ImageObject", url: `${BASE}/onyx-mark-512.png`, width: 512, height: 512 },
   image: `${BASE}/opengraph-image`,
   description:
-    "Digital business development agency in Bali, Indonesia. Website, software and mobile app development, plus social media, SEO/AEO/GEO, ads, content, photo and video, design and branding, and growth analytics, run by one team for businesses across Asia and Europe.",
+    "Digital business development agency in Bali, Indonesia. Website, software and mobile app development, plus social media, SEO/AEO/GEO, ads, content, photo and video, design and branding, growth analytics, and AI automation (AI receptionists, custom agents, automatic dashboards), run by one team for businesses across Asia and Europe.",
   slogan: "We build what makes businesses grow online.",
   address: { "@type": "PostalAddress", addressLocality: "Denpasar", addressRegion: "Bali", addressCountry: "ID" },
   areaServed: [
@@ -75,6 +75,10 @@ const ORG_JSON_LD = {
     "Brand Design",
     "Growth Analytics",
     "Conversion Rate Optimisation",
+    "AI Automation",
+    "AI Agents",
+    "AI Receptionist",
+    "Business Process Automation",
     "Digital Marketing Bali",
     "Digital Marketing Indonesia",
   ],
@@ -114,7 +118,7 @@ const LOCAL_BUSINESS_JSON_LD = {
   url: BASE,
   image: `${BASE}/opengraph-image`,
   description:
-    "Bali-based digital business development agency: websites and software, branding, and the marketing that grows them, from one team.",
+    "Bali-based digital business development agency: websites and software, branding, the marketing that grows them, and the AI that runs the busywork, from one team.",
   address: { "@type": "PostalAddress", addressLocality: "Denpasar", addressRegion: "Bali", addressCountry: "ID" },
   areaServed: [
     { "@type": "AdministrativeArea", name: "Bali" },

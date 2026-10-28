@@ -9,6 +9,8 @@ English, Bahasa Indonesia, Chinese and Japanese are written inline in the copy (
 3. `node scripts/i18n/validate.cjs <code>` until it prints OK.
 4. `node scripts/i18n/merge.cjs` writes every validated language into `src/lib/locales/`.
 
+For a small change, translate only the difference instead: after step 1, `node scripts/i18n/delta.cjs list` writes `work/delta.json` (the strings some dictionary lacks); translate it into `work/out-delta/<code>.json` (one JSON object per language), check with `delta.cjs check <code>`, and `delta.cjs merge` adds the new strings to every dictionary and drops the ones the site no longer uses.
+
 The language list (codes, native names, right-to-left and complex-script flags) is `LOCALES` in `src/lib/l10n.ts`; loaders are in `src/lib/locales/index.ts`.
 
 ---

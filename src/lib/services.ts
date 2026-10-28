@@ -3,7 +3,7 @@ import { PROJECTS, type Project } from "@/lib/data";
 import type { SceneId } from "@/components/site/art/scenes";
 
 /**
- * The five disciplines Onyx sells as a digital business development
+ * The six disciplines Onyx sells as a digital business development
  * agency. They drive the home hero slider, the Expertise stack, the
  * /services pages, the enquiry form's "what are we making" list, and the
  * JSON-LD service catalogue, so the list exists exactly once.
@@ -11,7 +11,7 @@ import type { SceneId } from "@/components/site/art/scenes";
  * Every string carries all four languages beside it (see `L` in i18n).
  */
 
-export type ServiceId = "web-software" | "branding-design" | "ads-management" | "social-media" | "growth-analytics";
+export type ServiceId = "web-software" | "branding-design" | "ads-management" | "social-media" | "growth-analytics" | "ai-automation";
 
 export type Service = {
   id: ServiceId;
@@ -189,10 +189,42 @@ export const SERVICES: Service[] = [
       l("A monthly call with what to try next", "Call bulanan dengan langkah yang dicoba berikutnya", "每月一通电话，定下一步试什么", "次に試すことを決める月一回の通話"),
     ],
   },
+  {
+    id: "ai-automation",
+    number: "06",
+    art: "ai-automation",
+    title: l("AI Automation", "Otomasi AI", "AI 自动化", "AI オートメーション"),
+    short: l(
+      "AI receptionists, custom agents and dashboards that fill themselves in.",
+      "Resepsionis AI, agen khusus, dan dashboard yang terisi sendiri.",
+      "AI 前台、定制智能体，以及自动填好的数据看板。",
+      "AI受付、専用エージェント、自動で埋まるダッシュボード。",
+    ),
+    headline: l(
+      "The busywork, handled before you see it.",
+      "Pekerjaan rutin, beres sebelum Anda melihatnya.",
+      "那些琐碎的活，在你看到之前就办好了。",
+      "細かな作業は、目にする前に片づいている。",
+    ),
+    body: l(
+      "Most businesses lose hours to the same questions, the same data entry and the same weekly report. We build AI that takes that work off your team: a receptionist that answers WhatsApp, web chat and calls around the clock and books straight into your calendar; custom agents that qualify leads, chase follow-ups and move data between the tools you already use; and dashboards that fill themselves in. Every system is built on your own data and processes, with a person in the loop where it matters.",
+      "Kebanyakan bisnis kehilangan berjam-jam untuk pertanyaan yang sama, input data yang sama, dan laporan mingguan yang sama. Kami membangun AI yang mengambil alih pekerjaan itu dari tim Anda: resepsionis yang menjawab WhatsApp, web chat, dan telepon sepanjang waktu lalu langsung mencatat booking ke kalender Anda; agen khusus yang menyaring prospek, mengejar tindak lanjut, dan memindahkan data antar alat yang sudah Anda pakai; serta dashboard yang terisi sendiri. Setiap sistem dibangun di atas data dan proses Anda sendiri, dengan manusia tetap terlibat di bagian yang penting.",
+      "大多数企业把大量时间耗在同样的问题、同样的数据录入和同样的周报上。我们打造 AI，把这些工作从你的团队手里接过来：全天候回复 WhatsApp、网页聊天和电话，并把预约直接写进日历的 AI 前台；筛选潜在客户、追踪跟进、在你现有工具之间搬运数据的定制智能体；以及自己填满数据的看板。每套系统都基于你自己的数据和流程搭建，关键环节仍有人把关。",
+      "多くの会社が、同じ質問、同じデータ入力、同じ週次レポートに何時間も費やしています。私たちはその仕事をチームから引き受けるAIをつくります。WhatsApp、ウェブチャット、電話に24時間応答し、予約をそのままカレンダーに入れる受付。見込み客を選別し、フォローアップを追い、すでに使っているツール間でデータを動かす専用エージェント。そして自分で埋まっていくダッシュボード。どのシステムも自社のデータと業務の流れの上に組み、大事なところには人が入ります。",
+    ),
+    included: [
+      l("An AI receptionist for WhatsApp, web chat and phone, around the clock", "Resepsionis AI untuk WhatsApp, web chat, dan telepon, 24 jam", "覆盖 WhatsApp、网页聊天和电话的 AI 前台，全天候在线", "WhatsApp・ウェブチャット・電話に24時間対応するAI受付"),
+      l("Bookings and enquiries written straight into your calendar and CRM", "Booking dan pertanyaan langsung masuk ke kalender dan CRM Anda", "预约和咨询直接写进你的日历和 CRM", "予約と問い合わせをカレンダーとCRMへ直接登録"),
+      l("Custom agents that qualify leads and chase follow-ups", "Agen khusus yang menyaring prospek dan mengejar tindak lanjut", "筛选潜在客户、追踪跟进的定制智能体", "見込み客を選別し、フォローアップを追う専用エージェント"),
+      l("Dashboards and reports that build themselves, no spreadsheets to fill", "Dashboard dan laporan yang tersusun sendiri, tanpa spreadsheet yang harus diisi", "自动生成的看板和报告，不用再填表格", "自動で組み上がるダッシュボードとレポート、表の手入力は不要"),
+      l("Integrations between the tools you already pay for", "Integrasi antar alat yang sudah Anda bayar", "打通你已经在付费使用的各种工具", "すでに使っているツール同士の連携"),
+      l("Built on your own data, with a person in the loop where it matters", "Dibangun di atas data Anda sendiri, dengan manusia tetap terlibat di bagian yang penting", "基于你自己的数据搭建，关键环节有人把关", "自社データの上に構築し、要所には人が入る"),
+    ],
+  },
 ];
 
 /**
- * Which of the five disciplines each case study used. Derived from each
+ * Which of the six disciplines each case study used. Derived from each
  * project's documented scope; the case studies themselves are unchanged.
  */
 const PROJECT_DISCIPLINES: Record<string, ServiceId[]> = {
@@ -201,7 +233,7 @@ const PROJECT_DISCIPLINES: Record<string, ServiceId[]> = {
   "tammia-online": ["web-software", "branding-design", "growth-analytics"],
   "astungkare-spa": ["web-software", "social-media", "ads-management", "branding-design", "growth-analytics"],
   "the-hair-extensions-bali": ["branding-design", "web-software", "growth-analytics"],
-  radcruiters: ["web-software", "ads-management", "growth-analytics"],
+  radcruiters: ["web-software", "ai-automation", "ads-management", "growth-analytics"],
   "jalak-cargo-logistics": ["social-media", "web-software", "growth-analytics"],
   "my-day-gili": ["web-software", "growth-analytics"],
 };
