@@ -42,6 +42,195 @@ export type Project = {
 // All of it lives in public/works/.
 export const PROJECTS: Project[] = [
   {
+    slug: "swarma-villas",
+    title: "Riverside Villa Site",
+    client: "Swarma Villas",
+    blurb: "Teak and bamboo houses by the river in Ubud",
+    category: "Digital Presence",
+    year: "2026",
+    description:
+      "A website for three houses by the river in Singakerta, Ubud: a Javanese teak house, a bamboo hexagon and a bamboo dome, each with its own page and nightly rate, plus Paon restaurant, massage rituals, packages and a direct booking enquiry.",
+    cover: "/works/swarma-villas-scroll.jpg",
+    preview: { video: "/works/swarma-villas-scroll.mp4", card: "/works/swarma-villas-scroll-card.mp4" },
+    tags: ["Web", "Villas", "Booking"],
+    url: "https://swarmavillas.com",
+    urlLabel: "Visit site",
+    services: ["Digital Presence"],
+    location: "Singakerta, Ubud · Bali",
+    scope: [
+      "Multi-page site: houses, restaurant, experiences, packages, journal, gallery",
+      "A page for each of the three houses, with bed, guests, size and rate",
+      "Paon restaurant and the massage rituals as reasons to stay",
+      "Direct booking enquiry that survives a page reload",
+      "No analytics, no advertising pixels, no third-party tracking",
+      "A getting-here guide for a village minutes from central Ubud",
+    ],
+    longDescription:
+      "Swarma is three houses in the village of Singakerta, a few minutes from the centre of Ubud: a traditional Javanese teak house with an open-air bathtub, a hexagonal bamboo house with woven walls, and a bamboo dome. Each one is a different way to stay, so the site gives each its own page, with the bed, the size and the nightly rate up front. Around them sit the reasons to choose Swarma: Paon, the restaurant in a restored Javanese wooden house, massage and body rituals, packages, and a short guide to getting there. Booking is a direct enquiry, and the site keeps nothing about its visitors except the enquiry they are writing.",
+    study: {
+      overview:
+        "Swarma Villas is an eco-chic retreat of three houses by the river in Singakerta, Ubud, built from teak and bamboo around a garden pool, with its own restaurant, Paon, in a restored Javanese wooden house. Rates start at IDR 500,000 a night.",
+      needed: [
+        "Three very different houses had to read as three different ways to stay.",
+        "The restaurant and the rituals were part of the stay but had no place online.",
+        "Guests wanted each house's rate and size before they asked.",
+        "Direct bookings needed a clear route on the villa's own site.",
+      ],
+      did: [
+        "Built the multi-page site: houses, restaurant, experiences, packages, journal and gallery.",
+        "Gave Gladak House, Bamboo Hexa and Bamboo Dome their own pages with bed, guests, size and rate.",
+        "Set Paon restaurant and the massage and body rituals out as reasons to stay.",
+        "Built the direct booking enquiry, which survives a reload without storing anything else.",
+        "Left out analytics and advertising pixels entirely.",
+      ],
+      changed: [
+        "Guests compare the three houses side by side, with rates in plain sight.",
+        "The restaurant and the rituals sell the stay instead of being found on arrival.",
+        "Booking enquiries come straight to the villa.",
+        "Nothing about a visitor is tracked or sold.",
+      ],
+    },
+  },
+  {
+    slug: "kaatrity-dental-care",
+    title: "AI Receptionist & Clinic Site",
+    client: "Kaatrity Dental Care",
+    blurb: "Dental clinic in Canggu, Bali",
+    category: "AI Automation",
+    year: "2026",
+    description:
+      "A website for a one-room dental clinic in Canggu with an AI receptionist built in. It answers questions about treatments, hours and booking in English or Bahasa Indonesia at any hour, and hands anything clinical to the team on WhatsApp.",
+    cover: "/works/kaatrity-dental-care-scroll.jpg",
+    preview: { video: "/works/kaatrity-dental-care-scroll.mp4", card: "/works/kaatrity-dental-care-scroll-card.mp4" },
+    tags: ["AI", "Chatbot", "Healthcare"],
+    services: ["AI Automation", "Digital Presence"],
+    location: "Tibubeneng, Canggu · Bali",
+    scope: [
+      "AI receptionist chat in English and Bahasa Indonesia",
+      "Suggested questions, and 'ask about this' on every treatment",
+      "Hand-off to WhatsApp for diagnosis and exact prices",
+      "Clinic site: treatments, approach, reviews, location",
+      "Booking request form with treatment and date",
+      "Google rating and reviews shown up front",
+    ],
+    longDescription:
+      "Kaatrity is a small dental clinic in Tibubeneng, Canggu, run by drg. Ika and her assistant from a single treatment room, with a 5.0 rating on Google from 295 reviews. Most first questions are the same: what an Airflow cleaning is, whether the clinic opens on Saturday, whether there is a slot today, whether they treat children. The site answers them with an AI receptionist set up with the clinic's own treatments and hours, which replies in English or Bahasa Indonesia at any hour and passes anything that needs a dentist, a diagnosis or an exact price to the team on WhatsApp.",
+    study: {
+      overview:
+        "Kaatrity Dental Care offers Airflow cleaning, scaling and polishing, whitening, fillings, check-ups, children's check-ups and night guards from one treatment room in Canggu, with an English-speaking dentist and a sterile kit opened for every patient.",
+      needed: [
+        "The same first questions came in again and again: treatments, hours, same-day slots, children.",
+        "Visitors from abroad needed answers in English, locals in Bahasa Indonesia.",
+        "Anything clinical had to reach the dentist, not be guessed at by a bot.",
+        "Booking had to be one step from any treatment.",
+      ],
+      did: [
+        "Built the clinic site: treatments, approach, reviews and how to find it.",
+        "Built an AI receptionist set up with the clinic's own treatments and hours.",
+        "Added suggested questions and an 'ask about this' link on every treatment.",
+        "Set clear limits: diagnosis and exact prices go to the clinic on WhatsApp.",
+        "Added a booking request form with treatment and date.",
+      ],
+      changed: [
+        "First questions get an answer at once, day or night, in two languages.",
+        "The team's WhatsApp time goes to bookings, not to the same answers.",
+        "Every treatment leads straight to a question or a booking.",
+      ],
+    },
+  },
+  {
+    slug: "sunhwa-beauty-app",
+    title: "Beauty Shopping App",
+    client: "Sunhwa Beauty",
+    blurb: "Skincare and beauty devices",
+    category: "Digital Presence",
+    year: "2026",
+    description:
+      "A mobile shopping app for Sunhwa's skincare and beauty devices: best sellers on the home screen, a shop by category, orders by status, a wishlist, and a member area with vouchers, stamps and rewards for bringing a friend.",
+    cover: "/works/sunhwa-beauty-app-scroll.jpg",
+    preview: { video: "/works/sunhwa-beauty-app-scroll.mp4", card: "/works/sunhwa-beauty-app-scroll-card.mp4" },
+    tags: ["App", "Beauty", "E-commerce"],
+    services: ["Digital Presence"],
+    location: "Indonesia",
+    scope: [
+      "Mobile shopping app in Bahasa Indonesia, priced in rupiah",
+      "Home with campaign banners, categories and best sellers",
+      "Shop by category with product cards",
+      "Orders by status: unpaid, processing, done",
+      "Member area: wishlist, addresses, vouchers, stamps, member benefits",
+      "Refer-a-friend and store locator",
+    ],
+    longDescription:
+      "Sunhwa sells skincare and beauty devices, from ampoules and essences to devices for use at home. Its customers shop on their phones, so the work is an app rather than a website: a home screen that leads with the campaign and the best sellers, a shop that filters by category, orders tracked by status, and a member area that makes loyalty visible, with vouchers, stamps, member benefits and a reward for bringing a friend. Everything is in Bahasa Indonesia and priced in rupiah.",
+    study: {
+      overview:
+        "Sunhwa Beauty sells skincare (ampoules, essences and serums) and beauty devices to customers in Indonesia, most of whom shop on their phones. The app holds the catalogue, the orders and the membership in one place.",
+      needed: [
+        "The store had to feel like an app on the phone, where its customers shop.",
+        "Products needed finding by category and by what sells best.",
+        "Customers needed to follow an order without starting a chat.",
+        "Member perks had to be visible: vouchers, stamps and benefits.",
+      ],
+      did: [
+        "Designed and built the mobile app in Bahasa Indonesia, priced in rupiah.",
+        "Built the home screen around campaign banners, categories and best sellers.",
+        "Built the shop with category tabs and product cards.",
+        "Built orders by status, and a member area with wishlist, addresses, vouchers, stamps and referrals.",
+      ],
+      changed: [
+        "Customers browse, buy and follow their orders in one place.",
+        "The campaign and the best sellers are the first thing a customer sees.",
+        "Member perks are in plain view, so loyalty has a reason to grow.",
+      ],
+    },
+  },
+  {
+    slug: "glovia",
+    title: "Social Media Brand Kit",
+    client: "Glovia",
+    blurb: "Body care: body serum and cream scrub",
+    category: "Creative Studio",
+    year: "2026",
+    description:
+      "A social media brand kit and a month of content for Glovia body care: visual direction, content pillars, feed, story and TikTok designs, profile set-ups for Instagram, TikTok and Facebook, and a 30-post November calendar.",
+    cover: "/works/glovia-kit.jpg",
+    preview: { video: "/works/glovia-kit.mp4", card: "/works/glovia-kit-card.mp4" },
+    tags: ["Brand", "Social", "Beauty"],
+    services: ["Creative Studio", "Digital Marketing"],
+    location: "Indonesia",
+    scope: [
+      "Visual direction: palette, type and photography",
+      "Four content pillars: education, product, self-care ritual, promotion",
+      "Feed post and story designs",
+      "Instagram, TikTok and Facebook profile mock-ups",
+      "November content calendar: 30 posts",
+      "Posting schedule and deliverables for every platform",
+    ],
+    longDescription:
+      "Glovia makes body care, a body serum and a body cream scrub, under the line 'Glow naturally, love your skin'. Before its first post, the brand needed a way of looking and speaking that would hold across Instagram, TikTok and Facebook. The kit sets the visual direction in deep green and warm neutrals with a serif display face, splits the content into four pillars (skincare education, product and benefits, self-care rituals, promotion and social proof), designs the feed, stories and short videos, and plans November post by post.",
+    study: {
+      overview:
+        "Glovia is a body-care brand in Indonesia with two products, a body serum and a body cream scrub. The work is the brand's social presence: how it looks, what it says, and what goes out each day.",
+      needed: [
+        "A new brand needed one look across three platforms before its first post.",
+        "Content had to teach, sell and feel calm at the same time.",
+        "Posting needed a plan, not a daily scramble.",
+      ],
+      did: [
+        "Set the visual direction: palette, type and photography.",
+        "Defined four content pillars and each one's share of the month.",
+        "Designed feed posts, stories and TikTok frames, and the three profiles.",
+        "Planned November: 30 posts with dates and formats.",
+        "Wrote the posting schedule and deliverables for each platform.",
+      ],
+      changed: [
+        "The brand looks the same wherever someone meets it.",
+        "Every post has a job, set by its pillar.",
+        "A month of content is planned before it starts.",
+      ],
+    },
+  },
+  {
     slug: "great-bali-villas",
     logo: "/logos/great-bali-villas.png",
     title: "Villa Rental Surface",

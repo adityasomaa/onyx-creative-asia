@@ -17,7 +17,7 @@ import Roll from "./Roll";
 import Wordmark from "./Wordmark";
 import { useBaliTime } from "./useBaliTime";
 
-const LATEST = PROJECTS.find((p) => p.slug === "my-day-gili") ?? PROJECTS[0];
+const LATEST = PROJECTS.find((p) => p.slug === "swarma-villas") ?? PROJECTS[0];
 const HINT_KEY = "onyx_palette_hint";
 
 function Burger({ open }: { open: boolean }) {

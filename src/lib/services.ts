@@ -228,6 +228,10 @@ export const SERVICES: Service[] = [
  * project's documented scope; the case studies themselves are unchanged.
  */
 const PROJECT_DISCIPLINES: Record<string, ServiceId[]> = {
+  "swarma-villas": ["web-software"],
+  "kaatrity-dental-care": ["ai-automation"],
+  "sunhwa-beauty-app": ["web-software"],
+  glovia: ["branding-design", "social-media"],
   "great-bali-villas": ["web-software", "growth-analytics"],
   "bhagawan-property": ["web-software", "growth-analytics"],
   "tammia-online": ["web-software", "branding-design", "growth-analytics"],

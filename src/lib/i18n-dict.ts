@@ -35,6 +35,152 @@ type ProjectTx = {
 };
 
 const PROJECT_TX: Record<string, ProjectTx> = {
+  "swarma-villas": {
+    title: { id: "Situs Vila di Tepi Sungai", zh: "河畔别墅网站", ja: "川辺のヴィラのサイト" },
+    blurb: { id: "Rumah jati dan bambu di tepi sungai di Ubud", zh: "乌布河边的柚木屋与竹屋", ja: "ウブドの川沿いに建つチークと竹の家" },
+    description: { id: "Website untuk tiga rumah di tepi sungai di Singakerta, Ubud: rumah jati Jawa, rumah bambu heksagonal, dan kubah bambu, masing-masing dengan halaman dan tarif per malamnya sendiri, ditambah restoran Paon, ritual pijat, paket, dan permintaan booking langsung.", zh: "为乌布 Singakerta 河边三栋房子做的网站：一栋爪哇柚木屋、一栋六角竹屋和一座竹穹顶屋，每栋都有自己的页面和每晚房价，另外还有 Paon 餐厅、按摩仪式、套餐，以及直接预订咨询。", ja: "ウブド、Singakerta の川沿いに建つ三棟の家のためのウェブサイトです。ジャワのチークハウス、竹の六角形の家、竹のドーム。それぞれに専用のページと一泊の料金があり、さらにレストランの Paon、マッサージのリチュアル、パッケージ、直接予約の問い合わせを備えています。" },
+    longDescription: { id: "Swarma adalah tiga rumah di Desa Singakerta, beberapa menit dari pusat Ubud: rumah jati Jawa tradisional dengan bathtub terbuka, rumah bambu heksagonal berdinding anyaman, dan sebuah kubah bambu. Masing-masing adalah cara menginap yang berbeda, jadi situsnya memberi tiap rumah halamannya sendiri, dengan tempat tidur, luas, dan tarif per malamnya ditaruh paling depan. Di sekelilingnya ada alasan untuk memilih Swarma: Paon, restoran di dalam rumah kayu Jawa yang dipugar, ritual pijat dan perawatan tubuh, paket, serta panduan singkat cara ke sana. Booking-nya berupa permintaan langsung, dan situsnya tidak menyimpan apa pun tentang pengunjungnya selain permintaan yang sedang mereka tulis.", zh: "Swarma 是 Singakerta 村里的三栋房子，离乌布中心只有几分钟：一栋带露天浴缸的传统爪哇柚木屋，一栋编织墙面的六角竹屋，还有一座竹穹顶屋。每一栋都是一种不同的住法，所以网站给每栋单独一页，床型、面积和每晚房价放在最前面。围绕着它们的，是选择 Swarma 的理由：开在一栋修复过的爪哇木屋里的餐厅 Paon、按摩与身体护理仪式、套餐，以及一份简短的交通指南。预订是直接咨询，除了访客正在填写的那条咨询，网站不保存关于他们的任何东西。", ja: "Swarma は、ウブドの中心から数分の Singakerta 村にある三棟の家です。露天のバスタブがある伝統的なジャワのチークハウス、編んだ壁の六角形の竹の家、そして竹のドーム。どれも泊まり方がまったく違うので、サイトはそれぞれに専用のページを設け、ベッド、広さ、一泊の料金を最初に示しています。その周りに、Swarma を選ぶ理由が並びます。修復したジャワの木造家屋に入るレストラン Paon、マッサージとボディのリチュアル、パッケージ、そして行き方の短いガイド。予約は直接の問い合わせで、サイトは訪問者について、いま書いている問い合わせ以外は何も保存しません。" },
+    location: { id: "Singakerta, Ubud · Bali", zh: "Singakerta，乌布 · 巴厘岛", ja: "Singakerta、ウブド · バリ" },
+    scope: [
+      { id: "Situs multi-halaman: rumah, restoran, pengalaman, paket, jurnal, galeri", zh: "多页面网站：房屋、餐厅、体验、套餐、日志、图库", ja: "複数ページのサイト。家、レストラン、体験、パッケージ、ジャーナル、ギャラリー" },
+      { id: "Halaman untuk tiap rumah, lengkap dengan tempat tidur, jumlah tamu, luas, dan tarif", zh: "三栋房子各一页，写明床型、入住人数、面积和房价", ja: "三棟それぞれのページ。ベッド、人数、広さ、料金つき" },
+      { id: "Restoran Paon dan ritual pijat sebagai alasan untuk menginap", zh: "把 Paon 餐厅和按摩仪式作为入住的理由", ja: "泊まる理由としてのレストラン Paon とマッサージのリチュアル" },
+      { id: "Permintaan booking langsung yang tetap ada meski halaman dimuat ulang", zh: "直接预订咨询，刷新页面也不会丢", ja: "ページを再読み込みしても消えない直接予約の問い合わせ" },
+      { id: "Tanpa analytics, tanpa pixel iklan, tanpa pelacakan pihak ketiga", zh: "不装分析工具，不放广告像素，没有第三方追踪", ja: "アナリティクスなし、広告ピクセルなし、サードパーティのトラッキングなし" },
+      { id: "Panduan cara ke sana untuk desa yang hanya beberapa menit dari pusat Ubud", zh: "交通指南，带你到离乌布中心几分钟的村子", ja: "ウブド中心部から数分の村への行き方ガイド" },
+    ],
+    study: {
+      overview: { id: "Swarma Villas adalah retreat eco-chic berisi tiga rumah di tepi sungai di Singakerta, Ubud, dibangun dari jati dan bambu mengelilingi kolam taman, dengan restorannya sendiri, Paon, di dalam rumah kayu Jawa yang dipugar. Tarifnya mulai dari IDR 500.000 per malam.", zh: "Swarma Villas 是乌布 Singakerta 河边的一处生态精品度假地，三栋房子由柚木和竹子建成，环绕着花园泳池，还有自己的餐厅 Paon，开在一栋修复过的爪哇木屋里。房价每晚 IDR 500,000 起。", ja: "Swarma Villas は、ウブドの Singakerta の川沿いにある、エコシックな三棟のリトリートです。チークと竹で建てた家がガーデンプールを囲み、修復したジャワの木造家屋には自前のレストラン Paon があります。料金は一泊 IDR 500,000 からです。" },
+      needed: [
+        { id: "Tiga rumah yang sangat berbeda harus terbaca sebagai tiga cara menginap yang berbeda.", zh: "三栋截然不同的房子，得让人一眼看出是三种不同的住法。", ja: "まったく異なる三棟を、三通りの泊まり方として読めるようにする必要がありました。" },
+        { id: "Restoran dan ritualnya adalah bagian dari pengalaman menginap, tapi tidak punya tempat di internet.", zh: "餐厅和仪式本是入住的一部分，网上却没有它们的位置。", ja: "レストランとリチュアルは滞在の一部なのに、オンラインには居場所がありませんでした。" },
+        { id: "Tamu ingin tahu tarif dan luas tiap rumah sebelum bertanya.", zh: "客人想在开口问之前，就知道每栋房子的价格和面积。", ja: "ゲストは、尋ねる前にそれぞれの家の料金と広さを知りたがっていました。" },
+        { id: "Booking langsung butuh jalur yang jelas di situs milik vila itu sendiri.", zh: "直接预订需要在别墅自己的网站上有一条清楚的路径。", ja: "直接予約には、ヴィラ自身のサイト上にわかりやすい導線が必要でした。" },
+      ],
+      did: [
+        { id: "Membangun situs multi-halamannya: rumah, restoran, pengalaman, paket, jurnal, dan galeri.", zh: "搭建了多页面网站：房屋、餐厅、体验、套餐、日志和图库。", ja: "複数ページのサイトを構築。家、レストラン、体験、パッケージ、ジャーナル、ギャラリー。" },
+        { id: "Memberi Gladak House, Bamboo Hexa, dan Bamboo Dome halaman masing-masing dengan tempat tidur, jumlah tamu, luas, dan tarif.", zh: "给 Gladak House、Bamboo Hexa 和 Bamboo Dome 各做了一页，写明床型、入住人数、面积和房价。", ja: "Gladak House、Bamboo Hexa、Bamboo Dome にそれぞれ専用のページを設け、ベッド、人数、広さ、料金を載せました。" },
+        { id: "Menampilkan restoran Paon serta ritual pijat dan perawatan tubuh sebagai alasan untuk menginap.", zh: "把 Paon 餐厅以及按摩和身体护理仪式单独摆出来，作为入住的理由。", ja: "レストラン Paon と、マッサージやボディのリチュアルを、泊まる理由として打ち出しました。" },
+        { id: "Membangun permintaan booking langsung, yang tetap ada saat halaman dimuat ulang tanpa menyimpan apa pun selain itu.", zh: "做了直接预订咨询，刷新页面也不会丢，除此之外什么都不存。", ja: "直接予約の問い合わせを構築。再読み込みしても消えず、それ以外は何も保存しません。" },
+        { id: "Sama sekali tidak memasang analytics dan pixel iklan.", zh: "完全没装分析工具和广告像素。", ja: "アナリティクスと広告ピクセルは一切入れませんでした。" },
+      ],
+      changed: [
+        { id: "Tamu membandingkan ketiga rumah berdampingan, dengan tarif yang langsung terlihat.", zh: "客人可以把三栋房子并排比较，房价一目了然。", ja: "ゲストは三棟を横並びで比べられ、料金もはっきり見えます。" },
+        { id: "Restoran dan ritualnya ikut menjual pengalaman menginap, bukan baru ditemukan saat tiba.", zh: "餐厅和仪式成了卖点，而不是到了才发现。", ja: "レストランとリチュアルは、到着してから見つかるものではなく、滞在を売る理由になっています。" },
+        { id: "Permintaan booking langsung sampai ke vila.", zh: "预订咨询直接到达别墅。", ja: "予約の問い合わせはヴィラに直接届きます。" },
+        { id: "Tidak ada apa pun tentang pengunjung yang dilacak atau dijual.", zh: "访客的任何信息都不会被追踪或出售。", ja: "訪問者について、何ひとつ追跡も販売もされません。" },
+      ],
+    },
+  },
+  "kaatrity-dental-care": {
+    title: { id: "Resepsionis AI & Situs Klinik", zh: "AI 前台与诊所网站", ja: "AI 受付とクリニックのサイト" },
+    blurb: { id: "Klinik gigi di Canggu, Bali", zh: "巴厘岛长谷的牙科诊所", ja: "バリ・チャングーの歯科クリニック" },
+    description: { id: "Website untuk klinik gigi satu ruangan di Canggu dengan resepsionis AI di dalamnya. Ia menjawab pertanyaan soal perawatan, jam buka, dan booking dalam bahasa Inggris atau Bahasa Indonesia kapan pun, dan menyerahkan apa pun yang bersifat klinis ke tim lewat WhatsApp.", zh: "为长谷一家只有一间诊室的牙科诊所做的网站，内置 AI 前台。它随时用英语或印尼语回答关于治疗项目、营业时间和预约的问题，凡是涉及临床的，都通过 WhatsApp 转给团队。", ja: "チャングーにある診療室一つの歯科クリニックのための、AI 受付を組み込んだウェブサイトです。治療内容、診療時間、予約についての質問に英語かインドネシア語でいつでも答え、臨床にかかわることはすべて WhatsApp でチームに引き継ぎます。" },
+    longDescription: { id: "Kaatrity adalah klinik gigi kecil di Tibubeneng, Canggu, yang dijalankan drg. Ika dan asistennya dari satu ruang perawatan, dengan rating 5.0 di Google dari 295 ulasan. Kebanyakan pertanyaan pertama selalu sama: apa itu pembersihan Airflow, apakah klinik buka hari Sabtu, apakah ada slot hari ini, apakah mereka menangani anak-anak. Situsnya menjawab semua itu dengan resepsionis AI yang disiapkan dengan perawatan dan jam buka klinik itu sendiri, yang membalas dalam bahasa Inggris atau Bahasa Indonesia kapan pun dan meneruskan apa pun yang butuh dokter gigi, diagnosis, atau harga pasti ke tim lewat WhatsApp.", zh: "Kaatrity 是长谷 Tibubeneng 的一家小牙科诊所，由 drg. Ika 和她的助手在一间诊室里打理，在 Google 上有 295 条评价、5.0 分。大多数第一句问的都一样：Airflow 洁牙是什么、周六开不开门、今天还有没有空位、看不看小孩。网站用一个 AI 前台来回答这些问题，它按诊所自己的治疗项目和营业时间设置，随时用英语或印尼语回复，凡是需要牙医、诊断或确切价格的，都通过 WhatsApp 转给团队。", ja: "Kaatrity は、チャングーの Tibubeneng にある小さな歯科クリニックです。drg. Ika とアシスタントが一つの診療室で運営し、Google では 295 件のレビューで 5.0 の評価を得ています。最初の質問はたいてい同じです。Airflow クリーニングとは何か、土曜日は開いているか、今日空きはあるか、子どもも診てもらえるか。サイトはそれに AI 受付で答えます。クリニック自身の治療内容と診療時間を設定した受付で、英語かインドネシア語でいつでも返信し、歯科医や診断、正確な料金が必要なことはすべて WhatsApp でチームに回します。" },
+    location: { id: "Tibubeneng, Canggu · Bali", zh: "Tibubeneng，长谷 · 巴厘岛", ja: "Tibubeneng、チャングー · バリ" },
+    scope: [
+      { id: "Chat resepsionis AI dalam bahasa Inggris dan Bahasa Indonesia", zh: "英语和印尼语的 AI 前台聊天", ja: "英語とインドネシア語の AI 受付チャット" },
+      { id: "Pertanyaan yang disarankan, dan 'tanyakan soal ini' di setiap perawatan", zh: "推荐问题，以及每个治疗项目上的“问问这个”", ja: "おすすめの質問と、すべての治療に付いた「これについて質問」" },
+      { id: "Diteruskan ke WhatsApp untuk diagnosis dan harga pasti", zh: "诊断和确切价格转到 WhatsApp", ja: "診断と正確な料金は WhatsApp へ引き継ぎ" },
+      { id: "Situs klinik: perawatan, pendekatan, ulasan, lokasi", zh: "诊所网站：治疗项目、理念、评价、位置", ja: "クリニックのサイト。治療内容、方針、レビュー、所在地" },
+      { id: "Formulir permintaan booking dengan perawatan dan tanggal", zh: "预约申请表，可选治疗项目和日期", ja: "治療内容と日付を選べる予約リクエストフォーム" },
+      { id: "Rating dan ulasan Google ditampilkan di depan", zh: "Google 评分和评价放在最显眼处", ja: "Google の評価とレビューを最初に表示" },
+    ],
+    tags: [
+      { id: "AI", zh: "AI", ja: "AI" },
+      { id: "Chatbot", zh: "聊天机器人", ja: "チャットボット" },
+      { id: "Kesehatan", zh: "医疗健康", ja: "ヘルスケア" },
+    ],
+    study: {
+      overview: { id: "Kaatrity Dental Care menawarkan pembersihan Airflow, scaling dan polishing, pemutihan, tambal gigi, pemeriksaan, pemeriksaan anak, dan night guard dari satu ruang perawatan di Canggu, dengan dokter gigi yang berbahasa Inggris dan kit steril yang dibuka untuk setiap pasien.", zh: "Kaatrity Dental Care 在长谷的一间诊室里提供 Airflow 洁牙、洗牙抛光、美白、补牙、检查、儿童检查和夜间护牙套，牙医会说英语，每位病人都会用一套新拆封的无菌器械。", ja: "Kaatrity Dental Care は、チャングーの一つの診療室で、Airflow クリーニング、スケーリングとポリッシング、ホワイトニング、詰め物、検診、子どもの検診、ナイトガードを提供しています。歯科医は英語を話し、患者ごとに滅菌済みのキットを開封します。" },
+      needed: [
+        { id: "Pertanyaan pertama yang sama datang lagi dan lagi: perawatan, jam buka, slot di hari yang sama, anak-anak.", zh: "同样的第一句问题一遍遍地来：治疗项目、营业时间、当天的空位、小孩。", ja: "同じ最初の質問が何度も届いていました。治療内容、診療時間、当日の空き、子どものこと。" },
+        { id: "Pengunjung dari luar negeri butuh jawaban dalam bahasa Inggris, warga lokal dalam Bahasa Indonesia.", zh: "外国来的访客需要英语回答，本地人需要印尼语。", ja: "海外からの訪問者には英語で、地元の人にはインドネシア語で答える必要がありました。" },
+        { id: "Apa pun yang bersifat klinis harus sampai ke dokter gigi, bukan ditebak oleh bot.", zh: "凡是临床上的事，都得交给牙医，而不是让机器人去猜。", ja: "臨床にかかわることは、ボットに推測させず、歯科医に届ける必要がありました。" },
+        { id: "Booking harus hanya satu langkah dari perawatan mana pun.", zh: "从任何一个治疗项目出发，离预约都只能差一步。", ja: "どの治療からも、予約まで一歩で行ける必要がありました。" },
+      ],
+      did: [
+        { id: "Membangun situs kliniknya: perawatan, pendekatan, ulasan, dan cara menemukannya.", zh: "搭建了诊所网站：治疗项目、理念、评价，以及怎么找到这里。", ja: "クリニックのサイトを構築。治療内容、方針、レビュー、そして行き方。" },
+        { id: "Membangun resepsionis AI yang disiapkan dengan perawatan dan jam buka klinik itu sendiri.", zh: "做了一个 AI 前台，按诊所自己的治疗项目和营业时间来设置。", ja: "クリニック自身の治療内容と診療時間を設定した AI 受付を構築しました。" },
+        { id: "Menambahkan pertanyaan yang disarankan dan tautan 'tanyakan soal ini' di setiap perawatan.", zh: "加上了推荐问题，并在每个治疗项目上放了“问问这个”的链接。", ja: "おすすめの質問と、すべての治療に「これについて質問」のリンクを加えました。" },
+        { id: "Menetapkan batas yang jelas: diagnosis dan harga pasti diteruskan ke klinik lewat WhatsApp.", zh: "划清了界限：诊断和确切价格交给诊所，在 WhatsApp 上处理。", ja: "明確な線引きを設定。診断と正確な料金は WhatsApp でクリニックへ。" },
+        { id: "Menambahkan formulir permintaan booking dengan perawatan dan tanggal.", zh: "加了一个预约申请表，可选治疗项目和日期。", ja: "治療内容と日付を選べる予約リクエストフォームを追加しました。" },
+      ],
+      changed: [
+        { id: "Pertanyaan pertama langsung dijawab, siang atau malam, dalam dua bahasa.", zh: "第一句问题立刻就有回答，白天晚上都行，两种语言。", ja: "最初の質問には、昼でも夜でも、二つの言語ですぐに答えが返ります。" },
+        { id: "Waktu tim di WhatsApp dipakai untuk booking, bukan untuk jawaban yang sama.", zh: "团队在 WhatsApp 上的时间花在预约上，而不是重复同样的回答。", ja: "チームの WhatsApp の時間は、同じ答えの繰り返しではなく予約に使われます。" },
+        { id: "Setiap perawatan langsung mengarah ke pertanyaan atau booking.", zh: "每个治疗项目都直接通向一个提问或一次预约。", ja: "どの治療からも、そのまま質問か予約に進めます。" },
+      ],
+    },
+  },
+  "sunhwa-beauty-app": {
+    title: { id: "Aplikasi Belanja Kecantikan", zh: "美妆购物应用", ja: "ビューティーショッピングアプリ" },
+    blurb: { id: "Skincare dan alat kecantikan", zh: "护肤品与美容仪", ja: "スキンケアと美容機器" },
+    description: { id: "Aplikasi belanja mobile untuk skincare dan alat kecantikan Sunhwa: produk terlaris di layar utama, toko per kategori, pesanan per status, wishlist, dan area member dengan voucher, stamp, dan hadiah untuk mengajak teman.", zh: "为 Sunhwa 的护肤品和美容仪做的手机购物应用：首页放畅销款，按分类逛店，按状态看订单，心愿单，还有会员区，里面有优惠券、集章和邀请好友的奖励。", ja: "Sunhwa のスキンケアと美容機器のためのモバイルショッピングアプリです。ホーム画面にベストセラー、カテゴリ別のショップ、ステータス別の注文、ウィッシュリスト、そしてクーポン、スタンプ、友だち紹介の特典がある会員エリア。" },
+    longDescription: { id: "Sunhwa menjual skincare dan alat kecantikan, dari ampoule dan essence sampai alat untuk dipakai di rumah. Pelanggannya berbelanja lewat ponsel, jadi pekerjaannya berupa aplikasi, bukan website: layar utama yang dibuka dengan kampanye dan produk terlaris, toko yang bisa difilter per kategori, pesanan yang dilacak per status, dan area member yang membuat loyalitas terlihat, dengan voucher, stamp, keuntungan member, dan hadiah untuk mengajak teman. Semuanya dalam Bahasa Indonesia dan harganya dalam rupiah.", zh: "Sunhwa 卖护肤品和美容仪，从安瓶、精华水到在家用的美容仪器都有。它的客人在手机上购物，所以这次做的是应用而不是网站：首页先放活动和畅销款，商店按分类筛选，订单按状态追踪，会员区让忠诚度看得见，有优惠券、集章、会员权益和邀请好友的奖励。全部是印尼语，以印尼盾标价。", ja: "Sunhwa は、アンプルやエッセンスから自宅で使う美容機器まで、スキンケアと美容機器を販売しています。顧客はスマートフォンで買い物をするので、つくったのはウェブサイトではなくアプリです。キャンペーンとベストセラーから始まるホーム画面、カテゴリで絞り込めるショップ、ステータスで追える注文、そしてクーポン、スタンプ、会員特典、友だち紹介の特典でロイヤルティを目に見える形にした会員エリア。すべてインドネシア語で、価格はルピア表示です。" },
+    scope: [
+      { id: "Aplikasi belanja mobile dalam Bahasa Indonesia, dengan harga dalam rupiah", zh: "印尼语手机购物应用，以印尼盾标价", ja: "インドネシア語のモバイルショッピングアプリ。価格はルピア表示" },
+      { id: "Beranda dengan banner kampanye, kategori, dan produk terlaris", zh: "首页：活动横幅、分类和畅销款", ja: "キャンペーンバナー、カテゴリ、ベストセラーを置いたホーム" },
+      { id: "Toko per kategori dengan kartu produk", zh: "按分类逛店，配商品卡片", ja: "商品カードで見るカテゴリ別ショップ" },
+      { id: "Pesanan per status: belum dibayar, diproses, selesai", zh: "按状态看订单：待付款、处理中、已完成", ja: "ステータス別の注文。未払い、処理中、完了" },
+      { id: "Area member: wishlist, alamat, voucher, stamp, keuntungan member", zh: "会员区：心愿单、地址、优惠券、集章、会员权益", ja: "会員エリア。ウィッシュリスト、住所、クーポン、スタンプ、会員特典" },
+      { id: "Ajak teman dan pencari lokasi toko", zh: "邀请好友与门店查询", ja: "友だち紹介と店舗検索" },
+    ],
+    study: {
+      overview: { id: "Sunhwa Beauty menjual skincare (ampoule, essence, dan serum) serta alat kecantikan kepada pelanggan di Indonesia, yang sebagian besar berbelanja lewat ponsel. Aplikasinya menyatukan katalog, pesanan, dan keanggotaan di satu tempat.", zh: "Sunhwa Beauty 向印尼的客人销售护肤品（安瓶、精华水和精华液）和美容仪，这些客人大多在手机上购物。这个应用把商品目录、订单和会员放在同一个地方。", ja: "Sunhwa Beauty は、スキンケア（アンプル、エッセンス、セラム）と美容機器をインドネシアの顧客に販売しています。その多くはスマートフォンで買い物をします。アプリは、カタログ、注文、会員情報を一か所にまとめています。" },
+      needed: [
+        { id: "Tokonya harus terasa seperti aplikasi di ponsel, tempat pelanggannya berbelanja.", zh: "店铺得像手机上的一个应用，因为客人就是在手机上买东西的。", ja: "ストアは、顧客が買い物をするスマートフォンの上で、アプリらしく感じられる必要がありました。" },
+        { id: "Produk harus bisa dicari per kategori dan berdasarkan yang paling laris.", zh: "商品要能按分类找，也要能按卖得最好的找。", ja: "商品は、カテゴリからも売れ筋からも探せる必要がありました。" },
+        { id: "Pelanggan perlu bisa mengikuti pesanan tanpa harus memulai chat.", zh: "客人要能跟进订单，而不用发起聊天。", ja: "顧客は、チャットを始めなくても注文を追える必要がありました。" },
+        { id: "Keuntungan member harus terlihat: voucher, stamp, dan benefit lainnya.", zh: "会员福利得看得见：优惠券、集章和权益。", ja: "会員特典は目に見える必要がありました。クーポン、スタンプ、各種特典。" },
+      ],
+      did: [
+        { id: "Mendesain dan membangun aplikasi mobile-nya dalam Bahasa Indonesia, dengan harga dalam rupiah.", zh: "设计并开发了这款印尼语手机应用，以印尼盾标价。", ja: "インドネシア語のモバイルアプリを設計・構築。価格はルピア表示。" },
+        { id: "Membangun layar utama di seputar banner kampanye, kategori, dan produk terlaris.", zh: "围绕活动横幅、分类和畅销款搭建了首页。", ja: "キャンペーンバナー、カテゴリ、ベストセラーを軸にホーム画面を構築。" },
+        { id: "Membangun tokonya dengan tab kategori dan kartu produk.", zh: "用分类标签和商品卡片搭建了商店。", ja: "カテゴリのタブと商品カードでショップを構築。" },
+        { id: "Membangun pesanan per status, serta area member dengan wishlist, alamat, voucher, stamp, dan referral.", zh: "做了按状态查看的订单，以及包含心愿单、地址、优惠券、集章和推荐好友的会员区。", ja: "ステータス別の注文と、ウィッシュリスト、住所、クーポン、スタンプ、紹介を備えた会員エリアを構築。" },
+      ],
+      changed: [
+        { id: "Pelanggan melihat-lihat, membeli, dan mengikuti pesanannya di satu tempat.", zh: "客人在同一个地方浏览、购买、跟进订单。", ja: "顧客は、見る、買う、注文を追うまでを一か所で済ませられます。" },
+        { id: "Kampanye dan produk terlaris adalah hal pertama yang dilihat pelanggan.", zh: "客人第一眼看到的，就是活动和畅销款。", ja: "顧客が最初に目にするのは、キャンペーンとベストセラーです。" },
+        { id: "Keuntungan member terlihat jelas, jadi loyalitas punya alasan untuk tumbuh.", zh: "会员福利摆在明面上，忠诚度也就有了增长的理由。", ja: "会員特典がはっきり見えるので、ロイヤルティが育つ理由があります。" },
+      ],
+    },
+  },
+  glovia: {
+    title: { id: "Brand Kit Media Sosial", zh: "社交媒体品牌套件", ja: "ソーシャルメディア・ブランドキット" },
+    blurb: { id: "Perawatan tubuh: body serum dan cream scrub", zh: "身体护理：身体精华与霜状磨砂膏", ja: "ボディケア。ボディセラムとクリームスクラブ" },
+    description: { id: "Brand kit media sosial dan konten sebulan untuk perawatan tubuh Glovia: arah visual, pilar konten, desain feed, story, dan TikTok, pengaturan profil untuk Instagram, TikTok, dan Facebook, serta kalender November berisi 30 posting.", zh: "为 Glovia 身体护理做的社交媒体品牌套件和一个月的内容：视觉方向、内容支柱、动态、快拍和 TikTok 设计，Instagram、TikTok 和 Facebook 的主页设置，以及一份 30 条内容的 11 月日历。", ja: "Glovia のボディケアのための、ソーシャルメディアのブランドキットと一か月分のコンテンツです。ビジュアルの方向性、コンテンツの柱、フィード・ストーリー・TikTok のデザイン、Instagram・TikTok・Facebook のプロフィール設定、そして 30 投稿の 11 月カレンダー。" },
+    longDescription: { id: "Glovia membuat produk perawatan tubuh, body serum dan body cream scrub, dengan slogan 'Glow naturally, love your skin'. Sebelum posting pertamanya, brand ini butuh cara tampil dan berbicara yang konsisten di Instagram, TikTok, dan Facebook. Kit-nya menetapkan arah visual dalam hijau tua dan warna netral yang hangat dengan huruf display serif, membagi konten ke empat pilar (edukasi skincare, produk dan manfaatnya, ritual self-care, promosi dan social proof), mendesain feed, story, dan video pendek, lalu merencanakan November posting demi posting.", zh: "Glovia 做身体护理，一款身体精华和一款身体霜状磨砂膏，口号是“Glow naturally, love your skin”。在发出第一条内容之前，这个品牌需要一套在 Instagram、TikTok 和 Facebook 上都站得住的样子和说话方式。这套品牌套件用深绿和暖调中性色定下视觉方向，配一款衬线标题字体，把内容分成四大支柱（护肤知识、产品与功效、自我护理仪式、促销与口碑），设计了动态、快拍和短视频，并把 11 月一条一条地排好。", ja: "Glovia は、ボディセラムとボディクリームスクラブというボディケア製品を、「Glow naturally, love your skin」という言葉のもとでつくっています。最初の投稿の前に、このブランドには Instagram、TikTok、Facebook のどこでもぶれない見せ方と話し方が必要でした。キットは、深い緑と温かみのあるニュートラルカラー、セリフのディスプレイ書体でビジュアルの方向性を定め、コンテンツを四つの柱（スキンケアの知識、製品と効果、セルフケアのリチュアル、プロモーションと社会的証明）に分け、フィード、ストーリー、ショート動画をデザインし、11 月を一投稿ずつ計画しています。" },
+    scope: [
+      { id: "Arah visual: palet, tipografi, dan fotografi", zh: "视觉方向：配色、字体和摄影", ja: "ビジュアルの方向性。パレット、書体、写真" },
+      { id: "Empat pilar konten: edukasi, produk, ritual self-care, promosi", zh: "四大内容支柱：知识、产品、自我护理仪式、促销", ja: "四つのコンテンツの柱。知識、製品、セルフケアのリチュアル、プロモーション" },
+      { id: "Desain posting feed dan story", zh: "动态贴文与快拍设计", ja: "フィード投稿とストーリーのデザイン" },
+      { id: "Mock-up profil Instagram, TikTok, dan Facebook", zh: "Instagram、TikTok 和 Facebook 主页样稿", ja: "Instagram・TikTok・Facebook のプロフィールのモックアップ" },
+      { id: "Kalender konten November: 30 posting", zh: "11 月内容日历：30 条", ja: "11 月のコンテンツカレンダー。30 投稿" },
+      { id: "Jadwal posting dan deliverable untuk tiap platform", zh: "每个平台的发布排期与交付物", ja: "全プラットフォームの投稿スケジュールと納品物" },
+    ],
+    study: {
+      overview: { id: "Glovia adalah brand perawatan tubuh di Indonesia dengan dua produk, body serum dan body cream scrub. Pekerjaannya adalah kehadiran brand ini di media sosial: tampilannya, apa yang dikatakannya, dan apa yang terbit setiap hari.", zh: "Glovia 是一个印尼身体护理品牌，有两款产品：一款身体精华和一款身体霜状磨砂膏。这次的工作是品牌在社交媒体上的存在：它长什么样、说什么、每天发什么。", ja: "Glovia はインドネシアのボディケアブランドで、ボディセラムとボディクリームスクラブの二つの製品を持っています。仕事は、このブランドのソーシャル上の存在そのものです。どう見えるか、何を言うか、毎日何を出すか。" },
+      needed: [
+        { id: "Brand baru ini butuh satu tampilan di tiga platform sebelum posting pertamanya.", zh: "一个新品牌，需要在发第一条之前，就在三个平台上有统一的样子。", ja: "新しいブランドには、最初の投稿の前に、三つのプラットフォームで一つの見た目が必要でした。" },
+        { id: "Kontennya harus mengedukasi, menjual, dan terasa tenang sekaligus.", zh: "内容得同时做到教知识、卖东西，还要让人觉得平静。", ja: "コンテンツは、教え、売り、しかも落ち着いて感じられる必要がありました。" },
+        { id: "Posting butuh rencana, bukan kalang kabut setiap hari.", zh: "发内容需要计划，而不是每天手忙脚乱。", ja: "投稿には、毎日の慌ただしい対応ではなく、計画が必要でした。" },
+      ],
+      did: [
+        { id: "Menetapkan arah visual: palet, tipografi, dan fotografi.", zh: "定下视觉方向：配色、字体和摄影。", ja: "ビジュアルの方向性を設定。パレット、書体、写真。" },
+        { id: "Menentukan empat pilar konten dan porsi masing-masing dalam sebulan.", zh: "确定了四大内容支柱，以及每一项在这个月里占的比例。", ja: "四つのコンテンツの柱と、それぞれが一か月に占める割合を定めました。" },
+        { id: "Mendesain posting feed, story, dan frame TikTok, serta ketiga profilnya.", zh: "设计了动态贴文、快拍和 TikTok 画面，以及三个平台的主页。", ja: "フィード投稿、ストーリー、TikTok のフレーム、そして三つのプロフィールをデザインしました。" },
+        { id: "Merencanakan November: 30 posting lengkap dengan tanggal dan formatnya.", zh: "排好了 11 月：30 条内容，附日期和形式。", ja: "11 月を計画。日付と形式つきで 30 投稿。" },
+        { id: "Menulis jadwal posting dan deliverable untuk tiap platform.", zh: "写好了每个平台的发布排期和交付物。", ja: "各プラットフォームの投稿スケジュールと納品物をまとめました。" },
+      ],
+      changed: [
+        { id: "Brand-nya terlihat sama di mana pun orang menjumpainya.", zh: "无论在哪里遇到这个品牌，它看起来都一样。", ja: "どこで出会っても、ブランドは同じに見えます。" },
+        { id: "Tiap posting punya tugas, yang ditentukan oleh pilarnya.", zh: "每一条内容都有自己的任务，由它所属的支柱决定。", ja: "どの投稿にも、柱によって決まった役割があります。" },
+        { id: "Konten sebulan sudah direncanakan sebelum bulannya dimulai.", zh: "一个月的内容，在这个月开始之前就已经排好。", ja: "一か月分のコンテンツが、始まる前に計画されています。" },
+      ],
+    },
+  },
   "my-day-gili": {
     title: { id: "Tempat Booking Fast Boat", zh: "快船预订入口", ja: "ファストボート予約サーフェス" },
     blurb: { id: "Tiket fast boat dan day trip dari Bali", zh: "从巴厘岛出发的快船船票与一日游", ja: "バリ発のファストボートのチケットと日帰りツアー" },

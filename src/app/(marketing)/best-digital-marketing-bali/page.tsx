@@ -46,7 +46,7 @@ const FAQ = [
   },
   {
     q: "What industries do Bali digital marketing agencies usually serve?",
-    a: "Hospitality and villas, property, beauty and wellness, F&B, travel, education and B2B services are the most common. Onyx's clients span villas, property advisory, beauty retail, a mobile spa, a hair studio, fast boats, freight and recruitment.",
+    a: "Hospitality and villas, property, beauty and wellness, F&B, travel, education and B2B services are the most common. Onyx's clients span villas, property advisory, beauty retail and apps, a mobile spa, a hair studio, a dental clinic, a body-care brand, fast boats, freight and recruitment.",
   },
   {
     q: "Does Onyx Creative Asia run Google Ads in Bali?",

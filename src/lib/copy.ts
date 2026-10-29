@@ -15,7 +15,7 @@ export const NAV: { href: string; label: L; meta: L }[] = [
   { href: "/", label: l("Home", "Beranda", "首页", "ホーム"), meta: l("Bali, Indonesia", "Bali, Indonesia", "印尼 · 巴厘岛", "インドネシア・バリ") },
   { href: "/services", label: l("Services", "Layanan", "服务", "サービス"), meta: l("06", "06", "06", "06") },
   { href: "/#process", label: l("Process", "Proses", "流程", "プロセス"), meta: l("2–4 weeks", "2–4 minggu", "2–4 周", "2〜4週間") },
-  { href: "/projects", label: l("Projects", "Proyek", "项目", "プロジェクト"), meta: l("08", "08", "08", "08") },
+  { href: "/projects", label: l("Projects", "Proyek", "项目", "プロジェクト"), meta: l("12", "12", "12", "12") },
   { href: "/about", label: l("About", "Tentang", "关于", "私たちについて"), meta: l("One team", "Satu tim", "一支团队", "ひとつのチーム") },
   { href: "/notes", label: l("Notes", "Catatan", "笔记", "ノート"), meta: l("03", "03", "03", "03") },
   { href: "/enquire", label: l("Enquire", "Hubungi", "咨询", "お問い合わせ"), meta: l("1 day reply", "Balas 1 hari", "1 天内回复", "1日以内に返信") },
@@ -1030,10 +1030,10 @@ export const ABOUT = {
 
 export const PROJECTS_PAGE = {
   intro: l(
-    "Websites, software, campaigns and content for businesses across Indonesia and Europe. Every one is live, and every one names the client.",
-    "Website, software, kampanye, dan konten untuk bisnis di Indonesia dan Eropa. Semuanya tayang, dan semuanya menyebut kliennya.",
-    "为印尼和欧洲的企业做的网站、软件、广告和内容。每一个都已上线，每一个都写明了客户。",
-    "インドネシアとヨーロッパの企業のためのウェブ、ソフトウェア、キャンペーン、コンテンツ。どれも公開中で、どれもクライアント名を明かしています。",
+    "Websites, software, campaigns and content for businesses across Indonesia and Europe. Every one names the client.",
+    "Website, software, kampanye, dan konten untuk bisnis di Indonesia dan Eropa. Semuanya menyebut kliennya.",
+    "为印尼和欧洲的企业做的网站、软件、广告和内容。每一个都写明了客户。",
+    "インドネシアとヨーロッパの企業のためのウェブ、ソフトウェア、キャンペーン、コンテンツ。どれもクライアント名を明かしています。",
   ),
   data: l("Project data", "Data proyek", "项目信息", "プロジェクト情報"),
   title: l("Title", "Judul", "名称", "タイトル"),
