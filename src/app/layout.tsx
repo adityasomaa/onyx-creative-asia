@@ -10,6 +10,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://onyxcreative.asia"),
+  verification: { google: "xU0ITDxrCZnDtAmw0ZsdezTEoDO3pdL9UML9NZiakmU" },
   title: {
     default: "Onyx Creative Asia | Digital Business Development Agency in Bali, Asia",
     template: "%s | Onyx Creative Asia",
