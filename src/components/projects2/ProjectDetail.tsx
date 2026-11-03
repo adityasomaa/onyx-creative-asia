@@ -30,7 +30,7 @@ function Hero({ p }: { p: Project }) {
   return (
     // The preview is a 16:10 frame on #F4F4F4, shown whole: phones get its
     // own proportions, larger screens a tall paper box it sits inside.
-    <div ref={ref} className="relative aspect-[16/10] overflow-hidden bg-paper md:aspect-auto md:h-[86vh] md:min-h-[340px]">
+    <div ref={ref} className="relative aspect-video overflow-hidden bg-paper md:aspect-auto md:h-[86vh] md:min-h-[340px]">
       <motion.div className="absolute inset-0" style={{ y }}>
         <WorkMedia project={p} size="hd" fit="contain" sizes="100vw" priority />
       </motion.div>
@@ -222,7 +222,7 @@ export default function ProjectDetail({ project: p }: { project: Project }) {
         <div className="mt-8 grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
           {others.map((o) => (
             <Link key={o.slug} href={`/projects/${o.slug}`} className="group">
-              <div className="relative aspect-[16/10] overflow-hidden bg-paper">
+              <div className="relative aspect-video overflow-hidden bg-paper">
                 <WorkMedia project={o} sizes="(min-width: 1024px) 33vw, 50vw" className="grayscale transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:grayscale-0" />
               </div>
               <p className="mt-3 text-[12px] font-semibold uppercase text-fg">

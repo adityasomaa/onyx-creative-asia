@@ -32,7 +32,7 @@ export function ProjectCard({ p, n }: { p: Project; n: number }) {
           {String(n).padStart(2, "0")}
         </span>
       </div>
-      <div className="relative aspect-[16/10] overflow-hidden bg-paper">
+      <div className="relative aspect-video overflow-hidden bg-paper">
         <WorkMedia project={p} sizes="(min-width: 768px) 46vw, 100vw" className="grayscale transition-[filter,transform] duration-[1.2s] ease-out group-hover:scale-[1.03] group-hover:grayscale-0" />
         <div className="on-dark absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/85 via-black/45 to-black/10 p-5 text-white opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 md:p-8">
           <p className="font-tek text-[28px] font-medium uppercase leading-none md:text-[40px]">

@@ -8,12 +8,13 @@ import ServiceArt from "./art/ServiceArt";
 import SilkAurora from "./art/SilkAurora";
 
 /**
- * A project's moving preview: the scroll-through of its live site in a
- * browser + phone frame (16:10 on #F4F4F4), or, for work without a public
- * site, its motion graphic over the silk aurora. The poster shows until the video can play; the
+ * A project's moving preview: a screen recording of the work in use (16:9
+ * on #F4F4F4, made with the Instagram stories in
+ * social/instagram/2026-10-recent-works/build/story3.html?fmt=web), or, for
+ * work without a screen, its motion graphic over the silk aurora. The poster shows until the video can play; the
  * video only plays while on screen, and never under reduced motion.
  *
- * Fills its parent; give the parent the 16:10 box.
+ * Fills its parent; give the parent the 16:9 box.
  */
 export default function WorkMedia({
   project: p,
@@ -25,7 +26,7 @@ export default function WorkMedia({
 }: {
   project: Project;
   size?: "card" | "hd";
-  /** "contain" for boxes that are not 16:10: the frame's flat #F4F4F4
+  /** "contain" for boxes that are not 16:9: the frame's flat #F4F4F4
    *  edge meets a bg-paper parent, so the letterbox does not show. */
   fit?: "cover" | "contain";
   sizes?: string;
