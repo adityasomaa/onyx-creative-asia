@@ -369,11 +369,9 @@ html:has(.enquire-canvas) .site {
 
 /* First paint of a session that will play the intro: the loader panel is
    already covering, set by an inline script before React hydrates, so the
-   page underneath never flashes. */
+   page underneath never flashes. The panel stays empty until the loader
+   starts: the logo builds in once, with the progress rule. */
 html[data-intro="play"] .site-veil {
   clip-path: none !important;
   visibility: visible !important;
-}
-html[data-intro="play"] .site-veil-mark {
-  opacity: 1 !important;
 }

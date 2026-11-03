@@ -155,6 +155,13 @@ export default function Transition() {
     await animate(k, 0, { duration: CLOSE, ease: EASE });
   }
 
+  // Hand over from the CSS veil once React's panel has committed. Waiting a
+  // fixed time is not enough: on a slow device hydration holds the commit
+  // back, and the page would show through between the two.
+  useEffect(() => {
+    if (active) delete document.documentElement.dataset.intro;
+  }, [active]);
+
   // ── First visit to the home page: the loader is already covering ──
   useEffect(() => {
     const root = document.documentElement;
@@ -166,9 +173,7 @@ export default function Transition() {
       k.set(0); // fully covered, matching the pre-hydration veil
       setActive(true);
       lenis()?.stop();
-      // Hand over from the CSS veil only once React's panel is painted.
       await frames();
-      delete root.dataset.intro;
       try {
         sessionStorage.setItem(SESSION_KEY, "1");
       } catch {
@@ -298,7 +303,7 @@ export default function Transition() {
         pointerEvents: active ? "auto" : "none",
       }}
     >
-      <div className="site-veil-mark flex flex-col items-center gap-3" style={{ opacity: loader || hold ? 1 : 0, transition: "opacity .25s" }}>
+      <div className="flex flex-col items-center gap-3" style={{ opacity: loader || hold ? 1 : 0, transition: "opacity .25s" }}>
         <Wordmark key={runId} animate={loader} className="text-[26px] md:text-[34px]" />
         <span className="text-[10px] font-semibold uppercase tracking-[0.42em] opacity-70 md:text-[11px]">{tl(LOADER.tagline)}</span>
       </div>
